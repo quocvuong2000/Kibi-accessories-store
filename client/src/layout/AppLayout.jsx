@@ -8,7 +8,7 @@ const AppLayout = () => {
   return (
     <AppSuspense>
       <Routes>
-        <Route path="/home" element={
+        <Route path="/" element={
         <Home/>}></Route>
         <Route path="/test" element={"fdsfsdf"}></Route>
       </Routes>
