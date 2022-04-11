@@ -1,6 +1,7 @@
 import React from "react";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
+import MonthlyDeal from './MonthlyDeal/MonthlyDeal'
 import classes from './styles.module.scss';
 
 const Home = () => {
@@ -12,6 +13,9 @@ const Home = () => {
       </div>
       <div className={classes.categories}>
       <Category></Category>
+      </div>
+      <div className={classes.monthlyDeal}>
+      <MonthlyDeal></MonthlyDeal>
       </div>
     </div>
   );

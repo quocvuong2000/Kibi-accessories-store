@@ -9,14 +9,14 @@ const fakeData = [
     desc: "See the beauty of exotic world with the luxurious glasses",
     dicover: "Discover Now",
     image : cat1,
-    class : "1"
+    class : classes.cat1
   },
   {
     title: "Comfortable Watches",
     desc: "Feels the balancing function and beauty in our wooden watches",
     dicover: "Discover Now",
     image : cat2,
-    class : "2"
+    class : classes.cat2
   },
 ];
 const Category = () => {
@@ -36,7 +36,7 @@ const Category = () => {
                 </div>
             </div>
             <div className={classes.right}>
-                <img src={item.image} alt="" className={`${classes.item.class}`} />
+                <img src={item.image} alt="" className={`${item.class}`} />
             </div>
         </div>;
       })}

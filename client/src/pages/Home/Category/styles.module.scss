@@ -8,8 +8,8 @@
     background: #fff;
     padding: 32px;
     position: relative;
-    width: 400px;
-    height: 270px;
+    width: 430px;
+    height: 200px;
 
     .left {
       display: flex;
@@ -46,18 +46,28 @@
         font-size: 16px;
         line-height: 27px;
         letter-spacing: 0.03em;
-
+        border-bottom: 1px solid #333333;
         color: #333333;
+        width: fit-content;
+        cursor: pointer;
       }
     }
     .right {
-      img {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 330px;
-        height: 143px;
-        object-fit: cover;
+      .cat1 {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 330px;
+          height: 143px;
+          object-fit: cover;
+      }
+      .cat2 {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 155px;
+          height: 152px;
+          object-fit: cover;
       }
     }
   }

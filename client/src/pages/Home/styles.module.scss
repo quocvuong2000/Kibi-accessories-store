@@ -4,10 +4,15 @@
   background: #E5E5E5;
   margin: -7px -7px;
   .carousel {
-    height: 100vh;
+    height: 80vh;
   }
   .categories {
-    height: 100vh;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+  }
+  .monthlyDeal {
+    height: 70vh;
     display: flex;
     justify-content: center;
   }
