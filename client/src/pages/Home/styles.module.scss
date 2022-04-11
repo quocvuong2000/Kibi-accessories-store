@@ -1,113 +1,14 @@
-.backgroundContainer {
-  max-height: calc(100vh - 48px);
+.home {
   max-width: 100vw;
-  padding-top: 48px;
-
-  .caroselContainer {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
-    .caroselItem {
-      display: flex;
-      position: absolute;
-      width: 1110px;
-      height: 505px;
-      inset: 0;
-      left: 50%;
-      top: 50%;
-      transform: translateX(-50%);
-
-      background-color: #f1ddc9;
-      //   inset: 0;
-      //   opacity: 0;
-      //   visibility: hidden;
-      .left {
-        position: relative;
-        width: 30%;
-        height: 100%;
-
-        img {
-          position: absolute;
-          left: 0;
-          top: 25%;
-          width: 325px;
-          height: 467px;
-          object-fit: cover;
-        }
-      }
-      .right {
-        padding-left: 80px;
-        height: 100%;
-        width: 550px;
-        .infoContainer {
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          .title {
-            font-family: "Taviraj";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 60px;
-            line-height: 80px;
-            /* or 133% */
-            letter-spacing: 0.02em;
-            color: #333333;
-          }
-          .line {
-            height: 2px;
-            width: 100px;
-            background-color: #000;
-            margin-bottom: 10px;
-          }
-          .desc {
-            font-family: "Nunito";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 22px;
-            letter-spacing: 0.03em;
-            color: #333333;
-            margin-bottom: 10px;
-          }
-          .btn {
-            font-weight: 400;
-            font-size: 20px;
-            line-height: 34px;
-            letter-spacing: 0.02em;
-            .addToCart {
-              outline: none;
-              border: none;
-              padding: 14px 20px;
-              display: inline-flex;
-              justify-content: center;
-              align-items: center;
-              background: #d84727;
-              color: #ffffff;
-              svg {
-                margin-right: 10px;
-              }
-            }
-            .watchMore {
-              border: 2px solid #d84727;
-              box-sizing: border-box;
-              outline: none;
-              padding: 12px 14px;
-              display: inline-flex;
-              justify-content: center;
-              align-items: center;
-              background: transparent;
-              margin-left: 10px;
-              svg {
-                margin-right: 10px;
-              }
-
-            }
-          }
-        }
-      }
-    }
+  min-height: 100vh;
+  background: #E5E5E5;
+  margin: -7px -7px;
+  .carousel {
+    height: 100vh;
+  }
+  .categories {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
   }
 }
