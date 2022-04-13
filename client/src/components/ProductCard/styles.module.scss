@@ -1,0 +1,98 @@
+.productCardContainer {
+  width: 255px;
+  height: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .top {
+    width: 255px;
+    height: 100px;
+    background-color: #f1ddc9;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+  .bottom {
+    position: relative;
+    width: 255px;
+    height: 330px;
+    background-color: #fff;
+    .image {
+      img {
+        position: absolute;
+        top: -90px;
+        left: 50%;
+        width: 221px;
+        height: 221px;
+        border-radius: 30px;
+        object-fit: cover;
+        transform: translateX(-50%);
+      }
+    }
+    .content {
+      padding-top: 140px;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      .title {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 32px;
+        /* identical to box height, or 133% */
+        color: #333333;
+      }
+      .saleOff {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height, or 150% */
+        color: #777777;
+      }
+      .oldPrice {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height, or 150% */
+        color: #777777;
+      }
+      .newPrice {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 32px;
+        /* identical to box height, or 133% */
+        color: #333333;
+      }
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      gap: 0 10px;
+      margin-top: 10px;
+      svg {
+        border: 1px solid #d84727;
+        padding: 8px 8px;
+      }
+      .btnCart {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height, or 150% */
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        background: #d84727;
+        padding: 8px 36px;
+        border: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.mothlyDealContainer {
+  width: 1110px;
+  height: 505px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  .title {
+    font-family: "Taviraj";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height, or 111% */
+    letter-spacing: 0.02em;
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  .listItem {
+    display: flex;
+  justify-content: space-between;
+
+  }
+}
