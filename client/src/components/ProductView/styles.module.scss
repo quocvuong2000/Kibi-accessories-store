@@ -1,9 +1,267 @@
+@use "../../sass/mixins";
+$colorAll: #333333;
 
-
-.flex{
+.container {
+    flex-direction: column;
     display: flex;
+    margin: 0 auto;
+    max-width: 1440px;
 }
 
-.container{
+@keyframes scale {
+    0% {
+        @include mixins.transformScale(0.5, 0.5);
+    }
+    100% {
+        @include mixins.transformScale(0.2, 0.2);
+    }
+}
 
+@keyframes show {
+    0% {
+        @include mixins.transformRotate(360deg);
+        right: -200%;
+        opacity: 0;
+    }
+    100% {
+        @include mixins.transformRotate(0);
+        right: -23%;
+        opacity: 1;
+    }
+}
+
+.show {
+    @include mixins.animation(show, 1s, ease-in-out);
+    opacity: 1;
+}
+
+.frame_product {
+    display: flex;
+
+    .preview_product {
+        @include mixins.flex();
+        flex-basis: 50%;
+
+        .frame_img_preview {
+            @include mixins.border-radius(10px);
+            position: relative;
+            width: 590px;
+            background: #f1ddc9;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0 24px 0;
+            row-gap: 24px;
+
+            .img_preview {
+                @include mixins.flex();
+                @include mixins.transformScale(0.2, 0.2);
+                @include mixins.animation(scale, 1s, ease-in);
+                opacity: 0.5;
+                padding-right: 200px;
+                max-height: 110px;
+                cursor: pointer;
+            }
+
+            .img_main {
+                @include mixins.flex();
+                position: absolute;
+                top: 0;
+                right: -23%;
+                height: 100%;
+            }
+        }
+    }
+
+    .frame_info_product {
+        flex-basis: 50%;
+        display: flex;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .info_product {
+            display: flex;
+            padding: 0 0 0 130px;
+            flex-direction: column;
+            .title {
+                @include mixins.font(normal,400,60px);
+                max-width: 420px;
+                line-height: 80px;
+                letter-spacing: 0.02em;
+                color: $colorAll;
+                padding-top: 24px;
+            }
+            .price_before {
+                @include mixins.font(normal,400,20px);
+                line-height: 28px;
+                letter-spacing: 0.02em;
+                color: #777777;
+                width: fit-content;
+                position: relative;
+                margin-top: 8px;
+
+                .line {
+                    position: absolute;
+                    border: 1px solid #d93f3f;
+                    left: 0;
+                    right: 0;
+                    bottom: 50%;
+                }
+            }
+
+            .price_after {
+                @include mixins.font(normal,500,24px);
+                line-height: 41px;
+                letter-spacing: 0.02em;
+                color: $colorAll;
+                margin-top: 2px;
+            }
+
+            .model {
+                display: flex;
+                flex-direction: column;
+                margin-top: 16px;
+
+                .title_modle {
+                    @include mixins.font(normal,600,16px);
+                    line-height: 27px;
+                    letter-spacing: 0.02em;
+                    color: $colorAll;
+                }
+
+                .frame_model {
+                    display: flex;
+                    flex-direction: row;
+                    column-gap: 16px;
+                    margin-top: 8px;
+
+                    .item_model {
+                        @include mixins.img(55px,55px,55px,55px);
+
+                        .bo {
+                            @include mixins.border-radius(50%);
+                            @include mixins.img();
+                            cursor: pointer;
+
+                            &:hover {
+                                border: 3px solid #d84727;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .function {
+                @include mixins.flex(center, flex-start);
+                flex-direction: row;
+                margin-top: 57px;
+
+                .qty {
+                    @include mixins.flex(center, flex-start);
+                    flex-direction: row;
+                    column-gap: 16px;
+                    .sub {
+                        width: 24px;
+                        height: 24px;
+                        border: 1px solid #777777;
+                        box-sizing: border-box;
+                        position: relative;
+                        cursor: pointer;
+
+                        &:hover {
+                            @include mixins.border-radius(50%);
+                            @include mixins.transition(all, 0.5s, ease);
+                        }
+
+                        &:not(:hover) {
+                            @include mixins.transition(all, 0.5s, ease);
+                        }
+
+                        .icon_sub {
+                            position: absolute;
+                            border: 1px solid #777777;
+                            bottom: 50%;
+                            left: 0;
+                            right: 0;
+                            margin: 0 4px;
+                            border-bottom: none;
+                        }
+                    }
+
+                    .count {
+                        @include mixins.font(normal,400,36px);
+                        line-height: 61px;
+                        letter-spacing: 0.02em;
+                        color: #000000;
+                    }
+
+                    .add {
+                        width: 24px;
+                        height: 24px;
+                        box-sizing: border-box;
+                        position: relative;
+                        background: #d84727;
+                        cursor: pointer;
+
+                        &:hover {
+                            @include mixins.border-radius(50%);
+                            @include mixins.transition(all, 0.5s, ease);                                                      
+                        }
+
+                        &:not(:hover) {
+                            @include mixins.transition(all, 0.5s, ease);
+                        }
+
+                        .icon_add {
+                            position: absolute;
+                            border: 1px solid #ffffff;
+                            bottom: 50%;
+                            left: 0;
+                            right: 0;
+                            border-bottom: none;
+                            margin: 0 4px;
+                        }
+
+                        .icon_add2 {
+                            position: absolute;
+                            border: 1px solid #ffffff;
+                            bottom: 0;
+                            top: 0;
+                            left: 50%;
+                            margin: 4px 0;
+                            border-left: none;
+                        }
+                    }
+                }
+
+                .add_to_cart {
+                    @include mixins.flex();
+                    @include mixins.font(normal,400,20px);
+                    background: #d84727;
+                    line-height: 34px;
+                    letter-spacing: 0.02em;
+                    color: #ffffff;
+                    border: none;
+                    margin-left: 36px;
+                    column-gap: 10px;
+                    padding: 14px 29px;
+                }
+
+                .buy_now {
+                    @include mixins.flex();
+                    @include mixins.font(normal,400,20px);
+                    border: 2px solid #d84727;
+                    box-sizing: border-box;
+                    background: transparent;
+                    margin-left: 16px;
+                    padding: 12px 29px;
+                    line-height: 34px;
+                    letter-spacing: 0.02em;
+                    color: #d84727;
+                }
+            }
+        }
+    }
 }

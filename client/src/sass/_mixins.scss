@@ -1,0 +1,67 @@
+@mixin flex($algin-item: center, $justify-content: center) {
+    display: flex;
+    align-items: $algin-item;
+    justify-content: $justify-content;
+}
+
+@mixin transformRotate($content) {
+    transform: rotate($content);
+    -webkit-transform: rotate($content);
+    -moz-transform: rotate($content);
+    -ms-transform: rotate($content);
+    -o-transform: rotate($content);
+}
+
+@mixin transformScale($degprev, $degafter) {
+    transform: scale($degprev, $degafter);
+    -webkit-transform: scale($degprev, $degafter);
+    -moz-transform: scale($degprev, $degafter);
+    -ms-transform: scale($degprev, $degafter);
+    -o-transform: scale($degprev, $degafter);
+}
+
+@mixin animation($keyframe, $second, $effect) {
+    animation: $keyframe $second $effect;
+    -webkit-animation: $keyframe $second $effect;
+}
+
+@mixin border-radius($pixel) {
+    border-radius: $pixel;
+    -webkit-border-radius: $pixel;
+    -moz-border-radius: $pixel;
+    -ms-border-radius: $pixel;
+    -o-border-radius: $pixel;
+}
+
+@mixin transition($attr, $second, $effect) {
+    transition: $attr $second $effect;
+    -webkit-transition: $attr $second $effect;
+    -moz-transition: $attr $second $effect;
+    -ms-transition: $attr $second $effect;
+    -o-transition: $attr $second $effect;
+}
+
+@mixin font($style, $weight, $size) {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+@mixin img ($maw:100%,$miw:100%,$mah:100%,$mih:100%){
+    max-width: $maw;
+    min-width: $miw;
+    max-height: $mah;
+    min-height: $mih;
+}
+
+@mixin mobile {
+    @media only screen and (max-width: $mobile-width) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media only screen and (max-width: $tablet-width) {
+        @content;
+    }
+}
