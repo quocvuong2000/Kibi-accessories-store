@@ -17,6 +17,9 @@ const Home = () => {
       <div className={classes.monthlyDeal}>
       <MonthlyDeal></MonthlyDeal>
       </div>
+      <div className={classes.recentsNew}>
+        
+      </div>
     </div>
   );
 };
