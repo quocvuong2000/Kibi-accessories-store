@@ -2,7 +2,7 @@
   max-width: 100vw;
   min-height: 100vh;
   background: #E5E5E5;
-  margin: -7px -7px;
+ overflow: hidden;
   .carousel {
     height: 80vh;
   }
@@ -12,7 +12,28 @@
     justify-content: center;
   }
   .monthlyDeal {
-    height: 70vh;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+  }
+  .recentsNew {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .featured {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+  }
+  .testimonial {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+  }
+  .instagram {
+    height: 90vh;
     display: flex;
     justify-content: center;
   }
