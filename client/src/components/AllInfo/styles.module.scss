@@ -1,3 +1,5 @@
+@use "../../sass/mixins";
+
 .container{
     display: flex;
     margin-top: 76px;
@@ -6,6 +8,13 @@
 }
 
 
-.title{
-    background: red;
+.title__info{
+    @include mixins.flex(center,center);
+    flex-direction: row;
+}
+
+.ant_tabs-nav{
+    @include mixins.flex();
+    flex-direction: row;
+    color: red;
 }
