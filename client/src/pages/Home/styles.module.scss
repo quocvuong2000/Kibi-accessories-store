@@ -3,6 +3,10 @@
   min-height: 100vh;
   background: #E5E5E5;
  overflow: hidden;
+ .header {
+   display: flex;
+   justify-content: center;
+ }
   .carousel {
     height: 80vh;
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "../../components/Header";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
 import Featured from "./Featured/Featured";
@@ -13,7 +14,7 @@ const Home = () => {
   return (
     <div className={classes.home}>
       <div className={classes.header}>
-        Header
+        <Header/>
       </div>
       <div className={classes.carousel}>
       <Carousel/>
