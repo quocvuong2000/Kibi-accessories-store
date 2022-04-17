@@ -1,34 +1,43 @@
 import React from "react";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
+import Featured from "./Featured/Featured";
+import Instagram from "./Instagram/Instagram";
 import MonthlyDeal from './MonthlyDeal/MonthlyDeal'
 import RecentsNew from "./RecentsNew/RecentsNew";
 import classes from './styles.module.scss';
+import Testimonial from "./Tesitimonial/Tesitimonial";
 
 const Home = () => {
 
   return (
     <div className={classes.home}>
+      <div className={classes.header}>
+        Header
+      </div>
       <div className={classes.carousel}>
-      <Carousel></Carousel>
+      <Carousel/>
       </div>
       <div className={classes.categories}>
-      <Category></Category>
+      <Category/>
       </div>
       <div className={classes.monthlyDeal}>
-      <MonthlyDeal></MonthlyDeal>
+      <MonthlyDeal/>
       </div>
       <div className={classes.recentsNew}>
-       <RecentsNew></RecentsNew> 
+       <RecentsNew/>
       </div>
       <div className={classes.featured}>
-       <RecentsNew></RecentsNew> 
+       <Featured/>
       </div>
       <div className={classes.testimonial}>
-       <RecentsNew></RecentsNew> 
+       <Testimonial/>
       </div>
       <div className={classes.instagram}>
-       <RecentsNew></RecentsNew> 
+       <Instagram/>
+      </div>
+      <div className={classes.footer}>
+       Footer
       </div>
     </div>
   );

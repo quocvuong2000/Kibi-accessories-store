@@ -1,0 +1,42 @@
+.featuredContainer {
+  display: flex;
+    margin-bottom: 20px;
+  .left {
+    width: 131px;
+    height: 131px;
+    background: #f1ddc9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    img {
+      width: 68.07px;
+      height: 100px;
+      object-fit: cover;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    .title {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 32px;
+      /* or 133% */
+      letter-spacing: 0.02em;
+      color: #333333;
+      margin-bottom: 5px;
+    }
+    .price {
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 40px;
+      /* identical to box height, or 143% */
+      letter-spacing: 0.02em;
+      color: #222222;
+    }
+  }
+}

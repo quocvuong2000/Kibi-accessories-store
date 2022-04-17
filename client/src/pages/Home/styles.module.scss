@@ -23,14 +23,16 @@
     align-items: flex-start;
   }
   .featured {
-    height: 90vh;
+    height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   .testimonial {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   .instagram {
     height: 90vh;
