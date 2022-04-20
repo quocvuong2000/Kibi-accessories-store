@@ -5,7 +5,7 @@ $colorAll: #333333;
     flex-direction: column;
     display: flex;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: 100vw;
 }
 
 @keyframes scale {
@@ -25,9 +25,44 @@ $colorAll: #333333;
     }
     100% {
         @include mixins.transformRotate(0);
-        right: -23%;
+        right: -33%;
         opacity: 1;
     }
+}
+
+@keyframes light {
+    0% {
+        transform: rotate(0);
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+    5% {
+        transform: rotate(-10deg) scale(1.2);
+        -webkit-transform: rotate(-10deg) scale(1.2);
+        -moz-transform: rotate(-10deg) scale(1.2);
+        -ms-transform: rotate(-10deg) scale(1.2);
+        -o-transform: rotate(-10deg) scale(1.2);
+}
+
+    30% {
+        transform: rotate(10deg) scale(1.1);
+        -webkit-transform: rotate(10deg) scale(1.1);
+        -moz-transform: rotate(10deg) scale(1.1);
+        -ms-transform: rotate(10deg) scale(1.1);
+        -o-transform: rotate(10deg) scale(1.1);
+}
+
+    50%,
+    100% {
+        @include mixins.transformRotate(0);
+}
+}
+
+svg {
+    animation: light 2s infinite linear alternate;
+    -webkit-animation: light 2s infinite linear alternate;
 }
 
 .show {
@@ -37,15 +72,17 @@ $colorAll: #333333;
 
 .frame_product {
     display: flex;
+    flex-direction: row;
+    column-gap: 200px;
+    justify-content: center;
 
     .preview_product {
         @include mixins.flex();
-        flex-basis: 50%;
 
         .frame_img_preview {
             @include mixins.border-radius(10px);
             position: relative;
-            width: 590px;
+            max-width: 590px;
             background: #f1ddc9;
             display: flex;
             flex-direction: column;
@@ -66,14 +103,17 @@ $colorAll: #333333;
                 @include mixins.flex();
                 position: absolute;
                 top: 0;
-                right: -23%;
+                right: -33%;
                 height: 100%;
+                img {
+                    width: 352px;
+                    height: 481px;
+                }
             }
         }
     }
 
     .frame_info_product {
-        flex-basis: 50%;
         display: flex;
 
         p {
@@ -83,10 +123,9 @@ $colorAll: #333333;
 
         .info_product {
             display: flex;
-            padding: 0 0 0 130px;
             flex-direction: column;
             .title {
-                @include mixins.font(normal,400,60px);
+                @include mixins.font(normal, 400, 60px);
                 max-width: 420px;
                 line-height: 80px;
                 letter-spacing: 0.02em;
@@ -94,7 +133,7 @@ $colorAll: #333333;
                 padding-top: 24px;
             }
             .price_before {
-                @include mixins.font(normal,400,20px);
+                @include mixins.font(normal, 400, 20px);
                 line-height: 28px;
                 letter-spacing: 0.02em;
                 color: #777777;
@@ -112,7 +151,7 @@ $colorAll: #333333;
             }
 
             .price_after {
-                @include mixins.font(normal,500,24px);
+                @include mixins.font(normal, 500, 24px);
                 line-height: 41px;
                 letter-spacing: 0.02em;
                 color: $colorAll;
@@ -125,7 +164,7 @@ $colorAll: #333333;
                 margin-top: 16px;
 
                 .title_modle {
-                    @include mixins.font(normal,600,16px);
+                    @include mixins.font(normal, 600, 16px);
                     line-height: 27px;
                     letter-spacing: 0.02em;
                     color: $colorAll;
@@ -138,7 +177,7 @@ $colorAll: #333333;
                     margin-top: 8px;
 
                     .item_model {
-                        @include mixins.img(55px,55px,55px,55px);
+                        @include mixins.img(55px, 55px, 55px, 55px);
 
                         .bo {
                             @include mixins.border-radius(50%);
@@ -191,7 +230,7 @@ $colorAll: #333333;
                     }
 
                     .count {
-                        @include mixins.font(normal,400,36px);
+                        @include mixins.font(normal, 400, 36px);
                         line-height: 61px;
                         letter-spacing: 0.02em;
                         color: #000000;
@@ -207,7 +246,7 @@ $colorAll: #333333;
 
                         &:hover {
                             @include mixins.border-radius(50%);
-                            @include mixins.transition(all, 0.5s, ease);                                                      
+                            @include mixins.transition(all, 0.5s, ease);
                         }
 
                         &:not(:hover) {
@@ -238,7 +277,7 @@ $colorAll: #333333;
 
                 .add_to_cart {
                     @include mixins.flex();
-                    @include mixins.font(normal,400,20px);
+                    @include mixins.font(normal, 400, 20px);
                     background: #d84727;
                     line-height: 34px;
                     letter-spacing: 0.02em;
@@ -251,7 +290,7 @@ $colorAll: #333333;
 
                 .buy_now {
                     @include mixins.flex();
-                    @include mixins.font(normal,400,20px);
+                    @include mixins.font(normal, 400, 20px);
                     border: 2px solid #d84727;
                     box-sizing: border-box;
                     background: transparent;

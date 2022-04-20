@@ -1,20 +1,95 @@
 @use "../../sass/mixins";
 
-.container{
-    display: flex;
-    margin-top: 76px;
-    max-width: 1440px;
+:global {
+    .ant-tabs {
+        width: fit-content;
+    }
+
+    .ant-tabs-nav {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 32px;
+        letter-spacing: 0.02em;
+        color: #999999;
+    }
+
+    .ant-tabs-nav-list {
+        display: flex;
+        column-gap: 40px;
+    }
+
+    .ant-tabs-tab-active {
+        color: #d84727;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #d84727 !important;
+    }
+
+    .ant-tabs-tab:hover {
+        color: #d84727;
+    }
+
+    .ant-tabs-ink-bar {
+        background: #d84727;
+    }
+
+    .ant-tabs-tab {
+        width: fit-content;
+        font-size: 20px;
+    }
+
+    .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active{
+        color: #d84727;
+    }
+}
+
+.container {
+    margin-top: 76px !important;
     padding: 0 165px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+p {
+    padding: 0;
+    margin: 0;
 }
 
-
-.title__info{
-    @include mixins.flex(center,center);
-    flex-direction: row;
+.line {
+    margin-top: 0px;
+    border: 0.3px solid #e5e5e5;
+    border-bottom: none;
 }
 
-.ant_tabs-nav{
+.info {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    padding: 0 30px;
+}
+
+.title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0.02em;
+    color: #333333;
+}
+
+.desc {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0.02em;
+    color: #555555;
+}
+
+.size__product{
     @include mixins.flex();
-    flex-direction: row;
-    color: red;
+    margin-top: 16px;
 }
