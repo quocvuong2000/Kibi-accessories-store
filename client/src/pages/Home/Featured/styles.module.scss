@@ -1,0 +1,53 @@
+.featuredContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 1114px;
+
+  .title {
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height, or 111% */
+    letter-spacing: 0.02em;
+    color: #333333;
+    position: relative;
+    margin-bottom: 50px;
+
+    &::before {
+      position: absolute;
+      height: 2px;
+      width: 100px;
+      content: " ";
+      top: calc(100% + 5px);
+      background: #000;
+    }
+  }
+}
+
+.seeMore {
+  display: flex;
+  width: 1114px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  .line {
+    height: 0.3px;
+    width: 350px;
+    background: #999999;
+  }
+  .btn {
+    width: 272px;
+    height: 66px;
+    border: 1px solid #d84727;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 34px;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d84727;
+    margin: 0 20px;
+    cursor: pointer;
+  }
+}

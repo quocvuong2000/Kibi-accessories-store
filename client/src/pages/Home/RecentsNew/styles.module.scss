@@ -1,0 +1,125 @@
+.recentNewContainer {
+  width: 1110px;
+  height: 505px;
+  display: flex;
+  flex-direction: column;
+  //   overflow: hidden;
+  .mainTitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height, or 111% */
+    letter-spacing: 0.02em;
+    color: #333333;
+    margin-bottom: 100px;
+    position: relative;
+    &::before {
+      content: " ";
+      height: 2px;
+      width: 150px;
+      background: #000;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+    }
+  }
+  .recentNews {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    .left {
+      width: 40%;
+      height: 100%;
+      margin-right: 50px;
+      .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        .where {
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 40px;
+          /* identical to box height, or 200% */
+          letter-spacing: 0.02em;
+          color: #777777;
+          margin-bottom: 20px;
+        }
+        .title {
+          font-weight: 400;
+          font-size: 36px;
+          line-height: 48px;
+          /* or 133% */
+          letter-spacing: 0.02em;
+          color: #333333;
+          margin-bottom: 50px;
+        }
+        .btn {
+          border: 2px solid #d84727;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 27px;
+          letter-spacing: 0.02em;
+          color: #d84727;
+          width: 160px;
+          height: 58px;
+          cursor: pointer;
+        }
+      }
+    }
+    .right {
+      z-index: 999;
+      img {
+        width: 610px;
+        height: 400px;
+        object-fit: cover;
+      }
+    }
+    .square {
+      position: absolute;
+      top: -150px;
+      right: -205px;
+      width: 640px;
+      height: 458px;
+      background: #f1ddc9;
+    }
+    .image {
+      img {
+        position: absolute;
+        width: 800px;
+
+        &:nth-child(1) {
+          top: -160px;
+          right: -205px;
+        }
+        &:nth-child(2) {
+          top: -120px;
+          right: -205px;
+        }
+        &:nth-child(3) {
+          top: -80px;
+          right: -205px;
+        }
+      }
+    }
+    .image1 {
+      img {
+        position: absolute;
+        width: 400px;
+
+        &:nth-child(1) {
+          top: 240px;
+          right: -220px;
+        }
+        &:nth-child(2) {
+          top: 270px;
+          right: -220px;
+        }
+      }
+    }
+  }
+}
