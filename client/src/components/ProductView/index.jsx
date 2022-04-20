@@ -53,12 +53,12 @@ const ProductView = () => {
   }
 
   const downQty = () => {
-    if(qty === 1){
+    if (qty === 1) {
       return
-    }else{
+    } else {
       setQty(qty - 1);
     }
-    
+
   }
 
 
@@ -76,6 +76,7 @@ const ProductView = () => {
             })}
             <div className={`${styles.img_main} ${show === true ? styles.show : ''}`} onAnimationEnd={handleAnimation}>
               <img src={srcMain} alt="watch" />
+              {/* <img src={srcMain} alt="watch" /> */}
             </div>
           </div>
 

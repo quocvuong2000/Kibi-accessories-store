@@ -42,9 +42,9 @@
 }
 
 @mixin font($style, $weight, $size) {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font-style: $style;
+    font-weight: $weight;
+    font-size: $size;
 }
 
 @mixin img ($maw:100%,$miw:100%,$mah:100%,$mih:100%){
