@@ -1,7 +1,13 @@
+@use "../../../sass/mixins" as *;
 .featuredContainer {
   display: flex;
   justify-content: space-between;
   width: 1114px;
+
+  @include tablet {
+    width: 1024px;
+    padding: 0 10px;
+  }
 
   .title {
     font-weight: 400;

@@ -1,9 +1,11 @@
+@use "../../../sass/mixins" as *;
 .categoryContainer {
   width: 1110px;
   height: 505px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   .categoryItem {
     background: #fff;
     padding: 32px;
@@ -54,20 +56,30 @@
     }
     .right {
       .cat1 {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 330px;
-          height: 143px;
-          object-fit: cover;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 330px;
+        height: 143px;
+        object-fit: cover;
       }
       .cat2 {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 155px;
-          height: 152px;
-          object-fit: cover;
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        width: 155px;
+        height: 152px;
+        object-fit: cover;
+      }
+      @include tablet {
+        .cat1 {
+          width: 230px;
+          height: 100px;
+        }
+        .cat2 {
+          width: 120px;
+          height: 100px;
+        }
       }
     }
   }

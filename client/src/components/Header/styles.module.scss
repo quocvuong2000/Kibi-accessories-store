@@ -1,23 +1,69 @@
+@use "../../sass/mixins" as *;
 .headerContainer {
   width: 1110px;
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
   align-items: center;
+  height: 120px;
+  transition: box-shadow 0.3s ease;
+  z-index: 99999999;
+  background: #e5e5e5;
+  &.shrink {
+    height: 120px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    position: fixed;
+    padding: 0 20px;
+    background: #f1ddc9;
+    width: 1440px;
+    @include tablet {
+      width: 100vw;
+      padding: 0;
+    }
 
+    &::after {
+      content: " ";
+      height: 120px;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #f1ddc9;
+      z-index: -1;
+    }
+    // &::before {
+    //   content: " ";
+    //   height: 120px;
+    //   width: 300px;
+    //   position: fixed;
+    //   top: 0;
+    //   right: 0;
+    //   background: #f1ddc9;
+    //   z-index: -1;
+    // }
+
+    .authentication {
+      .shopingCart {
+        background: #fff;
+      }
+    }
+  }
+  .logo,
+  .navListContainer,
+  .authentication {
+    display: flex;
+  }
   .logo {
     width: 178px;
     height: 22px;
- 
+
     img {
-       
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
   .navListContainer {
-   
     .navList {
       display: flex;
       gap: 0 30px;
@@ -52,5 +98,164 @@
       border-radius: 30px;
       cursor: pointer;
     }
+  }
+  .tablet {
+    display: none;
+    width: 1024px;
+    padding: 0 10px;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .menu {
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .logo {
+        width: 178px;
+        height: 22px;
+        display: block;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .authentication {
+        display: flex;
+      }
+    }
+    .bottom {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      .navListContainer {
+        display: flex;
+      }
+    }
+  }
+  .mobile {
+    display: none;
+    width: 100vw;
+    padding: 0 15px;
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .logo {
+        width: 178px;
+        height: 22px;
+        display: block;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .authentication {
+        display: flex;
+      }
+    }
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  }
+
+  @include tablet {
+    .logo,
+    .navListContainer,
+    .authentication {
+      display: none;
+    }
+    .tablet {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  @include mobile {
+    .tablet {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.menuMobile {
+  position: fixed;
+  width: 100vw;
+  height: 300px;
+  top: 70px;
+  left: 0;
+  background: #da5e42;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+  transition: all 0.3s ease;
+  padding: 0;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 99999999;
+    top: 120px;
+  }
+  .navListContainer {
+    .navList {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding-top: 20px;
+      .navItem {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 34px;
+        letter-spacing: 0.02em;
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}
+:global {
+  .ant-input-group-addon {
+    border-radius: 30px;
+    overflow: hidden;
+    button {
+      background: #d84727;
+      border: none;
+      svg {
+        color: #fff;
+      }
+    }
+  }
+  .ant-btn:hover,
+  .ant-btn:focus,
+  .ant-btn:active {
+    text-decoration: none;
+    background: #f1ddc9;
+  }
+  .ant-input-wrapper.ant-input-group {
+    input {
+      border-radius: 30px;
+      // border: 2px solid #f1ddc9;
+    }
+  }
+  .anticon {
+    padding-top: 3px !important;
   }
 }

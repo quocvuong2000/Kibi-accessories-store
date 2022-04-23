@@ -1,12 +1,22 @@
+@use "../../sass/mixins" as *;
+
+$primary-width-pc: 255px;
+$primary-width-tablet: 230px;
+$primary-width-mobile: 180px;
+
+$primary-img-width-pc: 221px;
+$primary-img-width-tablet: 200px;
+$primary-img-width-mobile: 180px;
 .productCardContainer {
-  width: 255px;
+  width: $primary-width-tablet;
   height: 430px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .top {
-    width: 255px;
+    width: $primary-width-tablet;
     height: 100px;
     background-color: #f1ddc9;
     border-top-left-radius: 30px;
@@ -14,7 +24,7 @@
   }
   .bottom {
     position: relative;
-    width: 255px;
+    width: $primary-width-tablet;
     height: 330px;
     background-color: #fff;
     .image {
@@ -22,8 +32,8 @@
         position: absolute;
         top: -90px;
         left: 50%;
-        width: 221px;
-        height: 221px;
+        width: $primary-img-width-pc;
+        height: $primary-img-width-pc;
         border-radius: 30px;
         object-fit: cover;
         transform: translateX(-50%);
@@ -74,11 +84,10 @@
     .btn {
       display: flex;
       justify-content: center;
-      gap: 0 10px;
+      gap: 0 5px;
       margin-top: 10px;
       svg {
         border: 1px solid #d84727;
-        padding: 8px 8px;
       }
       .btnCart {
         font-family: "Taviraj";
@@ -92,6 +101,17 @@
         background: #d84727;
         padding: 8px 36px;
         border: none;
+      }
+    }
+  }
+  @include tablet {
+    width: $primary-width-tablet;
+    .bottom {
+      .image {
+        img {
+          width: $primary-img-width-tablet;
+          height: $primary-img-width-tablet;
+        }
       }
     }
   }

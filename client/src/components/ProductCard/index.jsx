@@ -19,7 +19,7 @@ const ProductCard = (props) => {
           <div className={classes.newPrice}>{data.newPrice}</div>
         </div>
         <div className={classes.btn}>
-          <Heart size={32} color="#a94242" weight="thin" />
+          <Heart size={39} color="#a94242" weight="thin" />
           <button className={classes.btnCart}>Add to cart</button>
         </div>
       </div>

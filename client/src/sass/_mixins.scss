@@ -1,3 +1,4 @@
+@use "./variable" as *;
 @mixin flex($algin-item: center, $justify-content: center) {
     display: flex;
     align-items: $algin-item;
