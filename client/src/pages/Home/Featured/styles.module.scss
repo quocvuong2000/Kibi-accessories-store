@@ -29,7 +29,9 @@
     }
   }
 }
-
+.featuredMobile {
+  display: none;
+}
 .seeMore {
   display: flex;
   width: 1114px;
@@ -55,5 +57,44 @@
     color: #d84727;
     margin: 0 20px;
     cursor: pointer;
+  }
+}
+
+@include mobile {
+  .featuredContainer {
+    display: none;
+  }
+  .featuredMobile {
+    display: block;
+    width: 100vw;
+    padding: 0 25px;
+    .title {
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 40px;
+      /* identical to box height, or 111% */
+      letter-spacing: 0.02em;
+      color: #333333;
+      position: relative;
+      margin-bottom: 50px;
+
+      &::before {
+        position: absolute;
+        height: 2px;
+        width: 100px;
+        content: " ";
+        top: calc(100% + 5px);
+        background: #000;
+      }
+    }
+    :global {
+      .slick-dots.slick-dots-bottom {
+        bottom: -10px;
+        
+      }
+    }
+  }
+  .seeMore {
+    display: none;
   }
 }

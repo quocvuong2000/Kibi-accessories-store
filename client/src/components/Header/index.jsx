@@ -167,7 +167,7 @@ const Header = () => {
               <Search
                 placeholder="Search products, accessory, etc..."
                 onSearch={onSearch}
-                style={{ width: 400 }}
+                style={{ width: 300, marginBottom: "10px" }}
               />
             </Space>
           </div>

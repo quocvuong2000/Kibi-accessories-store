@@ -1,7 +1,7 @@
 @use "../../../sass/mixins" as *;
 .mothlyDealContainer {
   width: 1110px;
-  height: 505px;
+  height: 585px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -16,6 +16,16 @@
     letter-spacing: 0.02em;
     color: #333333;
     margin-bottom: 20px;
+    position: relative;
+    &::after {
+      content: " ";
+      height: 2px;
+      width: 180px;
+      background-color: #000;
+      position: absolute;
+      top: 40px;
+      left: 0;
+    }
   }
   .listItem {
     display: flex;
@@ -27,6 +37,17 @@
 
     .listItem {
       gap: 0 15px;
+    }
+  }
+  @include mobile {
+    width: 100vw;
+    height: fit-content;
+    .title {
+      margin-top: 80px;
+    }
+    .listItem {
+      flex-wrap: wrap;
+      gap: 15px;
     }
   }
 }

@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .recentNewContainer {
   width: 1110px;
   height: 505px;
@@ -118,6 +119,85 @@
         &:nth-child(2) {
           top: 270px;
           right: -220px;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    width: 100vw;
+    .mainTitle {
+      margin-bottom: 50px;
+      padding: 0 15px;
+      &::before {
+        left: 15px;
+      }
+    }
+    .recentNews {
+      flex-direction: column;
+      .left {
+        .content {
+          width: 100vw;
+          padding: 0 15px;
+          .where {
+            font-size: 18px;
+          }
+          .title {
+            font-size: 28px;
+          }
+          .btn {
+            font-size: 12px;
+          }
+        }
+      }
+      .right {
+        margin-top: 50px;
+        z-index: 999;
+        img {
+          width: 300px;
+          height: 200px;
+        }
+      }
+      .square {
+        position: absolute;
+        top: 400px;
+        right: -205px;
+        width: 600px;
+        height: 200px;
+        background: #f1ddc9;
+      }
+      .image {
+        img {
+          position: absolute;
+          width: 400px;
+
+          &:nth-child(1) {
+            top: 400px;
+            right: -205px;
+          }
+          &:nth-child(2) {
+            top: 440px;
+            right: -205px;
+          }
+          &:nth-child(3) {
+            top: 480px;
+            right: -205px;
+          }
+        }
+      }
+      .image1 {
+        img {
+          position: absolute;
+          width: 200px;
+
+          &:nth-child(1) {
+            top: 240px;
+            right: 0;
+          }
+          &:nth-child(2) {
+            top: 270px;
+            right: 0;
+          }
         }
       }
     }

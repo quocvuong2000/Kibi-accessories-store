@@ -6,9 +6,9 @@ $primary-width-mobile: 180px;
 
 $primary-img-width-pc: 221px;
 $primary-img-width-tablet: 200px;
-$primary-img-width-mobile: 180px;
+$primary-img-width-mobile: 140px;
 .productCardContainer {
-  width: $primary-width-tablet;
+  width: $primary-width-pc;
   height: 430px;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ $primary-img-width-mobile: 180px;
   align-items: center;
 
   .top {
-    width: $primary-width-tablet;
+    width: $primary-width-pc;
     height: 100px;
     background-color: #f1ddc9;
     border-top-left-radius: 30px;
@@ -24,7 +24,7 @@ $primary-img-width-mobile: 180px;
   }
   .bottom {
     position: relative;
-    width: $primary-width-tablet;
+    width: $primary-width-pc;
     height: 330px;
     background-color: #fff;
     .image {
@@ -88,6 +88,7 @@ $primary-img-width-mobile: 180px;
       margin-top: 10px;
       svg {
         border: 1px solid #d84727;
+        font-size: 39px;
       }
       .btnCart {
         font-family: "Taviraj";
@@ -106,7 +107,11 @@ $primary-img-width-mobile: 180px;
   }
   @include tablet {
     width: $primary-width-tablet;
+    .top {
+      width: $primary-width-tablet;
+    }
     .bottom {
+      width: $primary-width-tablet;
       .image {
         img {
           width: $primary-img-width-tablet;
@@ -114,5 +119,66 @@ $primary-img-width-mobile: 180px;
         }
       }
     }
+  }
+  @include mobile {
+    width: $primary-width-mobile;
+    height: 290px;
+    .top {
+      width: $primary-width-mobile;
+    }
+    .bottom {
+      width: $primary-width-mobile;
+      height: 175px;
+      .image {
+        img {
+          width: $primary-img-width-mobile;
+          height: $primary-img-width-mobile;
+        }
+      }
+      .content {
+        padding: 50px 0px 0px 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .title {
+          padding: 0 8px;
+          text-align: center;
+          font-size: 18px;
+          height: fit-content;
+          width: $primary-width-mobile;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-word;
+        }
+        .saleOff {
+          display: none;
+        }
+        .oldPrice {
+          display: none;
+        }
+        .newPrice {
+          font-size: 18px;
+        }
+      }
+      .btn {
+        svg {
+          font-size: 25px;
+        }
+        .btnCart {
+          font-size: 12px;
+          padding: 1px 8px;
+        }
+      }
+    }
+  }
+}
+
+:global {
+  .ant-popover-inner-content {
+    display: none;
   }
 }

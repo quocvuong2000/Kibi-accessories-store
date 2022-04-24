@@ -1,6 +1,7 @@
+@use "../../sass/mixins" as *;
 .featuredContainer {
   display: flex;
-    margin-bottom: 20px;
+  margin-bottom: 20px;
   .left {
     width: 131px;
     height: 131px;
@@ -39,4 +40,8 @@
       color: #222222;
     }
   }
+}
+
+@include mobile {
+  
 }

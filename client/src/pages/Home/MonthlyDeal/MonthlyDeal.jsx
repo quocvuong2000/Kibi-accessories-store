@@ -5,7 +5,7 @@ import ProductCard from "../../../components/ProductCard";
 import classes from "./styles.module.scss";
 const fakeProduct = [
   {
-    title: "Singo Maple",
+    title: "Singo Maple asdsa sada",
     saleOff: "20% Off",
     image: product1,
     oldPrice: "1.500.000 VND",
