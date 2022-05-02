@@ -2,7 +2,7 @@
 
 $primary-width-pc: 255px;
 $primary-width-tablet: 230px;
-$primary-width-mobile: 180px;
+$primary-width-mobile: 170px;
 
 $primary-img-width-pc: 221px;
 $primary-img-width-tablet: 200px;
@@ -52,6 +52,12 @@ $primary-img-width-mobile: 140px;
         line-height: 32px;
         /* identical to box height, or 133% */
         color: #333333;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
       }
       .saleOff {
         font-family: "Taviraj";
@@ -147,12 +153,6 @@ $primary-img-width-mobile: 140px;
           font-size: 18px;
           height: fit-content;
           width: $primary-width-mobile;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          word-break: break-word;
         }
         .saleOff {
           display: none;
