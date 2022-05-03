@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .testimonialContainer {
   width: 1140px;
   display: flex;
@@ -14,7 +15,7 @@
     margin-bottom: 80px;
     position: relative;
     top: -50px;
-   
+
     &::before {
       content: " ";
       height: 2px;
@@ -106,6 +107,59 @@
           left: -190px;
         }
       }
+    }
+  }
+}
+
+@include mobile {
+  .testimonialContainer {
+    width: 100vw;
+    .testimonial {
+      flex-direction: column;
+      .right {
+        width: 100%;
+        margin-left: 0px;
+      }
+      .left {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: end;
+        margin-bottom: 20px;
+        img {
+          width: 350px;
+          height: 300px;
+        }
+      }
+      .square {
+        position: absolute;
+        top: -120px;
+        left: -105px;
+        width: 400px;
+        height: 308px;
+        background: #f1ddc9;
+      }
+      .image {
+        img {
+          position: absolute;
+          width: 350px;
+          &:nth-child(1) {
+            top: -140px;
+            left: 0px;
+          }
+          &:nth-child(2) {
+            top: -100px;
+            left: 0px;
+          }
+          &:nth-child(3) {
+            top: -60px;
+            left: 0px;
+          }
+        }
+      }
+    }
+    .mainTitle {
+      top: 0px;
     }
   }
 }

@@ -46,17 +46,35 @@
   }
 
   @include tablet {
+    .carousel,
+    .categories,
+    .monthlyDeal,
+    .recentsNew,
+    .featured,
+    .testimonial,
+    .instagram,
+    .monthlyDeal {
+      min-height: 100vh;
+      margin-bottom: 5rem;
+    }
     max-width: 1024px;
     padding: 0 15px;
     overflow: hidden;
   }
   @include mobile {
+    .carousel,
+    .categories,
+    .monthlyDeal,
+    .recentsNew,
+    .featured,
+    .testimonial,
+    .instagram,
     .monthlyDeal {
       min-height: 100vh;
     }
     .recentsNew {
-     margin-top: 50px;
-     min-height: 100vh;
+      margin-top: 50px;
+      min-height: 100vh;
     }
     .featured {
       margin-top: 10rem;
