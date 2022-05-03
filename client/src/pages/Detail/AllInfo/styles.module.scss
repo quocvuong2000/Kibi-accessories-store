@@ -1,10 +1,8 @@
-@use "../../sass/mixins";
-
+@use "../../../sass/mixins";
 :global {
     .ant-tabs {
         width: fit-content;
     }
-
     .ant-tabs-nav {
         font-style: normal;
         font-weight: 600;
@@ -13,35 +11,37 @@
         letter-spacing: 0.02em;
         color: #999999;
     }
-
     .ant-tabs-nav-list {
         display: flex;
         column-gap: 40px;
     }
-
     .ant-tabs-tab-active {
         color: #d84727;
     }
-
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
         color: #d84727 !important;
     }
-
     .ant-tabs-tab:hover {
         color: #d84727;
     }
-
     .ant-tabs-ink-bar {
         background: #d84727;
     }
-
     .ant-tabs-tab {
         width: fit-content;
         font-size: 20px;
     }
-
-    .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active{
+    .ant-tabs-tab-btn:focus,
+    .ant-tabs-tab-remove:focus,
+    .ant-tabs-tab-btn:active,
+    .ant-tabs-tab-remove:active {
         color: #d84727;
+    }
+    .ant-tabs-top>.ant-tabs-nav::before,
+    .ant-tabs-bottom>.ant-tabs-nav::before,
+    .ant-tabs-top>div>.ant-tabs-nav::before,
+    .ant-tabs-bottom>div>.ant-tabs-nav::before {
+        border-bottom: none !important;
     }
 }
 
@@ -51,6 +51,7 @@
     max-width: 1440px;
     margin: 0 auto;
 }
+
 p {
     padding: 0;
     margin: 0;
@@ -89,7 +90,7 @@ p {
     color: #555555;
 }
 
-.size__product{
+.size__product {
     @include mixins.flex();
     margin-top: 16px;
 }

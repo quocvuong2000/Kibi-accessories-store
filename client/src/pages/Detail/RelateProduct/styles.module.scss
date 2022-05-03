@@ -1,0 +1,75 @@
+@use "../../../sass/mixins";
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 100vw;
+    @include mixins.flex();
+    .relate {
+        width: 1472px;
+        padding: 0 165px;
+        margin-top: 120px;
+        display: flex;
+        flex-direction: column;
+        &__title {
+            width: 100%;
+            @include mixins.font(normal, 500, 36px);
+            line-height: 40px;
+            letter-spacing: 0.02em;
+            color: #333333;
+        }
+        .line {
+            margin-top: 8px;
+            width: 128px;
+            border: 1px solid #000000;
+        }
+        &__frame__product {
+            margin-top: 62px;
+            @include mixins.flex(center, flex-start);
+            column-gap: 30px;
+            &__one {
+                background: #ffffff;
+                max-width: 255px;
+                min-height: 403px;
+                max-height: 403px;
+                &__content {
+                    @include mixins.flex(flex-start, flex-start);
+                    flex-direction: column;
+                    padding: 46px 20px 24px 20px;
+                    &__image {
+                        width: 221px;
+                        height: 221px;
+                    }
+                    &__name {
+                        margin-top: 12px;
+                        line-height: 32px;
+                        color: #333333;
+                        @include mixins.font(normal, 500, 24px);
+                    }
+                    &__discount {
+                        margin-top: 12px;
+                        line-height: 24px;
+                        color: #777777;
+                        @include mixins.font(normal, 400, 16px);
+                        position: relative;
+                        &__line {
+                            position: absolute;
+                            border: 1px solid #d93f3f;
+                            left: 0;
+                            right: 0;
+                            bottom: 50%;
+                        }
+                    }
+                    &__price {
+                        margin-top: 12px;
+                        line-height: 32px;
+                        color: #333333;
+                        @include mixins.font(normal, 400, 24px);
+                    }
+                }
+            }
+        }
+    }
+}

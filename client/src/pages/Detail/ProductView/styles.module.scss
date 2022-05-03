@@ -1,6 +1,5 @@
-@use "../../sass/mixins";
+@use "../../../sass/mixins";
 $colorAll: #333333;
-
 .container {
     flex-direction: column;
     display: flex;
@@ -44,20 +43,18 @@ $colorAll: #333333;
         -moz-transform: rotate(-10deg) scale(1.2);
         -ms-transform: rotate(-10deg) scale(1.2);
         -o-transform: rotate(-10deg) scale(1.2);
-}
-
+    }
     30% {
         transform: rotate(10deg) scale(1.1);
         -webkit-transform: rotate(10deg) scale(1.1);
         -moz-transform: rotate(10deg) scale(1.1);
         -ms-transform: rotate(10deg) scale(1.1);
         -o-transform: rotate(10deg) scale(1.1);
-}
-
+    }
     50%,
     100% {
         @include mixins.transformRotate(0);
-}
+    }
 }
 
 svg {
@@ -75,10 +72,8 @@ svg {
     flex-direction: row;
     column-gap: 200px;
     justify-content: center;
-
     .preview_product {
         @include mixins.flex();
-
         .frame_img_preview {
             @include mixins.border-radius(10px);
             position: relative;
@@ -88,7 +83,6 @@ svg {
             flex-direction: column;
             padding: 24px 0 24px 0;
             row-gap: 24px;
-
             .img_preview {
                 @include mixins.flex();
                 @include mixins.transformScale(0.2, 0.2);
@@ -98,7 +92,6 @@ svg {
                 max-height: 110px;
                 cursor: pointer;
             }
-
             .img_main {
                 @include mixins.flex();
                 position: absolute;
@@ -112,15 +105,12 @@ svg {
             }
         }
     }
-
     .frame_info_product {
         display: flex;
-
         p {
             margin: 0;
             padding: 0;
         }
-
         .info_product {
             display: flex;
             flex-direction: column;
@@ -140,7 +130,6 @@ svg {
                 width: fit-content;
                 position: relative;
                 margin-top: 8px;
-
                 .line {
                     position: absolute;
                     border: 1px solid #d93f3f;
@@ -149,7 +138,6 @@ svg {
                     bottom: 50%;
                 }
             }
-
             .price_after {
                 @include mixins.font(normal, 500, 24px);
                 line-height: 41px;
@@ -157,33 +145,27 @@ svg {
                 color: $colorAll;
                 margin-top: 2px;
             }
-
             .model {
                 display: flex;
                 flex-direction: column;
                 margin-top: 16px;
-
                 .title_modle {
                     @include mixins.font(normal, 600, 16px);
                     line-height: 27px;
                     letter-spacing: 0.02em;
                     color: $colorAll;
                 }
-
                 .frame_model {
                     display: flex;
                     flex-direction: row;
                     column-gap: 16px;
                     margin-top: 8px;
-
                     .item_model {
                         @include mixins.img(55px, 55px, 55px, 55px);
-
                         .bo {
                             @include mixins.border-radius(50%);
                             @include mixins.img();
                             cursor: pointer;
-
                             &:hover {
                                 border: 3px solid #d84727;
                             }
@@ -191,12 +173,10 @@ svg {
                     }
                 }
             }
-
             .function {
                 @include mixins.flex(center, flex-start);
                 flex-direction: row;
                 margin-top: 57px;
-
                 .qty {
                     @include mixins.flex(center, flex-start);
                     flex-direction: row;
@@ -208,16 +188,13 @@ svg {
                         box-sizing: border-box;
                         position: relative;
                         cursor: pointer;
-
                         &:hover {
                             @include mixins.border-radius(50%);
                             @include mixins.transition(all, 0.5s, ease);
                         }
-
                         &:not(:hover) {
                             @include mixins.transition(all, 0.5s, ease);
                         }
-
                         .icon_sub {
                             position: absolute;
                             border: 1px solid #777777;
@@ -228,14 +205,12 @@ svg {
                             border-bottom: none;
                         }
                     }
-
                     .count {
                         @include mixins.font(normal, 400, 36px);
                         line-height: 61px;
                         letter-spacing: 0.02em;
                         color: #000000;
                     }
-
                     .add {
                         width: 24px;
                         height: 24px;
@@ -243,16 +218,13 @@ svg {
                         position: relative;
                         background: #d84727;
                         cursor: pointer;
-
                         &:hover {
                             @include mixins.border-radius(50%);
                             @include mixins.transition(all, 0.5s, ease);
                         }
-
                         &:not(:hover) {
                             @include mixins.transition(all, 0.5s, ease);
                         }
-
                         .icon_add {
                             position: absolute;
                             border: 1px solid #ffffff;
@@ -262,7 +234,6 @@ svg {
                             border-bottom: none;
                             margin: 0 4px;
                         }
-
                         .icon_add2 {
                             position: absolute;
                             border: 1px solid #ffffff;
@@ -274,7 +245,6 @@ svg {
                         }
                     }
                 }
-
                 .add_to_cart {
                     @include mixins.flex();
                     @include mixins.font(normal, 400, 20px);
@@ -287,7 +257,6 @@ svg {
                     column-gap: 10px;
                     padding: 14px 29px;
                 }
-
                 .buy_now {
                     @include mixins.flex();
                     @include mixins.font(normal, 400, 20px);

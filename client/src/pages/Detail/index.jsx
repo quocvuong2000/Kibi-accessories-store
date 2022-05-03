@@ -1,15 +1,19 @@
-import React from 'react'
-import ProductView from '../../components/ProductView';
-import AllInfo from '../../components/AllInfo';
-import styles from './styles.module.scss'
+import React from "react";
+import ProductView from "./ProductView";
+import AllInfo from "./AllInfo";
+import styles from "./styles.module.scss";
+import { RelateProduct } from "./RelateProduct";
+import { Brand } from "../../components/Brand";
 
 const Detail = () => {
   return (
     <div className={styles.backgroundContainer}>
       <ProductView />
-      <AllInfo/>
+      <AllInfo />
+      <RelateProduct />
+      <Brand />
     </div>
-  )
-}
+  );
+};
 
 export default Detail;

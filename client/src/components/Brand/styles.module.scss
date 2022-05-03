@@ -1,0 +1,24 @@
+@use "../../sass/mixins";
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 100vw;
+    @include mixins.flex();
+    background: #da5e42;
+    margin-top: 97px;
+    .brand {
+        @include mixins.flex();
+        padding: 40px 270px 23px 270px;
+        flex-wrap: wrap;
+        flex-direction: row;
+        row-gap: 10px;
+        column-gap: 2%;
+        &__img {
+            flex-basis: 18%;
+            @include mixins.flex();
+        }
+    }
+}
