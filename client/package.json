@@ -17,6 +17,7 @@
         "react-scripts": "5.0.0",
         "react-tabs": "^4.2.0",
         "sass": "^1.50.0",
+        "usehooks-ts": "^2.5.2",
         "web-vitals": "^2.1.4"
     },
     "scripts": {

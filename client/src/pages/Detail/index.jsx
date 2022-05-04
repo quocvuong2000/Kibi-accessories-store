@@ -4,10 +4,14 @@ import AllInfo from "./AllInfo";
 import styles from "./styles.module.scss";
 import { RelateProduct } from "./RelateProduct";
 import { Brand } from "../../components/Brand";
+import Header from "../../components/Header";
 
 const Detail = () => {
   return (
     <div className={styles.backgroundContainer}>
+      <div className={styles.header}>
+        <Header />
+      </div>
       <ProductView />
       <AllInfo />
       <RelateProduct />
