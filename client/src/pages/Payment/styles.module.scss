@@ -1,0 +1,61 @@
+.paymentContainer {
+  max-width: 100vw;
+  min-height: 100vh;
+  background: #e5e5e5;
+  overflow: hidden;
+  .header {
+    display: flex;
+    justify-content: center;
+  }
+  .payment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    .paymentHeader {
+      display: flex;
+      align-items: center;
+      padding: 5rem;
+      .title {
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        padding: 0 15px;
+        /* identical to box height, or 160% */
+        letter-spacing: 0.02em;
+        color: #999999;
+        position: relative;
+        .icon {
+          position: absolute;
+          top: -30px;
+          left: 50%;
+          transform: translateX(-25%);
+          svg {
+            color: #999999;
+          }
+        }
+        &.active {
+          color: #d84727;
+          .icon {
+            svg {
+              color: #d84727;
+            }
+          }
+        }
+      }
+      .line {
+        content: " ";
+        height: 2px;
+        width: 114px;
+        background: #999;
+      }
+    }
+    .content {
+      width: 1024px;
+      min-height: 700px;
+      background: #FFFFFF;
+    }
+  }
+}
