@@ -1,16 +1,19 @@
-import React from "react";
-import classes from "./styles.module.scss";
-import PropsType from "prop-types";
-import numberWithCommas from "../../../utils/numberWithCommas";
 import { Radio } from "antd";
+import PropsType from "prop-types";
+import React from "react";
+import { Link } from "react-router-dom";
+import numberWithCommas from "../../../utils/numberWithCommas";
+import classes from "./styles.module.scss";
 
 const PaymentDetail = (props) => {
+
   const paymentInfo = props.paymentInfo;
   const [value, setValue] = React.useState(1);
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
+  
   return (
     <div className={classes.paymentDetail}>
       <div className={classes.information}>
@@ -137,9 +140,9 @@ const PaymentDetail = (props) => {
           <Radio value={2}>Cash on delivery</Radio>
         </Radio.Group>
       </div>
-      <div className={classes.btn}>
+      <Link to={"/confirmation"} className={classes.btn}>
         <button>Proceed Payment</button>
-      </div>
+      </Link>
     </div>
   );
 };

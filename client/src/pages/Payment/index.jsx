@@ -31,19 +31,19 @@ const fakePaymentData = {
         price: 12640000,
       },
     ],
-    customerName : "Rasyidin Arsyad Nasution",
-    customerPhone : "0707000449",
-    customerEmail : "vuongtech@gmail.com",
-    shippingAddress : "367 Hong Bang P11 Q5"
+    customerName: "Rasyidin Arsyad Nasution",
+    customerPhone: "0707000449",
+    customerEmail: "vuongtech@gmail.com",
+    shippingAddress: "367 Hong Bang P11 Q5",
   },
 };
 const Payment = () => {
-  const location =useLocation();
-  const [step,setStep] = useState(0);
+  const location = useLocation();
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
-    setStep(location.pathname.split("/")[1]==="payment"?0:1);
-  },[location.pathname])
+    setStep(location.pathname.split("/")[1] === "payment" ? 0 : 1);
+  }, [location.pathname]);
 
   return (
     <div className={classes.paymentContainer}>
@@ -56,7 +56,7 @@ const Payment = () => {
             </div>
           </div>
           <div className={classes.line}></div>
-          <div className={`${classes.title} ${step === 0 && classes.active}`} >
+          <div className={`${classes.title} ${step === 0 && classes.active}`}>
             2. Payment
             <div className={classes.icon}>
               <CreditCard size={28} weight="fill" />
@@ -71,8 +71,11 @@ const Payment = () => {
           </div>
         </div>
         <div className={classes.content}>
-          {step ===0?<PaymentDetail paymentInfo = {fakePaymentData}/> :<Confirmation/>}
-
+          {step === 0 ? (
+            <PaymentDetail paymentInfo={fakePaymentData} />
+          ) : (
+            <Confirmation paymentInfo={fakePaymentData} />
+          )}
         </div>
       </div>
     </div>
