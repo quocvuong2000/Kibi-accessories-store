@@ -59,13 +59,19 @@ const Confirmation = (props) => {
             {numberWithCommas(paymentInfo.detailOrder.shippingCost)} VND
           </div>
         </div>
+        <div className={classes.contentItem}>
+          <div className={classes.display}>Packaging</div>
+          <div className={classes.price}>
+            {numberWithCommas(paymentInfo.detailOrder.packaging)} VND
+          </div>
+        </div>
         <div className={classes.total}>
           <div className={classes.display}>Grand Total</div>
           <div className={classes.price}>
             {numberWithCommas(paymentInfo.detailOrder.grandTotal)} VND
           </div>
         </div>
-        <div className={classes.contentItem}>
+        <div className={classes.contentAddress}>
           <div className={classes.display}>Shipping Address</div>
           <div className={classes.shippingAddress}>
             {paymentInfo.orderDetail.shippingAddress}

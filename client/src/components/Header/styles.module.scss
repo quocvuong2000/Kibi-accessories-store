@@ -186,7 +186,14 @@
       }
     }
   }
-
+  @include tablet {
+    .headerContainer {
+      height: 120px;
+      &.shrink {
+        height: 120px;
+      }
+    }
+  }
   .menuMobile {
     position: fixed;
     width: 100vw;

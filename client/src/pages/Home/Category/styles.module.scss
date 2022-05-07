@@ -10,8 +10,8 @@
     background: #fff;
     padding: 32px;
     position: relative;
-    width: 430px;
-    height: 200px;
+    width: 540px;
+    height: 270px;
 
     .left {
       display: flex;
@@ -36,9 +36,7 @@
         font-size: 16px;
         line-height: 24px;
         /* or 150% */
-
         letter-spacing: 0.03em;
-
         color: #777777;
       }
       .discover {
@@ -89,5 +87,10 @@
     flex-direction: column;
     justify-content: space-around;
   }
-
+  @include tablet {
+      .categoryItem {
+        width: 440px;
+        height: 200px;
+      }
+  }
 }

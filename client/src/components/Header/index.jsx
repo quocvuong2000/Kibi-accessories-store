@@ -14,19 +14,19 @@ const { Search } = Input;
 const navItem = [
   {
     display: "Watches",
-    link: "/home",
+    link: "/",
   },
   {
     display: "Eyewear",
-    link: "/home",
+    link: "/",
   },
   {
     display: "Accessories ",
-    link: "/home",
+    link: "/",
   },
   {
     display: "News",
-    link: "/home",
+    link: "/",
   },
 ];
 const onSearch = (value) => console.log(value);
@@ -80,7 +80,7 @@ const Header = () => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer} ref={headerRef}>
-        <Link to={"/home"} className={classes.logo}>
+        <Link to={"/"} className={classes.logo}>
           <img src={logo} alt="" />
         </Link>
         <div className={classes.navListContainer}>

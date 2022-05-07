@@ -7,12 +7,12 @@ import { Footer } from "../components/Footer";
 import Header from "../components/Header";
 
 const AppLayout = () => {
-  
+
   return (
     <AppSuspense>
       <Header />
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/confirmation" element={<Payment />} />
