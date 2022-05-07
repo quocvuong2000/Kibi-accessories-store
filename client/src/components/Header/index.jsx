@@ -78,11 +78,11 @@ const Header = () => {
     });
   }, []);
   return (
-    <>
+    <div className={classes.container}>
       <div className={classes.headerContainer} ref={headerRef}>
-        <div className={classes.logo}>
+        <Link to={"/home"} className={classes.logo}>
           <img src={logo} alt="" />
-        </div>
+        </Link>
         <div className={classes.navListContainer}>
           <div className={classes.navList}>
             {navItem.map((item, index) => {
@@ -366,7 +366,7 @@ const Header = () => {
         </div>
       </div>
       {/* ---------- */}
-    </>
+    </div>
   );
 };
 
