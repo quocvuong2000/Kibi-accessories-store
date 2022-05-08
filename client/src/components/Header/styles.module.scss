@@ -9,26 +9,30 @@
     width: 1110px;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     padding-top: 20px;
     align-items: center;
-    height: 80px;
-    transition: all 0.3s ease-in;
+    height: 120px;
+    transition: box-shadow 0.1s ease-in;
     z-index: 99999999;
     background: #e5e5e5;
     &.shrink {
-      height: 80px;
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      height: 120px;
+
       position: fixed;
       // padding: 0 20px;
       background: #f1ddc9;
       width: 1110px;
+      transition: all 0.3s ease-in;
+
       @include tablet {
         width: 100vw;
         // padding: 0;
       }
       &::after {
         content: " ";
-        height: 80px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        height: 120px;
         width: 100vw;
         position: fixed;
         top: 0;
@@ -40,6 +44,42 @@
         .shopingCart {
           background: #fff;
         }
+      }
+    }
+    .top {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .menu {
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .logo {
+        width: 178px;
+        height: 22px;
+        display: block;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .authentication {
+        display: flex;
+      }
+    }
+    .bottom {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      .navListContainer {
+        display: flex;
       }
     }
     .logo,
@@ -163,9 +203,8 @@
       }
     }
     @include tablet {
-      .logo,
-      .navListContainer,
-      .authentication {
+      .top,
+      .bottom {
         display: none;
       }
       .tablet {
@@ -232,8 +271,8 @@
 
   :global {
     .ant-input-group-addon {
-      border-radius: 30px;
       overflow: hidden;
+      z-index: 9;
       button {
         background: #d84727;
         border: none;
@@ -268,6 +307,18 @@
     }
     .ant-modal-footer {
       display: none;
+    }
+    .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child {
+      left: -32px;
+      padding: 0;
+      border: 0;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+    }
+    .ant-input-group-addon {
+      border-top-right-radius: 30px !important;
+      border-bottom-right-radius: 30px !important;
+      overflow: hidden;
     }
   }
 

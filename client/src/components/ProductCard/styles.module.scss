@@ -93,10 +93,12 @@ $primary-img-width-mobile: 140px;
       gap: 0 5px;
       margin-top: 10px;
       svg {
+        cursor: pointer;
         border: 1px solid #d84727;
         font-size: 39px;
       }
       .btnCart {
+        cursor: pointer;
         font-family: "Taviraj";
         font-style: normal;
         font-weight: 400;

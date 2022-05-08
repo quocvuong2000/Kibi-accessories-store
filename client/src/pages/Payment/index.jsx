@@ -1,7 +1,6 @@
 import { CalendarCheck, CreditCard, ListChecks } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../../components/Header";
 import Confirmation from "./Confirmation/Confirmation";
 import PaymentDetail from "./PaymentDetail/PaymentDetail";
 import classes from "./styles.module.scss";
@@ -42,6 +41,7 @@ const Payment = () => {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0,0);
     setStep(location.pathname.split("/")[1] === "payment" ? 0 : 1);
   }, [location.pathname]);
 

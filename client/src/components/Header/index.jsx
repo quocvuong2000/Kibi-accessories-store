@@ -80,107 +80,119 @@ const Header = () => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer} ref={headerRef}>
-        <Link to={"/"} className={classes.logo}>
-          <img src={logo} alt="" />
-        </Link>
-        <div className={classes.navListContainer}>
-          <div className={classes.navList}>
-            {navItem.map((item, index) => {
-              return (
-                <Link to={item.link} key={index} className={classes.navItem}>
-                  {item.display}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-        <div className={classes.authentication}>
-          <div className={classes.search}>
-            <MagnifyingGlass size={32} color="#000" weight="thin" />
-          </div>
-          <div className={classes.login}>
-            <User size={32} color="#000" weight="thin" />
-            <div className={classes.loginText}>Log In</div>
-          </div>
-          <div
-            className={classes.shopingCart}
-            onClick={() => setModal2Visible(true)}
-          >
-            <Handbag size={25} color="#000" weight="thin" />
-            <Modal centered visible={false}>
+      <div className={classes.top}>
+            <Link to={"/"} className={classes.logo}>
+              <img src={logo} alt="" />
+            </Link>
+            <Space direction="vertical" align="start">
+              <Search
+                placeholder="Search products, accessory, etc..."
+                onSearch={onSearch}
+                style={{ width: 500, textAlign: "center" }}
+              />
+            </Space>
+            <div className={classes.authentication}>
+              <div className={classes.login}>
+                <User size={32} color="#000" weight="thin" />
+                <div className={classes.loginText}>Log In</div>
+              </div>
               <div
-                className={classes.cart__item}
-                ref={ref}
-                onClick={handleClickInside}
+                className={classes.shopingCart}
+                onClick={() => setModal2Visible(true)}
               >
-                <div className={classes.cart__item__left}>
-                  <div className={classes.cart__item__left__image}>
-                    <img src={item1} alt="item" />
-                  </div>
-                  <div className={classes.cart__item__left__info}>
-                    <p className={classes.title}>Way Kambas Mini Ebony</p>
-                    <p className={classes.voucher}>
-                      Rp 1.280.000
-                      <span className={classes.line}></span>
-                    </p>
-                    <p className={classes.price}>Rp 1.024.000</p>
-                    <p className={classes.detail}>Custom Engrave</p>
-                  </div>
-                </div>
-                <div className={classes.cart__item__right}>
-                  <p className={classes.cart__item__right__select}>
-                    Select Packaging
-                  </p>
-                  <select className={classes.cart__item__right__price}>
-                    <option
-                      value="1"
-                      className={classes.cart__item__right__price__item}
-                    >
-                      Wooden Packaging (Rp 50.000)
-                    </option>
-                  </select>
-                  <div className={classes.cart__item__right__option}>
-                    <div className={classes.sub} onClick={downQty}>
-                      <p className={classes.icon_sub}></p>
+                <Handbag size={25} color="#000" weight="thin" />
+                <Modal centered visible={modal2Visible}>
+                  <div
+                    className={classes.cart__item}
+                    ref={ref}
+                    onClick={handleClickInside}
+                  >
+                    <div className={classes.cart__item__left}>
+                      <div className={classes.cart__item__left__image}>
+                        <img src={item1} alt="item" />
+                      </div>
+                      <div className={classes.cart__item__left__info}>
+                        <p className={classes.title}>Way Kambas Mini Ebony</p>
+                        <p className={classes.voucher}>
+                          Rp 1.280.000
+                          <span className={classes.line}></span>
+                        </p>
+                        <p className={classes.price}>Rp 1.024.000</p>
+                        <p className={classes.detail}>Custom Engrave</p>
+                      </div>
                     </div>
-                    <p className={classes.count}>{qty}</p>
-                    <div className={classes.add} onClick={upQty}>
-                      <p className={classes.icon_add}></p>
-                      <p className={classes.icon_add2}></p>
-                    </div>
+                    <div className={classes.cart__item__right}>
+                      <p className={classes.cart__item__right__select}>
+                        Select Packaging
+                      </p>
+                      <select className={classes.cart__item__right__price}>
+                        <option
+                          value="1"
+                          className={classes.cart__item__right__price__item}
+                        >
+                          Wooden Packaging (Rp 50.000)
+                        </option>
+                      </select>
+                      <div className={classes.cart__item__right__option}>
+                        <div className={classes.sub} onClick={downQty}>
+                          <p className={classes.icon_sub}></p>
+                        </div>
+                        <p className={classes.count}>{qty}</p>
+                        <div className={classes.add} onClick={upQty}>
+                          <p className={classes.icon_add}></p>
+                          <p className={classes.icon_add2}></p>
+                        </div>
 
-                    <p className={classes.result}>Rp 2.048.000</p>
-                    <div className={classes.delete}>
-                      <box-icon
-                        name="trash"
-                        color="#d84727"
-                        size="24px"
-                        type="solid"
-                      ></box-icon>
+                        <p className={classes.result}>Rp 2.048.000</p>
+                        <div className={classes.delete}>
+                          <box-icon
+                            name="trash"
+                            color="#d84727"
+                            size="24px"
+                            type="solid"
+                          ></box-icon>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <hr className={classes.line_deli} />
-              <div className={classes.sub__total}>
-                <p className={classes.voucher}>35% OFF</p>
-                <div className={classes.total}>
-                  <p className={classes.total__text}>Subtotal</p>
-                  <div className={classes.total__price}>
-                    <p className={classes.total__price__voucher}>
-                      Rp 3.312.000
-                      <span className={classes.line}></span>
-                    </p>
-                    <p className={classes.total__price__correct}>
-                      Rp 2.152.000
-                    </p>
+                  <hr className={classes.line_deli} />
+                  <div className={classes.sub__total}>
+                    <p className={classes.voucher}>35% OFF</p>
+                    <div className={classes.total}>
+                      <p className={classes.total__text}>Subtotal</p>
+                      <div className={classes.total__price}>
+                        <p className={classes.total__price__voucher}>
+                          Rp 3.312.000
+                          <span className={classes.line}></span>
+                        </p>
+                        <p className={classes.total__price__correct}>
+                          Rp 2.152.000
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <button className={classes.checkout}>Checkout</button>
+                </Modal>
               </div>
-              <button className={classes.checkout}>Checkout</button>
-            </Modal>
+            </div>
           </div>
-        </div>
+          <div className={classes.bottom}>
+            <div className={classes.navListContainer}>
+              <div className={classes.navList}>
+                {navItem.map((item, index) => {
+                  return (
+                    <Link
+                      to={item.link}
+                      key={index}
+                      className={classes.navItem}
+                    >
+                      {item.display}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         {/* TABLET */}
         <div className={classes.tablet}>
           <div className={classes.top}>
