@@ -2,7 +2,6 @@ import React from "react";
 import s from "./styles.module.scss";
 
 export const Lang = () => {
-
   return (
     <>
       <div className={s.container}>

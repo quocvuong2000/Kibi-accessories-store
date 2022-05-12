@@ -1,0 +1,149 @@
+.confirmationDetail {
+  display: flex;
+  width: 1110px;
+  justify-content: center;
+  column-gap: 30px;
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background: #fff;
+    width: 540px;
+    height: 607px;
+    row-gap: 20px;
+    .title {
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      /* identical to box height, or 133% */
+      letter-spacing: 0.02em;
+      color: #333333;
+    }
+    span {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* or 150% */
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #333333;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        background: #d84727;
+        border: none;
+        padding: 18px 102px;
+        cursor: pointer;
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        /* identical to box height, or 160% */
+        letter-spacing: 0.02em;
+        color: #ffffff;
+      }
+    }
+  }
+  .right {
+    width: 540px;
+    height: 607px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 30px;
+    .delivery {
+      display: flex;
+      column-gap: 30px;
+      margin-bottom: 20px;
+      .deliveryItem {
+        display: flex;
+        align-items: center;
+        font-family: "Nunito";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 32px;
+        /* identical to box height, or 200% */
+        letter-spacing: 0.02em;
+        color: #333333;
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+    .contentItem {
+      display: flex;
+      justify-content: space-between;
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 48px;
+      /* or 200% */
+      letter-spacing: 0.03em;
+      color: #333333;
+      .itemList {
+        .item {
+          .productName {
+            font-family: "Taviraj";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 32px;
+            /* or 160% */
+            letter-spacing: 0.02em;
+            color: #333333;
+          }
+          span {
+            font-family: "Taviraj";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 32px;
+            /* or 200% */
+            letter-spacing: 0.02em;
+            color: #777777;
+          }
+        }
+      }
+    }
+    .total {
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 60px;
+      /* identical to box height, or 250% */
+      letter-spacing: 0.03em;
+      color: #333333;
+      display: flex;
+      justify-content: space-between;
+      border-top: 0.5px solid #999999;
+      border-bottom: 0.5px solid #999999;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .contentAddress {
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 32px;
+      /* identical to box height, or 160% */
+      letter-spacing: 0.02em;
+      color: #333333;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
