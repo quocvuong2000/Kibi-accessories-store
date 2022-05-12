@@ -11,11 +11,13 @@ export const RelateProduct = () => {
       name: "Singo Maple",
       discount: "Rp 1.500.000",
       price: "Rp 1.264.000",
+      voucher: "20",
     },
     {
       src: relate2,
       name: "Sikka (Ebony & Maple)",
       price: "Rp 1.264.000",
+      new: true,
     },
     {
       src: relate3,
@@ -27,6 +29,7 @@ export const RelateProduct = () => {
       name: "Singo Maple",
       discount: "Rp 1.280.000",
       price: "Rp 960.000",
+      voucher: "25",
     },
   ];
 
@@ -39,6 +42,16 @@ export const RelateProduct = () => {
           {fakeDataRelate.map((item, id) => {
             return (
               <div className={styles.relate__frame__product__one} key={id}>
+                {(item.voucher || item.new) && (
+                  <div
+                    className={styles.voucher}
+                    style={{
+                      background: `${item.voucher ? "#D84727" : "#01522D"}`,
+                    }}
+                  >
+                    {item.voucher ? `${item.voucher}% OFF` : "NEW"}
+                  </div>
+                )}
                 <div className={styles.relate__frame__product__one__content}>
                   <img
                     src={item.src}

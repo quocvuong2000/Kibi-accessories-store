@@ -7,7 +7,7 @@
     align-items: center;
     height: 120px;
     transition: box-shadow 0.3s ease;
-    z-index: 99999999;
+    z-index: 999;
     background: #e5e5e5;
     &.shrink {
         height: 120px;
@@ -255,9 +255,15 @@
     .ant-modal-footer {
         display: none;
     }
+    .ant-modal-body {
+        padding: unset !important;
+    }
 }
 
 .cart__item {
+    p {
+        margin-bottom: unset !important;
+    }
     @include flex(flex-start, space-between);
     &__left {
         @include flex(flex-start);

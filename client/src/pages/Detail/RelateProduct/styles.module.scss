@@ -34,6 +34,19 @@ p {
                 max-width: 255px;
                 min-height: 403px;
                 max-height: 403px;
+                position: relative;
+                .voucher {
+                    position: absolute;
+                    font-family: "Taviraj";
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 24px;
+                    color: #ffffff;
+                    padding: 5px 17px;
+                    top: -12px;
+                    right: 24px;
+                }
                 &__content {
                     @include mixins.flex(flex-start, flex-start);
                     flex-direction: column;

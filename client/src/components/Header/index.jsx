@@ -8,7 +8,9 @@ import logo from "../../assets/header/image 5.svg";
 import classes from "./styles.module.scss";
 import item1 from "../../assets/cart/item1.png";
 import item2 from "../../assets/cart/item2.png";
-import { useOnClickOutside } from "usehooks-ts";
+import { useClickOutside } from "@mantine/hooks";
+import { Cart } from "./Cart";
+import { Lang } from "./Lang/Lang";
 
 const { Search } = Input;
 const navItem = [
@@ -33,22 +35,17 @@ const onSearch = (value) => console.log(value);
 
 const Header = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [modal2Visible, setModal2Visible] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
   const [qty, setQty] = useState(1);
-  const ref = useRef(null);
-  const handleClickOutside = () => {
-    setModal2Visible(false);
-  };
-
-  const handleClickInside = () => {};
-  useOnClickOutside(ref, handleClickOutside);
+  const [visible, setVisible] = useState(false);
+  const ref = useClickOutside(() => setVisible(false));
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
     menuRef.current.classList.toggle(classes.active);
   };
+
   const upQty = () => {
     setQty(qty + 1);
     console.log(qty);
@@ -62,6 +59,7 @@ const Header = () => {
       setQty(qty - 1);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (
@@ -102,85 +100,19 @@ const Header = () => {
             <User size={32} color="#000" weight="thin" />
             <div className={classes.loginText}>Log In</div>
           </div>
-          <div
-            className={classes.shopingCart}
-            onClick={() => setModal2Visible(true)}
-          >
+          <div className={classes.shopingCart} onClick={() => setVisible(true)}>
             <Handbag size={25} color="#000" weight="thin" />
-            <Modal centered visible={false}>
-              <div
-                className={classes.cart__item}
-                ref={ref}
-                onClick={handleClickInside}
-              >
-                <div className={classes.cart__item__left}>
-                  <div className={classes.cart__item__left__image}>
-                    <img src={item1} alt="item" />
-                  </div>
-                  <div className={classes.cart__item__left__info}>
-                    <p className={classes.title}>Way Kambas Mini Ebony</p>
-                    <p className={classes.voucher}>
-                      Rp 1.280.000
-                      <span className={classes.line}></span>
-                    </p>
-                    <p className={classes.price}>Rp 1.024.000</p>
-                    <p className={classes.detail}>Custom Engrave</p>
-                  </div>
-                </div>
-                <div className={classes.cart__item__right}>
-                  <p className={classes.cart__item__right__select}>
-                    Select Packaging
-                  </p>
-                  <select className={classes.cart__item__right__price}>
-                    <option
-                      value="1"
-                      className={classes.cart__item__right__price__item}
-                    >
-                      Wooden Packaging (Rp 50.000)
-                    </option>
-                  </select>
-                  <div className={classes.cart__item__right__option}>
-                    <div className={classes.sub} onClick={downQty}>
-                      <p className={classes.icon_sub}></p>
-                    </div>
-                    <p className={classes.count}>{qty}</p>
-                    <div className={classes.add} onClick={upQty}>
-                      <p className={classes.icon_add}></p>
-                      <p className={classes.icon_add2}></p>
-                    </div>
-
-                    <p className={classes.result}>Rp 2.048.000</p>
-                    <div className={classes.delete}>
-                      <box-icon
-                        name="trash"
-                        color="#d84727"
-                        size="24px"
-                        type="solid"
-                      ></box-icon>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr className={classes.line_deli} />
-              <div className={classes.sub__total}>
-                <p className={classes.voucher}>35% OFF</p>
-                <div className={classes.total}>
-                  <p className={classes.total__text}>Subtotal</p>
-                  <div className={classes.total__price}>
-                    <p className={classes.total__price__voucher}>
-                      Rp 3.312.000
-                      <span className={classes.line}></span>
-                    </p>
-                    <p className={classes.total__price__correct}>
-                      Rp 2.152.000
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <button className={classes.checkout}>Checkout</button>
-            </Modal>
           </div>
+          <Lang />
         </div>
+        <Cart
+          visible={visible}
+          qty={qty}
+          aref={ref}
+          downQty={downQty}
+          upQty={upQty}
+        ></Cart>
+
         {/* TABLET */}
         <div className={classes.tablet}>
           <div className={classes.top}>
@@ -201,15 +133,11 @@ const Header = () => {
               </div>
               <div
                 className={classes.shopingCart}
-                onClick={() => setModal2Visible(true)}
+                onClick={() => setVisible(true)}
               >
                 <Handbag size={25} color="#000" weight="thin" />
-                <Modal centered visible={modal2Visible}>
-                  <div
-                    className={classes.cart__item}
-                    ref={ref}
-                    onClick={handleClickInside}
-                  >
+                {/* <Modal centered visible={modal2Visible} ref={clickRef}>
+                  <div className={classes.cart__item}>
                     <div className={classes.cart__item__left}>
                       <div className={classes.cart__item__left__image}>
                         <img src={item1} alt="item" />
@@ -275,7 +203,7 @@ const Header = () => {
                     </div>
                   </div>
                   <button className={classes.checkout}>Checkout</button>
-                </Modal>
+                </Modal> */}
               </div>
             </div>
           </div>
