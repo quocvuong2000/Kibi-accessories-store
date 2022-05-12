@@ -1,0 +1,255 @@
+@use "../../sass/mixins" as *;
+.cart__item {
+    p {
+        margin-bottom: unset !important;
+    }
+    @include flex(flex-start, space-between);
+    &__left {
+        @include flex(flex-start);
+        column-gap: 32px;
+        &__image {
+            background-color: #f1ddc9;
+            padding: 11px 25px;
+        }
+        &__info {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2px;
+            .title {
+                @include font(normal, 400, 20px);
+                line-height: 24px;
+                letter-spacing: 0.02em;
+                color: #333333;
+            }
+            .voucher {
+                line-height: 24px;
+                letter-spacing: 0.02em;
+                color: #777777;
+                @include font(normal, 400, 16px);
+                position: relative;
+                width: fit-content;
+                .line {
+                    position: absolute;
+                    border: 1px solid #d93f3f;
+                    left: 0;
+                    right: 0;
+                    bottom: 50%;
+                }
+            }
+            .price {
+                line-height: 32px;
+                letter-spacing: 0.02em;
+                color: #333333;
+                @include font(normal, 600, 24px);
+            }
+            .detail {
+                line-height: 24px;
+                letter-spacing: 0.03em;
+                color: #555555;
+                @include font(normal, 400, 16px);
+            }
+        }
+    }
+    &__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        &__select {
+            line-height: 24px;
+            letter-spacing: 0.03em;
+            color: #333333;
+            @include font(normal, 500, 16px);
+        }
+        &__price {
+            margin-top: 8px;
+            background: #ffffff;
+            border: 0.3px solid #333333 !important;
+            box-sizing: border-box;
+            outline: none;
+            padding: 9px 50px 9px 16px;
+            line-height: 24px;
+            letter-spacing: 0.03em;
+            color: #999999;
+            @include font(normal, 500, 16px);
+            &__item {
+                padding: 9px 16px;
+                line-height: 24px;
+                letter-spacing: 0.03em;
+                color: #999999;
+                @include font(normal, 500, 16px);
+            }
+        }
+        &__option {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            column-gap: 18px;
+            @include flex(center, flex-end);
+            margin-top: 30px;
+            .sub {
+                width: 24px;
+                height: 24px;
+                border: 1px solid #777777;
+                box-sizing: border-box;
+                position: relative;
+                cursor: pointer;
+                &:hover {
+                    @include border-radius(50%);
+                    @include transition(all, 0.5s, ease);
+                }
+                &:not(:hover) {
+                    @include transition(all, 0.5s, ease);
+                }
+                .icon_sub {
+                    position: absolute;
+                    border: 1px solid #777777;
+                    bottom: 50%;
+                    left: 0;
+                    right: 0;
+                    margin: 0 4px;
+                    border-bottom: none;
+                }
+            }
+            .count {
+                @include font(normal, 400, 24px);
+                line-height: 32px;
+                letter-spacing: 0.03em;
+                color: #000000;
+            }
+            .add {
+                width: 24px;
+                height: 24px;
+                box-sizing: border-box;
+                position: relative;
+                background: #d84727;
+                cursor: pointer;
+                &:hover {
+                    @include border-radius(50%);
+                    @include transition(all, 0.5s, ease);
+                }
+                &:not(:hover) {
+                    @include transition(all, 0.5s, ease);
+                }
+                .icon_add {
+                    position: absolute;
+                    border: 1px solid #ffffff;
+                    bottom: 50%;
+                    left: 0;
+                    right: 0;
+                    border-bottom: none;
+                    margin: 0 4px;
+                }
+                .icon_add2 {
+                    position: absolute;
+                    border: 1px solid #ffffff;
+                    bottom: 0;
+                    top: 0;
+                    left: 50%;
+                    margin: 4px 0 !important;
+                    border-left: none;
+                }
+            }
+            .result {
+                line-height: 32px;
+                letter-spacing: 0.02em;
+                color: #333333;
+                @include font(normal, 600, 24px);
+            }
+            .delete {
+                border: 1px solid #d93f3f;
+                box-sizing: border-box;
+                @include flex();
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+}
+
+.sub__total {
+    p {
+        margin-bottom: unset !important;
+    }
+    flex-direction: row;
+    @include flex(center, space-between);
+    .voucher {
+        line-height: 24px;
+        /* identical to box height, or 120% */
+        letter-spacing: 0.02em;
+        color: #01522d;
+        @include font(normal, 500, 20px);
+    }
+    .total {
+        @include flex(center, space-between);
+        column-gap: 32px;
+        &__text {
+            line-height: 24px;
+            letter-spacing: 0.02em;
+            color: #333333;
+            @include font(normal, 400, 20px);
+        }
+        &__price {
+            display: flex;
+            flex-direction: column;
+            row-gap: 4px;
+            align-items: flex-end;
+            &__voucher {
+                line-height: 24px;
+                letter-spacing: 0.02em;
+                color: #777777;
+                @include font(normal, 400, 16px);
+                position: relative;
+                .line {
+                    position: absolute;
+                    border: 1px solid #d93f3f;
+                    left: 0;
+                    right: 0;
+                    bottom: 50%;
+                }
+            }
+            &__correct {
+                line-height: 32px;
+                /* identical to box height, or 133% */
+                letter-spacing: 0.02em;
+                color: #333333;
+                @include font(normal, 400, 24px);
+            }
+        }
+    }
+}
+
+.checkout {
+    margin-top: 26px;
+    background: #d84727;
+    border: none;
+    width: 100%;
+    padding: 22px 0;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    @include font(normal, 600, 24px);
+}
+
+.line_deli {
+    margin: 40px 0;
+    border: 0.3px solid #e5e5e5;
+    border-top: none;
+}
+
+:global {
+    .ant-modal {
+        width: fit-content !important;
+    }
+    .ant-modal-content {
+        width: 1110px;
+    }
+    .ant-modal-close {
+        display: none;
+    }
+    .ant-modal-footer {
+        display: none;
+    }
+    .ant-modal-body {
+        padding: unset !important;
+    }
+}

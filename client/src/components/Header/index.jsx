@@ -48,8 +48,6 @@ const Header = () => {
 
   const upQty = () => {
     setQty(qty + 1);
-    console.log(qty);
-    console.log("up");
   };
 
   const downQty = () => {
@@ -77,6 +75,13 @@ const Header = () => {
   }, []);
   return (
     <div className={classes.container}>
+      <Cart
+        visible={visible}
+        aref={ref}
+        downQty={downQty}
+        qty={qty}
+        upQty={upQty}
+      />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.top}>
           <Link to={"/"} className={classes.logo}>
@@ -99,16 +104,10 @@ const Header = () => {
               onClick={() => setVisible(true)}
             >
               <Handbag size={25} color="#000" weight="thin" />
-              <Cart
-                visible={visible}
-                aref={ref}
-                downQty={downQty}
-                qty={qty}
-                upQty={upQty}
-              />
             </div>
           </div>
         </div>
+
         <div className={classes.bottom}>
           <div className={classes.navListContainer}>
             <div className={classes.navList}>

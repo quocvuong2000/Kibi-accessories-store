@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import React from "react";
 import "antd/dist/antd.css";
-import classes from "./styles.module.scss";
+import classes from "./styles2.module.scss";
 import item1 from "../../assets/cart/item1.png";
 
 export const Cart = (props) => {
