@@ -17,7 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoute);
 
-
 app.listen(5000, () => {
   console.log("Server backend is running");
 });
