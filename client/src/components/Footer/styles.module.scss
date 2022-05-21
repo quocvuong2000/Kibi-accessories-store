@@ -1,147 +1,153 @@
 @use "../../sass/mixins";
 p {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .container {
-    max-width: 100%;
-    @include mixins.flex();
-    background: #d84727;
-    .footer {
-        padding: 51px 165px 75px 165px;
-        flex-direction: row;
-        display: flex;
-        width: calc(1440px + 32px);
-        &__address {
-            display: flex;
-            flex-direction: column;
-            flex-basis: 25%;
-            &__logo {
-                margin-bottom: 11px;
-                @include mixins.flex(center, flex-start);
-            }
-            &__title {
-                margin-top: 16px;
-                line-height: 34px;
-                letter-spacing: 0.02em;
-                color: #ffffff;
-                @include mixins.font(normal, 500, 20px);
-            }
-            &__desc {
-                margin-top: 2px;
-                line-height: 27px;
-                letter-spacing: 0.03em;
-                color: #ffffff;
-                @include mixins.font(normal, 400, 16px);
-            }
-        }
-        &__getintouch {
-            display: flex;
-            flex-direction: column;
-            flex-basis: 25%;
-            &__title {
-                line-height: 41px;
-                letter-spacing: 0.02em;
-                color: #ffffff;
-                @include mixins.font(normal, 600, 24px);
-            }
-            &__phone {
-                margin-top: 27px;
-                @include mixins.flex(center, flex-start);
-                column-gap: 36px;
-                &__title {
-                    line-height: 34px;
-                    letter-spacing: 0.02em;
-                    color: #ffffff;
-                    @include mixins.font(normal, 500, 20px);
-                    max-width: 97px;
-                    min-width: 97px;
-                }
-                &__desc {
-                    line-height: 32px;
-                    letter-spacing: 0.03em;
-                    color: #ffffff;
-                    @include mixins.font(normal, 400, 16px);
-                }
-            }
-            &__phone:not(:first-child) {
-                margin-top: 8px;
-            }
-            &__icon {
-                display: flex;
-                flex-direction: row;
-                column-gap: 25px;
-                .facebook,
-                .instagram,
-                .twitter,
-                .youtube {
-                    margin-top: 10px;
-                    @include mixins.flex();
-                    background: #dadada;
-                    padding: 4px 6px;
-                    border-radius: 50%;
-                }
-            }
-        }
-        &__useful {
-            display: flex;
-            flex-direction: column;
-            flex-basis: 25%;
-            margin-left: 60px;
-            &__title {
-                line-height: 41px;
-                letter-spacing: 0.02em;
-                color: #ffffff;
-                @include mixins.font(normal, 600, 24px);
-            }
-            &__link {
-                margin-top: 27px;
-                display: flex;
-                flex-direction: column;
-                &__item {
-                    line-height: 32px;
-                    letter-spacing: 0.03em;
-                    color: #ffffff;
-                    @include mixins.font(normal, 400, 16px);
-                }
-            }
-        }
-        &__campaign {
-            display: flex;
-            flex-direction: column;
-            flex-basis: 25%;
-            &__title {
-                line-height: 41px;
-                letter-spacing: 0.02em;
-                color: #ffffff;
-                @include mixins.font(normal, 600, 24px);
-            }
-            &__link {
-                margin-top: 27px;
-                display: flex;
-                flex-direction: column;
-                &__item {
-                    line-height: 32px;
-                    letter-spacing: 0.03em;
-                    color: #ffffff;
-                    @include mixins.font(normal, 400, 16px);
-                }
-            }
-        }
+  max-width: 100%;
+  @include mixins.flex();
+  background: #d84727;
+  .footer {
+    padding: 51px 165px 75px 165px;
+    flex-direction: row;
+    display: flex;
+    width: calc(1440px + 32px);
+    &__address {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      &__logo {
+        margin-bottom: 11px;
+        @include mixins.flex(center, flex-start);
+      }
+      &__title {
+        margin-top: 16px;
+        line-height: 34px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        @include mixins.font(normal, 500, 20px);
+      }
+      &__desc {
+        margin-top: 2px;
+        line-height: 27px;
+        letter-spacing: 0.03em;
+        color: #ffffff;
+        @include mixins.font(normal, 400, 16px);
+      }
     }
+    &__getintouch {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      &__title {
+        line-height: 41px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        @include mixins.font(normal, 600, 24px);
+      }
+      &__phone {
+        margin-top: 27px;
+        @include mixins.flex(center, flex-start);
+        column-gap: 36px;
+        &__title {
+          line-height: 34px;
+          letter-spacing: 0.02em;
+          color: #ffffff;
+          @include mixins.font(normal, 500, 20px);
+          max-width: 97px;
+          min-width: 97px;
+        }
+        &__desc {
+          line-height: 32px;
+          letter-spacing: 0.03em;
+          color: #ffffff;
+          @include mixins.font(normal, 400, 16px);
+        }
+      }
+      &__phone:not(:first-child) {
+        margin-top: 8px;
+      }
+      &__icon {
+        display: flex;
+        flex-direction: row;
+        column-gap: 25px;
+        .facebook,
+        .instagram,
+        .twitter,
+        .youtube {
+          margin-top: 10px;
+          @include mixins.flex();
+          background: #dadada;
+          padding: 4px 6px;
+          border-radius: 50%;
+        }
+      }
+    }
+    &__useful {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      margin-left: 60px;
+      &__title {
+        line-height: 41px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        @include mixins.font(normal, 600, 24px);
+      }
+      &__link {
+        margin-top: 27px;
+        display: flex;
+        flex-direction: column;
+        &__item {
+          line-height: 32px;
+          letter-spacing: 0.03em;
+          color: #ffffff;
+          @include mixins.font(normal, 400, 16px);
+        }
+      }
+    }
+    &__campaign {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      &__title {
+        line-height: 41px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        @include mixins.font(normal, 600, 24px);
+      }
+      &__link {
+        margin-top: 27px;
+        display: flex;
+        flex-direction: column;
+        &__item {
+          line-height: 32px;
+          letter-spacing: 0.03em;
+          color: #ffffff;
+          @include mixins.font(normal, 400, 16px);
+        }
+      }
+    }
+  }
+  @include mixins.tablet {
+    .footer {
+      width: unset;
+      padding: unset;
+    }
+  }
 }
 
 .line {
-    background: #ffffff;
-    border: 1px solid #ffffff;
-    max-width: 60px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  max-width: 60px;
 }
 
 .top__all {
-    height: 41px;
+  height: 41px;
 }
 
 .mt27 {
-    margin-top: 27px !important;
+  margin-top: 27px !important;
 }

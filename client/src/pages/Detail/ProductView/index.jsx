@@ -59,12 +59,16 @@ const ProductView = () => {
 
   return (
     <div className={`${styles.container} flex`}>
+      <p className={styles.link__to__product}>
+        Home / Product / Watches /{" "}
+        <span className={styles.name__product}> Way Kambas Mini Ebony </span>
+      </p>
       <div className={`${styles.frame_product} flex`}>
         <div className={styles.preview_product}>
           <div className={styles.frame_img_preview}>
             {listImgPreview.map((item, id) => {
               return (
-                <div className={styles.img_preview}>
+                <div className={styles.img_preview} key={id}>
                   <img
                     src={item.src}
                     alt=""
@@ -93,7 +97,7 @@ const ProductView = () => {
               <span className={styles.line}></span>
             </p>
             <p className={styles.price_after}>Rp 1.024.000</p>
-            <p className={styles.model}>
+            <div className={styles.model}>
               <p className={styles.title_modle}>Choose Model</p>
               <div className={styles.frame_model}>
                 <div className={styles.item_model}>
@@ -103,7 +107,7 @@ const ProductView = () => {
                   <img src={model2} alt="" className={styles.bo} />
                 </div>
               </div>
-            </p>
+            </div>
             <div className={styles.function}>
               <div className={styles.qty}>
                 <div className={styles.sub} onClick={downQty}>
