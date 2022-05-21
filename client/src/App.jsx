@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./app.module.scss"
+import "./app.module.scss";
 import reportWebVitals from "./reportWebVitals";
 import AppLayout from "./layout/AppLayout";
 import { BrowserRouter } from "react-router-dom";
@@ -8,7 +8,9 @@ import { BrowserRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <AppLayout></AppLayout>
+    <Provider store={store}>
+      <AppLayout></AppLayout>
+    </Provider>
   </BrowserRouter>
 );
 

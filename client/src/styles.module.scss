@@ -5,6 +5,10 @@
   margin: 0;
 }
 
-body {
-  overflow-x: hidden;
+body::-webkit-scrollbar {
+  width: 0 !important ;
+}
+
+.ant-scrolling-effect {
+  overflow: hidden;
 }
