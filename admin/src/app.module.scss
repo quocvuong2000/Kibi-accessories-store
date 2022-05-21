@@ -1,0 +1,32 @@
+@import "assets/font/inter/stylesheet.css";
+@import "assets/font/roboto/stylesheet.css";
+@import "assets/font/poppins/stylesheet.css";
+
+:root {
+  --primary-pink: #fd409a;
+  /* STYLING SCROLLBAR */
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+body {
+  font-family: "Inter";
+}
+
+::-webkit-scrollbar {
+  width: 1vw; /* THIS WILL RESET THE DEFAULT SCORLLBAR STYLING */
+}
+
+/* TO STYLE THE SCROLLBAR TRACK */
+::-webkit-scrollbar-track {
+  background-color: #ffffff; /* THIS WILL SET THE COLOR OF THE SCROLLBAR TRACK */
+}
+
+/* TO STYLE THE SCROLLBAR THUMB */
+::-webkit-scrollbar-thumb {
+  background-color: #fd409a;
+  border: 0.3vw solid #ffffff;
+  border-radius: 5vw;
+}
