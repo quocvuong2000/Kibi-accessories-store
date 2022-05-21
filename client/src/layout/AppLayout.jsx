@@ -14,11 +14,12 @@ const AppLayout = () => {
         <Route path="/" element={<Home />} />
         <Route path="/detail" element={<Detail />}></Route>
         <Route path="/login" element={<Login />}></Route>
+
         <Route path="/detail" element={<Detail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/confirmation" element={<Payment />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </AppSuspense>
   );
 };

@@ -9,9 +9,6 @@ import Header from "../../components/Header";
 const Detail = () => {
   return (
     <div className={styles.backgroundContainer}>
-      <div className={styles.header}>
-        <Header />
-      </div>
       <ProductView />
       <AllInfo />
       <RelateProduct />

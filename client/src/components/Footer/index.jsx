@@ -101,10 +101,10 @@ export const Footer = () => {
           })}
         </div>
         <div className={styles.footer__getintouch}>
-          <p className={styles.top__all}>
+          <div className={styles.top__all}>
             <p className={styles.footer__getintouch__title}>Get in touch</p>
             <hr className={styles.line} />
-          </p>
+          </div>
           {getInTouch.map((item, id) => {
             return (
               <div
@@ -166,10 +166,10 @@ export const Footer = () => {
         </div>
 
         <div className={styles.footer__useful}>
-          <p className={styles.top__all}>
+          <div className={styles.top__all}>
             <p className={styles.footer__useful__title}>Useful Link</p>
             <hr className={styles.line} />
-          </p>
+          </div>
           <div className={styles.footer__useful__link}>
             {useful.map((item, id) => {
               return (
@@ -181,10 +181,10 @@ export const Footer = () => {
           </div>
         </div>
         <div className={styles.footer__campaign}>
-          <p className={styles.top__all}>
+          <div className={styles.top__all}>
             <p className={styles.footer__campaign__title}>Campaign</p>
             <hr className={styles.line} />
-          </p>
+          </div>
           <div className={styles.footer__campaign__link}>
             {campaign.map((item, id) => {
               return (
