@@ -1,15 +1,23 @@
 import React from "react";
 import styles from "./styles.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/apiCalls";
 
 const Login = () => {
   const [active, setActive] = React.useState(false);
-
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
   const handleClickSU = () => {
     setActive(true);
   };
 
   const handleClickSI = () => {
     setActive(false);
+  };
+
+  const handleLogin = () => {
+    login(dispatch, { username, password });
   };
 
   return (
@@ -51,10 +59,22 @@ const Login = () => {
               </a>
             </div>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" id="emailLogin" />
-            <input type="password" placeholder="Password" id="passwordLogin" />
+            <input
+              type="email"
+              placeholder="Email"
+              id="emailLogin"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              id="passwordLogin"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <a href="#">Forgot your password?</a>
-            <button type="submit">Sign In</button>
+            <button type="submit" onClick={handleLogin}>
+              Sign In
+            </button>
           </form>
         </div>
         <div className={styles.overlay_container}>
