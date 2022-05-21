@@ -61,8 +61,8 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
+        document.body.scrollTop > 50 ||
+        document.documentElement.scrollTop > 50
       ) {
         headerRef.current.classList.add(classes.shrink);
       } else {

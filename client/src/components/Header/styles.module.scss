@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   background: #f7f6f4;
+  margin-bottom: 120px;
   .headerContainer {
     width: 1110px;
     display: flex;
@@ -14,7 +15,18 @@
     height: 120px;
     transition: box-shadow 0.3s ease-in;
     z-index: 999;
+    position: fixed;
     background: #f7f6f4;
+    &::before {
+      content: " ";
+      height: 120px;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #f7f6f4;
+      z-index: -1;
+    }
     &.shrink {
       height: 120px;
       position: fixed;
@@ -26,7 +38,7 @@
         width: 100vw;
         // padding: 0;
       }
-      &::after {
+      &::before {
         content: " ";
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         height: 120px;
