@@ -4,7 +4,16 @@
 
 :root {
   --primary-pink: #fd409a;
-  /* STYLING SCROLLBAR */
+  --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
+  --orange: #fca61f;
+  --black: #242d49;
+  --gray: #788097;
+  --purple: linear-gradient(180deg, #BB67FF 0%, #C484F3 100%);
+  --pink: #FF919D;
+  --glass: rgba(255, 255, 255, 0.54);
+  --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+  --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+  --activeItem: #f799a354;
 }
 
 img {
@@ -13,6 +22,8 @@ img {
 }
 body {
   font-family: "Inter";
+  padding: 0;
+  margin: 0;
 }
 
 ::-webkit-scrollbar {
@@ -26,7 +37,12 @@ body {
 
 /* TO STYLE THE SCROLLBAR THUMB */
 ::-webkit-scrollbar-thumb {
-  background-color: #fd409a;
+  background: linear-gradient(
+    106.37deg,
+    #ffe1bc 29.63%,
+    #ffcfd1 51.55%,
+    #f3c6f1 90.85%
+  );
   border: 0.3vw solid #ffffff;
   border-radius: 5vw;
 }
