@@ -30,7 +30,8 @@
         width: fit-content;
         .line {
           position: absolute;
-          border: 1px solid #d93f3f;
+          border: 2px solid #d93f3f;
+          border-bottom: none;
           left: 0;
           right: 0;
           bottom: 50%;
