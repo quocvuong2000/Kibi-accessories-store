@@ -1,4 +1,4 @@
-@use "../../../sass/mixins";
+@use "../../../sass/mixins" as *;
 :global {
   .ant-tabs {
     width: fit-content;
@@ -82,20 +82,18 @@ p {
 
 .desc {
   font-family: "Nunito";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  @include font(normal, 400, 16px);
   line-height: 28px;
   letter-spacing: 0.02em;
   color: #555555;
 }
 
 .size__product {
-  @include mixins.flex();
+  @include flex();
   margin-top: 16px;
 }
 
-@include mixins.tablet {
+@include tablet {
   .container {
     margin-top: 76px !important;
     padding: 0 20px;

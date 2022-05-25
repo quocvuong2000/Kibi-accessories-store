@@ -7,6 +7,7 @@ import pre4 from "../../../assets/detail/preview_prod_4.png";
 import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
 import { ShoppingCartSimple } from "phosphor-react";
+import { Row, Col } from "antd";
 
 const listImgPreview = [
   {
@@ -58,7 +59,7 @@ const ProductView = () => {
   };
 
   return (
-    <div className={`${styles.container} flex`}>
+    <Col className={`${styles.container}`} gutter={[45]}>
       <p className={styles.link__to__product}>
         Home / Product / Watches /{" "}
         <span className={styles.name__product}> Way Kambas Mini Ebony </span>
@@ -129,7 +130,7 @@ const ProductView = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Col>
   );
 };
 

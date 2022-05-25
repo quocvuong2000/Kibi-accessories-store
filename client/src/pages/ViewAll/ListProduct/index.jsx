@@ -36,7 +36,7 @@ const fakeProduct = [
 const ListProduct = () => {
   return (
     <div className={classes.container}>
-      <div className={classes.title}>Monthly Deals</div>
+      <div className={classes.title}>Category</div>
       <div className={classes.listItem}>
         {fakeProduct.slice(0, 4).map((item, index) => {
           return <ProductCard data={item} key={index} />;
