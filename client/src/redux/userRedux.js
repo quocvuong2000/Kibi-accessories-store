@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setAuthToken } from "../services/jwt-axios";
 
 const userSlice = createSlice({
   name: "user",
@@ -14,6 +15,7 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isFetching = false;
       state.currentUser = action.payload;
+      setAuthToken(action.payload.accessToken);
     },
   },
 });
