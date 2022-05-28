@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./styles.module.scss";
-import { Form as FormAnt, Input, message } from "antd";
+import { Form as FormAnt, Input } from "antd";
 import { Field, Form, Formik } from "formik";
 import { registerSchema } from "./validation";
 import { doSignUp } from "./RegisterAPI";
 const Register = () => {
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
   return (
     <Formik
       validationSchema={registerSchema}
@@ -15,7 +17,15 @@ const Register = () => {
         password: "",
       }}
       onSubmit={async (values) => {
-        doSignUp(values,message)
+        doSignUp(values)
+          .then(() => {
+            setSuccess(true);
+            setFailure(false);
+          })
+          .catch(() => {
+            setSuccess(false);
+            setFailure(true);
+          });
       }}
     >
       {({ errors, touched }) => {
@@ -31,11 +41,20 @@ const Register = () => {
               </Link>
             </div>
             <span>or use your email for registration</span>
+            {success && (
+              <span style={{ color: "green" }}>Sign up successful</span>
+            )}
+            {failure && <span style={{ color: "red" }}>Sign up failure</span>}
             <FormAnt.Item
               validateStatus={
-                Boolean(touched?.username && errors?.username) ? "error" : "success"
+                Boolean(touched?.username && errors?.username)
+                  ? "error"
+                  : "success"
               }
-              help={Boolean(touched?.username && errors?.username) && errors?.username}
+              help={
+                Boolean(touched?.username && errors?.username) &&
+                errors?.username
+              }
             >
               <Field name="username">
                 {({ field }) => (

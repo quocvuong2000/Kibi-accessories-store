@@ -1,4 +1,4 @@
-import { Form as FormAnt, Input } from "antd";
+import { Form as FormAnt, Input, message } from "antd";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -11,6 +11,7 @@ import Register from "../Register";
 const Login = () => {
   const navigate = useNavigate();
   const [active, setActive] = React.useState(false);
+  const [wrongCredentials, setWrongCredential] = React.useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,7 +42,13 @@ const Login = () => {
               password: "",
             }}
             onSubmit={async (values) => {
-              login(dispatch, values, navigate);
+              login(dispatch, values).then(() => {
+                setWrongCredential(false);
+                message.success("Login success")
+                navigate("/")
+              }).catch(()=> {
+                setWrongCredential(true);
+              })
             }}
           >
             {({ errors, touched }) => {
@@ -57,6 +64,7 @@ const Login = () => {
                     </Link>
                   </div>
                   <span>or use your account</span>
+                  {wrongCredentials && <span style={{color : "red"}}>The email or password is incorrect</span>}
                   <FormAnt.Item
                     validateStatus={
                       Boolean(touched?.email && errors?.email)

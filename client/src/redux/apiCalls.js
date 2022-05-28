@@ -1,11 +1,9 @@
-import { loginStart, loginSuccess } from "./userRedux";
 import { jwtAxios } from "../services/jwt-axios";
+import { loginStart } from "./userRedux";
 
-export const login = async (dispatch, user,navigate) => {
+export const login = async (dispatch, user) => {
   dispatch(loginStart());
   const res = await jwtAxios.post("/api/auth/login", user);
-  if (res.status === 200) {
-    dispatch(loginSuccess(res.data));
-    navigate("/");
-  }
+  if (res && res.status !== 200) throw Error("Something wrongs with code status" + res.status)
+  return res.data
 };
