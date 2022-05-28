@@ -19,6 +19,7 @@ router.post("/register", async (req, res) => {
     wards: req.body.wards,
     district: req.body.district,
     city: req.body.city,
+    type: req.body.type,
   });
   try {
     const register = await userInfo.save();

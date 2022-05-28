@@ -32,7 +32,6 @@ const navItem = [
 const onSearch = (value) => console.log(value);
 
 const Header = () => {
-
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
@@ -94,10 +93,10 @@ const Header = () => {
             />
           </Space>
           <div className={classes.authentication}>
-            <div className={classes.login}>
+            <Link to={"/login"} className={classes.login}>
               <User size={32} color="#000" weight="thin" />
               <div className={classes.loginText}>Log In</div>
-            </div>
+            </Link>
             <div
               className={classes.shopingCart}
               onClick={() => setVisible(true)}

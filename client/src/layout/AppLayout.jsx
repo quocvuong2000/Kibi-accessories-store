@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense/index";
+import { CompleteProfile } from "../pages/CompleteProfile";
 import ViewAll from "../pages/ViewAll";
 import { Detail, Home, Login, Payment } from "../routes/index";
 import RequireAuth from "./RequireAuth";
-
 
 const AppLayout = () => {
   const currentURL = window.location.pathname;
@@ -50,6 +50,14 @@ const AppLayout = () => {
             element={
               <RequireAuth>
                 <ViewAll />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/completeprofile"
+            element={
+              <RequireAuth>
+                <CompleteProfile />
               </RequireAuth>
             }
           />
