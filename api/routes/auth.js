@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
     const accessToken = jwt.sign(
       {
         id: user._id,
-        type: req.body.type,
+        type: user.type,
       },
       process.env.VUONG_SEC_PASS,
       { expiresIn: "1d" }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense";
-import { Dashboard, Home, Products } from "../routes";
+import { Dashboard, Home, Login, Products } from "../routes";
 
 const AppLayout = () => {
   return (
@@ -17,6 +17,7 @@ const AppLayout = () => {
           <Route index element={<Home />} />
           <Route path="products" element={<Products />} />
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </AppSuspense>
   );

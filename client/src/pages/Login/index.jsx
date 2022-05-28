@@ -16,7 +16,6 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      console.log("first");
       navigate("/");
     }
   }, [token, navigate]);

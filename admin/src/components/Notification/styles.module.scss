@@ -1,0 +1,20 @@
+.cardNotifications {
+  margin-bottom: 15px;
+  font-weight: 400;
+  .dateNotifications {
+      line-height: 1.4;
+      font-size: 12px;
+      color: #9098b1;
+      margin-bottom: 5px;
+  }
+  .titleNotifications {
+      line-height: 1.4;
+      color: #223263;
+      font-size: 14px;
+  }
+  .textNotifications {
+      line-height: 2;
+      font-size: 12px;
+      color: #9098b1;
+  }
+}
