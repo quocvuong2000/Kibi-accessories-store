@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import { setAuthToken } from "../services/jwt-axios";
-
+const token =
+  typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";
 const userSlice = createSlice({
   name: "user",
   initialState: {
     currentUser: null,
     isFetching: false,
+    accessToken: token,
   },
 
   reducers: {

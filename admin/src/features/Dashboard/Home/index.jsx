@@ -3,6 +3,8 @@ import Cards from "../../../components/Cards/Cards";
 import classes from "./styles.module.scss";
 import Grid from "@mui/material/Grid";
 import DashboardTable from "../../../components/DashboardTable/DashboardTable";
+import Updates from "../../../components/CustomerReview/Update";
+import CustomerReview from "../../../components/Update/CustomerReview";
 const Home = () => {
   return (
     <div className={classes.dashboard}>
@@ -12,7 +14,7 @@ const Home = () => {
           <Cards />
         </Grid>
         <Grid item xs={4}>
-          sd
+        <CustomerReview />
         </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ width: "100%" }}>
@@ -20,7 +22,6 @@ const Home = () => {
           <DashboardTable />
         </Grid>
         <Grid item xs={4}>
-          sd
         </Grid>
       </Grid>
     </div>
