@@ -60,7 +60,7 @@ const Login = () => {
             </div>
             <span>or use your account</span>
             <input
-              type="email"
+              type="text"
               placeholder="Email"
               id="emailLogin"
               onChange={(e) => setUsername(e.target.value)}

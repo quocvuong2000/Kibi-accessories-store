@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema(
     wards: { type: String },
     district: { type: String },
     city: { type: String },
+    type: { type: String },
   },
   { timestamps: true }
 );

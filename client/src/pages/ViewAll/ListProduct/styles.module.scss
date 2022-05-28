@@ -12,7 +12,7 @@
     font-family: "Taviraj";
     font-style: normal;
     font-weight: 500;
-    font-size: 36px;
+    font-size: 24px;
     line-height: 40px;
     /* identical to box height, or 111% */
     letter-spacing: 0.02em;
@@ -22,11 +22,19 @@
     &::after {
       content: " ";
       height: 2px;
-      width: 180px;
+      width: 40px;
       background-color: #000;
       position: absolute;
       top: 40px;
       left: 0;
+    }
+  }
+  .image__wrap {
+    display: flex;
+
+    img {
+      height: auto;
+      max-width: 100%;
     }
   }
   .listItem {
