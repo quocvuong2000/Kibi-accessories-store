@@ -1,34 +1,61 @@
-import AppSuspense from "../components/AppSuspense/index";
 import React from "react";
-
-import { Home, Detail, Payment, Login } from "../routes/index";
 import { Route, Routes } from "react-router-dom";
-import { Footer } from "../components/Footer";
-import Header from "../components/Header";
+import AppSuspense from "../components/AppSuspense/index";
 import ViewAll from "../pages/ViewAll";
+import { Detail, Home, Login, Payment } from "../routes/index";
+import RequireAuth from "./RequireAuth";
+
 
 const AppLayout = () => {
   const currentURL = window.location.pathname;
   console.log(currentURL);
   return (
     <AppSuspense>
-      {currentURL !== "/login" ? (
-        <React.Fragment>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/detail" element={<Detail />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/confirmation" element={<Payment />} />
-            <Route path="/viewall" element={<ViewAll />} />
-          </Routes>
-          <Footer />
-        </React.Fragment>
-      ) : (
+      <React.Fragment>
         <Routes>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/detail"
+            element={
+              <RequireAuth>
+                <Detail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <RequireAuth>
+                <Payment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/confirmation"
+            element={
+              <RequireAuth>
+                <Payment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/viewall"
+            element={
+              <RequireAuth>
+                <ViewAll />
+              </RequireAuth>
+            }
+          />
           <Route path="/login" element={<Login />}></Route>
         </Routes>
-      )}
+      </React.Fragment>
     </AppSuspense>
   );
 };

@@ -1,13 +1,26 @@
-import React from "react";
-import styles from "./styles.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { login } from "../../redux/apiCalls";
+import styles from "./styles.module.scss";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const token =
+    typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";
   const [active, setActive] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (token) {
+      console.log("first");
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   const handleClickSU = () => {
     setActive(true);
   };

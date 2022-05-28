@@ -1,17 +1,14 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Modal } from "antd";
+import { useClickOutside } from "@mantine/hooks";
+import { Button, Input, Space } from "antd";
 import "antd/dist/antd.css";
-import { Handbag, MagnifyingGlass, User } from "phosphor-react";
+import { Handbag, User } from "phosphor-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/header/image 5.svg";
-import classes from "./styles.module.scss";
-import item1 from "../../assets/cart/item1.png";
-import item2 from "../../assets/cart/item2.png";
-import { useClickOutside } from "@mantine/hooks";
 import { Cart } from "./Cart";
-import { Lang } from "./Lang/Lang";
 import NumItem from "./NumItemCard";
+import classes from "./styles.module.scss";
 
 const { Search } = Input;
 const navItem = [
@@ -35,6 +32,7 @@ const navItem = [
 const onSearch = (value) => console.log(value);
 
 const Header = () => {
+
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
