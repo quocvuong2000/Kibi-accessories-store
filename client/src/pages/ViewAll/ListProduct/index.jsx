@@ -4,6 +4,8 @@ import product2 from "../../../assets/home/monthly/image 10.png";
 import ProductCard from "../../../components/ProductCard";
 import classes from "./styles.module.scss";
 import { ProductCardList } from "../ProductCardList";
+import InfiniteScroll from "react-infinite-scroll-component";
+import AppLoader from "../../../components/AppLoader";
 const fakeProduct = [
   {
     title: "Singo Maple asdsa sada",
@@ -35,6 +37,9 @@ const fakeProduct = [
   },
 ];
 const ListProduct = () => {
+  // const fetchMoreData = () => {
+  //   fakeProduct = fakeProduct + fakeProduct;
+  // };
   return (
     <div className={classes.container}>
       {/* <div className={classes.title}>Category</div> */}
@@ -44,11 +49,13 @@ const ListProduct = () => {
           alt=""
         />
       </div>
-      <div className={classes.listItem}>
-        {fakeProduct.slice(0, 4).map((item, index) => {
-          return <ProductCardList data={item} key={index} />;
-        })}
-      </div>
+      <InfiniteScroll dataLength={50} hasMore={true} loader={<h4></h4>}>
+        <div className={classes.listItem}>
+          {fakeProduct.slice(0, 4).map((item, index) => {
+            return <ProductCardList data={item} key={index} />;
+          })}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 };

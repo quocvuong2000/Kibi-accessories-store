@@ -11,11 +11,13 @@
     padding: 0;
   }
   .box__product__image {
-    width: 207px;
-    height: 221px;
+    // width: 200px;
+    // height: 214px;
     position: absolute;
     top: -40px;
     img {
+      width: 200px;
+      height: 214px;
       object-fit: cover;
     }
   }
@@ -30,9 +32,9 @@
 
     .box__product__title {
       margin-left: 24px;
-      margin-top: 213px;
+      margin-top: 190px;
       font-weight: 500;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 32px;
       color: #333333;
       max-width: 160px;
@@ -44,17 +46,17 @@
       margin-left: 24px;
       margin-top: 2px;
       font-weight: 400;
-      font-size: 16px;
+      font-size: 13px;
       line-height: 24px;
       color: #777777;
     }
 
     .box__product__oldprice {
-      margin-top: 6px;
+      margin-top: 4px;
       font-family: "Taviraj";
       font-style: normal;
       font-weight: 400;
-      font-size: 16px;
+      font-size: 13px;
       line-height: 24px;
       color: #777777;
       position: relative;
@@ -64,16 +66,16 @@
       justify-content: center;
       .line {
         position: absolute;
-        width: 104px;
-        border-bottom: 2px solid #d93f3f;
-        border-top: none;
+        width: 85px;
+        border-top: 2px solid #d93f3f;
+        border-bottom: none;
       }
     }
 
     .box__product__price {
       margin-left: 24px;
       font-weight: 400;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 32px;
       color: #333333;
     }
@@ -87,7 +89,7 @@
       svg {
         cursor: pointer;
         border: 1px solid #d84727;
-        font-size: 39px;
+        font-size: 33px;
       }
       .btnCart {
         cursor: pointer;
@@ -100,7 +102,7 @@
         letter-spacing: 0.02em;
         color: #ffffff;
         background: #d84727;
-        padding: 8px 36px;
+        padding: 4px 36px;
         border: none;
       }
     }

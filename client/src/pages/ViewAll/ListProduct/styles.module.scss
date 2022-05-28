@@ -40,7 +40,9 @@
   .listItem {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    column-gap: 30px;
+    row-gap: 70px;
+    margin-top: 80px !important;
   }
 
   @include tablet {

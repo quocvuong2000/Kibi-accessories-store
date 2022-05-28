@@ -29,7 +29,8 @@ const Login = () => {
     setActive(false);
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     login(dispatch, { username, password });
   };
 
@@ -61,7 +62,7 @@ const Login = () => {
           </form>
         </div>
         <div className={`${styles.form_container} ${styles.sign_in_container}`}>
-          <form id="formLogin" action="#">
+          <form id="formLogin">
             <h1>Sign in</h1>
             <div className={styles.social_container}>
               <a href="#" className={styles.social}>

@@ -19,6 +19,7 @@ router.post("/register", async (req, res) => {
     wards: req.body.wards,
     district: req.body.district,
     city: req.body.city,
+    type: req.body.type,
   });
   try {
     const register = await userInfo.save();
@@ -47,7 +48,7 @@ router.post("/login", async (req, res) => {
     const accessToken = jwt.sign(
       {
         id: user._id,
-        type: req.body.type,
+        type: user.type,
       },
       process.env.VUONG_SEC_PASS,
       { expiresIn: "1d" }
