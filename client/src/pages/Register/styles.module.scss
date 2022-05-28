@@ -20,43 +20,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  .inputLogin {
-    background: #fcf7fe;
-    border-radius: 10px;
-    width: 265px;
-    height: 44px;
-    border: 1px solid #ffffff;
-    // margin: 20px 0px;
-    input {
-      background: #fcf7fe;
-    }
-  }
-  :global {
-    .ant-form-item-explain-error {
-      text-align: left;
-      padding-left: 10px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-    }
-    .ant-form-item-control-input-content {
-      display: flex;
-      justify-content: flex-start;
-    }
 
-    .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
-    .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
-      /* background: #fff; */
-      border-color: #ff4d4f;
-      background: #fcf7fe;
-    }
-    .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
-    .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
-      background: #fcf7fe;
-      border-color: #ff4d4f;
-    }
+}
+.inputLogin {
+  background: #fcf7fe;
+  border-radius: 10px;
+  width: 265px;
+  height: 44px;
+  border: 1px solid #ffffff;
+  // margin: 20px 0px;
+  input {
+    background: #fcf7fe;
   }
 }
+:global {
+  .ant-form-item-explain-error {
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .ant-form-item-control-input-content {
+    display: flex;
+    justify-content: flex-start;
+  }
 
+  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+    /* background: #fff; */
+    border-color: #ff4d4f;
+    background: #fcf7fe;
+  }
+  .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+  .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+    background: #fcf7fe;
+    border-color: #ff4d4f;
+  }
+}
 .container {
   background-color: #fff;
   border-radius: 10px;

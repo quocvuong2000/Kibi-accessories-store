@@ -1,24 +1,18 @@
-import Cookies from "js-cookie";
-import React, { useEffect } from "react";
+import { Form as FormAnt, Input } from "antd";
+import { Field, Form, Formik } from "formik";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../redux/apiCalls";
 import styles from "./styles.module.scss";
-
+import { loginSchema } from "./validation";
+import classes from "./styles.module.scss";
+import Register from "../Register";
 const Login = () => {
   const navigate = useNavigate();
-  const token =
-    typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";
   const [active, setActive] = React.useState(false);
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+  const dispatch = useDispatch();
 
   const handleClickSU = () => {
     setActive(true);
@@ -26,11 +20,6 @@ const Login = () => {
 
   const handleClickSI = () => {
     setActive(false);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(dispatch, { username, password });
   };
 
   return (
@@ -42,53 +31,80 @@ const Login = () => {
         id={styles.container}
       >
         <div className={`${styles.form_container} ${styles.sign_up_container}`}>
-          <form id="formRegister" method="post" enctype="multipart/form-data">
-            <h1>Create Account</h1>
-            <div className={styles.social_container}>
-              <a href="#" className={styles.social}>
-                <box-icon type="logo" name="facebook"></box-icon>
-              </a>
-              <a href="#" className={styles.social}>
-                <box-icon name="google" type="logo"></box-icon>
-              </a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" name="myName" placeholder="Name" />
-            <input type="email" name="myEmail" placeholder="Email" />
-            <input type="password" name="myPassword" placeholder="Password" />
-
-            <button type="submit">Sign Up</button>
-          </form>
+         <Register/>
         </div>
         <div className={`${styles.form_container} ${styles.sign_in_container}`}>
-          <form id="formLogin">
-            <h1>Sign in</h1>
-            <div className={styles.social_container}>
-              <a href="#" className={styles.social}>
-                <box-icon type="logo" name="facebook"></box-icon>
-              </a>
-              <a href="#" className={styles.social}>
-                <box-icon name="google" type="logo"></box-icon>
-              </a>
-            </div>
-            <span>or use your account</span>
-            <input
-              type="text"
-              placeholder="Email"
-              id="emailLogin"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              id="passwordLogin"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <a href="#">Forgot your password?</a>
-            <button type="submit" onClick={handleLogin}>
-              Sign In
-            </button>
-          </form>
+          <Formik
+            validationSchema={loginSchema}
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            onSubmit={async (values) => {
+              login(dispatch, values, navigate);
+            }}
+          >
+            {({ errors, touched }) => {
+              return (
+                <Form>
+                  <h1>Sign in</h1>
+                  <div className={styles.social_container}>
+                    <Link to="#" className={styles.social}>
+                      <box-icon type="logo" name="facebook"></box-icon>
+                    </Link>
+                    <Link to="#" className={styles.social}>
+                      <box-icon name="google" type="logo"></box-icon>
+                    </Link>
+                  </div>
+                  <span>or use your account</span>
+                  <FormAnt.Item
+                    validateStatus={
+                      Boolean(touched?.email && errors?.email)
+                        ? "error"
+                        : "success"
+                    }
+                    help={
+                      Boolean(touched?.email && errors?.email) && errors?.email
+                    }
+                  >
+                    <Field name="email">
+                      {({ field }) => (
+                        <Input
+                          {...field}
+                          className={classes.inputLogin}
+                          placeholder="Email"
+                        />
+                      )}
+                    </Field>
+                  </FormAnt.Item>
+                  <FormAnt.Item
+                    validateStatus={
+                      Boolean(touched?.password && errors?.password)
+                        ? "error"
+                        : "success"
+                    }
+                    help={
+                      Boolean(touched?.password && errors?.password) &&
+                      errors?.password
+                    }
+                  >
+                    <Field name="password">
+                      {({ field }) => (
+                        <Input.Password
+                          {...field}
+                          className={classes.inputLogin}
+                          placeholder="Password"
+                        />
+                      )}
+                    </Field>
+                  </FormAnt.Item>
+
+                  <Link to="#">Forgot your password?</Link>
+                  <button type="submit">Sign In</button>
+                </Form>
+              );
+            }}
+          </Formik>
         </div>
         <div className={styles.overlay_container}>
           <div className={styles.overlay}>
@@ -122,3 +138,4 @@ const Login = () => {
 };
 
 export default Login;
+

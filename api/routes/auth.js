@@ -6,12 +6,12 @@ const User = require("../models/User");
 //REGISTER
 router.post("/register", async (req, res) => {
   const userInfo = new User({
-    username: req.body.username,
+    username : req.body.username,
+    email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
       process.env.VUONG_SEC_PASS
     ).toString(),
-    email: req.body.email,
     phone: req.body.phone,
     address: req.body.address,
     dob: req.body.dob,
@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ email: req.body.email });
     !user && res.status(401).json("Wrong credentials!");
 
     const hashedPassword = CryptoJS.AES.decrypt(

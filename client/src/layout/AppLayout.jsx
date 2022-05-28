@@ -5,6 +5,7 @@ import { CompleteProfile } from "../pages/CompleteProfile";
 import ViewAll from "../pages/ViewAll";
 import { Detail, Home, Login, Payment } from "../routes/index";
 import RequireAuth from "./RequireAuth";
+import UnRequireAuth from "./UnRequireAuth";
 
 const AppLayout = () => {
   const currentURL = window.location.pathname;
@@ -16,9 +17,9 @@ const AppLayout = () => {
           <Route
             path="/"
             element={
-              <RequireAuth>
+              <UnRequireAuth>
                 <Home />
-              </RequireAuth>
+              </UnRequireAuth>
             }
           />
           <Route

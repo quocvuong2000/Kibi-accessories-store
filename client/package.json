@@ -12,6 +12,7 @@
     "antd": "^4.19.5",
     "axios": "^0.27.2",
     "boxicons": "^2.1.2",
+    "formik": "^2.2.9",
     "js-cookie": "^3.0.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.0.0",
@@ -25,7 +26,8 @@
     "react-tabs": "^4.2.0",
     "sass": "^1.50.0",
     "usehooks-ts": "^2.5.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
