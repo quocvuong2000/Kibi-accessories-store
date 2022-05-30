@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userReducer from "./userRedux";
+import userReducer from "../features/Login/LoginSlice";
 
 const rootReducer = combineReducers({ user: userReducer });
 

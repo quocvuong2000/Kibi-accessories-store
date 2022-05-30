@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { browserHistory as history } from "routes/history";
-const devUrl = "https://cms.bizbookly.exnodes.vn/";
+import { browserHistory as history } from "../routes/history";
+const devUrl = "http://localhost:5000";
 
 const token =
   typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";

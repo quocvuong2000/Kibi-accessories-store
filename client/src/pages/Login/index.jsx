@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 import { loginSchema } from "./validation";
 import classes from "./styles.module.scss";
 import Register from "../Register";
+import { loginSuccess } from "../../redux/userRedux";
 const Login = () => {
   const navigate = useNavigate();
   const [active, setActive] = React.useState(false);
@@ -32,7 +33,7 @@ const Login = () => {
         id={styles.container}
       >
         <div className={`${styles.form_container} ${styles.sign_up_container}`}>
-         <Register/>
+          <Register />
         </div>
         <div className={`${styles.form_container} ${styles.sign_in_container}`}>
           <Formik
@@ -42,13 +43,16 @@ const Login = () => {
               password: "",
             }}
             onSubmit={async (values) => {
-              login(dispatch, values).then(() => {
-                setWrongCredential(false);
-                message.success("Login success")
-                navigate("/")
-              }).catch(()=> {
-                setWrongCredential(true);
-              })
+              login(dispatch, values)
+                .then((res) => {
+                  setWrongCredential(false);
+                  message.success("Login success");
+                  dispatch(loginSuccess(res));
+                  navigate("/");
+                })
+                .catch(() => {
+                  setWrongCredential(true);
+                });
             }}
           >
             {({ errors, touched }) => {
@@ -64,7 +68,11 @@ const Login = () => {
                     </Link>
                   </div>
                   <span>or use your account</span>
-                  {wrongCredentials && <span style={{color : "red"}}>The email or password is incorrect</span>}
+                  {wrongCredentials && (
+                    <span style={{ color: "red" }}>
+                      The email or password is incorrect
+                    </span>
+                  )}
                   <FormAnt.Item
                     validateStatus={
                       Boolean(touched?.email && errors?.email)
@@ -146,4 +154,3 @@ const Login = () => {
 };
 
 export default Login;
-
