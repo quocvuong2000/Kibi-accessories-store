@@ -15,15 +15,15 @@ p {
     flex-direction: column;
     &__title {
       width: 100%;
-      @include font(normal, 500, 36px);
-      line-height: 40px;
-      letter-spacing: 0.02em;
+      @include font(normal, 500, 36px, 40px, 0.02em);
+
       color: #333333;
     }
     .line {
       margin-top: 8px;
       width: 128px;
-      border: 1px solid #000000;
+      border-bottom: 2px solid #000000;
+      border-top: none;
     }
     &__frame__product {
       margin-top: 62px;
@@ -38,8 +38,7 @@ p {
         .voucher {
           position: absolute;
           font-family: "Taviraj";
-          @include font(normal, 500, 16px);
-          line-height: 24px;
+          @include font(normal, 500, 16px, 24px);
           color: #ffffff;
           padding: 5px 17px;
           top: -12px;
@@ -55,15 +54,13 @@ p {
           }
           &__name {
             margin-top: 12px;
-            line-height: 32px;
             color: #333333;
-            @include font(normal, 500, 24px);
+            @include font(normal, 500, 24px, 32px);
           }
           &__discount {
             margin-top: 12px;
-            line-height: 24px;
             color: #777777;
-            @include font(normal, 400, 16px);
+            @include font(normal, 400, 16px, 24px);
             position: relative;
             &__line {
               position: absolute;
@@ -76,9 +73,9 @@ p {
           }
           &__price {
             margin-top: 12px;
-            line-height: 32px;
+
             color: #333333;
-            @include font(normal, 400, 24px);
+            @include font(normal, 400, 24px, 32px);
           }
         }
       }

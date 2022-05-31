@@ -8,7 +8,7 @@ import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
 import { ShoppingCartSimple } from "phosphor-react";
 import { Row, Col } from "antd";
-
+import { motion } from "framer-motion";
 const listImgPreview = [
   {
     src: imgMain,
@@ -59,23 +59,30 @@ const ProductView = () => {
   };
 
   return (
-    <Col className={`${styles.container}`} gutter={[45]}>
+    <Col className={`${styles.container}`}>
       <p className={styles.link__to__product}>
         Home / Product / Watches /{" "}
         <span className={styles.name__product}> Way Kambas Mini Ebony </span>
       </p>
-      <div className={`${styles.frame_product} flex`}>
-        <div className={styles.preview_product}>
-          <div className={styles.frame_img_preview}>
+      <Row className={styles.frame_product}>
+        <Col span={12} className={styles.preview_product}>
+          <Row className={styles.frame_img_preview} gutter={[0, 24]}>
             {listImgPreview.map((item, id) => {
               return (
-                <div className={styles.img_preview} key={id}>
-                  <img
-                    src={item.src}
-                    alt=""
-                    onClick={handleClickSrcImagePreview}
-                  />
-                </div>
+                <Col span={24} className={styles.img_preview} key={id}>
+                  <motion.div
+                    animate={{
+                      scaleX: [1.5, 1],
+                      scaleY: [1.5, 1],
+                    }}
+                  >
+                    <img
+                      src={item.src}
+                      alt=""
+                      onClick={handleClickSrcImagePreview}
+                    />
+                  </motion.div>
+                </Col>
               );
             })}
             <div
@@ -85,32 +92,31 @@ const ProductView = () => {
               onAnimationEnd={handleAnimation}
             >
               <img src={srcMain} alt="watch" />
-              {/* <img src={srcMain} alt="watch" /> */}
             </div>
-          </div>
-        </div>
+          </Row>
+        </Col>
 
-        <div className={styles.frame_info_product}>
-          <div className={styles.info_product}>
+        <Col span={12} className={styles.frame_info_product} push={5}>
+          <Col className={styles.info_product}>
             <p className={styles.title}>WAY KAMBAS MINI EBONY</p>
             <p className={styles.price_before}>
               Rp 1.280.000
               <span className={styles.line}></span>
             </p>
             <p className={styles.price_after}>Rp 1.024.000</p>
-            <div className={styles.model}>
+            <Col className={styles.model}>
               <p className={styles.title_modle}>Choose Model</p>
-              <div className={styles.frame_model}>
+              <Row className={styles.frame_model}>
                 <div className={styles.item_model}>
                   <img src={model1} alt="" className={styles.bo} />
                 </div>
                 <div className={styles.item_model}>
                   <img src={model2} alt="" className={styles.bo} />
                 </div>
-              </div>
-            </div>
-            <div className={styles.function}>
-              <div className={styles.qty}>
+              </Row>
+            </Col>
+            <Row className={styles.function}>
+              <Row className={styles.qty}>
                 <div className={styles.sub} onClick={downQty}>
                   <p className={styles.icon_sub}></p>
                 </div>
@@ -119,17 +125,17 @@ const ProductView = () => {
                   <p className={styles.icon_add}></p>
                   <p className={styles.icon_add2}></p>
                 </div>
-              </div>
+              </Row>
 
               <button className={styles.add_to_cart}>
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>
 
               <button className={styles.buy_now}>Buy now</button>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Row>
+          </Col>
+        </Col>
+      </Row>
     </Col>
   );
 };

@@ -8,7 +8,7 @@ const RequireAuth = ({ children }) => {
   const location = useLocation();
   const isLoggedIn = Boolean(Cookies.get("token"));
 
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
     return <Navigate to="/login" state={{ form: location }} replace />;
   }
   return (

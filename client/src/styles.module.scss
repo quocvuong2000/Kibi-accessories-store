@@ -5,6 +5,10 @@
   margin: 0;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 1vw; /* THIS WILL RESET THE DEFAULT SCORLLBAR STYLING */
 }

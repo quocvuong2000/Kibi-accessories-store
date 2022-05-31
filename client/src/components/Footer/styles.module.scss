@@ -1,4 +1,4 @@
-@use "../../sass/mixins";
+@use "../../sass/mixins" as *;
 p {
   padding: 0;
   margin: 0;
@@ -6,7 +6,7 @@ p {
 
 .container {
   max-width: 100%;
-  @include mixins.flex();
+  @include flex();
   background: #d84727;
   .footer {
     padding: 51px 165px 75px 165px;
@@ -19,21 +19,18 @@ p {
       flex-basis: 25%;
       &__logo {
         margin-bottom: 11px;
-        @include mixins.flex(center, flex-start);
+        @include flex(center, flex-start);
       }
       &__title {
         margin-top: 16px;
-        line-height: 34px;
-        letter-spacing: 0.02em;
         color: #ffffff;
-        @include mixins.font(normal, 500, 20px);
+        @include font(normal, 500, 20px, 34px, 0.02em);
       }
       &__desc {
         margin-top: 2px;
-        line-height: 27px;
-        letter-spacing: 0.03em;
+
         color: #ffffff;
-        @include mixins.font(normal, 400, 16px);
+        @include font(normal, 400, 16px, 27px, 0.03em);
       }
     }
     &__getintouch {
@@ -41,28 +38,22 @@ p {
       flex-direction: column;
       flex-basis: 25%;
       &__title {
-        line-height: 41px;
-        letter-spacing: 0.02em;
         color: #ffffff;
-        @include mixins.font(normal, 600, 24px);
+        @include font(normal, 600, 24px, 41px, 0.02em);
       }
       &__phone {
         margin-top: 27px;
-        @include mixins.flex(center, flex-start);
+        @include flex(center, flex-start);
         column-gap: 36px;
         &__title {
-          line-height: 34px;
-          letter-spacing: 0.02em;
           color: #ffffff;
-          @include mixins.font(normal, 500, 20px);
+          @include font(normal, 500, 20px, 34px, 0.02em);
           max-width: 97px;
           min-width: 97px;
         }
         &__desc {
-          line-height: 32px;
-          letter-spacing: 0.03em;
           color: #ffffff;
-          @include mixins.font(normal, 400, 16px);
+          @include font(normal, 400, 16px, 32px, 0.03em);
         }
       }
       &__phone:not(:first-child) {
@@ -77,7 +68,7 @@ p {
         .twitter,
         .youtube {
           margin-top: 10px;
-          @include mixins.flex();
+          @include flex();
           background: #dadada;
           padding: 4px 6px;
           border-radius: 50%;
@@ -90,20 +81,16 @@ p {
       flex-basis: 25%;
       margin-left: 60px;
       &__title {
-        line-height: 41px;
-        letter-spacing: 0.02em;
         color: #ffffff;
-        @include mixins.font(normal, 600, 24px);
+        @include font(normal, 600, 24px, 41px, 0.02em);
       }
       &__link {
         margin-top: 27px;
         display: flex;
         flex-direction: column;
         &__item {
-          line-height: 32px;
-          letter-spacing: 0.03em;
           color: #ffffff;
-          @include mixins.font(normal, 400, 16px);
+          @include font(normal, 400, 16px, 32px, 0.03em);
         }
       }
     }
@@ -112,25 +99,21 @@ p {
       flex-direction: column;
       flex-basis: 25%;
       &__title {
-        line-height: 41px;
-        letter-spacing: 0.02em;
         color: #ffffff;
-        @include mixins.font(normal, 600, 24px);
+        @include font(normal, 600, 24px, 41px, 0.02em);
       }
       &__link {
         margin-top: 27px;
         display: flex;
         flex-direction: column;
         &__item {
-          line-height: 32px;
-          letter-spacing: 0.03em;
           color: #ffffff;
-          @include mixins.font(normal, 400, 16px);
+          @include font(normal, 400, 16px, 32px, 0.03em);
         }
       }
     }
   }
-  @include mixins.tablet {
+  @include tablet {
     .footer {
       width: unset;
       padding: unset;

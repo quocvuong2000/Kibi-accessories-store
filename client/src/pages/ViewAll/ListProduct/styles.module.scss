@@ -2,11 +2,19 @@
 .container {
   margin: 0 auto;
   max-width: 100vw;
-  width: 1110px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   padding-bottom: 75px;
+
+  :global {
+    .infinite-scroll-component__outerdiv {
+      height: auto;
+    }
+    .infinite-scroll-component {
+      overflow-y: hidden !important;
+    }
+  }
 
   .title {
     font-family: "Taviraj";
@@ -37,12 +45,31 @@
       max-width: 100%;
     }
   }
+  .way__result {
+    width: 1110px;
+    margin: 0 auto;
+    margin-top: 80px !important;
+    display: flex;
+    justify-content: space-between;
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .short__list__grid {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+    }
+  }
   .listItem {
     display: flex;
     flex-wrap: wrap;
     column-gap: 30px;
     row-gap: 70px;
     margin-top: 80px !important;
+    width: 1110px;
+    margin: 0 auto;
   }
 
   @include tablet {
@@ -63,4 +90,27 @@
       gap: 5px;
     }
   }
+}
+
+.spin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.row {
+  flex-direction: column;
+}
+
+.opa07 {
+  opacity: 0.4;
+  color: rgb(150, 150, 150);
+  cursor: pointer;
+}
+.opa1 {
+  opacity: 1;
+  color: black;
+  cursor: pointer;
+  font-weight: 700;
 }

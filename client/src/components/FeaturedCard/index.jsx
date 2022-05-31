@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./styles.module.scss";
 import Propstype from "prop-types";
+import { Image } from "antd";
 
 const FeaturedCard = (props) => {
   const item = props.item;
