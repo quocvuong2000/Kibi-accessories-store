@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./styles.module.scss";
 import PropsType from "prop-types";
 import { Heart } from "phosphor-react";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Popover } from "antd";
 const ProductCard = (props) => {
   const data = props.data;

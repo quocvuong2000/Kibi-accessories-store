@@ -1,0 +1,90 @@
+.appLoader {
+  height: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background: rgba(202, 200, 200, 0.39);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+
+.loaderSpin {
+  text-align: center;
+}
+
+.cremaDot {
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.cremaDotSpin {
+  transform: rotate(45deg);
+  animation: hipsterRotate 1.2s infinite linear;
+}
+
+.cremaDot i {
+  width: 9px;
+  height: 9px;
+  border-radius: 100%;
+  background-color: #1890ff;
+  transform: scale(0.75);
+  display: block;
+  position: absolute;
+  opacity: 0.5;
+  animation: hipsterSpinMove 1s infinite linear alternate;
+  transform-origin: 50% 50%;
+}
+
+.cremaDot i:nth-child(1) {
+  left: 10px;
+  background-color: #1890ff;
+  top: 0;
+}
+
+.cremaDot i:nth-child(2) {
+  right: 0;
+  top: 8px;
+  background-color: #1890ff;
+  animation-delay: 0.4s;
+}
+
+.cremaDot i:nth-child(3) {
+  right: 4px;
+  bottom: 0;
+  background-color: #1890ff;
+  animation-delay: 0.8s;
+}
+
+.cremaDot i:nth-child(4) {
+  left: 4px;
+  bottom: 0;
+  background-color: #1890ff;
+  animation-delay: 1.2s;
+}
+
+.cremaDot i:nth-child(5) {
+  left: 0;
+  top: 8px;
+  background-color: #1890ff;
+  animation-delay: 1.2s;
+}
+
+@keyframes hipsterSpinMove {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hipsterRotate {
+  to {
+    transform: rotate(405deg);
+  }
+}

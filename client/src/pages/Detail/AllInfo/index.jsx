@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import styles from "./styles.module.scss";
 import img from "../../../assets/detail/size.png";
 

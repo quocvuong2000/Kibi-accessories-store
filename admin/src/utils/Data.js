@@ -6,6 +6,8 @@ import {
   UilPackage,
   UilChart,
   UilSignOutAlt,
+  UilArchive,
+  UilLabelAlt
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
@@ -40,8 +42,18 @@ export const SidebarData = [
     link: "/dashboard/products",
   },
   {
+    icon: UilLabelAlt,
+    heading: "Brands",
+    link: "/dashboard/brands",
+  },
+  {
+    icon: UilArchive,
+    heading: "Categories",
+    link: "/dashboard/categories",
+  },
+  {
     icon: UilChart,
-    heading: "Analytics",
+    heading: "Other",
     link: "/dashboard",
   },
 ];
@@ -83,8 +95,7 @@ export const cardsData = [
   {
     title: "Expenses",
     color: {
-      backGround:
-        "#0288d1",
+      backGround: "#0288d1",
       boxShadow: "0px 10px 20px 0px #F9D59B",
     },
     barValue: 60,

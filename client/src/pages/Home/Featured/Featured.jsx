@@ -4,7 +4,7 @@ import watch1 from "../../../assets/home/featured/image 15.png";
 import watch2 from "../../../assets/home/featured/image 17.png";
 import watch3 from "../../../assets/home/featured/image 20.png";
 import FeaturedCard from "../../../components/FeaturedCard";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Carousel } from "antd";
 
 const products = [

@@ -1,4 +1,4 @@
-import { Alert, Checkbox, Snackbar } from "@mui/material";
+import { Checkbox } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -9,10 +9,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { loginSuccess } from "./LoginSlice";
 import AppTextField from "../../@crema/core/AppFormComponents/AppTextField";
 import { ReactComponent as Logo } from "../../assets/user/login.svg";
 import { login } from "./LoginAPI";
+import { loginSuccess } from "./LoginSlice";
 import classes from "./styles.module.scss";
 const validationSchema = yup.object({
   email: yup

@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../../components/Header";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
 import Featured from "./Featured/Featured";
@@ -7,7 +6,7 @@ import Instagram from "./Instagram/Instagram";
 import MonthlyDeal from "./MonthlyDeal/MonthlyDeal";
 import RecentsNew from "./RecentsNew/RecentsNew";
 import classes from "./styles.module.scss";
-import Testimonial from "./Tesitimonial/Tesitimonial";
+import Testimonial from "./Testimonial/Testimonial";
 
 const Home = () => {
   return (

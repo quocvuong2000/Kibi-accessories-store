@@ -1,7 +1,7 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useClickOutside } from "@mantine/hooks";
 import { Button, Input, Space } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Handbag, User } from "phosphor-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";

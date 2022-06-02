@@ -16,14 +16,22 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.role.type === "admin") {
+    if (req.user.id === req.params.id || req.role.type === "admin" || req.role.type === "staff") {
       next();
     } else {
       res.status(403).json("You are not alowed to do that!");
     }
   });
 };
-
+const verifyTokenAndStaff = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.role.type === "staff" || req.role.type === "admin") {
+      next();
+    } else {
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+};
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.role.type === "admin") {
@@ -37,5 +45,6 @@ const verifyTokenAndAdmin = (req, res, next) => {
 module.exports = {
   verifyToken,
   verifyTokenAndAuthorization,
+  verifyTokenAndStaff,
   verifyTokenAndAdmin,
 };
