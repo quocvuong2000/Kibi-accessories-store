@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
       product: pKw,
     });
     try {
-      res.status(200).json(pKwrs);
+      res.status(202).json(pKwrs);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
       idCate: pCate,
     });
     try {
-      res.status(200).json(pCaters);
+      res.status(201).json(pCaters);
     } catch (error) {
       res.status(500).json(error);
     }

@@ -4,6 +4,7 @@ import relate1 from "../../../assets/detail/relate1.png";
 import relate2 from "../../../assets/detail/relate2.png";
 import relate3 from "../../../assets/detail/relate3.png";
 import relate4 from "../../../assets/detail/relate4.png";
+import { Image } from "antd";
 export const RelateProduct = () => {
   const fakeDataRelate = [
     {
@@ -53,7 +54,7 @@ export const RelateProduct = () => {
                   </div>
                 )}
                 <div className={styles.relate__frame__product__one__content}>
-                  <img
+                  <Image
                     src={item.src}
                     alt={item.name}
                     className={

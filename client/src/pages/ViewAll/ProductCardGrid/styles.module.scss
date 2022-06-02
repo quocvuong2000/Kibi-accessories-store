@@ -1,18 +1,24 @@
 @use "../../../sass/mixins" as *;
 
 .box__product {
-  max-width: 1110px;
-  height: 100%;
+  @include flex(center, flex-start);
+  background: #fff;
+  flex-direction: column;
+  position: relative;
+  width: 255px;
+
   p {
     margin: 0;
     padding: 0;
   }
   .box__product__image {
-    height: 287px;
-
+    // width: 200px;
+    // height: 214px;
+    position: absolute;
+    top: -40px;
     img {
-      height: 287px;
-      @include img();
+      width: 200px;
+      height: 214px;
       object-fit: cover;
     }
   }
@@ -22,14 +28,23 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    padding-bottom: 16px;
+    // margin-left: 24px;
 
     .box__product__title {
+      margin-left: 24px;
+      margin-top: 190px;
       font-weight: 500;
       font-size: 20px;
       line-height: 32px;
       color: #333333;
+      max-width: 160px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .box__product__voucher {
+      margin-left: 24px;
       margin-top: 2px;
       font-weight: 400;
       font-size: 13px;
@@ -39,9 +54,14 @@
 
     .box__product__oldprice {
       margin-top: 4px;
-      @include font(normal, 400, 13px, 24px);
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 24px;
       color: #777777;
       position: relative;
+      margin-left: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -54,6 +74,7 @@
     }
 
     .box__product__price {
+      margin-left: 24px;
       font-weight: 400;
       font-size: 20px;
       line-height: 32px;
@@ -65,22 +86,25 @@
       justify-content: center;
       gap: 0 5px;
       margin-top: 10px;
-      flex-direction: row-reverse;
-
+      margin-left: 24px;
       svg {
         cursor: pointer;
         border: 1px solid #d84727;
-        font-size: 20px;
-        width: 42px;
-        height: 42px;
+        font-size: 33px;
       }
       .btnCart {
         cursor: pointer;
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* identical to box height, or 150% */
+        letter-spacing: 0.02em;
         color: #ffffff;
         background: #d84727;
-        padding: 9px 60px;
+        padding: 4px 36px;
         border: none;
-        @include font(normal, 400, 16px, 24px, 0.02em);
       }
     }
   }

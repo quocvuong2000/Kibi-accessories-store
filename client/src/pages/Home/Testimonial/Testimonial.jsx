@@ -4,12 +4,14 @@ import watch from "../../../assets/home/testimonial/sharing-customer-testimonial
 import vawe1 from "../../../assets/home/Vector 12.png";
 import vawe2 from "../../../assets/home/Vector 13.png";
 import vawe3 from "../../../assets/home/Vector 14.png";
+import { Image } from "antd";
+
 const Testimonial = () => {
   return (
     <div className={classes.testimonialContainer}>
       <div className={classes.testimonial}>
         <div className={classes.left}>
-          <img src={watch} alt="" />
+          <Image src={watch} />
         </div>
         <div className={classes.right}>
           <div className={classes.mainTitle}>Testimonials</div>

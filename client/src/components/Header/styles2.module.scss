@@ -16,16 +16,12 @@
       flex-direction: column;
       row-gap: 2px;
       .title {
-        @include font(normal, 400, 20px);
-        line-height: 24px;
-        letter-spacing: 0.02em;
+        @include font(normal, 400, 20px, 24px, 0.02em);
         color: #333333;
       }
       .voucher {
-        line-height: 24px;
-        letter-spacing: 0.02em;
         color: #777777;
-        @include font(normal, 400, 16px);
+        @include font(normal, 400, 16px, 24px, 0.02em);
         position: relative;
         width: fit-content;
         .line {
@@ -38,16 +34,12 @@
         }
       }
       .price {
-        line-height: 32px;
-        letter-spacing: 0.02em;
         color: #333333;
-        @include font(normal, 600, 24px);
+        @include font(normal, 600, 24px, 32px, 0.02em);
       }
       .detail {
-        line-height: 24px;
-        letter-spacing: 0.03em;
         color: #555555;
-        @include font(normal, 400, 16px);
+        @include font(normal, 400, 16px, 24px, 0.03em);
       }
     }
   }
@@ -56,10 +48,8 @@
     flex-direction: column;
     align-items: flex-end;
     &__select {
-      line-height: 24px;
-      letter-spacing: 0.03em;
       color: #333333;
-      @include font(normal, 500, 16px);
+      @include font(normal, 500, 16px, 24px, 0.03em);
     }
     &__price {
       margin-top: 8px;
@@ -68,16 +58,12 @@
       box-sizing: border-box;
       outline: none;
       padding: 9px 50px 9px 16px;
-      line-height: 24px;
-      letter-spacing: 0.03em;
       color: #999999;
-      @include font(normal, 500, 16px);
+      @include font(normal, 500, 16px, 24px, 0.03em);
       &__item {
         padding: 9px 16px;
-        line-height: 24px;
-        letter-spacing: 0.03em;
         color: #999999;
-        @include font(normal, 500, 16px);
+        @include font(normal, 500, 16px, 24px, 0.03em);
       }
     }
     &__option {
@@ -112,9 +98,7 @@
         }
       }
       .count {
-        @include font(normal, 400, 24px);
-        line-height: 32px;
-        letter-spacing: 0.03em;
+        @include font(normal, 400, 24px, 32px, 0.03em);
         color: #000000;
       }
       .add {
@@ -151,10 +135,8 @@
         }
       }
       .result {
-        line-height: 32px;
-        letter-spacing: 0.02em;
         color: #333333;
-        @include font(normal, 600, 24px);
+        @include font(normal, 600, 24px, 32px, 0.02em);
       }
       .delete {
         border: 1px solid #d93f3f;
@@ -174,20 +156,15 @@
   flex-direction: row;
   @include flex(center, space-between);
   .voucher {
-    line-height: 24px;
-    /* identical to box height, or 120% */
-    letter-spacing: 0.02em;
     color: #01522d;
-    @include font(normal, 500, 20px);
+    @include font(normal, 500, 20px, 24px, 0.02em);
   }
   .total {
     @include flex(center, space-between);
     column-gap: 32px;
     &__text {
-      line-height: 24px;
-      letter-spacing: 0.02em;
       color: #333333;
-      @include font(normal, 400, 20px);
+      @include font(normal, 400, 20px, 24px, 0.02em);
     }
     &__price {
       display: flex;
@@ -195,10 +172,8 @@
       row-gap: 4px;
       align-items: flex-end;
       &__voucher {
-        line-height: 24px;
-        letter-spacing: 0.02em;
         color: #777777;
-        @include font(normal, 400, 16px);
+        @include font(normal, 400, 16px, 24px, 0.02em);
         position: relative;
         .line {
           position: absolute;
@@ -210,11 +185,8 @@
         }
       }
       &__correct {
-        line-height: 32px;
-        /* identical to box height, or 133% */
-        letter-spacing: 0.02em;
         color: #333333;
-        @include font(normal, 400, 24px);
+        @include font(normal, 400, 24px, 32px, 0.02em);
       }
     }
   }
@@ -226,10 +198,9 @@
   border: none;
   width: 100%;
   padding: 22px 0;
-  line-height: 24px;
-  letter-spacing: 0.02em;
+
   color: #ffffff;
-  @include font(normal, 600, 24px);
+  @include font(normal, 600, 24px, 24px, 0.02em);
 }
 
 .line_deli {

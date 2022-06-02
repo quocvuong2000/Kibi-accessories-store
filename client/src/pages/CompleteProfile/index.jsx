@@ -1,12 +1,9 @@
 import React from "react";
 import s from "./styles.module.scss";
 import { Steps, Button, message } from "antd";
+import { FirstForm } from "./FirstForm";
 
 const { Step } = Steps;
-
-const firstForm = () => {
-  return <></>;
-};
 
 const secondForm = () => {
   return <></>;
@@ -19,7 +16,7 @@ const thirdForm = () => {
 const steps = [
   {
     title: "Fill your profile",
-    content: <h1>asd</h1>,
+    content: <FirstForm />,
   },
   {
     title: "Second",

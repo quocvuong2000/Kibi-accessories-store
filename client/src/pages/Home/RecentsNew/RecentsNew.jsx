@@ -4,6 +4,7 @@ import watch from "../../../assets/home/recentNews/Mask Group.png";
 import vawe1 from "../../../assets/home/Vector 12.png";
 import vawe2 from "../../../assets/home/Vector 13.png";
 import vawe3 from "../../../assets/home/Vector 14.png";
+import { Image } from "antd";
 const RecentsNew = () => {
   return (
     <div className={classes.recentNewContainer}>
@@ -19,7 +20,7 @@ const RecentsNew = () => {
           </div>
         </div>
         <div className={classes.right}>
-          <img src={watch} alt="" />
+          <Image src={watch} />
         </div>
         <div className={classes.square}></div>
         <div className={classes.image}>
