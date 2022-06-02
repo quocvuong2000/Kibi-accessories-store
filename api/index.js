@@ -13,7 +13,7 @@ const cartRoute = require("./routes/cart");
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL_CLOUD)
   .then(console.log("Connect to database success"))
   .catch((err) => console.log(err));
 
