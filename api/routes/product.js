@@ -44,40 +44,31 @@ router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
     res.status(500).json(err);
   }
 });
-//GET PRODUCT
+
+//GET - PAGINATION
 router.get("/", async (req, res) => {
-  const pInfo = await Product.find();
-  const pKw = req.query.kw;
-  const pCate = req.query.idCate;
-  const pBrand = req.query.idBrand;
-
-  //SEARCH
-  if (pKw) {
-    const pKwrs = await Product.find({
-      product: pKw,
-    });
-    try {
-      res.status(202).json(pKwrs);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  }
-
-  //PRODUCTS BY CATEGORY
-  if (pCate) {
-    const pCaters = await Product.find({
-      idCate: pCate,
-    });
-    try {
-      res.status(201).json(pCaters);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  }
+  const qPage = req.query.page;
+  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+  let page = qPage || 1;
+  let count = 0;
   try {
-    res.status(200).json(pInfo);
-  } catch (error) {
-    res.status(500).json(error);
+    let products;
+    if (qPage) {
+      products = await Product.find()
+        .skip(perPage * page - perPage)
+        .limit(perPage);
+    } else {
+      products = await Product.find();
+    }
+    count = await Product.count();
+    res.status(200).json({
+      products, // sản phẩm trên một page
+      currentPage: page, // page hiện tại
+      totalPages: Math.ceil(count / perPage), // tổng số các page: ;
+      totalItems: count,
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

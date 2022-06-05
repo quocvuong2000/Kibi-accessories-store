@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema(
   {
-    product: { type: String },
-    price: { type: String },
-    idCate: { type: String, required: true },
-    idBrand: { type: String, required: true },
+    product: { type: String, unique : true },
+    price: { type: Number },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand' },
     voucher: { type: Number },
     topSales: { type: Boolean },
     totalRating: { type: Number },
