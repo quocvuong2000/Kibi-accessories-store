@@ -3,7 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense/index";
 import { CompleteProfile } from "../pages/CompleteProfile";
 import ViewAll from "../pages/ViewAll";
-import { Detail, Home, Login, Payment } from "../routes/index";
+import {
+  Detail,
+  Home,
+  Login,
+  Payment,
+  Page404,
+  UserProfile,
+} from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
 
@@ -49,17 +56,33 @@ const AppLayout = () => {
           <Route
             path="/viewall"
             element={
-              <RequireAuth>
+              <UnRequireAuth>
                 <ViewAll />
-              </RequireAuth>
+              </UnRequireAuth>
             }
           />
           <Route
             path="/completeprofile"
             element={
-              <RequireAuth>
+              <UnRequireAuth>
                 <CompleteProfile />
-              </RequireAuth>
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="/myaccount"
+            element={
+              <UnRequireAuth>
+                <UserProfile />
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <UnRequireAuth>
+                <Page404 />
+              </UnRequireAuth>
             }
           />
           <Route path="/login" element={<Login />}></Route>

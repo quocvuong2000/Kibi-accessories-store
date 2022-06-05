@@ -1,13 +1,13 @@
 @use "../../sass/mixins" as *;
-p {
-  padding: 0;
-  margin: 0;
-}
 
 .container {
   max-width: 100%;
   @include flex();
   background: #d84727;
+  p {
+    padding: 0;
+    margin: 0;
+  }
   .footer {
     padding: 51px 165px 75px 165px;
     flex-direction: row;

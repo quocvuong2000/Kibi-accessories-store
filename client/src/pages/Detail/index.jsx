@@ -4,7 +4,6 @@ import AllInfo from "./AllInfo";
 import styles from "./styles.module.scss";
 import { RelateProduct } from "./RelateProduct";
 import { Brand } from "../../components/Brand";
-import Header from "../../components/Header";
 
 const Detail = () => {
   return (

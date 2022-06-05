@@ -1,5 +1,4 @@
 import React from "react";
-import s from "./styles.module.scss";
 import { Form, Input, Button, DatePicker, InputNumber, Select } from "antd";
 export const FirstForm = () => {
   const { Option } = Select;
@@ -10,6 +9,13 @@ export const FirstForm = () => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 70 }}>
+        <Option value="84">+84</Option>
+      </Select>
+    </Form.Item>
+  );
   return (
     <Form
       name="basic"
@@ -27,12 +33,12 @@ export const FirstForm = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Email"
-        name="email"
+        label="Full name"
+        name="name"
         rules={[
           {
             required: true,
-            message: "Please field your email",
+            message: "Please field your name",
           },
         ]}
       >
@@ -46,27 +52,32 @@ export const FirstForm = () => {
         <DatePicker />
       </Form.Item>
 
-      <Form.Item label="Day of birth" name="dob"></Form.Item>
+      <Form.Item
+        name="phone"
+        label="Phone Number"
+        rules={[{ required: true, message: "Please input your phone number!" }]}
+      >
+        <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+      </Form.Item>
+      <Form.Item
+        name="gender"
+        label="Gender"
+        rules={[{ required: true, message: "Please select gender!" }]}
+      >
+        <Select placeholder="select your gender">
+          <Option value="male">Male</Option>
+          <Option value="female">Female</Option>
+          <Option value="other">Other</Option>
+        </Select>
+      </Form.Item>
       <Form.Item label="Address">
-        <Input.Group compact>
-          <Form.Item
-            name={["address", "province"]}
-            noStyle
-            rules={[{ required: true, message: "Province is required" }]}
-          >
-            <Select placeholder="Select Ward">
-              <Option value="Zhejiang">Zhejiang</Option>
-              <Option value="Jiangsu">Jiangsu</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name={["address", "street"]}
-            noStyle
-            rules={[{ required: true, message: "Street is required" }]}
-          >
-            <Input style={{ width: "50%" }} placeholder="Input street" />
-          </Form.Item>
-        </Input.Group>
+        <Form.Item
+          name={["address", "street"]}
+          noStyle
+          rules={[{ required: true, message: "Street is required" }]}
+        >
+          <Input style={{ width: "50%" }} placeholder="Input street" />
+        </Form.Item>
       </Form.Item>
       <Form.Item
         wrapperCol={{

@@ -20,5 +20,15 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
   }
 });
 
+//GET CATEGORY
+router.get("/", async (req, res) => {
+  const cInfo = new Category.find();
+
+  try {
+    res.status(200).json(cInfo);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;
