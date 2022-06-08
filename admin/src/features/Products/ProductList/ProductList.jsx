@@ -1,5 +1,5 @@
 import { UilSetting } from "@iconscout/react-unicons";
-import { TablePagination } from "@mui/material";
+import { Avatar, TablePagination } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
+import productPlaceholder from "../../../assets/images/product-example.png";
 function createData(name, trackingId, date, status) {
   return { name, trackingId, date, status };
 }
@@ -43,11 +44,16 @@ export default function ProductList(props) {
   };
   return (
     <div>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ minWidth: 650, height: "100%" }}
+        >
           <TableHead>
             <TableRow>
               <TableCell align="left">Setting</TableCell>
+              <TableCell align="left">Product Image</TableCell>
               <TableCell>Product ID</TableCell>
               <TableCell align="left">Product Name</TableCell>
               <TableCell align="left">Price</TableCell>
@@ -67,6 +73,13 @@ export default function ProductList(props) {
                   }}
                 >
                   <UilSetting />
+                </TableCell>
+                <TableCell align="left">
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={row.image ? row.image : productPlaceholder}
+                    sx={{ width: 50, height: 50 }}
+                  />
                 </TableCell>
                 <TableCell>{row._id}</TableCell>
                 <TableCell align="left">{row.product}</TableCell>
