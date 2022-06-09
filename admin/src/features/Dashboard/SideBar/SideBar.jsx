@@ -5,11 +5,20 @@ import { SidebarData } from "../../../utils/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import classes from "./styles.module.scss";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../../Login/LoginSlice";
+import Cookies from "js-cookie";
 const Sidebar = () => {
   const [selected, setSelected] = useState(0);
   const [expanded, setExpaned] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const hanldeLogOut = () => {
+    dispatch(doLogout());
+    Cookies.remove("token");
+    navigate("/login");
+  };
   const sidebarVariants = {
     true: {
       left: "0",
@@ -43,7 +52,8 @@ const Sidebar = () => {
         <div className={classes.menu}>
           {SidebarData.map((item, index) => {
             return (
-              <Link to={item.link}
+              <Link
+                to={item.link}
                 className={
                   selected === index
                     ? `${classes.menuItem} ${classes.active}`
@@ -58,9 +68,9 @@ const Sidebar = () => {
             );
           })}
           {/* signoutIcon */}
-          <div className={classes.menuItem}>
-            <UilSignOutAlt />
-          </div>
+        </div>
+        <div className={classes.menuItemLogout} onClick={hanldeLogOut}>
+          <UilSignOutAlt />
         </div>
       </motion.div>
     </>
