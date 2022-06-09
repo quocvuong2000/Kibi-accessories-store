@@ -1,10 +1,13 @@
 import { Col, Image, Popover, Row } from "antd";
 import { Heart } from "phosphor-react";
 import React from "react";
+import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
 
 export const ProductCardList = (props) => {
   const data = props.data;
+
+  console.log(data.oldPrice);
 
   return (
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
@@ -13,15 +16,21 @@ export const ProductCardList = (props) => {
       </Col>
       <Col span={18} className={s.box__product__content} push={1}>
         <Popover title={data.title} trigger="hover">
-          <p className={s.box__product__title}>{data.title}</p>
+          <p className={s.box__product__title}>{data.product}</p>
         </Popover>
-        <p className={s.box__product__desc}>{data.desc}</p>
+        <p className={s.box__product__desc}>{data.description}</p>
         <p className={s.box__product__voucher}>20% Off</p>
-        <p className={s.box__product__oldprice}>
-          {data.oldPrice}
-          <hr className={s.line} />
+
+        {data.oldPrice && (
+          <div className={s.box__product__oldprice}>
+            {data.oldPrice}
+            <hr className={s.line} />
+          </div>
+        )}
+
+        <p className={s.box__product__price}>
+          {numberWithCommas(data.price)} VND
         </p>
-        <p className={s.box__product__price}>{data.newPrice}</p>
         <div className={s.btn}>
           <Popover title="Add to wishlist" trigger="hover">
             <Heart color="#a94242" weight="thin" />

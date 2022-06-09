@@ -10,13 +10,12 @@ import {
   Payment,
   Page404,
   UserProfile,
+  Search,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
 
 const AppLayout = () => {
-  const currentURL = window.location.pathname;
-  console.log(currentURL);
   return (
     <AppSuspense>
       <React.Fragment>
@@ -32,9 +31,17 @@ const AppLayout = () => {
           <Route
             path="/detail"
             element={
-              <RequireAuth>
+              <UnRequireAuth>
                 <Detail />
-              </RequireAuth>
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="/detail/:id"
+            element={
+              <UnRequireAuth>
+                <Detail />
+              </UnRequireAuth>
             }
           />
           <Route
@@ -62,6 +69,14 @@ const AppLayout = () => {
             }
           />
           <Route
+            path="/viewall/:idCate"
+            element={
+              <UnRequireAuth>
+                <ViewAll />
+              </UnRequireAuth>
+            }
+          />
+          <Route
             path="/completeprofile"
             element={
               <UnRequireAuth>
@@ -74,6 +89,14 @@ const AppLayout = () => {
             element={
               <UnRequireAuth>
                 <UserProfile />
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="/search/:kw"
+            element={
+              <UnRequireAuth>
+                <Search />
               </UnRequireAuth>
             }
           />

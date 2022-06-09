@@ -6,4 +6,5 @@ const Login = React.lazy(() => import("../pages/Login/index"));
 const Payment = React.lazy(() => import("../pages/Payment/index"));
 const Page404 = React.lazy(() => import("../pages/404/index"));
 const UserProfile = React.lazy(() => import("../pages/UserProfile/index"));
-export { Home, Detail, Payment, Login, Page404, UserProfile };
+const Search = React.lazy(() => import("../pages/Search/index"));
+export { Home, Detail, Payment, Login, Page404, UserProfile, Search };

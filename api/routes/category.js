@@ -19,13 +19,29 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-//GET CATEGORY
+//GET - PAGINATION
+// pagination
 router.get("/", async (req, res) => {
-  const cInfo = new Category.find();
-
+  const qPage = req.query.page;
+  let perPage = 8; // số lượng sản phẩm xuất hiện trên 1 page
+  let page = qPage || 1;
+  let count = 0;
   try {
-    res.status(200).json(cInfo);
+    let categories;
+    if (qPage) {
+      categories = await Category.find()
+        .skip(perPage * page - perPage)
+        .limit(perPage);
+    } else {
+      categories = await Category.find();
+    }
+    count = await Category.count();
+    res.status(200).json({
+      categories, // sản phẩm trên một page
+      currentPage: page, // page hiện tại
+      totalPages: Math.ceil(count / perPage), // tổng số các page: ;
+      totalItems: count,
+    });
   } catch (err) {
     res.status(500).json(err);
   }

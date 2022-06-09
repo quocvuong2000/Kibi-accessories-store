@@ -1,6 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { browserHistory as history } from "../routes/history";
+import { Navigate } from "react-router-dom";
+
 const devUrl = "http://localhost:5000";
 
 const token =
@@ -49,12 +51,12 @@ callAPIWithToken.interceptors.response.use(
   (err) => {
     if (err.response && err.response.status === 401) {
       Cookies.remove("token");
-      history.push("/login");
+      <Navigate replace to="/login"/>;
       // redirect to login
     }
 
     if (err.response && err.response.status === 403) {
-      history.push("/403");
+      <Navigate replace to="/403" />;
     }
     return Promise.reject(err);
   }

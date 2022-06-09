@@ -9,7 +9,6 @@ $primary-img-width-tablet: 200px;
 $primary-img-width-mobile: 140px;
 .productCardContainer {
   width: $primary-width-pc;
-  height: 430px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,8 +24,9 @@ $primary-img-width-mobile: 140px;
   .bottom {
     position: relative;
     width: $primary-width-pc;
-    height: 330px;
     background-color: #fff;
+    padding-bottom: 20px;
+
     .image {
       img {
         position: absolute;

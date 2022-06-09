@@ -2,6 +2,7 @@ import React from "react";
 import s from "./styles.module.scss";
 import { Popover } from "antd";
 import { Heart } from "phosphor-react";
+import numberWithComas from "../../../utils/numberWithCommas";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
@@ -12,15 +13,19 @@ export const ProductCardGrid = (props) => {
         <img src={data.image} alt="" />
       </div>
       <div className={s.box__product__content}>
-        <Popover title={data.title} trigger="hover">
-          <p className={s.box__product__title}>{data.title}</p>
+        <Popover title={data.product} trigger="hover">
+          <p className={s.box__product__title}>{data.product}</p>
         </Popover>
         <p className={s.box__product__voucher}>20% Off</p>
-        <p className={s.box__product__oldprice}>
-          {data.oldPrice}
-          <hr className={s.line} />
+        {data.oldPrice && (
+          <p className={s.box__product__oldprice}>
+            {data.oldPrice}
+            <hr className={s.line} />
+          </p>
+        )}
+        <p className={s.box__product__price}>
+          {numberWithComas(data.price)} VND
         </p>
-        <p className={s.box__product__price}>{data.newPrice}</p>
         <div className={s.btn}>
           <Popover title="Add to wishlist" trigger="hover">
             <Heart color="#a94242" weight="thin" />

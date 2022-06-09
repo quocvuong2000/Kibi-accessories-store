@@ -1,7 +1,15 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense";
-import { Brands, Categories, Dashboard, Home, Login, Products } from "../routes";
+import {
+  Brands,
+  Categories,
+  Dashboard,
+  Home,
+  Login,
+  Products,
+} from "../routes";
+import RequireAuth from "../routes/RequireAuth";
 
 const AppLayout = () => {
   return (
@@ -11,7 +19,9 @@ const AppLayout = () => {
           path="/dashboard"
           element={
             // <SalonSelect/>
-            <Dashboard />
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
           }
         >
           <Route index element={<Home />} />
@@ -20,6 +30,7 @@ const AppLayout = () => {
           <Route path="brands" element={<Brands />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </AppSuspense>
   );

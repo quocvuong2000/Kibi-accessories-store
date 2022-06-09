@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import ListProduct from "./ListProduct";
+import ListProduct from "../ViewAll/ListProduct";
 import { useParams } from "react-router-dom";
-import { getAllProduct } from "../../api/Product";
+import { searchProduct } from "../../api/Product";
 import AppLoader from "../../components/AppLoader";
 
-const ViewAll = () => {
+const Search = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
-  const { idCate } = useParams();
+  const { kw } = useParams();
   useEffect(() => {
-    setLoading(true);
-    getAllProduct(idCate)
+    searchProduct(kw)
       .then((res) => {
-        document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
           setProduct(res);
         }
@@ -21,12 +19,13 @@ const ViewAll = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [idCate]);
+  }, [kw]);
   return (
     <div className={styles.backgroundContainer}>
-      <ListProduct data={product} loading={loading} />
+      {loading && <AppLoader />}
+      <ListProduct data={product} />
     </div>
   );
 };
 
-export default ViewAll;
+export default Search;

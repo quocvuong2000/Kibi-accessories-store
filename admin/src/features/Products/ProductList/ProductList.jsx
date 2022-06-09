@@ -7,18 +7,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
-import classes from "./styles.module.scss";
-import moment from "moment";
 function createData(name, trackingId, date, status) {
   return { name, trackingId, date, status };
 }
 
-// const rows = [
-//   createData("Lasania Chiken Fri", 18908424, "2 March 2022", "Approved"),
-//   createData("Big Baza Bang ", 18908424, "2 March 2022", "Pending"),
-//   createData("Mouth Freshner", 18908424, "2 March 2022", "Approved"),
-//   createData("Cupcake", 18908421, "2 March 2022", "Delivered"),
-// ];
+const rows = [
+  createData("Lasania Chiken Fri", 18908424, "2 March 2022", "Approved"),
+  createData("Big Baza Bang ", 18908424, "2 March 2022", "Pending"),
+  createData("Mouth Freshner", 18908424, "2 March 2022", "Approved"),
+  createData("Cupcake", 18908421, "2 March 2022", "Delivered"),
+];
 
 const makeStyle = (status) => {
   if (status === "Approved") {
@@ -39,39 +37,31 @@ const makeStyle = (status) => {
   }
 };
 
-export default function BrandList(props) {
+export default function ProductList(props) {
   const handleChangePage = (_event, newPage) => {
     props.takePage(newPage + 1);
   };
   return (
-    <div className={classes.table}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          sx={{ minWidth: 650, height: "100%" }}
-        >
+    <div>
+      <TableContainer>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">Setting</TableCell>
-              <TableCell>Brand ID</TableCell>
-              <TableCell align="left">Brand Name</TableCell>
-              <TableCell align="left">Update At</TableCell>
-              <TableCell align="left">Product Related</TableCell>
+              <TableCell>Product ID</TableCell>
+              <TableCell align="left">Product Name</TableCell>
+              <TableCell align="left">Price</TableCell>
+              <TableCell align="left">Quantity</TableCell>
             </TableRow>
           </TableHead>
           <TableBody style={{ color: "white" }}>
-            {props.brandList.brands?.map((row) => (
+            {props.productList.products?.map((row) => (
               <TableRow
                 key={row.name}
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  maxHeight: 440,
-                }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
                   align="left"
-                  className={classes.details}
                   sx={{
                     cursor: "pointer",
                   }}
@@ -79,17 +69,10 @@ export default function BrandList(props) {
                   <UilSetting />
                 </TableCell>
                 <TableCell>{row._id}</TableCell>
-                <TableCell align="left">{row.brand}</TableCell>
+                <TableCell align="left">{row.product}</TableCell>
+                <TableCell align="left">{row.price}</TableCell>
                 <TableCell align="left">
-                  {moment(row.updatedAt).format("DD-MM-YYYY")}
-                </TableCell>
-                <TableCell align="left">
-                  <span
-                    className={classes.status}
-                    style={makeStyle(row.status)}
-                  >
-                    N/A
-                  </span>
+                  <span style={makeStyle(row.status)}>{row.quantity}</span>
                 </TableCell>
               </TableRow>
             ))}
@@ -99,9 +82,9 @@ export default function BrandList(props) {
       <TablePagination
         component="div"
         rowsPerPageOptions={[]}
-        count={props.brandList?.totalItems}
+        count={props.productList?.totalItems}
         rowsPerPage={10}
-        page={props.brandList?.currentPage - 1}
+        page={props.productList?.currentPage - 1}
         onPageChange={handleChangePage}
       />
     </div>

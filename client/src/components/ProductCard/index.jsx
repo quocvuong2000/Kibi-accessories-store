@@ -4,6 +4,7 @@ import PropsType from "prop-types";
 import { Heart } from "phosphor-react";
 import "antd/dist/antd.min.css";
 import { Popover } from "antd";
+import numberWithCommas from "../../utils/numberWithCommas";
 
 const ProductCard = (props) => {
   const data = props.data;
@@ -16,12 +17,18 @@ const ProductCard = (props) => {
           <img src={data.image} alt="" />
         </div>
         <div className={classes.content}>
-          <Popover title={data.title} trigger="click">
-            <div className={classes.title}>{data.title}</div>
+          <Popover title={data.product} trigger="click">
+            <div className={classes.title}>{data.product}</div>
           </Popover>
-          <div className={classes.saleOff}>{data.saleOff}</div>
-          <div className={classes.oldPrice}>{data.oldPrice}</div>
-          <div className={classes.newPrice}>{data.newPrice}</div>
+          {data.saleOff && (
+            <div className={classes.saleOff}>{data.saleOff}</div>
+          )}
+          {data.oldPrice && (
+            <div className={classes.oldPrice}>{data.oldPrice}</div>
+          )}
+          <div className={classes.newPrice}>
+            {numberWithCommas(data.price)} VND
+          </div>
         </div>
         <div className={classes.btn}>
           <Heart color="#a94242" weight="thin" />

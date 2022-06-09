@@ -1,10 +1,9 @@
-import React from "react";
-import s from "./styles.module.scss";
-import Avatar from "react-avatar";
-import { Row, Col } from "antd";
-import { Form, Input, Button, DatePicker, InputNumber, Select } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import moment from "moment";
-import { Phone, EnvelopeSimple } from "phosphor-react";
+import { EnvelopeSimple, Phone } from "phosphor-react";
+import React from "react";
+import Avatar from "react-avatar";
+import s from "./styles.module.scss";
 const MyAccount = () => {
   const { Option } = Select;
   const onFinish = (values) => {
@@ -20,7 +19,7 @@ const MyAccount = () => {
       <Col className={s.box} span={24}>
         <p className={s.text}>Account Information</p>
         <Row className={s.form_info}>
-          <Col>
+          <Col span={12}>
             <p className={s.text_info}>Personal Information</p>
             <Row>
               <Col span={8}>
@@ -79,22 +78,25 @@ const MyAccount = () => {
             </Form.Item>
           </Col>
 
-          <Col>
+          <Col span={12}>
             <p className={s.text_e_p}>Phone and Email</p>
-            <p className={s.phone}>
-              <Phone size={24} /> Phone{" "}
+            <div className={s.phone}>
+              <div className={s.title}>
+                <Phone size={24} /> Phone{" "}
+              </div>
               <div className={s.button_update}>
                 <span></span>
                 <button className={s.btn_update}>Update</button>
               </div>
-            </p>
-            <p className={s.email}>
-              <EnvelopeSimple size={24} /> Email
+            </div>
+            <div className={s.email}>
+              <div className={s.title}>
+                <EnvelopeSimple size={24} /> Email
+              </div>
               <div className={s.button_update}>
-                <span></span>
                 <button className={s.btn_update}>Update</button>
               </div>
-            </p>
+            </div>
           </Col>
         </Row>
       </Col>

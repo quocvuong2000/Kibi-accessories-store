@@ -1,37 +1,37 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useClickOutside } from "@mantine/hooks";
-import { Button, Input, Space } from "antd";
+import { Button, Input, Space, notification } from "antd";
 import "antd/dist/antd.min.css";
 import { Handbag, User } from "phosphor-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllCategory } from "../../api/Category";
 import logo from "../../assets/header/image 5.svg";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
-
+import { useNavigate } from "react-router-dom";
 const { Search } = Input;
-const navItem = [
-  {
-    display: "Watches",
-    link: "/",
-  },
-  {
-    display: "Eyewear",
-    link: "/",
-  },
-  {
-    display: "Accessories ",
-    link: "/",
-  },
-  {
-    display: "News",
-    link: "/",
-  },
-];
-const onSearch = (value) => console.log(value);
 
 const Header = () => {
+  const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: "Error",
+      description: "Cannot press kitudacbiet",
+    });
+  };
+  let navigate = useNavigate();
+  const onSearch = (value) => {
+    var regex = /^[a-zA-Z]+$/;
+    console.log(regex.test(value));
+    if (value && regex.test(value)) {
+      navigate(`/search/${value}`);
+    } else {
+      openNotificationWithIcon("warning");
+    }
+  };
+
+  const [category, setCategory] = useState({});
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
@@ -70,6 +70,12 @@ const Header = () => {
         window.removeEventListener("scroll");
       };
     });
+
+    getAllCategory().then((res) => {
+      if (res) {
+        setCategory(res);
+      }
+    });
   }, []);
   return (
     <div className={classes.container}>
@@ -88,6 +94,7 @@ const Header = () => {
           <Space direction="vertical" align="start">
             <Search
               placeholder="Search products, accessory, etc..."
+              required={true}
               onSearch={onSearch}
               style={{ width: 500, textAlign: "center" }}
             />
@@ -110,10 +117,14 @@ const Header = () => {
         <div className={classes.bottom}>
           <div className={classes.navListContainer}>
             <div className={classes.navList}>
-              {navItem.map((item, index) => {
+              {category.categories?.map((item, index) => {
                 return (
-                  <Link to={item.link} key={index} className={classes.navItem}>
-                    {item.display}
+                  <Link
+                    to={`/viewall/${item._id}`}
+                    key={index}
+                    className={classes.navItem}
+                  >
+                    {item.category}
                   </Link>
                 );
               })}
@@ -149,14 +160,14 @@ const Header = () => {
           <div className={classes.bottom}>
             <div className={classes.navListContainer}>
               <div className={classes.navList}>
-                {navItem.map((item, index) => {
+                {category.categories?.map((item, index) => {
                   return (
                     <Link
-                      to={item.link}
+                      to={`/viewall/${item._id}`}
                       key={index}
                       className={classes.navItem}
                     >
-                      {item.display}
+                      {item.category}
                     </Link>
                   );
                 })}
@@ -222,10 +233,14 @@ const Header = () => {
       <div className={classes.menuMobile} ref={menuRef}>
         <div className={classes.navListContainer}>
           <div className={classes.navList}>
-            {navItem.map((item, index) => {
+            {category.categories?.map((item, index) => {
               return (
-                <Link to={item.link} key={index} className={classes.navItem}>
-                  {item.display}
+                <Link
+                  to={`/viewall/${item._id}`}
+                  key={index}
+                  className={classes.navItem}
+                >
+                  {item.category}
                 </Link>
               );
             })}
