@@ -64,6 +64,7 @@ const ListProduct = (props) => {
 
   return (
     <>
+      {props.loading && <AppLoader />}
       <div className={classes.container}>
         <div className={classes.image__wrap}>
           <img
