@@ -1,5 +1,6 @@
 import {
   Alert,
+  Avatar,
   Box,
   Checkbox,
   DialogActions,
@@ -14,6 +15,7 @@ import {
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
 import { Form, Formik } from "formik";
 import * as React from "react";
 import AppSelectField from "../../../@crema/core/AppFormComponents/AppSelectField";
@@ -21,11 +23,22 @@ import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
 import { addNewProduct } from "../ProductAPI";
+import unknownUser from "../../../assets/images/product.png";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { app } from "../../../utils/firebase";
+
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const [brandList, setBrandList] = React.useState([]);
   const [catList, setCatList] = React.useState([]);
+  const [file, setFile] = React.useState(null);
+
   const handleClose = () => {
     props.handleShowDialog(false);
   };
@@ -37,6 +50,9 @@ export default function DialogAddProduct(props) {
       setCatList(res.categories);
     });
   }, []);
+  const Input = styled("input")({
+    display: "none",
+  });
 
   return (
     <>
@@ -44,7 +60,7 @@ export default function DialogAddProduct(props) {
         open={props.showDialog}
         onClose={handleClose}
         fullWidth={true}
-        maxWidth={"md"}
+        maxWidth={"lg"}
       >
         <DialogTitle>ADD NEW PRODUCT</DialogTitle>
         <Formik
@@ -59,15 +75,73 @@ export default function DialogAddProduct(props) {
             description: "",
           }}
           onSubmit={async (values) => {
-            addNewProduct(values)
-              .then(() => {
-                setSuccess(true);
-                props.handleShowDialog(false);
-                props.reLoadTable("sucess" + Date.now());
-              })
-              .catch(() => {
-                setFailure(true);
-              });
+            if (file) {
+              const fileName = new Date().getTime() + file.name;
+              const storage = getStorage(app);
+              const storageRef = ref(storage, fileName);
+              const uploadTask = uploadBytesResumable(storageRef, file);
+
+              // Register three observers:
+              // 1. 'state_changed' observer, called any time the state changes
+              // 2. Error observer, called on failure
+              // 3. Completion observer, called on successful completion
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  // Observe state change events such as progress, pause, and resume
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  console.log("Upload is " + progress + "% done");
+                  switch (snapshot.state) {
+                    case "paused":
+                      console.log("Upload is paused");
+                      break;
+                    case "running":
+                      console.log("Upload is running");
+                      break;
+                    default:
+                  }
+                },
+                (error) => {
+                  // Handle unsuccessful uploads
+                },
+                () => {
+                  // Handle successful uploads on complete
+                  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                  getDownloadURL(uploadTask.snapshot.ref).then(
+                    (downloadURL) => {
+                      const product = {
+                        ...values,
+                        image: downloadURL,
+                      };
+                      addNewProduct(product)
+                        .then(() => {
+                          setSuccess(true);
+                          props.handleShowDialog(false);
+                          props.reLoadTable("sucess" + Date.now());
+                        })
+                        .catch(() => {
+                          setFailure(true);
+                        })
+                        .finally(() => {
+                          setFile(null);
+                        });
+                    }
+                  );
+                }
+              );
+            } else {
+              addNewProduct(values)
+                .then(() => {
+                  setSuccess(true);
+                  props.handleShowDialog(false);
+                  props.reLoadTable("sucess" + Date.now());
+                })
+                .catch(() => {
+                  setFailure(true);
+                });
+            }
           }}
         >
           {({ isSubmitting, setFieldValue, errors, touched }) => (
@@ -84,7 +158,7 @@ export default function DialogAddProduct(props) {
                   }}
                 >
                   {/* PRODUCT */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <AppTextField
                       size="small"
                       placeholder={"Product"}
@@ -97,7 +171,7 @@ export default function DialogAddProduct(props) {
                     />
                   </Box>
                   {/* PRICE */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <AppTextField
                       size="small"
                       placeholder={"Price"}
@@ -110,7 +184,7 @@ export default function DialogAddProduct(props) {
                     />
                   </Box>
                   {/* CATEGORY ID */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <FormControl
                       size="small"
                       sx={{
@@ -149,7 +223,7 @@ export default function DialogAddProduct(props) {
                     </FormControl>
                   </Box>
                   {/* BRAND ID */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <FormControl
                       size="small"
                       sx={{
@@ -189,27 +263,7 @@ export default function DialogAddProduct(props) {
                       </Select>
                     </FormControl>
                   </Box>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  sx={{
-                    textAlign: "center",
-                  }}
-                >
-                  {/* GENERAL INFORMATION*/}
-                  {/* <Box
-                    sx={{
-                      mb: { xs: 3, xl: 4 },
-                      fontWeight: 600,
-                      fontSize: 20,
-                    }}
-                  >
-                    More information
-                  </Box> */}
-                  {/* Quantity */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <AppTextField
                       size="small"
                       placeholder={"Quantity"}
@@ -221,18 +275,8 @@ export default function DialogAddProduct(props) {
                       }}
                     />
                   </Box>
-                  {/* Top Sales */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
-                    <FormControlLabel
-                      value="Top Sales"
-                      control={<Checkbox />}
-                      label="Top Sales"
-                      labelPlacement="start"
-                    />
-                  </Box>
-
                   {/* DESCRIPTION */}
-                  <Box sx={{ mb: { xs: 5, xl: 8 } }}>
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                     <AppTextField
                       size="small"
                       placeholder={"Description"}
@@ -244,6 +288,45 @@ export default function DialogAddProduct(props) {
                       }}
                     />
                   </Box>
+                  {/* Top Sales */}
+                  <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                    <FormControlLabel
+                      value="Top Sales"
+                      control={<Checkbox />}
+                      label="Top Sales"
+                      labelPlacement="start"
+                    />
+                  </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  sx={{
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={file ? URL.createObjectURL(file) : unknownUser}
+                    sx={{ width: 350, height: 350, mb: 2, borderRadius: "0" }}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Input
+                      accept="image/*"
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      onChange={(e) => setFile(e.target.files[0])}
+                    />
+                    <Button variant="contained" component="span">
+                      Upload
+                    </Button>
+                  </label>
                 </Grid>
               </Grid>
               <DialogActions>
