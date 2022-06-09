@@ -11,10 +11,10 @@ export const ProductCardList = (props) => {
 
   return (
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
-      <Col span={6} className={s.box__product__image}>
-        <Image src={data.image} alt="" />
+      <Col span={4} className={s.box__product__image}>
+        <Image src={data.image} alt="" loading="lazy" />
       </Col>
-      <Col span={18} className={s.box__product__content} push={1}>
+      <Col span={20} className={s.box__product__content} push={1}>
         <Popover title={data.title} trigger="hover">
           <p className={s.box__product__title}>{data.product}</p>
         </Popover>

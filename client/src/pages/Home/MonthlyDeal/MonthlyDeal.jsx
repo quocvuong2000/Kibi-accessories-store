@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { getProductHome } from "../../../api/Product";
 import ProductCard from "../../../components/ProductCard";
-import { getFourProduct } from "../HomeApi";
 import classes from "./styles.module.scss";
 
 const MonthlyDeal = () => {
   const [product, setProduct] = useState({});
   useEffect(() => {
-    getFourProduct().then((res) => {
+    getProductHome().then((res) => {
       if (res) {
         setProduct(res);
       }

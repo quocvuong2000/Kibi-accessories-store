@@ -18,3 +18,10 @@ export const searchProduct = async (kw) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const getProductHome = async () => {
+  const res = await jwtAxios.get(`/api/product/brand/62a2039776e89c02819a1703`);
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

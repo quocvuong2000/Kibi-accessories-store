@@ -54,7 +54,7 @@ const menu = (
 );
 
 const ListProduct = (props) => {
-  const [glActive, setGlActive] = useState(false);
+  const [glActive, setGlActive] = useState(true);
   const handleGrid = () => {
     setGlActive(false);
   };

@@ -27,7 +27,7 @@ const ProductCard = (props) => {
             <div className={classes.oldPrice}>{data.oldPrice}</div>
           )}
           <div className={classes.newPrice}>
-            {numberWithCommas(data.price)} VND
+            {numberWithCommas(data.price)}đ
           </div>
         </div>
         <div className={classes.btn}>

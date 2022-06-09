@@ -2,23 +2,38 @@
 
 .box__product {
   @include flex(center, flex-start);
-  background: #fff;
   flex-direction: column;
   position: relative;
+  border-radius: 10px;
   width: 255px;
+  cursor: pointer;
+  background: #fff;
+  border-color: #dcdcdc;
+  box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%),
+    0 9px 28px 8px rgb(0 0 0 / 5%), 0 0 8px rgba(0, 0, 0, 0.15) \9;
 
   p {
     margin: 0;
     padding: 0;
   }
-  .box__product__image {
-    // width: 200px;
-    // height: 214px;
+
+  .add_to_wish {
     position: absolute;
-    top: -40px;
+    right: 10px;
+    bottom: 110px;
+    background: #fff;
+    @include flex();
+    padding: 10px;
+    border-radius: 7px;
+    transition: 0.5s ease;
+  }
+  .box__product__image {
+    margin-top: 6px;
     img {
-      width: 200px;
-      height: 214px;
+      max-width: 262px;
+      max-height: 334px;
+      min-width: 262px;
+      min-height: 334px;
       object-fit: cover;
     }
   }
@@ -33,15 +48,16 @@
 
     .box__product__title {
       margin-left: 24px;
-      margin-top: 190px;
+      margin-top: 25px;
       font-weight: 500;
-      font-size: 20px;
+      font-size: 15px;
       line-height: 32px;
       color: #333333;
-      max-width: 160px;
+      max-width: 190px;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      opacity: 0.7;
     }
     .box__product__voucher {
       margin-left: 24px;
@@ -52,33 +68,39 @@
       color: #777777;
     }
 
-    .box__product__oldprice {
-      margin-top: 4px;
-      font-family: "Taviraj";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 13px;
-      line-height: 24px;
-      color: #777777;
-      position: relative;
-      margin-left: 24px;
+    .box_price {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      .line {
-        position: absolute;
-        width: 85px;
-        border-top: 2px solid #d93f3f;
-        border-bottom: none;
-      }
-    }
+      flex-direction: row;
+      transition: 0.5s ease;
 
-    .box__product__price {
-      margin-left: 24px;
-      font-weight: 400;
-      font-size: 20px;
-      line-height: 32px;
-      color: #333333;
+      .box__product__oldprice {
+        margin-top: 4px;
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 24px;
+        color: #777777;
+        position: relative;
+        margin-left: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .line {
+          position: absolute;
+          width: 85px;
+          border-top: 2px solid #d93f3f;
+          border-bottom: none;
+        }
+      }
+
+      .box__product__price {
+        margin-left: 24px;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 32px;
+        color: #333333;
+      }
     }
 
     .btn {
@@ -107,5 +129,108 @@
         border: none;
       }
     }
+
+    .txt_add {
+      margin-left: 24px;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 32px;
+      color: #333333;
+      border-bottom: 1px solid #000000;
+      transition: 0.5s ease;
+    }
   }
+}
+
+@keyframes showtxt {
+  0% {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hidetxt {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+}
+
+@keyframes showprice {
+  0% {
+    opacity: 0;
+    transform: translateY(-30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hideprice {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30%);
+  }
+}
+
+@keyframes showheart {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@keyframes hideheart {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(0);
+  }
+}
+
+.show_heart {
+  opacity: 1 !important;
+  animation: showheart 0.5s ease;
+}
+.hide_heart {
+  opacity: 0;
+  pointer-events: none;
+  animation: hideheart 0.5s ease;
+}
+
+.show_price {
+  animation: showprice 0.5s ease;
+}
+
+.hide_price {
+  animation: hideprice 0.5s ease;
+}
+
+.show_txt {
+  animation: showtxt 0.5s ease;
+}
+
+.hide_txt {
+  animation: hidetxt 0.5s ease;
 }
