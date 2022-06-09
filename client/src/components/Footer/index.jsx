@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
 import "boxicons";
-
 export const Footer = () => {
   const left = [
     {

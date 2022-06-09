@@ -20,7 +20,7 @@ export const Cart = (props) => {
       <div ref={props.aref} style={{ padding: "24px" }}>
         {data.map((item, index) => {
           return (
-            <div className={classes.cart__item}>
+            <div className={classes.cart__item} key={index}>
               <div className={classes.cart__item__left}>
                 <div className={classes.cart__item__left__image}>
                   <img src={item1} alt="item" />

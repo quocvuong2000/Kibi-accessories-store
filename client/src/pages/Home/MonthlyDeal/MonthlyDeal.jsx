@@ -1,44 +1,23 @@
-import React from "react";
-import product1 from "../../../assets/home/monthly/image 9.png";
-import product2 from "../../../assets/home/monthly/image 10.png";
+import React, { useEffect, useState } from "react";
+import { getProductHome } from "../../../api/Product";
 import ProductCard from "../../../components/ProductCard";
 import classes from "./styles.module.scss";
-const fakeProduct = [
-  {
-    title: "Singo Maple asdsa sada",
-    saleOff: "20% Off",
-    image: product1,
-    oldPrice: "1.500.000 VND",
-    newPrice: "1.264.000 VND",
-  },
-  {
-    title: "Singo Maple",
-    saleOff: "20% Off",
-    image: product2,
-    oldPrice: "1.500.000 VND",
-    newPrice: "1.264.000 VND",
-  },
-  {
-    title: "Singo Maple",
-    saleOff: "20% Off",
-    image: product1,
-    oldPrice: "1.500.000 VND",
-    newPrice: "1.264.000 VND",
-  },
-  {
-    title: "Singo Maple",
-    saleOff: "20% Off",
-    image: product2,
-    oldPrice: "1.500.000 VND",
-    newPrice: "1.264.000 VND",
-  },
-];
+
 const MonthlyDeal = () => {
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    getProductHome().then((res) => {
+      if (res) {
+        setProduct(res);
+      }
+    });
+  });
+  console.log(product);
   return (
     <div className={classes.mothlyDealContainer}>
       <div className={classes.title}>Monthly Deals</div>
       <div className={classes.listItem}>
-        {fakeProduct.slice(0, 4).map((item, index) => {
+        {product.products?.map((item, index) => {
           return <ProductCard data={item} key={index} />;
         })}
       </div>

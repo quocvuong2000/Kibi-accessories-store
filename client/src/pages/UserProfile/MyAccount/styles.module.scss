@@ -1,0 +1,25 @@
+.box {
+  :global {
+    .ant-form-item-label
+      > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before,
+    .ant-form-item-label > label:after {
+      display: none;
+    }
+  }
+  .form_info {
+    background: #fff;
+
+    .phone,
+    .email {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+
+      .button_update {
+        display: flex;
+      }
+    }
+  }
+}

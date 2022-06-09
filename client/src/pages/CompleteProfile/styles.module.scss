@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1110px;
+  margin: 0 auto;
+  margin-top: 150px;
+  margin-bottom: 50px;
+
+  :global {
+    .steps-content {
+      margin-top: 30px !important;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .ant-input:hover,
+    .ant-input:focus,
+    .ant-input-number:hover,
+    .ant-input-number:focus,
+    .ant-picker:hover,
+    .ant-picker:focus {
+      border-color: #d84727;
+      box-shadow: none;
+    }
+
+    .ant-steps-item-process .ant-steps-item-icon,
+    .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+      background: #d84727;
+      border: none;
+    }
+
+    .ant-steps-item-finish .ant-steps-item-icon {
+      border-color: #d84727;
+    }
+
+    .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+      color: #d84727;
+    }
+
+    .ant-btn:focus,
+    .ant-btn:hover {
+      border-color: #d84727;
+    }
+
+    .ant-steps-item-finish
+      > .ant-steps-item-container
+      > .ant-steps-item-content
+      > .ant-steps-item-title:after {
+      background: #d84727;
+    }
+
+    .ant-btn-primary:focus,
+    .ant-btn-primary:hover,
+    .ant-btn-primary {
+      background: #d84727;
+      border: none;
+    }
+
+    .steps-action {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+}

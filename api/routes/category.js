@@ -19,11 +19,22 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+//DELETE - ONLY ADMIN AND STAFF
+router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id);
+    res.status(200).json("Category has been deleted...");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET - PAGINATION
 // pagination
 router.get("/", async (req, res) => {
   const qPage = req.query.page;
-  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 8; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
   try {

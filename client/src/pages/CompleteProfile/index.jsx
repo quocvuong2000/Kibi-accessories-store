@@ -2,16 +2,9 @@ import React from "react";
 import s from "./styles.module.scss";
 import { Steps, Button, message } from "antd";
 import { FirstForm } from "./FirstForm";
+import StyledDemo from "./SecondForm";
 
 const { Step } = Steps;
-
-const secondForm = () => {
-  return <></>;
-};
-
-const thirdForm = () => {
-  return <></>;
-};
 
 const steps = [
   {
@@ -19,8 +12,8 @@ const steps = [
     content: <FirstForm />,
   },
   {
-    title: "Second",
-    content: "Second-content",
+    title: "Choose your avatar",
+    content: <StyledDemo />,
   },
   {
     title: "Finished",
@@ -38,7 +31,7 @@ export const CompleteProfile = () => {
     setCurrent(current - 1);
   };
   return (
-    <>
+    <div className={s.container}>
       <Steps current={current}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />
@@ -65,6 +58,6 @@ export const CompleteProfile = () => {
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 };
