@@ -11,19 +11,21 @@ import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { Search } = Input;
 
 const Header = () => {
+  console.log(process.env.GOOGLE_CLIENT_ID);
+  const user = useSelector((state) => state.user);
   const openNotificationWithIcon = (type) => {
     notification[type]({
       message: "Error",
-      description: "Cannot press kitudacbiet",
+      description: "Can't fill in special character",
     });
   };
   let navigate = useNavigate();
   const onSearch = (value) => {
     var regex = /^[a-zA-Z]+$/;
-    console.log(regex.test(value));
     if (value && regex.test(value)) {
       navigate(`/search/${value}`);
     } else {
@@ -100,10 +102,20 @@ const Header = () => {
             />
           </Space>
           <div className={classes.authentication}>
+            {/* {!user.accessToken ? ( */}
             <Link to={"/login"} className={classes.login}>
               <User size={32} color="#000" weight="thin" />
               <div className={classes.loginText}>Log In</div>
             </Link>
+            {/* ) : ( */}
+            {/* <Link to={"/"} className={classes.login}>
+                <User size={32} color="#000" weight="thin" />
+                <div className={classes.loginText}>
+                  {user.currentUser.username}
+                </div>
+              </Link>
+            )} */}
+
             <div
               className={classes.shopingCart}
               onClick={() => setVisible(true)}

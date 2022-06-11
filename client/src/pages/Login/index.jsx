@@ -9,6 +9,8 @@ import { loginSchema } from "./validation";
 import classes from "./styles.module.scss";
 import Register from "../Register";
 import { loginSuccess } from "../../redux/userRedux";
+import GoogleLogin from "react-google-login";
+
 const Login = () => {
   const navigate = useNavigate();
   const [active, setActive] = React.useState(false);
@@ -16,6 +18,13 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  const handleLogin = (googleData) => {
+    console.log(googleData);
+  };
+
+  const handleFailure = (error) => {
+    alert(error);
+  };
   const handleClickSU = () => {
     setActive(true);
   };
@@ -49,6 +58,7 @@ const Login = () => {
                   message.success("Login success");
                   dispatch(loginSuccess(res));
                   navigate("/");
+                  console.log(res);
                 })
                 .catch(() => {
                   setWrongCredential(true);
@@ -63,9 +73,17 @@ const Login = () => {
                     <Link to="#" className={styles.social}>
                       <box-icon type="logo" name="facebook"></box-icon>
                     </Link>
-                    <Link to="#" className={styles.social}>
-                      <box-icon name="google" type="logo"></box-icon>
-                    </Link>
+                    <GoogleLogin
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                      buttonText="Login with Google"
+                      onSuccess={handleLogin}
+                      onFailure={handleFailure}
+                      cookiePolicy={"single_host_origin"}
+                    >
+                      {/* <Link to="#" className={styles.social}>
+                        <box-icon name="google" type="logo"></box-icon>
+                      </Link> */}
+                    </GoogleLogin>
                   </div>
                   <span>or use your account</span>
                   {wrongCredentials && (

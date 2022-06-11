@@ -11,7 +11,7 @@ const MonthlyDeal = () => {
         setProduct(res);
       }
     });
-  });
+  }, []);
   console.log(product);
   return (
     <div className={classes.mothlyDealContainer}>

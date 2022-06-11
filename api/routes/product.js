@@ -151,7 +151,7 @@ router.get("/search/:kw", async (req, res) => {
 
 //GET PRODUCT BY ID -> DETAIL
 router.get("/get/:id", async (req, res) => {
-  const product = await Product.findById("629c7e6f3e6990e16579d237").exec();
+  const product = await Product.findById(req.params.id);
   try {
     res.status(200).json({ product });
   } catch (error) {
