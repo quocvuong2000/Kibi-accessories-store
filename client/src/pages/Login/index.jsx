@@ -74,16 +74,20 @@ const Login = () => {
                       <box-icon type="logo" name="facebook"></box-icon>
                     </Link>
                     <GoogleLogin
-                      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                      buttonText="Login with Google"
+                      clientId="510901069546-jald5h0tblnee8qj13hceu52q6ahrhdi.apps.googleusercontent.com"
+                      render={(renderProps) => (
+                        <Link
+                          to="#"
+                          className={styles.social}
+                          onClick={renderProps.onClick}
+                        >
+                          <box-icon name="google" type="logo"></box-icon>
+                        </Link>
+                      )}
                       onSuccess={handleLogin}
                       onFailure={handleFailure}
                       cookiePolicy={"single_host_origin"}
-                    >
-                      {/* <Link to="#" className={styles.social}>
-                        <box-icon name="google" type="logo"></box-icon>
-                      </Link> */}
-                    </GoogleLogin>
+                    />
                   </div>
                   <span>or use your account</span>
                   {wrongCredentials && (

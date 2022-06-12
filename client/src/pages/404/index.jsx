@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import pageerror from "../../assets/404.png";
 import line1 from "../../assets/line1.png";
 import line2 from "../../assets/line2.png";
+import { Link } from "react-router-dom";
 
 const Page404 = () => {
   return (
@@ -14,7 +15,9 @@ const Page404 = () => {
           Sorry for the inconvenience, We couldn't find the correct link from
           you
         </p>
-        <button className={s.goback}>Go Back</button>
+        <Link to={"/"} className={s.goback}>
+          Go Back
+        </Link>
       </div>
       <img src={pageerror} alt="404" />
       <div className={s.line1}>

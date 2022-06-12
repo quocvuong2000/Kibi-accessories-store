@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getProductHome } from "../../../api/Product";
 import ProductCard from "../../../components/ProductCard";
 import classes from "./styles.module.scss";

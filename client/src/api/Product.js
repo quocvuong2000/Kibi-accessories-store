@@ -25,3 +25,10 @@ export const getProductHome = async () => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const getLimitProduct = async (count) => {
+  const res = await jwtAxios.get(`/api/product/limit/${count}`);
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

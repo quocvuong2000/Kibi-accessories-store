@@ -43,7 +43,7 @@ export default function ProductList(props) {
     props.takePage(newPage + 1);
   };
   return (
-    <div>
+    <div style={{ height: "465px" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table
           stickyHeader
@@ -64,7 +64,10 @@ export default function ProductList(props) {
             {props.productList.products?.map((row) => (
               <TableRow
                 key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  maxHeight: 440,
+                }}
               >
                 <TableCell
                   align="left"

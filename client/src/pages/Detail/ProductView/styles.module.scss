@@ -186,11 +186,11 @@ svg {
             .icon_sub {
               position: absolute;
               border: 1px solid #777777;
+              border-bottom: none !important;
               bottom: 50%;
               left: 0;
               right: 0;
               margin: 0 4px;
-              border-bottom: none;
             }
           }
           .count {

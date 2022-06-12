@@ -1,6 +1,7 @@
 import { Col, Image, Popover, Row } from "antd";
 import { Heart } from "phosphor-react";
 import React from "react";
+import { Link } from "react-router-dom";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
 
@@ -16,7 +17,9 @@ export const ProductCardList = (props) => {
       </Col>
       <Col span={20} className={s.box__product__content} push={1}>
         <Popover title={data.title} trigger="hover">
-          <p className={s.box__product__title}>{data.product}</p>
+          <Link to={`/detail/${data._id}`}>
+            <p className={s.box__product__title}>{data.product}</p>
+          </Link>
         </Popover>
         <p className={s.box__product__desc}>{data.description}</p>
         <p className={s.box__product__voucher}>20% Off</p>

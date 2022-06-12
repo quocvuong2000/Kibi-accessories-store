@@ -6,12 +6,15 @@ import { RelateProduct } from "./RelateProduct";
 import { Brand } from "../../components/Brand";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/Product";
+import AppLoader from "../../components/AppLoader";
 
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
+    window.scrollTo(0, 0);
     getProduct(id)
       .then((value) => {
         if (value) {
@@ -21,14 +24,26 @@ const Detail = () => {
       .finally(() => {
         setLoading(false);
       });
-  });
+
+    console.log(loading);
+  }, [id]);
+
   return (
-    <div className={styles.backgroundContainer}>
-      <ProductView data={product} />
-      <AllInfo data={product} />
-      <RelateProduct data={product} />
-      <Brand />
-    </div>
+    <>
+      {loading && <AppLoader />}
+      <div className={styles.backgroundContainer}>
+        {product.product ? (
+          <>
+            <ProductView data={product} />
+            <AllInfo data={product} />
+            <RelateProduct data={product} />
+          </>
+        ) : (
+          <p>Không có gì</p>
+        )}
+        <Brand />
+      </div>
+    </>
   );
 };
 

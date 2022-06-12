@@ -4,6 +4,7 @@ import ListProduct from "./ListProduct";
 import { useParams } from "react-router-dom";
 import { getAllProduct } from "../../api/Product";
 import AppLoader from "../../components/AppLoader";
+import { message } from "antd";
 
 const ViewAll = () => {
   const [loading, setLoading] = useState(true);
@@ -18,14 +19,19 @@ const ViewAll = () => {
           setProduct(res);
         }
       })
+      .catch(() => {
+        message.error("Loading list failure");
+      })
       .finally(() => {
         setLoading(false);
       });
   }, [idCate]);
   return (
-    <div className={styles.backgroundContainer}>
-      <ListProduct data={product} loading={loading} />
-    </div>
+    <>
+      <div className={styles.backgroundContainer}>
+        <ListProduct data={product} loading={loading} />
+      </div>
+    </>
   );
 };
 

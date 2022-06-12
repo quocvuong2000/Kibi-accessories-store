@@ -9,6 +9,7 @@ import model2 from "../../../assets/detail/model2.png";
 import { ShoppingCartSimple } from "phosphor-react";
 import { Row, Col } from "antd";
 import { motion } from "framer-motion";
+import numberWithCommas from "../../../utils/numberWithCommas";
 const listImgPreview = [
   {
     src: imgMain,
@@ -24,7 +25,7 @@ const listImgPreview = [
   },
 ];
 
-const ProductView = () => {
+const ProductView = (props) => {
   const [src, setSrc] = useState(imgMain);
   const [srcMain, setSrcMain] = useState(imgMain);
   const [show, setShow] = useState(false);
@@ -62,7 +63,9 @@ const ProductView = () => {
     <Col className={`${styles.container}`}>
       <p className={styles.link__to__product}>
         Home / Product / Watches /{" "}
-        <span className={styles.name__product}> Way Kambas Mini Ebony </span>
+        <span className={styles.name__product}>
+          {props.data.product.product ?? ""}{" "}
+        </span>
       </p>
       <Row className={styles.frame_product}>
         <Col span={12} className={styles.preview_product}>
@@ -98,12 +101,19 @@ const ProductView = () => {
 
         <Col span={12} className={styles.frame_info_product} push={5}>
           <Col className={styles.info_product}>
-            <p className={styles.title}>WAY KAMBAS MINI EBONY</p>
-            <p className={styles.price_before}>
-              Rp 1.280.000
-              <span className={styles.line}></span>
+            <p className={styles.title}>{props.data.product.product ?? ""}</p>
+            {props.data.product.odlprice ? (
+              <p className={styles.price_before}>
+                Rp 1.280.000
+                <span className={styles.line}></span>
+              </p>
+            ) : (
+              ""
+            )}
+
+            <p className={styles.price_after}>
+              {numberWithCommas(props.data.product.price) ?? ""}đ
             </p>
-            <p className={styles.price_after}>Rp 1.024.000</p>
             <Col className={styles.model}>
               <p className={styles.title_modle}>Choose Model</p>
               <Row className={styles.frame_model}>

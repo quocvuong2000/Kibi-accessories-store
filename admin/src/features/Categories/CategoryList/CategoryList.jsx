@@ -44,8 +44,12 @@ export default function CategoryList(props) {
   };
   return (
     <div>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ minWidth: 650, height: "100%" }}
+        >
           <TableHead>
             <TableRow>
               <TableCell align="left">Setting</TableCell>

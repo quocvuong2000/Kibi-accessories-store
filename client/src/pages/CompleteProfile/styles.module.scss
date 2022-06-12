@@ -56,6 +56,11 @@
       border: none;
     }
 
+    .ant-btn-default:focus,
+    .ant-btn-default:hover {
+      color: #d84727;
+    }
+
     .steps-action {
       display: flex;
       flex-direction: row-reverse;

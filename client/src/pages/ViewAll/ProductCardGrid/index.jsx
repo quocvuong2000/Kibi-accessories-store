@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import { Popover } from "antd";
 import { Heart } from "phosphor-react";
 import numberWithComas from "../../../utils/numberWithCommas";
+import { Link } from "react-router-dom";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
@@ -14,15 +15,19 @@ export const ProductCardGrid = (props) => {
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
-      <div className={s.box__product__image}>
-        <img src={data.image} alt="" loading="lazy" />
-      </div>
+      <Link to={`/detail/${data._id}`}>
+        <div className={s.box__product__image}>
+          <img src={data.image} alt="" loading="lazy" />
+        </div>
+      </Link>
       <div className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}>
         <Heart size={20} />
       </div>
       <div className={s.box__product__content}>
         <Popover title={data.product} trigger="hover">
-          <p className={s.box__product__title}>{data.product}</p>
+          <Link to={`/detail/${data._id}`}>
+            <p className={s.box__product__title}>{data.product}</p>
+          </Link>
         </Popover>
         {!show ? (
           <div
