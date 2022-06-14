@@ -2,9 +2,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Spin } from "antd";
 import { motion } from "framer-motion";
 import { DotsNine, ListDashes } from "phosphor-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import AppLoader from "../../../components/AppLoader";
 import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
 import classes from "./styles.module.scss";
@@ -110,7 +109,10 @@ const ListProduct = (props) => {
               >
                 {props.data.products?.map((item, index) => {
                   return (
-                    <motion.span animate={{ scale: [2, 1], opacity: [0, 1] }}>
+                    <motion.span
+                      animate={{ scale: [2, 1], opacity: [0, 1] }}
+                      key={index}
+                    >
                       {glActive ? (
                         <ProductCardList data={item} key={index} />
                       ) : (

@@ -13,9 +13,19 @@
     .ant-tabs {
       width: 1240px;
     }
+
+    .ant-tabs-nav {
+      min-height: 500px;
+    }
+
+    .ant-tabs-ink-bar {
+      background: #d84727;
+    }
   }
 
   .url {
+    margin-top: 50px;
+    margin-bottom: 30px;
     color: #333333;
     @include font(normal, 400, 16px, 27px, 0.02em);
     &_main {

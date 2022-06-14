@@ -6,15 +6,15 @@ import AppLayout from "./layout/AppLayout";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { GoogleAuthProvider } from "./redux/googleAuth";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <GoogleAuthProvider>
+    <GoogleOAuthProvider clientId="364066337147-mv7trqtcmsr8tii5m8483ukmulhf771r.apps.googleusercontent.com">
       <Provider store={store}>
         <AppLayout></AppLayout>
       </Provider>
-    </GoogleAuthProvider>
+    </GoogleOAuthProvider>
   </BrowserRouter>
 );
 

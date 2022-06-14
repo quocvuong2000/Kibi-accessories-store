@@ -4,11 +4,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
-
+import parse from "html-react-parser";
 export const ProductCardList = (props) => {
   const data = props.data;
-
-  console.log(data.oldPrice);
 
   return (
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
@@ -21,7 +19,9 @@ export const ProductCardList = (props) => {
             <p className={s.box__product__title}>{data.product}</p>
           </Link>
         </Popover>
-        <p className={s.box__product__desc}>{data.description}</p>
+        <p className={s.box__product__desc}>
+          {parse(`${data.description.content}`)}
+        </p>
         <p className={s.box__product__voucher}>20% Off</p>
 
         {data.oldPrice && (

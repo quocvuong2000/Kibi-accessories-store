@@ -10,8 +10,6 @@ export const RelateProduct = (props) => {
     });
   }, []);
 
-  console.log(product);
-
   return (
     <div className={styles.container}>
       <div className={styles.relate}>

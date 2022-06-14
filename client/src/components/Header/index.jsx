@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 const { Search } = Input;
 
 const Header = () => {
-  console.log(process.env.GOOGLE_CLIENT_ID);
   const user = useSelector((state) => state.user);
   const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -57,7 +56,7 @@ const Header = () => {
       setQty(qty - 1);
     }
   };
-
+  console.log(user);
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (
@@ -103,18 +102,18 @@ const Header = () => {
           </Space>
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
-            <Link to={"/login"} className={classes.login}>
-              <User size={32} color="#000" weight="thin" />
-              <div className={classes.loginText}>Log In</div>
-            </Link>
-            {/* ) : ( */}
-            {/* <Link to={"/"} className={classes.login}>
+
+            {user.currentUser ? (
+              <Link to={"/myaccount/1"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>
-                  {user.currentUser.username}
-                </div>
+                <div className={classes.loginText}>{user.currentUser.name}</div>
               </Link>
-            )} */}
+            ) : (
+              <Link to={"/login"} className={classes.login}>
+                <User size={32} color="#000" weight="thin" />
+                <div className={classes.loginText}>Log In</div>
+              </Link>
+            )}
 
             <div
               className={classes.shopingCart}
@@ -159,7 +158,9 @@ const Header = () => {
             <div className={classes.authentication}>
               <div className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>Log In</div>
+                <div className={classes.loginText}>
+                  {user.currentUser ? user.currentUser.username : "Log In"}
+                </div>
               </div>
               <div
                 className={classes.shopingCart}

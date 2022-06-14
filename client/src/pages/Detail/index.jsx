@@ -24,8 +24,6 @@ const Detail = () => {
       .finally(() => {
         setLoading(false);
       });
-
-    console.log(loading);
   }, [id]);
 
   return (

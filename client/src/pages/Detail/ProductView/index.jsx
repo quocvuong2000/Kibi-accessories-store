@@ -47,8 +47,6 @@ const ProductView = (props) => {
 
   const upQty = () => {
     setQty(qty + 1);
-    console.log(qty);
-    console.log("up");
   };
 
   const downQty = () => {

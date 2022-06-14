@@ -1,16 +1,20 @@
 import React from "react";
 import s from "./styles.module.scss";
-import { User, MapPin, Eye, Heart } from "phosphor-react";
+import { User, MapPin, Eye, Heart, BookOpen } from "phosphor-react";
 import { Tabs } from "antd";
 import MyAccount from "./MyAccount";
+import Address from "./Address";
+import { useParams } from "react-router-dom";
 const UserProfile = () => {
   const { TabPane } = Tabs;
+  const { active } = useParams();
+
   return (
     <div className={s.container}>
       <p className={s.url}>
         Home / <span className={s.url_main}>My Account</span>
       </p>
-      <Tabs tabPosition="left">
+      <Tabs tabPosition="left" defaultActiveKey={`${active}`}>
         <TabPane
           tab={
             <div className={s.tab}>
@@ -29,7 +33,7 @@ const UserProfile = () => {
           }
           key="2"
         >
-          Content of Tab 2
+          <Address />
         </TabPane>
         <TabPane
           tab={
@@ -48,6 +52,17 @@ const UserProfile = () => {
             </div>
           }
           key="4"
+        >
+          Content of Tab 4
+        </TabPane>
+
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <BookOpen size={24} /> Oder Management{" "}
+            </div>
+          }
+          key="5"
         >
           Content of Tab 4
         </TabPane>

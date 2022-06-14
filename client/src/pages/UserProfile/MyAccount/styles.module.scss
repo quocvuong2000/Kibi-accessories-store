@@ -1,25 +1,123 @@
+@use "../../../sass/mixins" as *;
 .box {
+  margin-bottom: 20px;
+
   :global {
     .ant-form-item-label
       > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before,
     .ant-form-item-label > label:after {
       display: none;
     }
+    .ant-form-item {
+      margin: 0;
+      column-gap: 15px;
+    }
+    .ant-form-item-label {
+      text-align: unset;
+    }
+
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+    .ant-input-affix-wrapper-focused,
+    .ant-picker-focused,
+    .ant-picker:hover,
+    .ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+    .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+      .ant-select-selector {
+      border-color: #d84727;
+      box-shadow: 0 0 2px #d84727;
+    }
+    .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+      background-color: #d84727 !important;
+    }
+
+    // .ant-btn-primary {
+    //   color: transparent;
+    // }
   }
+
+  .text {
+    font-size: 25px;
+  }
+
   .form_info {
     background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+
+    .text_info {
+      font-size: 20px;
+    }
+
+    .avatar_name {
+      display: flex;
+      align-items: center;
+    }
+
+    .input_name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      row-gap: 15px;
+    }
+
+    .date_of_birth {
+      margin-top: 40px;
+    }
+
+    .gender {
+      margin-top: 20px;
+    }
+
+    .full_content_right {
+      margin-left: 50px;
+    }
 
     .phone,
-    .email {
+    .email,
+    .password {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
       flex: 1;
 
+      .title {
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+      }
+
       .button_update {
         display: flex;
       }
     }
+
+    .email {
+      margin-top: 15px;
+    }
   }
+}
+
+.button_update button {
+  background: transparent;
+  color: #d84727;
+  border: thin solid #d84727;
+  padding: 4px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.button_saveinfo,
+.button_saveinfo:hover,
+.button_saveinfo:focus {
+  @include flex();
+  margin-top: 30px;
+  background-color: #d84727;
+  border: 1px solid #d84727;
+  border-radius: 7px;
+}
+
+.button_saveinfo span {
+  padding: 4px 15px;
 }

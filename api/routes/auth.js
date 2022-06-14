@@ -6,7 +6,7 @@ const User = require("../models/User");
 //REGISTER
 router.post("/register", async (req, res) => {
   const userInfo = new User({
-    username: req.body.username,
+    name: req.body.name,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
     const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
     if (OriginalPassword !== req.body.password)
-    return res.status(401).json("Wrong credentials!");
+      return res.status(401).json("Wrong credentials!");
 
     const accessToken = jwt.sign(
       {

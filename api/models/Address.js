@@ -12,6 +12,7 @@ const AddressSchema = new mongoose.Schema(
       },
     ],
     fullAddress: { type: String },
+    default: { type: Boolean },
   },
   { timestamps: true }
 );

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import ListProduct from "./ListProduct";
+import { message } from "antd";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAllProduct } from "../../api/Product";
-import AppLoader from "../../components/AppLoader";
-import { message } from "antd";
+import ListProduct from "./ListProduct";
+import styles from "./styles.module.scss";
 
 const ViewAll = () => {
   const [loading, setLoading] = useState(true);

@@ -1,0 +1,84 @@
+@use "../../../sass/mixins" as *;
+.container {
+  @include flex(flex-start, flex-start);
+  flex-direction: column;
+  margin-bottom: 30px;
+  p {
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+  .title {
+    font-size: 25px;
+  }
+  .box_address {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 17px;
+    justify-content: space-between;
+    width: 950px;
+    border-radius: 7px;
+    margin-top: 20px;
+  }
+
+  .address_left {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+  }
+
+  .name_user {
+    font-size: 16px;
+    display: flex;
+
+    & > span {
+      font-size: 12px;
+      margin: 0px 0px 0px 15px;
+      display: inline-block;
+      align-items: center;
+      color: rgb(38, 188, 78);
+      text-transform: none;
+
+      @include flex();
+      width: fit-content;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px 0px 0px 5px;
+      }
+    }
+  }
+
+  .address_user {
+    max-width: 750px;
+  }
+
+  .address_right {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+
+    svg {
+      margin-top: -5px;
+      color: #d84727;
+      cursor: pointer;
+    }
+    .text_edit {
+      font-size: 14px;
+      color: #d84727;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.opa {
+  opacity: 0.6;
+}

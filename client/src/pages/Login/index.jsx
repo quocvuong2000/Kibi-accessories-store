@@ -9,7 +9,8 @@ import { loginSchema } from "./validation";
 import classes from "./styles.module.scss";
 import Register from "../Register";
 import { loginSuccess } from "../../redux/userRedux";
-import GoogleLogin from "react-google-login";
+import { useGoogleLogin } from "@react-oauth/google";
+import FacebookLogin from "react-facebook-login";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,13 +19,26 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const handleLogin = (googleData) => {
-    console.log(googleData);
+  const responseFacebook = (res) => {
+    if (res) {
+      setWrongCredential(false);
+      message.success("Login success");
+      dispatch(loginSuccess(res));
+      navigate("/");
+      console.log(res);
+    }
   };
+  const handleLoginGoogle = useGoogleLogin({
+    onSuccess: (res) => {
+      setWrongCredential(false);
+      message.success("Login success");
+      dispatch(loginSuccess(res));
+      navigate("/");
+      console.log(res);
+    },
+    onError: (res) => console.log(res),
+  });
 
-  const handleFailure = (error) => {
-    alert(error);
-  };
   const handleClickSU = () => {
     setActive(true);
   };
@@ -70,24 +84,28 @@ const Login = () => {
                 <Form>
                   <h1>Sign in</h1>
                   <div className={styles.social_container}>
-                    <Link to="#" className={styles.social}>
-                      <box-icon type="logo" name="facebook"></box-icon>
-                    </Link>
-                    <GoogleLogin
-                      clientId="510901069546-jald5h0tblnee8qj13hceu52q6ahrhdi.apps.googleusercontent.com"
+                    <FacebookLogin
+                      appId="753923969369724"
+                      fields="name,email,picture"
+                      callback={responseFacebook}
                       render={(renderProps) => (
                         <Link
                           to="#"
                           className={styles.social}
                           onClick={renderProps.onClick}
                         >
-                          <box-icon name="google" type="logo"></box-icon>
+                          <box-icon type="logo" name="facebook"></box-icon>
                         </Link>
                       )}
-                      onSuccess={handleLogin}
-                      onFailure={handleFailure}
-                      cookiePolicy={"single_host_origin"}
                     />
+
+                    <Link to="#" className={styles.social}>
+                      <box-icon
+                        name="google"
+                        type="logo"
+                        onClick={() => handleLoginGoogle()}
+                      ></box-icon>
+                    </Link>
                   </div>
                   <span>or use your account</span>
                   {wrongCredentials && (

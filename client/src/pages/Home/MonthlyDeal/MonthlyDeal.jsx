@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { getProductHome } from "../../../api/Product";
 import ProductCard from "../../../components/ProductCard";
 import classes from "./styles.module.scss";
@@ -13,7 +12,6 @@ const MonthlyDeal = () => {
       }
     });
   }, []);
-  console.log(product);
   return (
     <div className={classes.mothlyDealContainer}>
       <div className={classes.title}>Monthly Deals</div>

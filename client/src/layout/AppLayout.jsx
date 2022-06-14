@@ -93,6 +93,14 @@ const AppLayout = () => {
             }
           />
           <Route
+            path="/myaccount/:active"
+            element={
+              <UnRequireAuth>
+                <UserProfile />
+              </UnRequireAuth>
+            }
+          />
+          <Route
             path="/search/:kw"
             element={
               <UnRequireAuth>
