@@ -2,11 +2,11 @@ const router = require("express").Router();
 var CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-
+const Cart = require("../models/Cart");
 //REGISTER
 router.post("/register", async (req, res) => {
   const userInfo = new User({
-    name: req.body.name,
+    username: req.body.username,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
@@ -21,8 +21,12 @@ router.post("/register", async (req, res) => {
     city: req.body.city,
     type: req.body.type,
   });
+  const cartInfo = new Cart({
+    username: req.body.username,
+  });
   try {
     const register = await userInfo.save();
+    await cartInfo.save();
     res.status(201).json(register);
   } catch (error) {
     res.status(500).json(error);

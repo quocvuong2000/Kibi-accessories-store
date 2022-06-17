@@ -17,3 +17,13 @@ export const getProductList = async (page) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const doDeleteProduct = async (id) => {
+  const res = await callAPIWithToken({
+    url: `/api/product/${id}`,
+    method: "DELETE",
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

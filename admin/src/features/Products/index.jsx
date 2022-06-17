@@ -54,7 +54,11 @@ const Products = () => {
               <h3>Products</h3>
               <HeaderProduct reLoadTable={reLoadTable} />
               {productList && (
-                <ProductList takePage={takePage} productList={productList} />
+                <ProductList
+                  takePage={takePage}
+                  reLoadTable={reLoadTable}
+                  productList={productList}
+                />
               )}
             </Box>
           </Grid>

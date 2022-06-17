@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import DialogAddProduct from "../DiablogAdd/DialogAddProduct";
+import DialogAddProduct from "../DialogAdd/DialogAddProduct";
 
 const HeaderProduct = (props) => {
   const [age, setAge] = React.useState("");
