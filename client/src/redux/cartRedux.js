@@ -1,26 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { setAuthToken } from "../services/jwt-axios";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    products: [],
-    quantity: 0,
-    total: 0,
+    isFetching: false,
+    numberCart: 0,
+    Carts: [],
+    _products: [],
   },
 
   reducers: {
-    addProduct: (state, action) => {
-      var check = 0;
-      for (var i = 0; i < state.products.length; i++) {
-        console.log(state.products[i]);
-      }
-
-      state.quantity += 1;
-      state.products.push(action.payload);
-      state.total += action.payload.product.price * action.payload.quantity;
+    addStart: (state) => {
+      state.isFetching = true;
+    },
+    addCartSuccess: (state, action) => {
+      state.isFetching = false;
+      state._products = action.payload;
+      state.numberCart = action.payload.length;
     },
   },
 });
 
-export const { addProduct } = cartSlice.actions;
+export const { addStart, addCartSuccess } = cartSlice.actions;
 export default cartSlice.reducer;

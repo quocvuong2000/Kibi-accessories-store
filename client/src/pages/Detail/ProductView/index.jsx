@@ -10,8 +10,11 @@ import { ShoppingCartSimple } from "phosphor-react";
 import { Row, Col } from "antd";
 import { motion } from "framer-motion";
 import numberWithCommas from "../../../utils/numberWithCommas";
-import { addProduct } from "../../../redux/cartRedux";
-import { useDispatch } from "react-redux";
+import { message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../../../redux/apiCalls";
+import { addCartSuccess } from "../../../redux/cartRedux";
+import { getAllProductCart } from "../../../api/Cart";
 
 const listImgPreview = [
   {
@@ -33,6 +36,8 @@ const ProductView = (props) => {
   const [srcMain, setSrcMain] = useState(imgMain);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
+
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,16 +61,23 @@ const ProductView = (props) => {
       setQty(qty + 1);
     }
   };
+  const [wrongCredentials, setWrongCredential] = React.useState(false);
 
-  const handleAddToCart = () => {
-    let product = { ...props.data.product };
-    // console.log(product);
-    dispatch(
-      addProduct({
-        product,
-        quantity: qty,
+  const handleAddToCart = async () => {
+    addCart(dispatch, user.currentUser.username, props.data.product._id)
+      .then((res) => {
+        setWrongCredential(false);
+        message.success("Add success");
       })
-    );
+      .finally(() => {
+        getAllProductCart().then((res) => {
+          console.log(res);
+          dispatch(addCartSuccess(res));
+        });
+      })
+      .catch(() => {
+        setWrongCredential(true);
+      });
   };
 
   return (
@@ -148,7 +160,7 @@ const ProductView = (props) => {
                   <p className={styles.icon_add2}></p>
                 </div>
               </Row>
-
+              {/* onClick={handleAddToCart} */}
               <button className={styles.add_to_cart} onClick={handleAddToCart}>
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>

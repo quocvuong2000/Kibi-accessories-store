@@ -1,14 +1,18 @@
 import { Modal } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import "antd/dist/antd.min.css";
 import classes from "./styles2.module.scss";
 import item1 from "../../assets/cart/item1.png";
 import { useSelector } from "react-redux";
 import numberWithCommas from "../../utils/numberWithCommas";
+import { getAllProductCart } from "../../api/Cart";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
-  // console.log(cart);
+
+  useEffect(() => {
+    getAllProductCart().then((res) => {});
+  }, []);
 
   return (
     <Modal centered visible={props.visible}>

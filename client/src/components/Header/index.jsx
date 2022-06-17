@@ -16,6 +16,9 @@ const { Search } = Input;
 
 const Header = () => {
   const user = useSelector((state) => state.user);
+  const cart = useSelector((state) => state.cart);
+  console.log(cart);
+  console.log(user);
   const openNotificationWithIcon = (type) => {
     notification[type]({
       message: "Error",
@@ -107,7 +110,9 @@ const Header = () => {
             {user.currentUser ? (
               <Link to={"/myaccount/1"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>{user.currentUser.name}</div>
+                <div className={classes.loginText}>
+                  {user.currentUser.username}
+                </div>
               </Link>
             ) : (
               <Link to={"/login"} className={classes.login}>
