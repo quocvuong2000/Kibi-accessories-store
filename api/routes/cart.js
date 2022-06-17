@@ -4,29 +4,37 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
 //ADD TO CART
-router.post("/add", async (req, res) => {
+router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
   const productAdded = await Product.findById(req.body.productId);
-  const cartByUser = await Cart.find({ username: req.body.username }[0]);
-  let cartUpdate;
-  let cartList = cartByUser[0].products;
+  const cartByUser = await Cart.findOne({ username: req.body.username });
+  if (!cartByUser) return res.status(404).json("user cart not generate");
+
+  let cartList = cartByUser.products;
   if (cartList.length === 0) {
-    cartUpdate = await Cart.findByIdAndUpdate(cartByUser[0].id, {
-      products: [
-        {
-          productId: productAdded.id,
-          productName: productAdded.product,
-          productPrice: productAdded.price,
-          quantity: 1,
-        },
-      ],
-    });
+    try {
+      // const addCart = await pInfo.save();
+      await Cart.findByIdAndUpdate(cartByUser.id, {
+        products: [
+          {
+            productId: productAdded.id,
+            productName: productAdded.product,
+            productPrice: productAdded.price,
+            quantity: 1,
+          },
+        ],
+      });
+      res.status(200).json("update success");
+    } catch (error) {
+      res.status(500).json(error);
+    }
   } else {
-    let newUpdate;
+    //FIND IF PRODUCT ALREADY EXISTS
     const productFound = cartList.find(
       (el) => el.productId === req.body.productId
     );
     // console.log(productFound);
     let cartTemp = [];
+    let newUpdate;
     if (productFound !== undefined) {
       newUpdate = {
         productId: productFound.productId,
@@ -51,22 +59,129 @@ router.post("/add", async (req, res) => {
       cartTemp = cartList;
       cartTemp.push(newUpdate);
     }
+    try {
+      // const addCart = await pInfo.save();
+      await Cart.findByIdAndUpdate(cartByUser.id, {
+        products: cartTemp,
+      });
+      res.status(200).json("update success");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+});
 
-    cartUpdate = await Cart.findByIdAndUpdate(cartByUser[0].id, {
-      products: cartTemp,
+//DECREASE
+router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
+  //FIND CART
+  const cartByUser = await Cart.findOne({ username: req.body.username });
+  if (!cartByUser) return res.status(404).json("user cart not generate");
+  let cartList = cartByUser.products;
+
+  //FIND IF PRODUCT IN CART
+  const productFound = cartList.find(
+    (el) => el.productId === req.body.productId
+  );
+  if (!productFound) return res.status(404).json("product not found");
+  let cartTemp = [];
+  if (productFound.quantity - 1 <= 0) {
+    cartTemp = cartList.filter((el) => el.productId !== req.body.productId);
+  } else {
+    let newUpdate = {
+      productId: productFound.productId,
+      productName: productFound.productName,
+      productPrice: productFound.productPrice,
+      quantity: productFound.quantity - 1 === 0 ? 0 : productFound.quantity - 1,
+    };
+    cartList.forEach((el) => {
+      if (el.productId === req.body.productId) {
+        cartTemp.push(newUpdate);
+      } else {
+        cartTemp.push(el);
+      }
     });
   }
+  try {
+    await Cart.findByIdAndUpdate(cartByUser.id, {
+      products: cartTemp,
+    });
+    // const addCart = await pInfo.save();
+    res.status(200).json("decrease success");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+//INCREASE
+router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    //FIND CART
+    const cartByUser = await Cart.findOne({ username: req.body.username }[0]);
+    if (!cartByUser) return res.status(404).json("user cart not generate");
+    let cartList = cartByUser.products;
+
+    //FIND IF PRODUCT IN CART
+    const productFound = cartList.find(
+      (el) => el.productId === req.body.productId
+    );
+    if (!productFound) return res.status(404).json("product not found");
+    let cartTemp = [];
+    let newUpdate = {
+      productId: productFound.productId,
+      productName: productFound.productName,
+      productPrice: productFound.productPrice,
+      quantity: productFound.quantity + 1,
+    };
+    cartList.forEach((el) => {
+      if (el.productId === req.body.productId) {
+        cartTemp.push(newUpdate);
+      } else {
+        cartTemp.push(el);
+      }
+    });
+    // const addCart = await pInfo.save();
+    res.status(200).json("increase success");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+//DELETE
+router.post("/item/delete", verifyTokenAndAuthorization, async (req, res) => {
+  //FIND CART
+  const cartByUser = await Cart.findOne({ username: req.body.username }[0]);
+  if (!cartByUser) return res.status(404).json("user cart not generate");
+  let cartList = cartByUser.products;
+
+  //FIND IF PRODUCT IN CART
+  const productFound = cartList.find(
+    (el) => el.productId === req.body.productId
+  );
+  if (!productFound) return res.status(404).json("product not found");
+  let cartTemp = cartList.filter((el) => el.productId !== req.body.productId);
 
   try {
+    await Cart.findByIdAndUpdate(cartByUser.id, {
+      products: cartTemp,
+    });
     // const addCart = await pInfo.save();
-    res.status(200).json("update success");
+    res.status(200).json("delete success");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//GET CART BY USERNAME
+router.get("/:username", verifyTokenAndAuthorization, async (req, res) => {
+  const rs = await Cart.findOne({ username: req.params.username });
+  !rs && res.status(401).json("Wrong credentials!");
+  try {
+    res.status(200).json(rs);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
 //GET CART
-router.get("/", async (req, res) => {
+router.get("/", verifyTokenAndAuthorization, async (req, res) => {
   const rs = await Cart.find(req.body.username);
   !rs && res.status(401).json("Wrong credentials!");
   try {
