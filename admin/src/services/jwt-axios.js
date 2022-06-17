@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { browserHistory as history } from "../routes/history";
 import { Navigate } from "react-router-dom";
 
 const devUrl = "http://localhost:5000";
@@ -51,7 +50,7 @@ callAPIWithToken.interceptors.response.use(
   (err) => {
     if (err.response && err.response.status === 401) {
       Cookies.remove("token");
-      <Navigate replace to="/login"/>;
+      <Navigate replace to="/login" />;
       // redirect to login
     }
 
@@ -73,3 +72,4 @@ export const setAuthToken = (token) => {
 };
 
 export { callAPIWithToken, jwtAxios };
+
