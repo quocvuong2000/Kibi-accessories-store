@@ -56,21 +56,23 @@ const Header = () => {
       setQty(qty - 1);
     }
   };
-  console.log(user);
+
+  const quantity = useSelector((state) => state.cart.quantity);
+  // console.log(user);
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 50 ||
-        document.documentElement.scrollTop > 50
-      ) {
-        headerRef.current.classList.add(classes.shrink);
-      } else {
-        headerRef.current.classList.remove(classes.shrink);
-      }
-      return () => {
-        window.removeEventListener("scroll");
-      };
-    });
+    // window.addEventListener("scroll", () => {
+    //   if (
+    //     document.body.scrollTop > 50 ||
+    //     document.documentElement.scrollTop > 50
+    //   ) {
+    //     headerRef.current.classList.add(classes.shrink);
+    //   } else {
+    //     headerRef.current.classList.remove(classes.shrink);
+    //   }
+    //   return () => {
+    //     window.removeEventListener("scroll");
+    //   };
+    // });
 
     getAllCategory().then((res) => {
       if (res) {
@@ -102,7 +104,6 @@ const Header = () => {
           </Space>
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
-
             {user.currentUser ? (
               <Link to={"/myaccount/1"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
@@ -120,7 +121,7 @@ const Header = () => {
               onClick={() => setVisible(true)}
             >
               <Handbag size={25} color="#000" weight="thin" />
-              <NumItem item={5} />
+              <NumItem item={quantity} />
             </div>
           </div>
         </div>

@@ -3,13 +3,24 @@
   p {
     margin-bottom: unset !important;
   }
-  @include flex(flex-start, space-between);
+  @include flex(center, space-between);
   &__left {
-    @include flex(flex-start);
+    @include flex(center);
     column-gap: 32px;
     &__image {
       background-color: #f1ddc9;
       padding: 11px 25px;
+      max-width: 89px;
+      max-height: 122px;
+      min-width: 89px;
+      min-height: 122px;
+      @include flex();
+      img {
+        max-width: 89px;
+        max-height: 122px;
+        min-width: 89px;
+        min-height: 122px;
+      }
     }
     &__info {
       display: flex;
@@ -46,7 +57,7 @@
   &__right {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     &__select {
       color: #333333;
       @include font(normal, 500, 16px, 24px, 0.03em);

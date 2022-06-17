@@ -10,6 +10,9 @@ import { ShoppingCartSimple } from "phosphor-react";
 import { Row, Col } from "antd";
 import { motion } from "framer-motion";
 import numberWithCommas from "../../../utils/numberWithCommas";
+import { addProduct } from "../../../redux/cartRedux";
+import { useDispatch } from "react-redux";
+
 const listImgPreview = [
   {
     src: imgMain,
@@ -30,6 +33,7 @@ const ProductView = (props) => {
   const [srcMain, setSrcMain] = useState(imgMain);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setSrcMain(src);
@@ -45,16 +49,23 @@ const ProductView = (props) => {
     setShow(false);
   };
 
-  const upQty = () => {
-    setQty(qty + 1);
+  const handleQuantity = (type) => {
+    if (type === "desc") {
+      qty > 1 && setQty(qty - 1);
+    } else {
+      setQty(qty + 1);
+    }
   };
 
-  const downQty = () => {
-    if (qty === 1) {
-      return;
-    } else {
-      setQty(qty - 1);
-    }
+  const handleAddToCart = () => {
+    let product = { ...props.data.product };
+    // console.log(product);
+    dispatch(
+      addProduct({
+        product,
+        quantity: qty,
+      })
+    );
   };
 
   return (
@@ -125,17 +136,20 @@ const ProductView = (props) => {
             </Col>
             <Row className={styles.function}>
               <Row className={styles.qty}>
-                <div className={styles.sub} onClick={downQty}>
+                <div
+                  className={styles.sub}
+                  onClick={() => handleQuantity("desc")}
+                >
                   <p className={styles.icon_sub}></p>
                 </div>
                 <p className={styles.count}>{qty}</p>
-                <div className={styles.add} onClick={upQty}>
+                <div className={styles.add} onClick={handleQuantity}>
                   <p className={styles.icon_add}></p>
                   <p className={styles.icon_add2}></p>
                 </div>
               </Row>
 
-              <button className={styles.add_to_cart}>
+              <button className={styles.add_to_cart} onClick={handleAddToCart}>
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>
 

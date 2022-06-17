@@ -6,14 +6,13 @@ import numberWithCommas from "../../../utils/numberWithCommas";
 import classes from "./styles.module.scss";
 
 const PaymentDetail = (props) => {
-
   const paymentInfo = props.paymentInfo;
   const [value, setValue] = React.useState(1);
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  
+
   return (
     <div className={classes.paymentDetail}>
       <div className={classes.information}>

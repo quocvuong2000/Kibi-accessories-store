@@ -233,6 +233,7 @@ svg {
           }
         }
         .add_to_cart {
+          cursor: pointer;
           @include flex();
           @include font(normal, 400, 20px, 34px, 0.02em);
           background: #d84727;

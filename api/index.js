@@ -10,6 +10,7 @@ const brandRoute = require("./routes/brand");
 const categoryRoute = require("./routes/category");
 const cartRoute = require("./routes/cart");
 const userRoute = require("./routes/user");
+const wishlistRoute = require("./routes/wishlist");
 dotenv.config();
 
 mongoose
@@ -25,6 +26,7 @@ app.use("/api/brand", brandRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/user", userRoute);
+app.use("/api/wishlist", wishlistRoute);
 
 app.listen(5000, () => {
   console.log("Server backend is running");
