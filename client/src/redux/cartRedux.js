@@ -7,6 +7,7 @@ const cartSlice = createSlice({
     numberCart: 0,
     Carts: [],
     _products: [],
+    totalPrice: 0,
   },
 
   reducers: {
@@ -15,7 +16,7 @@ const cartSlice = createSlice({
     },
     addCartSuccess: (state, action) => {
       state.isFetching = false;
-      state._products = action.payload;
+      state._products = action.payload.products;
       state.numberCart = action.payload.length;
     },
   },

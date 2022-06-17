@@ -70,7 +70,7 @@ const ProductView = (props) => {
         message.success("Add success");
       })
       .finally(() => {
-        getAllProductCart().then((res) => {
+        getAllProductCart(user.currentUser.username).then((res) => {
           console.log(res);
           dispatch(addCartSuccess(res));
         });
