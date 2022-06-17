@@ -1,11 +1,5 @@
 const router = require("express").Router();
-var CryptoJS = require("crypto-js");
-const {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndStaff,
-  verifyTokenAndAdmin,
-} = require("./verifyToken");
+const { verifyTokenAndStaff } = require("./verifyToken");
 const Product = require("../models/Product");
 
 //CREATE
@@ -37,7 +31,7 @@ router.put("/:id", verifyTokenAndStaff, async (req, res) => {
 });
 
 //DELETE - ONLY ADMIN AND STAFF
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
     res.status(200).json("Product has been deleted...");

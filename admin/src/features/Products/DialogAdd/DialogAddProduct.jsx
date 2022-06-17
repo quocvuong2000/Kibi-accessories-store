@@ -7,122 +7,65 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  ImageList,
+  ImageListItem,
   InputLabel,
   MenuItem,
   Select,
   Snackbar,
-  StepConnector,
-  stepConnectorClasses,
   StepLabel,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
+import Step from "@mui/material/Step";
+import StepButton from "@mui/material/StepButton";
+import Stepper from "@mui/material/Stepper";
 import { styled } from "@mui/material/styles";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { Form, Formik } from "formik";
 import * as React from "react";
 import AppSelectField from "../../../@crema/core/AppFormComponents/AppSelectField";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
+import CHKditor from "../../../components/CHKditor/CHKditor";
+import {
+  ColorlibConnector,
+  ColorlibStepIcon,
+  descriptionSteps,
+  steps,
+} from "../../../utils/addProductData";
+import { app } from "../../../utils/firebase";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
 import { addNewProduct } from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
-import { UilBox } from "@iconscout/react-unicons";
-import { UilClipboardNotes } from "@iconscout/react-unicons";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { app } from "../../../utils/firebase";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
-import CHKditor from "../../../components/CHKditor/CHKditor";
-
-const steps = ["Detail Product", "Description"];
-const descriptionSteps = [
-  "Content",
-  "Detail",
-  "How to care",
-  "How to adjust",
-  "Warranty detail",
-];
-const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
-  zIndex: 1,
-  color: "#fff",
-  width: 50,
-  height: 50,
-  display: "flex",
-  borderRadius: "50%",
-  justifyContent: "center",
-  alignItems: "center",
-  cursor: "pointer",
-  ...(ownerState.active && {
-    backgroundImage:
-      "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
-    boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
-  }),
-  ...(ownerState.completed && {
-    backgroundImage:
-      "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
-  }),
-}));
-const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22,
-  },
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-    },
-  },
-  [`& .${stepConnectorClasses.line}`]: {
-    height: 3,
-    border: 0,
-    backgroundColor:
-      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
-    borderRadius: 1,
-  },
-}));
-function ColorlibStepIcon(props) {
-  const { active, completed, className } = props;
-
-  const icons = {
-    1: <UilBox />,
-    2: <UilClipboardNotes />,
-  };
-
-  return (
-    <ColorlibStepIconRoot
-      ownerState={{ completed, active }}
-      className={className}
-    >
-      {icons[String(props.icon)]}
-    </ColorlibStepIconRoot>
-  );
-}
+import { UilTimesCircle } from "@iconscout/react-unicons";
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const [brandList, setBrandList] = React.useState([]);
   const [catList, setCatList] = React.useState([]);
-  const [file, setFile] = React.useState(null);
+  // const [file, setFile] = React.useState(null);
   const [activeStep, setActiveStep] = React.useState(0);
   const [activeStepDes, setActiveStepDes] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
   const [completedDes, setCompletedDes] = React.useState({});
-
+  const [images, setImages] = React.useState([]);
+  const [urls, setUrls] = React.useState([]);
+  const handleChangeImage = (e) => {
+    let list = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      list.push(newImage);
+    }
+    console.log(list);
+    setImages(list);
+  };
   const handleClose = () => {
     props.handleShowDialog(false);
   };
@@ -143,7 +86,9 @@ export default function DialogAddProduct(props) {
   const handleStepDes = (step) => () => {
     setActiveStepDes(step);
   };
-
+  const hanldeDeleteImage = (url) => {
+    setImages(images.filter((item) => item !== url));
+  };
   return (
     <>
       <Dialog
@@ -193,62 +138,51 @@ export default function DialogAddProduct(props) {
             },
           }}
           onSubmit={async (values) => {
-            if (file) {
-              const fileName = new Date().getTime() + file.name;
-              const storage = getStorage(app);
-              const storageRef = ref(storage, fileName);
-              const uploadTask = uploadBytesResumable(storageRef, file);
-
-              // Register three observers:
-              // 1. 'state_changed' observer, called any time the state changes
-              // 2. Error observer, called on failure
-              // 3. Completion observer, called on successful completion
-              uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                  // Observe state change events such as progress, pause, and resume
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log("Upload is " + progress + "% done");
-                  switch (snapshot.state) {
-                    case "paused":
-                      console.log("Upload is paused");
-                      break;
-                    case "running":
-                      console.log("Upload is running");
-                      break;
-                    default:
+            if (images.length > 0) {
+              const promises = [];
+              images.forEach((image) => {
+                const fileName = new Date().getTime() + image.name;
+                const storage = getStorage(app);
+                const storageRef = ref(storage, fileName);
+                const uploadTask = uploadBytesResumable(storageRef, image);
+                promises.push(uploadTask);
+                uploadTask.on(
+                  "state_changed",
+                  (snapshot) => {
+                    const progress = Math.round(
+                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                  },
+                  (error) => {
+                    console.log(error);
+                  },
+                  async () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                      (downloadURL) => {
+                        setUrls((prevState) => [...prevState, downloadURL]);
+                      }
+                    );
                   }
-                },
-                (error) => {
-                  // Handle unsuccessful uploads
-                },
-                () => {
-                  // Handle successful uploads on complete
-                  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                  getDownloadURL(uploadTask.snapshot.ref).then(
-                    (downloadURL) => {
-                      const product = {
-                        ...values,
-                        image: downloadURL,
-                      };
-                      addNewProduct(product)
-                        .then(() => {
-                          setSuccess(true);
-                          props.handleShowDialog(false);
-                          props.reLoadTable("sucess" + Date.now());
-                        })
-                        .catch(() => {
-                          setFailure(true);
-                        })
-                        .finally(() => {
-                          setFile(null);
-                        });
-                    }
-                  );
-                }
-              );
+                );
+              });
+              Promise.all(promises)
+                .then(() => {
+                  const product = {
+                    ...values,
+                    images: urls,
+                  };
+                  addNewProduct(product)
+                    .then(() => {
+                      setSuccess(true);
+                      props.handleShowDialog(false);
+                      props.reLoadTable("sucess" + Date.now());
+                    })
+                    .catch(() => {
+                      setFailure(true);
+                    })
+                    .finally(() => {});
+                })
+                .catch((err) => console.log(err));
             } else {
               addNewProduct(values)
                 .then(() => {
@@ -418,23 +352,59 @@ export default function DialogAddProduct(props) {
                         alignItems: "center",
                       }}
                     >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src={file ? URL.createObjectURL(file) : unknownUser}
-                        sx={{
-                          width: 350,
-                          height: 350,
-                          mb: 2,
-                          borderRadius: "0",
-                        }}
-                      />
+                      {images.length === 0 ? (
+                        <Avatar
+                          alt="Remy Sharp"
+                          src={unknownUser}
+                          sx={{
+                            width: 350,
+                            height: 350,
+                            mb: 2,
+                            borderRadius: "0",
+                          }}
+                        />
+                      ) : (
+                        <ImageList
+                          sx={{ width: 500, height: 350 }}
+                          cols={3}
+                          rowHeight={164}
+                        >
+                          {images.map((url, i) => (
+                            <ImageListItem
+                              key={i}
+                              sx={{ position: "relative" }}
+                            >
+                              <Box
+                                sx={{
+                                  position: "absolute",
+                                  right: "0px",
+                                  top: "0px",
+                                  backgroundColor: "#000",
+                                  borderRadius: "20px",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => hanldeDeleteImage(url)}
+                              >
+                                <UilTimesCircle fill={"#fff"} />
+                              </Box>
+                              <img
+                                src={`${URL.createObjectURL(url)}`}
+                                // srcSet={`${URL.createObjectURL(url)}`}
+                                alt={i}
+                                loading="lazy"
+                              />
+                            </ImageListItem>
+                          ))}
+                        </ImageList>
+                      )}
+
                       <label htmlFor="contained-button-file">
                         <Input
                           accept="image/*"
                           id="contained-button-file"
                           multiple
                           type="file"
-                          onChange={(e) => setFile(e.target.files[0])}
+                          onChange={handleChangeImage}
                         />
                         <Button variant="contained" component="span">
                           Upload

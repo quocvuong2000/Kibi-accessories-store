@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+const session = require("express-session");
 const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const brandRoute = require("./routes/brand");
@@ -16,7 +17,15 @@ mongoose
   .connect(process.env.MONGO_URL_CLOUD)
   .then(console.log("Connect to database success"))
   .catch((err) => console.log(err));
-
+//   app.use(session({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//         mongoUrl: mongoDbUrl
+//     }),
+//     cookie: {maxAge: 180 * 60 * 1000}
+// }));
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoute);
