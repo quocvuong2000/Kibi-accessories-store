@@ -57,6 +57,37 @@ export default function DialogAddProduct(props) {
   const [completedDes, setCompletedDes] = React.useState({});
   const [images, setImages] = React.useState([]);
   const [urls, setUrls] = React.useState([]);
+  const [description, setDescription] = React.useState({
+    content: "",
+    detail: "",
+    howToCare: "",
+    howToAdjust: "",
+    warrantyDetail: "",
+  });
+  const hanldeDataCkeditor = (type, data) => {
+    switch (type) {
+      case "content":
+        setDescription({ ...description, content: data });
+        break;
+      case "detail":
+        setDescription({ ...description, detail: data });
+        break;
+      case "howToCare":
+        setDescription({ ...description, howToCare: data });
+
+        break;
+      case "howToAdjust":
+        setDescription({ ...description, howToAdjust: data });
+
+        break;
+      case "warrantyDetail":
+        setDescription({ ...description, warrantyDetail: data });
+
+        break;
+      default:
+        break;
+    }
+  };
   const handleChangeImage = (e) => {
     let list = [];
     setUrls([]);
@@ -194,7 +225,7 @@ export default function DialogAddProduct(props) {
             }
           }}
         >
-          {({ isSubmitting, setFieldValue, errors, touched }) => (
+          {({ setFieldValue, errors, touched }) => (
             <Form noValidate autoComplete="off" style={{ minHeight: "500px" }}>
               <Grid container spacing={5} sx={{ p: 2 }}>
                 {activeStep === 0 && (
@@ -449,6 +480,9 @@ export default function DialogAddProduct(props) {
                         <CHKditor
                           setValue={setFieldValue}
                           field={"description.content"}
+                          data={description.content}
+                          updateData={hanldeDataCkeditor}
+                          type={"content"}
                         />
                       </Box>
                     )}
@@ -457,6 +491,9 @@ export default function DialogAddProduct(props) {
                         <CHKditor
                           setValue={setFieldValue}
                           field={"description.detail"}
+                          data={description.detail}
+                          updateData={hanldeDataCkeditor}
+                          type={"detail"}
                         />
                       </Box>
                     )}
@@ -465,6 +502,9 @@ export default function DialogAddProduct(props) {
                         <CHKditor
                           setValue={setFieldValue}
                           field={"description.howToCare"}
+                          data={description.howToCare}
+                          updateData={hanldeDataCkeditor}
+                          type={"howToCare"}
                         />
                       </Box>
                     )}
@@ -473,6 +513,9 @@ export default function DialogAddProduct(props) {
                         <CHKditor
                           setValue={setFieldValue}
                           field={"description.howToAdjust"}
+                          data={description.howToAdjust}
+                          updateData={hanldeDataCkeditor}
+                          type={"howToAdjust"}
                         />
                       </Box>
                     )}
@@ -481,6 +524,9 @@ export default function DialogAddProduct(props) {
                         <CHKditor
                           setValue={setFieldValue}
                           field={"description.warrantyDetail"}
+                          data={description.warrantyDetail}
+                          updateData={hanldeDataCkeditor}
+                          type={"warrantyDetail"}
                         />
                       </Box>
                     )}

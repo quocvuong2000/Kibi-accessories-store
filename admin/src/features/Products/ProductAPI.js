@@ -27,3 +27,23 @@ export const doDeleteProduct = async (id) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const doGetDetailProduct = async (id) => {
+  const res = await callAPIWithToken({
+    url: `/api/product/get/${id}`,
+    method: "GET",
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};
+
+export const doUpdateProduct = async (id) => {
+  const res = await callAPIWithToken({
+    url: `/api/product/update/${id}`,
+    method: "PUT",
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

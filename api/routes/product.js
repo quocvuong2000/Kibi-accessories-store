@@ -15,7 +15,7 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 });
 
 //UPDATE - ONLY ADMIN AND STAFF
-router.put("/:id", verifyTokenAndStaff, async (req, res) => {
+router.put("/update/:id", verifyTokenAndStaff, async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
