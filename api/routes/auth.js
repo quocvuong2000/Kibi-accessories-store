@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//LOGIN
+//LOGINs
 
 router.post("/login", async (req, res) => {
   try {

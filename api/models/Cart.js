@@ -4,11 +4,12 @@ const CartSchema = new mongoose.Schema({
   username: { type: String, required: true },
   products: [
     {
-      _id : false,
+      _id: false,
       productId: { type: String },
       productName: { type: String },
       productPrice: { type: Number },
       quantity: { type: Number },
+      productImage: { type: Array },
     },
   ],
   totalPrice: { type: Number },

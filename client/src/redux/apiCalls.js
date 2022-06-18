@@ -1,4 +1,4 @@
-import { jwtAxios } from "../services/jwt-axios";
+import { callAPIWithToken, jwtAxios } from "../services/jwt-axios";
 import { addStart } from "./cartRedux";
 import { loginStart } from "./userRedux";
 
@@ -17,7 +17,7 @@ export const login = async (dispatch, user) => {
 export const addCart = async (dispatch, user, idProduct) => {
   dispatch(addStart());
   try {
-    const res = await jwtAxios.post("/api/cart/add", {
+    const res = await callAPIWithToken.post("/api/cart/add", {
       username: user,
       productId: idProduct,
     });

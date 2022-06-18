@@ -17,7 +17,7 @@ const cartSlice = createSlice({
     addCartSuccess: (state, action) => {
       state.isFetching = false;
       state._products = action.payload.products;
-      state.numberCart = action.payload.length;
+      state.numberCart = action.payload.products.length;
     },
   },
 });

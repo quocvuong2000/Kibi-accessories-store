@@ -65,4 +65,4 @@ export const setAuthToken = (token) => {
     Cookies.remove("token");
   }
 };
-export { jwtAxios };
+export { jwtAxios, callAPIWithToken };
