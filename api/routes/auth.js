@@ -3,6 +3,7 @@ var CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Cart = require("../models/Cart");
+const Wishlist = require("../models/Wishlist");
 //REGISTER
 router.post("/register", async (req, res) => {
   const userInfo = new User({
@@ -24,9 +25,14 @@ router.post("/register", async (req, res) => {
   const cartInfo = new Cart({
     username: req.body.username,
   });
+
+  const wishListInfo = new Wishlist({
+    username: req.body.username,
+  });
   try {
     const register = await userInfo.save();
     await cartInfo.save();
+    await wishListInfo.save();
     res.status(201).json(register);
   } catch (error) {
     res.status(500).json(error);

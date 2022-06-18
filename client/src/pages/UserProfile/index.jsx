@@ -5,6 +5,7 @@ import { Tabs } from "antd";
 import MyAccount from "./MyAccount";
 import Address from "./Address";
 import { useParams } from "react-router-dom";
+import Wistlist from "./Wishlist";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -53,7 +54,7 @@ const UserProfile = () => {
           }
           key="4"
         >
-          Content of Tab 4
+          <Wistlist />
         </TabPane>
 
         <TabPane

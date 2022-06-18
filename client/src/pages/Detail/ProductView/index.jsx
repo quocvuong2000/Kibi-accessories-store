@@ -14,7 +14,7 @@ import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../../redux/apiCalls";
 import { addCartSuccess } from "../../../redux/cartRedux";
-import { getAllProductCart } from "../../../api/Cart";
+import { getAllProductCart, handleAddToCart } from "../../../api/Cart";
 
 const listImgPreview = [
   {
@@ -63,22 +63,21 @@ const ProductView = (props) => {
   };
   const [wrongCredentials, setWrongCredential] = React.useState(false);
 
-  const handleAddToCart = async () => {
-    addCart(dispatch, user.currentUser.username, props.data.product._id)
-      .then((res) => {
-        setWrongCredential(false);
-        message.success("Add success");
-      })
-      .finally(() => {
-        getAllProductCart(user.currentUser.username).then((res) => {
-          console.log(res);
-          dispatch(addCartSuccess(res));
-        });
-      })
-      .catch(() => {
-        setWrongCredential(true);
-      });
-  };
+  // const handleAddToCart = async () => {
+  //   addCart(dispatch, user.currentUser.username, props.data.product._id)
+  //     .then((res) => {
+  //       setWrongCredential(false);
+  //       message.success("Add success");
+  //     })
+  //     .finally(() => {
+  //       getAllProductCart(user.currentUser.username).then((res) => {
+  //         dispatch(addCartSuccess(res));
+  //       });
+  //     })
+  //     .catch(() => {
+  //       setWrongCredential(true);
+  //     });
+  // };
 
   return (
     <Col className={`${styles.container}`}>
@@ -161,7 +160,16 @@ const ProductView = (props) => {
                 </div>
               </Row>
               {/* onClick={handleAddToCart} */}
-              <button className={styles.add_to_cart} onClick={handleAddToCart}>
+              <button
+                className={styles.add_to_cart}
+                onClick={() =>
+                  handleAddToCart(
+                    dispatch,
+                    user.currentUser.username,
+                    props.data.product._id
+                  )
+                }
+              >
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>
 

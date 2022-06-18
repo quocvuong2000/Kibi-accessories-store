@@ -34,7 +34,7 @@ export const Cart = (props) => {
               <div className={classes.cart__item} key={index}>
                 <div className={classes.cart__item__left}>
                   <div className={classes.cart__item__left__image}>
-                    <img src={""} alt={item.productName} />
+                    <img src={item.productImage[0]} alt={item.productName} />
                   </div>
                   <div className={classes.cart__item__left__info}>
                     <p className={classes.title}>{item.productName}</p>

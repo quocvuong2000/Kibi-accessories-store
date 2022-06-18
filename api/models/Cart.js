@@ -10,7 +10,6 @@ const CartSchema = new mongoose.Schema({
       productImage: { type: Array },
       productPrice: { type: Number },
       quantity: { type: Number },
-      productImage: { type: Array },
     },
   ],
   totalPrice: { type: Number },

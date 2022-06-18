@@ -126,7 +126,7 @@ const Header = () => {
               onClick={() => setVisible(true)}
             >
               <Handbag size={25} color="#000" weight="thin" />
-              <NumItem item={quantity} />
+              <NumItem item={cart.quantity ?? 0} />
             </div>
           </div>
         </div>
