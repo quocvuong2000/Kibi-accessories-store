@@ -206,9 +206,9 @@ export default function ProductList(props) {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={props.productList?.totalItems}
+          count={props.productList?.totalItems || 1}
           rowsPerPage={10}
-          page={props.productList?.currentPage - 1}
+          page={(props.productList?.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>
