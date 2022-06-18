@@ -19,7 +19,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             productId: productAdded.id,
             productName: productAdded.product,
             productPrice: productAdded.price,
-            productImage: productAdded.images[0],
+            productImage: productAdded.productImage[0],
             quantity: 1,
           },
         ],
@@ -33,7 +33,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     const productFound = cartList.find(
       (el) => el.productId === req.body.productId
     );
-    // console.log(productFound);
+    console.log(productFound);
     let cartTemp = [];
     let newUpdate;
     if (productFound !== undefined) {
@@ -41,7 +41,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productFound.productId,
         productName: productFound.productName,
         productPrice: productFound.productPrice,
-        productImage: productFound.images[0],
+        productImage: productFound.productImage[0],
         quantity: productFound.quantity + 1,
       };
       cartList.forEach((el) => {
@@ -56,7 +56,8 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productAdded.id,
         productName: productAdded.product,
         productPrice: productAdded.price,
-        productImage: productFound.images[0],
+        //Image in product
+        productImage: productAdded.images[0],
         quantity: 1,
       };
       cartTemp = cartList;
@@ -120,7 +121,7 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
 router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
   try {
     //FIND CART
-    const cartByUser = await Cart.findOne({ username: req.body.username }[0]);
+    const cartByUser = await Cart.findOne({ username: req.body.username });
     if (!cartByUser) return res.status(404).json("user cart not generate");
     let cartList = cartByUser.products;
 

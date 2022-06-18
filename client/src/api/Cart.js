@@ -28,3 +28,31 @@ export const handleAddToCart = async (dispatch, username, productId) => {
       throw e;
     });
 };
+
+export const downQty = async (username, productId) => {
+  try {
+    const res = await callAPIWithToken.post("/api/item/decrease", {
+      username: user,
+      productId: idProduct,
+    });
+    if (res && res.status !== 200)
+      throw Error("Something wrongs with code status" + res.status);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const upQty = async (username, productId) => {
+  try {
+    const res = await callAPIWithToken.post("/api/item/increase", {
+      username: user,
+      productId: idProduct,
+    });
+    if (res && res.status !== 200)
+      throw Error("Something wrongs with code status" + res.status);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

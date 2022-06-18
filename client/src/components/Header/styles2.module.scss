@@ -8,18 +8,17 @@
     @include flex(center);
     column-gap: 32px;
     &__image {
-      background-color: #f1ddc9;
       padding: 11px 25px;
-      max-width: 89px;
-      max-height: 122px;
-      min-width: 89px;
-      min-height: 122px;
+      max-width: 130px;
+      max-height: 130px;
+      min-width: 130px;
+      min-height: 130px;
       @include flex();
       img {
-        max-width: 89px;
-        max-height: 122px;
-        min-width: 89px;
-        min-height: 122px;
+        max-width: 130px;
+        max-height: 130px;
+        min-width: 130px;
+        min-height: 130px;
       }
     }
     &__info {

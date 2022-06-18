@@ -10,7 +10,6 @@ import { getAllProductCart } from "../../api/Cart";
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
-  // const token = Cookies.get("token");
 
   const [product, setProduct] = useState([]);
   useEffect(() => {
@@ -21,7 +20,7 @@ export const Cart = (props) => {
         }
       });
     }
-  }, []);
+  }, [cart]);
 
   console.log(product);
 
@@ -101,7 +100,7 @@ export const Cart = (props) => {
 
         <hr className={classes.line_deli} />
         <div className={classes.sub__total}>
-          <p className={classes.voucher}>35% OFF</p>
+          {/* <p className={classes.voucher}>35% OFF</p> */}
           <div className={classes.total}>
             <p className={classes.total__text}>Subtotal</p>
             <div className={classes.total__price}>
