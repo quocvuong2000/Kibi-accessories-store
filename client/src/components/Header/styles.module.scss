@@ -24,14 +24,14 @@
       position: fixed;
       top: 0;
       left: 0;
-      background: #f7f6f4;
+      background: #f8eee3;
       z-index: -1;
     }
     &.shrink {
       height: 120px;
       position: fixed;
       // padding: 0 20px;
-      background: #f1ddc9;
+      background: #f8eee3;
       width: 1110px;
       transition: all 0.3s ease-in;
       @include tablet {
@@ -46,7 +46,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        background: #f1ddc9;
+        background: #f8eee3;
         z-index: -1;
       }
       .authentication {
@@ -135,7 +135,7 @@
       .shopingCart {
         display: flex;
         align-items: center;
-        background: #f1ddc9;
+        background: white;
         padding: 10px;
         border-radius: 30px;
         cursor: pointer;

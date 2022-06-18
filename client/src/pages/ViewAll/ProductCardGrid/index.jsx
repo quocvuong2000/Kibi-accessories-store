@@ -17,7 +17,7 @@ export const ProductCardGrid = (props) => {
     >
       <Link to={`/detail/${data._id}`}>
         <div className={s.box__product__image}>
-          <img src={data.image} alt="" loading="lazy" />
+          <img src={data.images[2]} alt="" loading="lazy" />
         </div>
       </Link>
       <div className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}>

@@ -28,8 +28,10 @@
     }
   }
   .listItem {
+    margin: 0 45px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    column-gap: 30px;
   }
 
   @include tablet {
