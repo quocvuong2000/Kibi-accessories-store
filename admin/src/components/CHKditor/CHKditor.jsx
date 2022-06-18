@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import MyUploadAdapter from "../../utils/updateChkeditor";
@@ -29,7 +29,7 @@ const CHKditor = (props) => {
   return (
     <CKEditor
       editor={Editor}
-      // data="<p>Hello from CKEditor 5!</p>"
+      data={props.data}
       config={{
         image: {
           // Configure the available styles.
@@ -62,6 +62,7 @@ const CHKditor = (props) => {
         const data = editor.getData();
         // console.log({ event, editor, data });
         props.setValue(props.field, data);
+        props.updateData(props.type, data);
       }}
     />
   );
