@@ -211,6 +211,13 @@ export default function DialogAddProduct(props) {
                   .finally(() => {
                     setImages([]);
                     setUrls([]);
+                    setDescription({
+                      content: "",
+                      detail: "",
+                      howToCare: "",
+                      howToAdjust: "",
+                      warrantyDetail: "",
+                    });
                   });
             } else {
               addNewProduct(values)
