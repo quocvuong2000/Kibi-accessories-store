@@ -7,11 +7,14 @@ const OrderSchema = new mongoose.Schema({
   products: [
     {
       productId: { type: String },
+      productName: { type: String },
+      productPrice: { type: Number },
       quantity: { type: Number },
       voucher: { type: Number },
     },
   ],
   totalProduct: { type: Number },
+  totalPrice: { type: Number },
   amount: { type: Number },
   address: { type: String, required: true },
 });

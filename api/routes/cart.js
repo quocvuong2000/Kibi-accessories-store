@@ -19,6 +19,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             productId: productAdded.id,
             productName: productAdded.product,
             productPrice: productAdded.price,
+            productImage: productAdded.images[0],
             quantity: 1,
           },
         ],
@@ -40,6 +41,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productFound.productId,
         productName: productFound.productName,
         productPrice: productFound.productPrice,
+        productImage: productFound.images[0],
         quantity: productFound.quantity + 1,
       };
       cartList.forEach((el) => {
@@ -54,6 +56,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productAdded.id,
         productName: productAdded.product,
         productPrice: productAdded.price,
+        productImage: productFound.images[0],
         quantity: 1,
       };
       cartTemp = cartList;
@@ -91,6 +94,8 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
       productId: productFound.productId,
       productName: productFound.productName,
       productPrice: productFound.productPrice,
+      productImage: productFound.images[0],
+
       quantity: productFound.quantity - 1 === 0 ? 0 : productFound.quantity - 1,
     };
     cartList.forEach((el) => {
@@ -129,6 +134,7 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
       productId: productFound.productId,
       productName: productFound.productName,
       productPrice: productFound.productPrice,
+      productImage: productFound.images[0],
       quantity: productFound.quantity + 1,
     };
     cartList.forEach((el) => {
