@@ -10,7 +10,10 @@ export default function ConfirmationDialog(props) {
 
 
   const handleClose = () => {
-    props.hanldeShow(false);
+    props.hanldeShow({
+      delete: false,
+      id: "",
+    });
   };
   const hanldeAgree = () => {
     props.hanldeAgree();

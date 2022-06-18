@@ -43,7 +43,10 @@ const makeStyle = (status) => {
 
 export default function ProductList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [deleteDialog, setDeleteDialog] = React.useState(false);
+  const [deleteDialog, setDeleteDialog] = React.useState({
+    delete: false,
+    id: "",
+  });
   const [productIdSelected, setProductIdSelected] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -53,17 +56,21 @@ export default function ProductList(props) {
     setDeleteDialog(visible);
   };
   const hanldeDeleteProduct = () => {
-    doDeleteProduct(productIdSelected)
+    doDeleteProduct(deleteDialog.id)
       .then(() => {
         setSuccess(true);
         props.reLoadTable("delete" + Date.now());
-        setDeleteDialog(false);
+        setDeleteDialog({
+          delete: false,
+          id: "",
+        });
       })
       .catch(() => {
         setFailure(true);
       });
   };
   const handleClick = (event) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -136,10 +143,13 @@ export default function ProductList(props) {
             <TableBody style={{ color: "white" }}>
               {props.productList.products?.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row._id}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     maxHeight: 440,
+                  }}
+                  onClick={() => {
+                    setProductIdSelected(row._id);
                   }}
                 >
                   <TableCell
@@ -166,8 +176,10 @@ export default function ProductList(props) {
                     >
                       <MenuItem
                         onClick={() => {
-                          setDeleteDialog(true);
-                          setProductIdSelected(row._id);
+                          setDeleteDialog({
+                            delete: true,
+                            id: productIdSelected,
+                          });
                           setAnchorEl(null);
                         }}
                         disableRipple
@@ -213,7 +225,7 @@ export default function ProductList(props) {
         />
       </div>
       <ConfirmationDialog
-        show={deleteDialog}
+        show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
         hanldeAgree={hanldeDeleteProduct}
         title={"Delete product"}
