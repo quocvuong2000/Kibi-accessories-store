@@ -59,11 +59,34 @@ export default function DialogAddProduct(props) {
   const [urls, setUrls] = React.useState([]);
   const handleChangeImage = (e) => {
     let list = [];
+    setUrls([]);
+
     for (let i = 0; i < e.target.files.length; i++) {
       const newImage = e.target.files[i];
       list.push(newImage);
+      const fileName = new Date().getTime() + newImage.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, newImage);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+        },
+        (error) => {
+          console.log(error);
+        },
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setUrls((prev) => [...prev, downloadURL]);
+          });
+        }
+      );
     }
-    console.log(list);
+
     setImages(list);
   };
   const handleClose = () => {
@@ -138,51 +161,26 @@ export default function DialogAddProduct(props) {
             },
           }}
           onSubmit={async (values) => {
-            if (images.length > 0) {
-              const promises = [];
-              images.forEach((image) => {
-                const fileName = new Date().getTime() + image.name;
-                const storage = getStorage(app);
-                const storageRef = ref(storage, fileName);
-                const uploadTask = uploadBytesResumable(storageRef, image);
-                promises.push(uploadTask);
-                uploadTask.on(
-                  "state_changed",
-                  (snapshot) => {
-                    const progress = Math.round(
-                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
-                  },
-                  (error) => {
-                    console.log(error);
-                  },
-                  async () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(
-                      (downloadURL) => {
-                        setUrls((prevState) => [...prevState, downloadURL]);
-                      }
-                    );
-                  }
-                );
-              });
-              Promise.all(promises)
-                .then(() => {
-                  const product = {
-                    ...values,
-                    images: urls,
-                  };
-                  addNewProduct(product)
-                    .then(() => {
-                      setSuccess(true);
-                      props.handleShowDialog(false);
-                      props.reLoadTable("sucess" + Date.now());
-                    })
-                    .catch(() => {
-                      setFailure(true);
-                    })
-                    .finally(() => {});
-                })
-                .catch((err) => console.log(err));
+            if (urls.length === images.length) {
+              const product = {
+                ...values,
+                images: urls,
+              };
+
+              product &&
+                addNewProduct(product)
+                  .then(() => {
+                    setSuccess(true);
+                    props.handleShowDialog(false);
+                    props.reLoadTable("sucess" + Date.now());
+                  })
+                  .catch(() => {
+                    setFailure(true);
+                  })
+                  .finally(() => {
+                    setImages([]);
+                    setUrls([]);
+                  });
             } else {
               addNewProduct(values)
                 .then(() => {
@@ -374,7 +372,7 @@ export default function DialogAddProduct(props) {
                               key={i}
                               sx={{ position: "relative" }}
                             >
-                              <Box
+                              {/* <Box
                                 sx={{
                                   position: "absolute",
                                   right: "0px",
@@ -386,7 +384,7 @@ export default function DialogAddProduct(props) {
                                 onClick={() => hanldeDeleteImage(url)}
                               >
                                 <UilTimesCircle fill={"#fff"} />
-                              </Box>
+                              </Box> */}
                               <img
                                 src={`${URL.createObjectURL(url)}`}
                                 // srcSet={`${URL.createObjectURL(url)}`}
@@ -407,7 +405,11 @@ export default function DialogAddProduct(props) {
                           onChange={handleChangeImage}
                         />
                         <Button variant="contained" component="span">
-                          Upload
+                          {images.length > 0
+                            ? urls.length !== images.length
+                              ? "Loading..."
+                              : "Update"
+                            : "Update"}
                         </Button>
                       </label>
                     </Grid>
@@ -492,7 +494,13 @@ export default function DialogAddProduct(props) {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={
+                    images.length > 0
+                      ? urls.length !== images.length
+                        ? true
+                        : false
+                      : false
+                  }
                 >
                   Add
                 </Button>
