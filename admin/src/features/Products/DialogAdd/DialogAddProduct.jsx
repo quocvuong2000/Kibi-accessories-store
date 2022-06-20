@@ -50,7 +50,7 @@ export default function DialogAddProduct(props) {
   const [failure, setFailure] = React.useState(false);
   const [brandList, setBrandList] = React.useState([]);
   const [catList, setCatList] = React.useState([]);
-  // const [file, setFile] = React.useState(null);
+  const [loading, setLoading]= React.useState();
   const [activeStep, setActiveStep] = React.useState(0);
   const [activeStepDes, setActiveStepDes] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
@@ -64,6 +64,10 @@ export default function DialogAddProduct(props) {
     howToAdjust: "",
     warrantyDetail: "",
   });
+  React.useEffect(() => {
+    return () => {};
+  }, []);
+
   const hanldeDataCkeditor = (type, data) => {
     switch (type) {
       case "content":
@@ -151,7 +155,7 @@ export default function DialogAddProduct(props) {
         fullWidth={true}
         maxWidth={"lg"}
       >
-        <DialogTitle>ADD NEW PRODUCT</DialogTitle>
+        <DialogTitle>UPDATE PRODUCT</DialogTitle>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Stepper
             nonLinear

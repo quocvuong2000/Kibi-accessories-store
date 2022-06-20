@@ -130,12 +130,13 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
     );
     if (!productFound) return res.status(404).json("product not found");
     let cartTemp = [];
+
     let newUpdate = {
       productId: productFound.productId,
       productName: productFound.productName,
       productPrice: productFound.productPrice,
-      productImage: productFound.images[0],
-      quantity: productFound.quantity + 1,
+      productImage: productFound.productImage[0],
+      quantity: productFound.quantity + 1
     };
     cartList.forEach((el) => {
       if (el.productId === req.body.productId) {

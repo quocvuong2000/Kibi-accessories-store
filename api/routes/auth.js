@@ -34,7 +34,6 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
-
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -61,6 +60,36 @@ router.post("/login", async (req, res) => {
     const { password, ...others } = user._doc;
 
     return res.status(200).json({ ...others, accessToken });
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+});
+
+//LOGIN BY SOCIAL ACCOUNT
+// {
+//   "email" : "xxx@gmail.com"
+// }
+router.post("/social-account", async (req, res) => {
+  const newUserInfo = new User({
+    username: req.body.email,
+    email: req.body.email,
+    type: "customer",
+  });
+  const cartInfo = new Cart({
+    username: req.body.email,
+  });
+  try {
+    await newUserInfo.save();
+    await cartInfo.save();
+    const accessToken = jwt.sign(
+      {
+        id: req.body.email,
+        type: "customer",
+      },
+      process.env.VUONG_SEC_PASS,
+      { expiresIn: "1d" }
+    );
+    return res.status(200).json({ accessToken });
   } catch (err) {
     return res.status(500).json({ error: err });
   }
