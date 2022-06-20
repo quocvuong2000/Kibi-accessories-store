@@ -17,51 +17,9 @@ $colorAll: #333333;
   }
 }
 
-@keyframes show {
-  0% {
-    @include transformRotate(360deg);
-    right: -200%;
-    opacity: 0;
-  }
-  100% {
-    @include transformRotate(0);
-    right: -33%;
-    opacity: 1;
-  }
-}
-
-@keyframes light {
-  0% {
-    @include transformRotate(0);
-  }
-  5% {
-    transform: rotate(-10deg) scale(1.2);
-    -webkit-transform: rotate(-10deg) scale(1.2);
-    -moz-transform: rotate(-10deg) scale(1.2);
-    -ms-transform: rotate(-10deg) scale(1.2);
-    -o-transform: rotate(-10deg) scale(1.2);
-  }
-  30% {
-    transform: rotate(10deg) scale(1.1);
-    -webkit-transform: rotate(10deg) scale(1.1);
-    -moz-transform: rotate(10deg) scale(1.1);
-    -ms-transform: rotate(10deg) scale(1.1);
-    -o-transform: rotate(10deg) scale(1.1);
-  }
-  50%,
-  100% {
-    @include transformRotate(0);
-  }
-}
-
 svg {
   animation: light 2s infinite linear alternate;
   -webkit-animation: light 2s infinite linear alternate;
-}
-
-.show {
-  @include animation(show, 1s, ease-in-out);
-  opacity: 1;
 }
 
 .frame_product {
@@ -69,38 +27,44 @@ svg {
   justify-content: center;
   .preview_product {
     @include flex();
-    .frame_img_preview {
-      @include border-radius(10px);
-      position: relative;
-      max-width: 590px;
-      background: #f1ddc9;
-      padding: 24px 0 24px 0;
+
+    @include border-radius(10px);
+
+    display: flex;
+    flex-direction: column;
+
+    .img_main {
+      max-width: 374px;
+      min-width: 374px;
+      max-height: 434px;
+      min-height: 434px;
+      img {
+        max-width: 100%;
+        min-width: 100%;
+        max-height: 100%;
+        min-height: 100%;
+      }
+    }
+    .img_preview {
+      @include flex();
+      margin-top: 30px;
+      max-height: 110px;
+      cursor: pointer;
+      column-gap: 20px;
+      img {
+        max-width: 50px;
+        max-height: 55px;
+        min-width: 50px;
+        min-height: 55px;
+      }
+    }
+
+    @include mobile {
       .img_preview {
-        @include flex();
-        @include transformScale(0.2, 0.2);
-        opacity: 0.5;
-        padding-right: 200px;
-        max-height: 110px;
-        cursor: pointer;
+        padding-right: unset;
       }
       .img_main {
-        @include flex();
-        position: absolute;
-        top: 0;
-        right: -33%;
-        height: 100%;
-        img {
-          width: 352px;
-          height: 481px;
-        }
-      }
-      @include mobile {
-        .img_preview {
-          padding-right: unset;
-        }
-        .img_main {
-          display: none;
-        }
+        display: none;
       }
     }
   }
@@ -233,6 +197,7 @@ svg {
           }
         }
         .add_to_cart {
+          cursor: pointer;
           @include flex();
           @include font(normal, 400, 20px, 34px, 0.02em);
           background: #d84727;

@@ -1,4 +1,5 @@
 import React from "react";
+import BlogVideo from "./BlogVideo";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
 import Featured from "./Featured/Featured";
@@ -17,15 +18,18 @@ const Home = () => {
       <div className={classes.categories}>
         <Category />
       </div>
+      <div className={classes.videoBlog}>
+        <BlogVideo />
+      </div>
       <div className={classes.monthlyDeal}>
         <MonthlyDeal />
       </div>
       <div className={classes.recentsNew}>
         <RecentsNew />
       </div>
-      <div className={classes.featured}>
+      {/* <div className={classes.featured}>
         <Featured />
-      </div>
+      </div> */}
       <div className={classes.testimonial}>
         <Testimonial />
       </div>

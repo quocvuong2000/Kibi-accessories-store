@@ -1,40 +1,28 @@
+import { Col, Row } from "antd";
+import { motion } from "framer-motion";
+import { ShoppingCartSimple } from "phosphor-react";
 import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import imgMain from "../../../assets/detail/watch_main.png";
-import pre2 from "../../../assets/detail/preview_prod_2.png";
-import pre3 from "../../../assets/detail/preview_prod_3.png";
-import pre4 from "../../../assets/detail/preview_prod_4.png";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddToCart } from "../../../api/Cart";
 import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
-import { ShoppingCartSimple } from "phosphor-react";
-import { Row, Col } from "antd";
-import { motion } from "framer-motion";
 import numberWithCommas from "../../../utils/numberWithCommas";
-const listImgPreview = [
-  {
-    src: imgMain,
-  },
-  {
-    src: pre2,
-  },
-  {
-    src: pre3,
-  },
-  {
-    src: pre4,
-  },
-];
-
+import styles from "./styles.module.scss";
+import imgError from "../../../assets/imgDefault.webp";
 const ProductView = (props) => {
-  const [src, setSrc] = useState(imgMain);
-  const [srcMain, setSrcMain] = useState(imgMain);
+  const [src, setSrc] = useState(props.data.product.images[0]);
+  const [srcMain, setSrcMain] = useState(props.data.product.images[0]);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
 
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    setSrc(props.data.product.images[0]);
     setSrcMain(src);
     setShow(true);
-  }, [src]);
+  }, [src, props.data]);
 
   const handleClickSrcImagePreview = (e) => {
     setSrc(e.target.src);
@@ -45,15 +33,11 @@ const ProductView = (props) => {
     setShow(false);
   };
 
-  const upQty = () => {
-    setQty(qty + 1);
-  };
-
-  const downQty = () => {
-    if (qty === 1) {
-      return;
+  const handleQuantity = (type) => {
+    if (type === "desc") {
+      qty > 1 && setQty(qty - 1);
     } else {
-      setQty(qty - 1);
+      setQty(qty + 1);
     }
   };
 
@@ -66,38 +50,37 @@ const ProductView = (props) => {
         </span>
       </p>
       <Row className={styles.frame_product}>
-        <Col span={12} className={styles.preview_product}>
-          <Row className={styles.frame_img_preview} gutter={[0, 24]}>
-            {listImgPreview.map((item, id) => {
+        <Col span={7} className={styles.preview_product}>
+          <div
+            className={`${styles.img_main} ${show === true ? styles.show : ""}`}
+            onAnimationEnd={handleAnimation}
+          >
+            <motion.div
+              animate={{
+                scaleX: [1.5, 1],
+                scaleY: [1.5, 1],
+              }}
+            >
+              <img src={srcMain ? srcMain : imgError} alt="watch" />
+            </motion.div>
+          </div>
+          <div className={styles.img_preview}>
+            {props.data.product.images?.map((item, id) => {
               return (
-                <Col span={24} className={styles.img_preview} key={id}>
-                  <motion.div
-                    animate={{
-                      scaleX: [1.5, 1],
-                      scaleY: [1.5, 1],
-                    }}
-                  >
-                    <img
-                      src={item.src}
-                      alt=""
-                      onClick={handleClickSrcImagePreview}
-                    />
-                  </motion.div>
-                </Col>
+                <motion.div
+                  animate={{
+                    scaleX: [1.5, 1],
+                    scaleY: [1.5, 1],
+                  }}
+                >
+                  <img src={item} alt="" onClick={handleClickSrcImagePreview} />
+                </motion.div>
               );
             })}
-            <div
-              className={`${styles.img_main} ${
-                show === true ? styles.show : ""
-              }`}
-              onAnimationEnd={handleAnimation}
-            >
-              <img src={srcMain} alt="watch" />
-            </div>
-          </Row>
+          </div>
         </Col>
 
-        <Col span={12} className={styles.frame_info_product} push={5}>
+        <Col span={17} className={styles.frame_info_product} push={5}>
           <Col className={styles.info_product}>
             <p className={styles.title}>{props.data.product.product ?? ""}</p>
             {props.data.product.odlprice ? (
@@ -125,17 +108,29 @@ const ProductView = (props) => {
             </Col>
             <Row className={styles.function}>
               <Row className={styles.qty}>
-                <div className={styles.sub} onClick={downQty}>
+                <div
+                  className={styles.sub}
+                  onClick={() => handleQuantity("desc")}
+                >
                   <p className={styles.icon_sub}></p>
                 </div>
                 <p className={styles.count}>{qty}</p>
-                <div className={styles.add} onClick={upQty}>
+                <div className={styles.add} onClick={handleQuantity}>
                   <p className={styles.icon_add}></p>
                   <p className={styles.icon_add2}></p>
                 </div>
               </Row>
-
-              <button className={styles.add_to_cart}>
+              {/* onClick={handleAddToCart} */}
+              <button
+                className={styles.add_to_cart}
+                onClick={() =>
+                  handleAddToCart(
+                    dispatch,
+                    user.currentUser.username,
+                    props.data.product._id
+                  )
+                }
+              >
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>
 

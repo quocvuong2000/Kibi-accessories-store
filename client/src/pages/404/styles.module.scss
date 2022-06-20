@@ -1,7 +1,7 @@
 @use "../../sass/mixins" as *;
 
 .container {
-  background: #f7f6f4;
+  background: white;
   justify-content: center;
   position: relative;
   @include flex();

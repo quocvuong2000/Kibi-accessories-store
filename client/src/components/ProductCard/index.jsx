@@ -6,17 +6,28 @@ import "antd/dist/antd.min.css";
 import { Popover } from "antd";
 import numberWithCommas from "../../utils/numberWithCommas";
 import { Link } from "react-router-dom";
+import { addToWishList } from "../../api/Wishlist";
+import { useSelector } from "react-redux";
+import imgDefault from "../../assets/imgDefault.webp";
 
 const ProductCard = (props) => {
+  const user = useSelector((state) => state.user);
   const data = props.data;
-
+  console.log(data);
   return (
-    <Link to={`/detail/${data._id}`}>
-      <div className={classes.productCardContainer}>
-        <div className={classes.top}></div>
-        <div className={classes.bottom}>
+    <div className={classes.productCardContainer}>
+      <div className={classes.top}></div>
+      <div className={classes.bottom}>
+        <Link to={`/detail/${data._id}`}>
           <div className={classes.image}>
-            <img src={data.image} alt="" />
+            <img
+              src={data.images[0]}
+              alt={data.product}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = { imgDefault };
+              }}
+            />
           </div>
           <div className={classes.content}>
             <Popover title={data.product} trigger="click">
@@ -32,13 +43,17 @@ const ProductCard = (props) => {
               {numberWithCommas(data.price)}đ
             </div>
           </div>
-          <div className={classes.btn}>
-            <Heart color="#a94242" weight="thin" />
-            <button className={classes.btnCart}>Add to cart</button>
-          </div>
+        </Link>
+        <div className={classes.btn}>
+          <Heart
+            color="#a94242"
+            weight="thin"
+            onClick={() => addToWishList(user.currentUser.username, data._id)}
+          />
+          <button className={classes.btnCart}>Add to cart</button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

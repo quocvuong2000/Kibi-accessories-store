@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { getProductHome } from "../../../api/Product";
-import ProductCard from "../../../components/ProductCard";
+import { getLimitProduct } from "../../../api/Product";
+import { ProductCardGrid } from "../../ViewAll/ProductCardGrid";
 import classes from "./styles.module.scss";
 
 const MonthlyDeal = () => {
   const [product, setProduct] = useState({});
   useEffect(() => {
-    getProductHome().then((res) => {
+    getLimitProduct(4).then((res) => {
       if (res) {
         setProduct(res);
       }
@@ -17,7 +17,7 @@ const MonthlyDeal = () => {
       <div className={classes.title}>Monthly Deals</div>
       <div className={classes.listItem}>
         {product.products?.map((item, index) => {
-          return <ProductCard data={item} key={index} />;
+          return <ProductCardGrid data={item} key={index} />;
         })}
       </div>
     </div>

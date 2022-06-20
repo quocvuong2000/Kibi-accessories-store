@@ -2,7 +2,7 @@
 .home {
   max-width: 100vw;
   min-height: 100vh;
-  background:  #F7F6F4;
+  background: white;
   overflow: hidden;
 
   .carousel {
@@ -10,6 +10,12 @@
   }
   .categories {
     height: 60vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .videoBlog {
+    height: 140vh;
     display: flex;
     justify-content: center;
   }

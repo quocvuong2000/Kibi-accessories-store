@@ -12,16 +12,29 @@ import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { setAuthToken } from "../../services/jwt-axios";
+import { getAllProductCart } from "../../api/Cart";
+import axios from "axios";
 const { Search } = Input;
 
 const Header = () => {
   const user = useSelector((state) => state.user);
+  const cart = useSelector((state) => state.cart);
+
+  if (user.currentUser) {
+    if (user.currentUser.accessToken !== "") {
+      setAuthToken(user.currentUser.accessToken);
+      getAllProductCart(user.currentUser.username);
+    }
+  }
+
   const openNotificationWithIcon = (type) => {
     notification[type]({
       message: "Error",
       description: "Can't fill in special character",
     });
   };
+
   let navigate = useNavigate();
   const onSearch = (value) => {
     var regex = /^[a-zA-Z]+$/;
@@ -36,7 +49,6 @@ const Header = () => {
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
-  const [qty, setQty] = useState(1);
   const [visible, setVisible] = useState(false);
   const ref = useClickOutside(() => setVisible(false));
 
@@ -45,48 +57,33 @@ const Header = () => {
     menuRef.current.classList.toggle(classes.active);
   };
 
-  const upQty = () => {
-    setQty(qty + 1);
-  };
-
-  const downQty = () => {
-    if (qty === 1) {
-      return;
-    } else {
-      setQty(qty - 1);
-    }
-  };
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 50 ||
-        document.documentElement.scrollTop > 50
-      ) {
-        headerRef.current.classList.add(classes.shrink);
-      } else {
-        headerRef.current.classList.remove(classes.shrink);
-      }
-      return () => {
-        window.removeEventListener("scroll");
-      };
-    });
+    // window.addEventListener("scroll", () => {
+    //   if (
+    //     document.body.scrollTop > 50 ||
+    //     document.documentElement.scrollTop > 50
+    //   ) {
+    //     headerRef.current.classList.add(classes.shrink);
+    //   } else {
+    //     headerRef.current.classList.remove(classes.shrink);
+    //   }
+    //   return () => {
+    //     window.removeEventListener("scroll");
+    //   };
+    // });
 
     getAllCategory().then((res) => {
       if (res) {
         setCategory(res);
       }
     });
-  }, []);
+  }, [cart]);
+
+  console.log(user);
   return (
     <div className={classes.container}>
-      <Cart
-        visible={visible}
-        aref={ref}
-        downQty={downQty}
-        qty={qty}
-        upQty={upQty}
-      />
+      <Cart visible={visible} aref={ref} />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.top}>
           <Link to={"/"} className={classes.logo}>
@@ -102,11 +99,12 @@ const Header = () => {
           </Space>
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
-
             {user.currentUser ? (
               <Link to={"/myaccount/1"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>{user.currentUser.name}</div>
+                <div className={classes.loginText}>
+                  {user.currentUser.username}
+                </div>
               </Link>
             ) : (
               <Link to={"/login"} className={classes.login}>
@@ -120,7 +118,7 @@ const Header = () => {
               onClick={() => setVisible(true)}
             >
               <Handbag size={25} color="#000" weight="thin" />
-              <NumItem item={5} />
+              <NumItem item={cart.numberCart ?? 0} />
             </div>
           </div>
         </div>

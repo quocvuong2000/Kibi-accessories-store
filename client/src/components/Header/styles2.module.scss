@@ -3,13 +3,23 @@
   p {
     margin-bottom: unset !important;
   }
-  @include flex(flex-start, space-between);
+  @include flex(center, space-between);
   &__left {
-    @include flex(flex-start);
+    @include flex(center);
     column-gap: 32px;
     &__image {
-      background-color: #f1ddc9;
       padding: 11px 25px;
+      max-width: 130px;
+      max-height: 130px;
+      min-width: 130px;
+      min-height: 130px;
+      @include flex();
+      img {
+        max-width: 130px;
+        max-height: 130px;
+        min-width: 130px;
+        min-height: 130px;
+      }
     }
     &__info {
       display: flex;
@@ -46,7 +56,7 @@
   &__right {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     &__select {
       color: #333333;
       @include font(normal, 500, 16px, 24px, 0.03em);
@@ -107,6 +117,7 @@
         box-sizing: border-box;
         position: relative;
         background: #d84727;
+        border: none;
         cursor: pointer;
         &:hover {
           @include border-radius(50%);
@@ -122,6 +133,8 @@
           left: 0;
           right: 0;
           border-bottom: none;
+          border-right: none;
+          border-left: none;
           margin: 0 4px;
         }
         .icon_add2 {
@@ -131,7 +144,9 @@
           top: 0;
           left: 50%;
           margin: 4px 0 !important;
-          border-left: none;
+          border-right: none;
+          border-top: none;
+          border-bottom: none;
         }
       }
       .result {
@@ -139,11 +154,13 @@
         @include font(normal, 600, 24px, 32px, 0.02em);
       }
       .delete {
+        cursor: pointer;
         border: 1px solid #d93f3f;
         box-sizing: border-box;
         @include flex();
         width: 32px;
         height: 32px;
+        background: transparent;
       }
     }
   }

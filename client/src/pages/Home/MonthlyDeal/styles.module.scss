@@ -1,10 +1,12 @@
 @use "../../../sass/mixins" as *;
 .mothlyDealContainer {
-  width: 1110px;
-  height: 585px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  align-items: center;
+  margin-top: 30px;
 
   .title {
     font-family: "Taviraj";
@@ -28,8 +30,10 @@
     }
   }
   .listItem {
+    margin-top: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    column-gap: 30px;
   }
 
   @include tablet {

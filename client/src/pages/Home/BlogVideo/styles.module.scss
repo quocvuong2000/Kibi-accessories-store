@@ -1,0 +1,16 @@
+.contanier {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+
+  .title {
+    font-size: 60px;
+    text-transform: uppercase;
+  }
+
+  video {
+    transform: scale(0.8);
+  }
+}

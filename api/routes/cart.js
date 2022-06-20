@@ -26,14 +26,14 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
       });
       res.status(200).json("update success");
     } catch (error) {
-      res.status(500).json(error);
+      console.log(error);
+      res.status(501).json(error);
     }
   } else {
     //FIND IF PRODUCT ALREADY EXISTS
     const productFound = cartList.find(
       (el) => el.productId === req.body.productId
     );
-    // console.log(productFound);
     let cartTemp = [];
     let newUpdate;
     if (productFound !== undefined) {
@@ -41,7 +41,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productFound.productId,
         productName: productFound.productName,
         productPrice: productFound.productPrice,
-        productImage: productFound.images[0],
+        productImage: productFound.productImage[0],
         quantity: productFound.quantity + 1,
       };
       cartList.forEach((el) => {
@@ -56,7 +56,8 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productId: productAdded.id,
         productName: productAdded.product,
         productPrice: productAdded.price,
-        productImage: productFound.images[0],
+        //Image in product
+        productImage: productAdded.images[0],
         quantity: 1,
       };
       cartTemp = cartList;
@@ -69,6 +70,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
       });
       res.status(200).json("update success");
     } catch (error) {
+      console.log(error);
       res.status(500).json(error);
     }
   }
@@ -94,7 +96,7 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
       productId: productFound.productId,
       productName: productFound.productName,
       productPrice: productFound.productPrice,
-      productImage: productFound.images[0],
+      productImage: productFound.productImage[0],
 
       quantity: productFound.quantity - 1 === 0 ? 0 : productFound.quantity - 1,
     };
@@ -113,6 +115,7 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
     // const addCart = await pInfo.save();
     res.status(200).json("decrease success");
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
@@ -120,7 +123,8 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
 router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
   try {
     //FIND CART
-    const cartByUser = await Cart.findOne({ username: req.body.username }[0]);
+    const cartByUser = await Cart.findOne({ username: req.body.username });
+
     if (!cartByUser) return res.status(404).json("user cart not generate");
     let cartList = cartByUser.products;
 
@@ -138,6 +142,7 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
       productImage: productFound.productImage[0],
       quantity: productFound.quantity + 1
     };
+    console.log(productFound.quantity);
     cartList.forEach((el) => {
       if (el.productId === req.body.productId) {
         cartTemp.push(newUpdate);
@@ -145,16 +150,20 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
         cartTemp.push(el);
       }
     });
+    await Cart.findByIdAndUpdate(cartByUser.id, {
+      products: cartTemp,
+    });
     // const addCart = await pInfo.save();
     res.status(200).json("increase success");
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
 //DELETE
-router.post("/item/delete", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   //FIND CART
-  const cartByUser = await Cart.findOne({ username: req.body.username }[0]);
+  const cartByUser = await Cart.findOne({ username: req.body.username });
   if (!cartByUser) return res.status(404).json("user cart not generate");
   let cartList = cartByUser.products;
 
@@ -172,6 +181,7 @@ router.post("/item/delete", verifyTokenAndAuthorization, async (req, res) => {
     // const addCart = await pInfo.save();
     res.status(200).json("delete success");
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
@@ -183,6 +193,7 @@ router.get("/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
     res.status(200).json(rs);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
@@ -194,6 +205,7 @@ router.get("/", verifyTokenAndAuthorization, async (req, res) => {
   try {
     res.status(200).json(rs);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });

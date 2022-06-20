@@ -10,7 +10,9 @@ import classes from "./styles.module.scss";
 import Register from "../Register";
 import { loginSuccess } from "../../redux/userRedux";
 import { useGoogleLogin } from "@react-oauth/google";
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { googleInfo } from "../../api/User";
+import { doSignUp } from "../Register/RegisterAPI";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,10 +33,12 @@ const Login = () => {
   const handleLoginGoogle = useGoogleLogin({
     onSuccess: (res) => {
       setWrongCredential(false);
+      googleInfo(res.access_token).then((value) => {
+        dispatch(doSignUp(value));
+      });
       message.success("Login success");
-      dispatch(loginSuccess(res));
+      // dispatch(loginSuccess(res));
       navigate("/");
-      console.log(res);
     },
     onError: (res) => console.log(res),
   });
@@ -72,7 +76,7 @@ const Login = () => {
                   message.success("Login success");
                   dispatch(loginSuccess(res));
                   navigate("/");
-                  console.log(res);
+                  // console.log(res);
                 })
                 .catch(() => {
                   setWrongCredential(true);

@@ -7,7 +7,8 @@
   justify-content: space-between;
 
   .categoryItem {
-    background: #fff;
+    border-radius: 20px;
+    background: #f8eee3;
     padding: 32px;
     position: relative;
     width: 540px;
@@ -88,9 +89,9 @@
     justify-content: space-around;
   }
   @include tablet {
-      .categoryItem {
-        width: 440px;
-        height: 200px;
-      }
+    .categoryItem {
+      width: 440px;
+      height: 200px;
+    }
   }
 }
