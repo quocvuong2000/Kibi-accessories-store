@@ -117,6 +117,7 @@
         box-sizing: border-box;
         position: relative;
         background: #d84727;
+        border: none;
         cursor: pointer;
         &:hover {
           @include border-radius(50%);
@@ -132,6 +133,8 @@
           left: 0;
           right: 0;
           border-bottom: none;
+          border-right: none;
+          border-left: none;
           margin: 0 4px;
         }
         .icon_add2 {
@@ -141,7 +144,9 @@
           top: 0;
           left: 50%;
           margin: 4px 0 !important;
-          border-left: none;
+          border-right: none;
+          border-top: none;
+          border-bottom: none;
         }
       }
       .result {
@@ -149,11 +154,13 @@
         @include font(normal, 600, 24px, 32px, 0.02em);
       }
       .delete {
+        cursor: pointer;
         border: 1px solid #d93f3f;
         box-sizing: border-box;
         @include flex();
         width: 32px;
         height: 32px;
+        background: transparent;
       }
     }
   }

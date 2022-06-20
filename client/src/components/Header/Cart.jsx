@@ -1,18 +1,23 @@
 import { Modal } from "antd";
-import React, { useEffect, useState } from "react";
 import "antd/dist/antd.min.css";
-import classes from "./styles2.module.scss";
-import item1 from "../../assets/cart/item1.png";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCart, downQty, getAllProductCart, upQty } from "../../api/Cart";
 import numberWithCommas from "../../utils/numberWithCommas";
-import { getAllProductCart } from "../../api/Cart";
+import classes from "./styles2.module.scss";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
-
+  const [update, setUpdate] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
   useEffect(() => {
+    setUpdate(false);
+
     if (user.currentUser != null) {
       getAllProductCart(user.currentUser.username).then((res) => {
         if (res) {
@@ -21,8 +26,6 @@ export const Cart = (props) => {
       });
     }
   }, [cart]);
-
-  console.log(product);
 
   return (
     <Modal centered visible={props.visible}>
@@ -60,36 +63,63 @@ export const Cart = (props) => {
                   </option>
                 </select> */}
                   <div className={classes.cart__item__right__option}>
-                    <div
+                    <button
                       className={classes.sub}
                       onClick={() => {
-                        item.quantity > 1 && item.quantity--;
+                        setDisabled(false);
+                        {
+                          cart.isFetching === false &&
+                            downQty(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }
                       }}
                     >
                       <p className={classes.icon_sub}></p>
-                    </div>
+                    </button>
                     <p className={classes.count}>{item.quantity}</p>
-                    <div
+                    <button
                       className={classes.add}
                       onClick={() => {
-                        item.quantity += 1;
+                        {
+                          cart.isFetching === false &&
+                            upQty(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }
                       }}
                     >
                       <p className={classes.icon_add}></p>
                       <p className={classes.icon_add2}></p>
-                    </div>
+                    </button>
 
                     <p className={classes.result}>
                       {numberWithCommas(item.productPrice * item.quantity)}đ
                     </p>
-                    <div className={classes.delete}>
+                    <button
+                      className={classes.delete}
+                      onClick={() => {
+                        {
+                          cart.isFetching === false &&
+                            deleteCart(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }
+                      }}
+                    >
                       <box-icon
                         name="trash"
                         color="#d84727"
                         size="24px"
                         type="solid"
                       ></box-icon>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>{" "}
@@ -104,12 +134,12 @@ export const Cart = (props) => {
           <div className={classes.total}>
             <p className={classes.total__text}>Subtotal</p>
             <div className={classes.total__price}>
-              <p className={classes.total__price__voucher}>
-                Rp 3.312.000
+              {/* <p className={classes.total__price__voucher}>
+                {numberWithCommas(totalPrice)}đ
                 <span className={classes.line}></span>
-              </p>
+              </p> */}
               <p className={classes.total__price__correct}>
-                {numberWithCommas(cart.total)}
+                {numberWithCommas(cart.totalPrice)}đ
               </p>
             </div>
           </div>

@@ -20,3 +20,21 @@ export const addToWishList = async (username, productId) => {
       res.status === 201 && message.error(res.data);
     });
 };
+
+export const checkExistsWishlist = async (username, productId) => {
+  let status = 0;
+  await callAPIWithToken
+    .post("/api/wishlist/exist", {
+      username: username,
+      productId: productId,
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        status = 200;
+      } else {
+        status = 201;
+      }
+    });
+
+  return status;
+};

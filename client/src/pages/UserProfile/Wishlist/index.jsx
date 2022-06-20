@@ -11,8 +11,8 @@ const Wistlist = () => {
 
   useEffect(() => {
     getAllWishlist(user.currentUser.username).then((res) => {
-      console.log(res.wishlist);
-      setProduct(res.wishlist);
+      console.log(res[0].products);
+      setProduct(res[0].products);
     });
   }, []);
 

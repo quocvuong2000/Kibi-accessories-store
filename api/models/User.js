@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema(
     district: { type: String },
     city: { type: String },
     type: { type: String, required: true },
+    idGoogle: { type: String, unique: true },
+    idFacebook: { type: String, unique: true },
   },
   { timestamps: true }
 );

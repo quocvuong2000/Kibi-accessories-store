@@ -1,7 +1,17 @@
 import { message } from "antd";
 import { useState } from "react";
-import { addCart } from "../redux/apiCalls";
-import { addCartSuccess } from "../redux/cartRedux";
+import {
+  addCart,
+  decreaseQty,
+  deleteProductCart,
+  increaseQty,
+} from "../redux/apiCalls";
+import {
+  addCartSuccess,
+  decreaseCartSuccess,
+  deleteCartSuccess,
+  increaseCartSuccess,
+} from "../redux/cartRedux";
 import { callAPIWithToken } from "../services/jwt-axios";
 
 export const getAllProductCart = async (user) => {
@@ -29,30 +39,63 @@ export const handleAddToCart = async (dispatch, username, productId) => {
     });
 };
 
-export const downQty = async (username, productId) => {
-  try {
-    const res = await callAPIWithToken.post("/api/item/decrease", {
-      username: user,
-      productId: idProduct,
+export const deleteCart = async (dispatch, username, productId) => {
+  deleteProductCart(dispatch, username, productId)
+    .then((res) => {
+      // setWrongCredential(false);
+      message.success("Delete success");
+    })
+    .finally(() => {
+      getAllProductCart(username).then((res) => {
+        dispatch(deleteCartSuccess(res));
+      });
+    })
+    .catch((e) => {
+      // setWrongCredential(true);
+      throw e;
     });
-    if (res && res.status !== 200)
-      throw Error("Something wrongs with code status" + res.status);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
 };
 
-export const upQty = async (username, productId) => {
-  try {
-    const res = await callAPIWithToken.post("/api/item/increase", {
-      username: user,
-      productId: idProduct,
+export const downQty = async (dispatch, username, productId) => {
+  decreaseQty(dispatch, username, productId)
+    .then((res) => {
+      message.success("Decrease success");
+    })
+    .finally(() => {
+      getAllProductCart(username).then((res) => {
+        dispatch(decreaseCartSuccess(res));
+      });
+    })
+    .catch((e) => {
+      throw e;
     });
-    if (res && res.status !== 200)
-      throw Error("Something wrongs with code status" + res.status);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
 };
+
+export const upQty = async (dispatch, username, productId) => {
+  increaseQty(dispatch, username, productId)
+    .then((res) => {
+      message.success("Increase success");
+    })
+    .finally(() => {
+      getAllProductCart(username).then((res) => {
+        dispatch(increaseCartSuccess(res));
+      });
+    })
+    .catch((e) => {
+      throw e;
+    });
+};
+
+// export const deleteProductCart = async (username, productId) => {
+//   try {
+//     const res = await callAPIWithToken.post("/api/cart/delete", {
+//       username: username,
+//       productId: productId,
+//     });
+//     if (res && res.status !== 200)
+//       throw Error("Something wrongs with code status" + res.status);
+//     return res.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };

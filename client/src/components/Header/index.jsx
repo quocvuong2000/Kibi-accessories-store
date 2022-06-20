@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { setAuthToken } from "../../services/jwt-axios";
 import { getAllProductCart } from "../../api/Cart";
+import axios from "axios";
 const { Search } = Input;
 
 const Header = () => {
@@ -26,8 +27,6 @@ const Header = () => {
       getAllProductCart(user.currentUser.username);
     }
   }
-
-  console.log(cart);
 
   const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -50,7 +49,6 @@ const Header = () => {
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
-  const [qty, setQty] = useState(1);
   const [visible, setVisible] = useState(false);
   const ref = useClickOutside(() => setVisible(false));
 
@@ -80,7 +78,9 @@ const Header = () => {
         setCategory(res);
       }
     });
-  }, []);
+  }, [cart]);
+
+  console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} />

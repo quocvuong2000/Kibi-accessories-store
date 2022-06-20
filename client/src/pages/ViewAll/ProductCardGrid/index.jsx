@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { Popover } from "antd";
 import { Heart } from "phosphor-react";
 import numberWithComas from "../../../utils/numberWithCommas";
 import { Link } from "react-router-dom";
+import imgError from "../../../assets/imgDefault.webp";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddToCart } from "../../../api/Cart";
+import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
   const [show, setShow] = useState(false);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [exist, setExist] = useState(false);
+
+  useEffect(() => {
+    checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
+      console.log(res);
+      res === 200 && setExist(false);
+      res === 201 && setExist(true);
+    });
+  }, [data]);
 
   return (
     <div
@@ -17,11 +32,25 @@ export const ProductCardGrid = (props) => {
     >
       <Link to={`/detail/${data._id}`}>
         <div className={s.box__product__image}>
-          <img src={data.images[2]} alt="" loading="lazy" />
+          <img
+            src={data.images && data.images[0] ? data.images[0] : imgError}
+            alt=""
+            loading="lazy"
+            onError={(e) => (
+              (e.target.onerror = null), (e.target.src = imgError)
+            )}
+          />
         </div>
       </Link>
-      <div className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}>
-        <Heart size={20} />
+      <div
+        className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}
+        onClick={() => addToWishList(user.currentUser.username, data._id)}
+      >
+        {exist === false ? (
+          <Heart size={20} />
+        ) : (
+          <Heart size={20} weight="fill" color="red" />
+        )}
       </div>
       <div className={s.box__product__content}>
         <Popover title={data.product} trigger="hover">
@@ -44,7 +73,12 @@ export const ProductCardGrid = (props) => {
             )}
           </div>
         ) : (
-          <p className={`${s.txt_add} ${show ? s.show_txt : s.hide_txt}`}>
+          <p
+            className={`${s.txt_add} ${show ? s.show_txt : s.hide_txt}`}
+            onClick={() =>
+              handleAddToCart(dispatch, user.currentUser.username, data._id)
+            }
+          >
             + Add to cart
           </p>
         )}

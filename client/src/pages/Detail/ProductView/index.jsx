@@ -8,7 +8,7 @@ import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import styles from "./styles.module.scss";
-
+import imgError from "../../../assets/imgDefault.webp";
 const ProductView = (props) => {
   const [src, setSrc] = useState(props.data.product.images[0]);
   const [srcMain, setSrcMain] = useState(props.data.product.images[0]);
@@ -18,11 +18,11 @@ const ProductView = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log(props.data.product.images[0]);
   useEffect(() => {
+    setSrc(props.data.product.images[0]);
     setSrcMain(src);
     setShow(true);
-  }, [src]);
+  }, [src, props.data]);
 
   const handleClickSrcImagePreview = (e) => {
     setSrc(e.target.src);
@@ -40,8 +40,6 @@ const ProductView = (props) => {
       setQty(qty + 1);
     }
   };
-
-  console.log(props.data.product);
 
   return (
     <Col className={`${styles.container}`}>
@@ -63,7 +61,7 @@ const ProductView = (props) => {
                 scaleY: [1.5, 1],
               }}
             >
-              <img src={srcMain} alt="watch" />
+              <img src={srcMain ? srcMain : imgError} alt="watch" />
             </motion.div>
           </div>
           <div className={styles.img_preview}>
