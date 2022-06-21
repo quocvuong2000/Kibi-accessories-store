@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
-  userId: { type: String, unique: true },
-  userName: { type: String, required: true },
+  username: { type: String, required: true },
   email: { type: String },
   products: [
     {
+      _id: false,
       productId: { type: String },
       productName: { type: String },
+      productImage: { type: Array },
       productPrice: { type: Number },
       quantity: { type: Number },
-      voucher: { type: Number },
     },
   ],
+  status : {type : String},
   totalProduct: { type: Number },
   totalPrice: { type: Number },
   amount: { type: Number },

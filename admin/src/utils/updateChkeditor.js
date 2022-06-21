@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytesResumable
 } from "firebase/storage";
-import { app } from "./firebase";
+import { app } from "../firebase/firebase";
 
 class MyUploadAdapter {
   constructor(loader) {
