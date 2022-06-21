@@ -81,12 +81,6 @@ const Header = () => {
     });
   }, [cart]);
 
-  user.currentUser &&
-    googleInfo(user.currentUser.access_token).then((value) => {
-      console.log(value);
-    });
-
-  console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} />

@@ -15,7 +15,6 @@ export const addToWishList = async (username, productId) => {
       productId: productId,
     })
     .then((res) => {
-      console.log(res.status);
       res.status === 200 && message.success(res.data);
       res.status === 201 && message.error(res.data);
     });

@@ -39,48 +39,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//SOCIAL MEDIA
-router.post("/social", async (req, res) => {
-  const userInfo = new User({
-    username: req.body.username,
-    email: req.body.email,
-    phone: req.body.phone,
-    address: req.body.address,
-    dob: req.body.dob,
-    gender: req.body.gender,
-    wards: req.body.wards,
-    district: req.body.district,
-    city: req.body.city,
-    type: "customer",
-  });
-  const cartInfo = new Cart({
-    username: req.body.username,
-  });
-
-  const wishListInfo = new Wishlist({
-    username: req.body.username,
-  });
-
-  const accessToken = jwt.sign(
-    {
-      id: user._id,
-      type: "customer",
-    },
-    process.env.VUONG_SEC_PASS,
-    { expiresIn: "1d" }
-  );
-  try {
-    const register = await userInfo.save();
-    await cartInfo.save();
-    await wishListInfo.save();
-    res.status(201).json({ register, accessToken });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-//LOGINs
-
+//LOGIN
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -108,6 +67,37 @@ router.post("/login", async (req, res) => {
 
     return res.status(200).json({ ...others, accessToken });
   } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+});
+
+//LOGIN BY SOCIAL ACCOUNT
+// {
+//   "email" : "xxx@gmail.com"
+// }
+router.post("/social-account", async (req, res) => {
+  const newUserInfo = new User({
+    username: req.body.email,
+    email: req.body.email,
+    type: "customer",
+  });
+  const cartInfo = new Cart({
+    username: req.body.email,
+  });
+  try {
+    await newUserInfo.save();
+    await cartInfo.save();
+    const accessToken = jwt.sign(
+      {
+        id: req.body.email,
+        type: "customer",
+      },
+      process.env.VUONG_SEC_PASS,
+      { expiresIn: "1d" }
+    );
+    return res.status(200).json({ accessToken });
+  } catch (err) {
+    console.log(err);
     return res.status(500).json({ error: err });
   }
 });

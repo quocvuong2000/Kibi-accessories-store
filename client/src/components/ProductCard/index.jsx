@@ -13,7 +13,7 @@ import imgDefault from "../../assets/imgDefault.webp";
 const ProductCard = (props) => {
   const user = useSelector((state) => state.user);
   const data = props.data;
-  console.log(data);
+
   return (
     <div className={classes.productCardContainer}>
       <div className={classes.top}></div>
