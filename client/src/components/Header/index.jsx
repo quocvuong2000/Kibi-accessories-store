@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { setAuthToken } from "../../services/jwt-axios";
 import { getAllProductCart } from "../../api/Cart";
 import axios from "axios";
+import { googleInfo } from "../../api/User";
 const { Search } = Input;
 
 const Header = () => {
@@ -79,6 +80,11 @@ const Header = () => {
       }
     });
   }, [cart]);
+
+  user.currentUser &&
+    googleInfo(user.currentUser.access_token).then((value) => {
+      console.log(value);
+    });
 
   console.log(user);
   return (

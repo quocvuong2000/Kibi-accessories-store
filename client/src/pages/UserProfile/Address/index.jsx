@@ -1,7 +1,7 @@
 import { Trash } from "phosphor-react";
 import React from "react";
 import s from "./styles.module.scss";
-
+import { Plus } from "phosphor-react";
 const Address = () => {
   const data = [
     {
@@ -61,6 +61,9 @@ const Address = () => {
           </div>
         );
       })}
+      <button className={s.add_address}>
+        <Plus size={25} weight="fill" /> Add address
+      </button>
     </div>
   );
 };

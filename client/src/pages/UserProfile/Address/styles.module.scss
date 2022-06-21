@@ -3,6 +3,7 @@
   @include flex(flex-start, flex-start);
   flex-direction: column;
   margin-bottom: 30px;
+  justify-content: center;
   p {
     margin: 0;
     padding: 0;
@@ -76,6 +77,17 @@
         text-decoration: underline;
       }
     }
+  }
+  .add_address {
+    margin-top: 20px;
+    width: 950px;
+    background: #d84727;
+    color: #fff;
+    padding: 20px 0;
+    border: dotted 2px #fff;
+    font-size: 20px;
+    @include flex();
+    column-gap: 10px;
   }
 }
 

@@ -17,11 +17,12 @@ export const ProductCardGrid = (props) => {
   const [exist, setExist] = useState(false);
 
   useEffect(() => {
-    checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
-      console.log(res);
-      res === 200 && setExist(false);
-      res === 201 && setExist(true);
-    });
+    user.currentUser &&
+      checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
+        console.log(res);
+        res === 200 && setExist(false);
+        res === 201 && setExist(true);
+      });
   }, [data]);
 
   return (
