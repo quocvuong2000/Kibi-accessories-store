@@ -39,13 +39,15 @@ import {
   descriptionSteps,
   steps,
 } from "../../../utils/addProductData";
-import { app } from "../../../utils/firebase";
+import { app } from "../../../firebase/firebase";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
-import { addNewProduct } from "../ProductAPI";
+import { addNewProduct, doGetDetailProduct } from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
 import { UilTimesCircle } from "@iconscout/react-unicons";
-export default function DialogAddProduct(props) {
+import Apploader from "../../../components/AppLoader";
+import { useState } from "react";
+export default function DialogUpdateProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const [brandList, setBrandList] = React.useState([]);
@@ -53,8 +55,9 @@ export default function DialogAddProduct(props) {
   // const [file, setFile] = React.useState(null);
   const [activeStep, setActiveStep] = React.useState(0);
   const [activeStepDes, setActiveStepDes] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
-  const [completedDes, setCompletedDes] = React.useState({});
+  const [completed] = React.useState({});
+  const [completedDes] = React.useState({});
+  const [loading, setLoading] = useState(true);
   const [images, setImages] = React.useState([]);
   const [urls, setUrls] = React.useState([]);
   const [description, setDescription] = React.useState({
@@ -130,7 +133,17 @@ export default function DialogAddProduct(props) {
     getCategoryList().then((res) => {
       setCatList(res.categories);
     });
-  }, []);
+    doGetDetailProduct(props.productId)
+      .then((res) => {
+        const data = res.data;
+        if (data) {
+          console.log(data);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [props.productId]);
   const Input = styled("input")({
     display: "none",
   });
@@ -145,13 +158,14 @@ export default function DialogAddProduct(props) {
   };
   return (
     <>
+      {loading && <Apploader />}
       <Dialog
         open={props.showDialog}
         onClose={handleClose}
         fullWidth={true}
         maxWidth={"lg"}
       >
-        <DialogTitle>ADD NEW PRODUCT</DialogTitle>
+        <DialogTitle>UPDATE PRODUCT</DialogTitle>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Stepper
             nonLinear
@@ -169,7 +183,6 @@ export default function DialogAddProduct(props) {
                 <StepLabel StepIconComponent={ColorlibStepIcon}>
                   {label}
                 </StepLabel>
-                {/* <StepButton color="inherit" sx={{ p: 2 }}></StepButton> */}
               </Step>
             ))}
           </Stepper>

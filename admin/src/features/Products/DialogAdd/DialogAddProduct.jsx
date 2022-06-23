@@ -39,18 +39,19 @@ import {
   descriptionSteps,
   steps,
 } from "../../../utils/addProductData";
-import { app } from "../../../utils/firebase";
+import { app } from "../../../firebase/firebase";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
 import { addNewProduct } from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
-import { UilTimesCircle } from "@iconscout/react-unicons";
+import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
+
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const [brandList, setBrandList] = React.useState([]);
   const [catList, setCatList] = React.useState([]);
-  const [loading, setLoading]= React.useState();
+  const [loading, setLoading] = React.useState();
   const [activeStep, setActiveStep] = React.useState(0);
   const [activeStepDes, setActiveStepDes] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
@@ -64,6 +65,7 @@ export default function DialogAddProduct(props) {
     howToAdjust: "",
     warrantyDetail: "",
   });
+  const [progressUpload, setProgressupload] = React.useState(0);
   React.useEffect(() => {
     return () => {};
   }, []);
@@ -110,6 +112,7 @@ export default function DialogAddProduct(props) {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
+          setProgressupload(progress);
         },
         (error) => {
           console.log(error);
@@ -155,7 +158,7 @@ export default function DialogAddProduct(props) {
         fullWidth={true}
         maxWidth={"lg"}
       >
-        <DialogTitle>UPDATE PRODUCT</DialogTitle>
+        <DialogTitle>ADD NEW PRODUCT</DialogTitle>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Stepper
             nonLinear
@@ -414,25 +417,12 @@ export default function DialogAddProduct(props) {
                               key={i}
                               sx={{ position: "relative" }}
                             >
-                              {/* <Box
-                                sx={{
-                                  position: "absolute",
-                                  right: "0px",
-                                  top: "0px",
-                                  backgroundColor: "#000",
-                                  borderRadius: "20px",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => hanldeDeleteImage(url)}
-                              >
-                                <UilTimesCircle fill={"#fff"} />
-                              </Box> */}
                               <img
                                 src={`${URL.createObjectURL(url)}`}
-                                // srcSet={`${URL.createObjectURL(url)}`}
                                 alt={i}
                                 loading="lazy"
                               />
+                              <LinearProgressUpload progress={progressUpload} />
                             </ImageListItem>
                           ))}
                         </ImageList>

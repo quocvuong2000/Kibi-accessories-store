@@ -78,15 +78,19 @@ const HeaderProduct = (props) => {
             justifyContent={"flex-end"}
             display={"flex"}
           >
-            <Button variant="contained" onClick={() => setShowDialog(true)}>Add New Product</Button>
+            <Button variant="contained" onClick={() => setShowDialog(true)}>
+              Add New Product
+            </Button>
           </Grid>
         </Grid>
       </Box>
-      <DialogAddProduct
-      showDialog={showDialog}
-      handleShowDialog={handleShowDialogAdd}
-      reLoadTable={props.reLoadTable}
+      {showDialog && (
+        <DialogAddProduct
+          showDialog={showDialog}
+          handleShowDialog={handleShowDialogAdd}
+          reLoadTable={props.reLoadTable}
         />
+      )}
     </div>
   );
 };
