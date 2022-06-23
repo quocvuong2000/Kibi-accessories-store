@@ -19,10 +19,12 @@ const ProductView = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setSrc(props.data.product.images[0]);
     setSrcMain(src);
     setShow(true);
-  }, [src, props.data]);
+  }, [src]);
+  useEffect(() => {
+    setSrc(props.data.product.images[0]);
+  }, [props.data]);
 
   const handleClickSrcImagePreview = (e) => {
     setSrc(e.target.src);

@@ -23,11 +23,19 @@ const Login = () => {
 
   const responseFacebook = (res) => {
     if (res) {
-      setWrongCredential(false);
-      message.success("Login success");
-      dispatch(loginSuccess(res));
-      navigate("/");
       console.log(res);
+      setWrongCredential(false);
+      socialSignIn(res.email, res.name).then((value) => {
+        console.log(res);
+        message.success("Login success");
+        const obj = {
+          username: res.email,
+          email: res.email,
+          accessToken: value.data.accessToken,
+        };
+        dispatch(loginSuccess(obj));
+        navigate("/");
+      });
     }
   };
   const handleLoginGoogle = useGoogleLogin({
@@ -35,10 +43,15 @@ const Login = () => {
       setWrongCredential(false);
 
       googleInfo(res.access_token).then((info) => {
-        socialSignIn(info.data.email).then((res) => {
-          console.log(res);
+        socialSignIn(info.data.email, info.data.name).then((res) => {
           message.success("Login success");
-          dispatch(loginSuccess(res));
+          const obj = {
+            username: info.data.email,
+            email: info.data.email,
+            name: info.data.name,
+            accessToken: res.data.accessToken,
+          };
+          dispatch(loginSuccess(obj));
           navigate("/");
         });
       });

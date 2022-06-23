@@ -1,32 +1,32 @@
 import { Button, Form, Input, InputNumber } from "antd";
 import React from "react";
 import s from "./styles.module.scss";
-import { Phone } from "phosphor-react";
+import { Envelope } from "phosphor-react";
 
 const UpdateEmail = () => {
   return (
     <div className={s.container}>
       <div className={s.form}>
-        <p className={s.title}>Your phone</p>
+        <p className={s.title}>Your email</p>
         <Form className={s.form_email}>
           <Form.Item
             rules={[
               {
                 required: true,
-                message: "Please field your phone number",
+                message: "Please field your email",
               },
             ]}
           >
             <Input
-              placeholder="Field your phone number"
+              placeholder="Field your email"
               className={s.input_email}
               prefix={
-                <Phone size={20} weight="thin" className={s.icon_phone} />
+                <Envelope size={20} weight="thin" className={s.icon_phone} />
               }
             />
             <small className={s.small_text}>
-              Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác minh số
-              điện thoại là của bạn
+              Mã xác thực (OTP) sẽ được gửi đến email này để xác minh email là
+              của bạn
             </small>
           </Form.Item>
 

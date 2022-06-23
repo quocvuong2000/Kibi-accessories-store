@@ -83,7 +83,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         products: cartTemp,
         totalPrice: defaultTotalPrice,
       });
-      res.status(200).json("update success");
+      res.status(200).json({ totalPrice: defaultTotalPrice });
     } catch (error) {
       console.log(error);
       res.status(500).json(error);
@@ -136,12 +136,13 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
       totalPrice: defaultTotalPrice,
     });
     // const addCart = await pInfo.save();
-    res.status(200).json("decrease success");
+    res.status(200).json({ totalPrice: defaultTotalPrice });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 });
+
 //INCREASE
 router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
   try {
@@ -180,14 +181,16 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
     });
     await Cart.findByIdAndUpdate(cartByUser.id, {
       products: cartTemp,
+      totalPrice: defaultTotalPrice,
     });
     // const addCart = await pInfo.save();
-    res.status(200).json("increase success");
+    res.status(200).json({ totalPrice: defaultTotalPrice });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 });
+
 //DELETE
 router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   //FIND CART
@@ -212,7 +215,7 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
       totalPrice: defaultTotalPrice,
     });
     // const addCart = await pInfo.save();
-    res.status(200).json("delete success");
+    res.status(200).json({ totalPrice: defaultTotalPrice });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -247,7 +250,7 @@ router.post("/overriding", verifyTokenAndAuthorization, async (req, res) => {
           },
         ],
       });
-      res.status(200).json("update success");
+      res.status(200).json({ totalPrice: defaultTotalPrice });
     } catch (error) {
       console.log(error);
       res.status(501).json(error);
@@ -294,8 +297,9 @@ router.post("/overriding", verifyTokenAndAuthorization, async (req, res) => {
       // const addCart = await pInfo.save();
       await Cart.findByIdAndUpdate(cartByUser.id, {
         products: cartTemp,
+        totalPrice: defaultTotalPrice,
       });
-      res.status(200).json("update success");
+      res.status(200).json({ totalPrice: defaultTotalPrice });
     } catch (error) {
       console.log(error);
       res.status(500).json(error);
@@ -304,7 +308,7 @@ router.post("/overriding", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET CART BY USERNAME
-router.get("/:username", verifyTokenAndAuthorization, async (req, res) => {
+router.get("/:username", async (req, res) => {
   const rs = await Cart.findOne({ username: req.params.username });
   !rs && res.status(401).json("Wrong credentials!");
   try {

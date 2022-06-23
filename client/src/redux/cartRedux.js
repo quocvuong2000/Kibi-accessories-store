@@ -11,6 +11,10 @@ const cartSlice = createSlice({
   },
 
   reducers: {
+    getNumber: (state, action) => {
+      state.numberCart = action.payload.products.length;
+      state.totalPrice = action.payload.totalPrice;
+    },
     addStart: (state) => {
       state.isFetching = true;
     },
@@ -18,10 +22,7 @@ const cartSlice = createSlice({
       state.isFetching = false;
       state._products = action.payload.products;
       state.numberCart = action.payload.products.length;
-      state.totalPrice = 0;
-      state._products.forEach((value, index, array) => {
-        state.totalPrice += value.productPrice * value.quantity;
-      });
+      state.totalPrice = action.payload.totalPrice;
     },
 
     deleteStart: (state) => {
@@ -31,9 +32,7 @@ const cartSlice = createSlice({
       state.isFetching = false;
       state.numberCart = action.payload.products.length;
       state.totalPrice = 0;
-      state._products.forEach((value, index, array) => {
-        state.totalPrice += value.productPrice * value.quantity;
-      });
+      state.totalPrice = action.payload.totalPrice;
     },
 
     increaseStart: (state) => {
@@ -42,10 +41,7 @@ const cartSlice = createSlice({
     increaseCartSuccess: (state, action) => {
       state.isFetching = false;
       state._products = action.payload.products;
-      state.totalPrice = 0;
-      state._products.forEach((value, index, array) => {
-        state.totalPrice += value.productPrice * value.quantity;
-      });
+      state.totalPrice = action.payload.totalPrice;
     },
 
     decreaseStart: (state) => {
@@ -54,10 +50,7 @@ const cartSlice = createSlice({
     decreaseCartSuccess: (state, action) => {
       state.isFetching = false;
       state._products = action.payload.products;
-      state.totalPrice = 0;
-      state._products.forEach((value, index, array) => {
-        state.totalPrice += value.productPrice * value.quantity;
-      });
+      state.totalPrice = action.payload.totalPrice;
     },
   },
 });
@@ -71,5 +64,6 @@ export const {
   increaseCartSuccess,
   decreaseStart,
   decreaseCartSuccess,
+  getNumber,
 } = cartSlice.actions;
 export default cartSlice.reducer;

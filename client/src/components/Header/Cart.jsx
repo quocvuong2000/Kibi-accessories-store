@@ -3,6 +3,7 @@ import "antd/dist/antd.min.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCart, downQty, getAllProductCart, upQty } from "../../api/Cart";
+import { getNumber } from "../../redux/cartRedux";
 import numberWithCommas from "../../utils/numberWithCommas";
 import classes from "./styles2.module.scss";
 
@@ -21,7 +22,9 @@ export const Cart = (props) => {
     if (user.currentUser != null) {
       getAllProductCart(user.currentUser.username).then((res) => {
         if (res) {
+          console.log(res);
           setProduct(res.products);
+          dispatch(getNumber(res));
         }
       });
     }

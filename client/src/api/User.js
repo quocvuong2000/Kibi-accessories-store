@@ -10,9 +10,10 @@ export const googleInfo = async (access_token) => {
   return res;
 };
 
-export const socialSignIn = async (email) => {
+export const socialSignIn = async (email, name) => {
   const res = await jwtAxios.post("/api/auth/social-account", {
     email: email,
+    name: name,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);

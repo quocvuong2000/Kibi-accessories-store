@@ -7,7 +7,9 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import s from "./styles.module.scss";
 import UpdatePhone from "../UpdatePhone";
-
+import UpdateEmail from "../UpdateEmail";
+import UpdatePassword from "../UpdatePassword";
+import { useSelector } from "react-redux";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -35,7 +37,10 @@ const MyAccount = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [update, setUpdate] = useState(0);
 
+  const user = useSelector((state) => state.user);
+  console.log("user:", user);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -141,8 +146,16 @@ const MyAccount = () => {
                           message: "Please field your name",
                         },
                       ]}
+                      initialValue={
+                        user.currentUser !== null ? user.currentUser.name : ""
+                      }
                     >
-                      <Input allowClear />
+                      <Input
+                        allowClear
+                        value={
+                          user.currentUser !== null ? user.currentUser.name : ""
+                        }
+                      />
                     </Form.Item>
                     <Form.Item
                       label="User name"
@@ -153,8 +166,20 @@ const MyAccount = () => {
                           message: "Please field your name",
                         },
                       ]}
+                      initialValue={
+                        user.currentUser !== null
+                          ? user.currentUser?.username
+                          : ""
+                      }
                     >
-                      <Input allowClear />
+                      <Input
+                        allowClear
+                        value={
+                          user.currentUser !== null
+                            ? user.currentUser?.username
+                            : ""
+                        }
+                      />
                     </Form.Item>
                   </Form>
                 </Col>
@@ -215,7 +240,13 @@ const MyAccount = () => {
                   <div className={s.title}>
                     <Phone size={24} /> Phone{" "}
                   </div>
-                  <div className={s.button_update} onClick={showModal}>
+                  <div
+                    className={s.button_update}
+                    onClick={() => {
+                      setUpdate(0);
+                      showModal();
+                    }}
+                  >
                     <span></span>
                     <button className={s.btn_update}>Update</button>
                   </div>
@@ -224,7 +255,13 @@ const MyAccount = () => {
                   <div className={s.title}>
                     <EnvelopeSimple size={24} /> Email
                   </div>
-                  <div className={s.button_update}>
+                  <div
+                    className={s.button_update}
+                    onClick={() => {
+                      setUpdate(1);
+                      showModal();
+                    }}
+                  >
                     <button className={s.btn_update}>Update</button>
                   </div>
                 </div>
@@ -237,7 +274,13 @@ const MyAccount = () => {
                   <div className={s.title}>
                     <Key size={24} /> Password
                   </div>
-                  <div className={s.button_update}>
+                  <div
+                    className={s.button_update}
+                    onClick={() => {
+                      setUpdate(2);
+                      showModal();
+                    }}
+                  >
                     <button className={s.btn_update}>Update</button>
                   </div>
                 </div>
@@ -252,7 +295,9 @@ const MyAccount = () => {
         onCancel={handleCancel}
         className={s.wrapInformation}
       >
-        <UpdatePhone />
+        {update === 0 && <UpdatePhone />}
+        {update === 1 && <UpdateEmail />}
+        {update === 2 && <UpdatePassword />}
       </Modal>
     </div>
   );

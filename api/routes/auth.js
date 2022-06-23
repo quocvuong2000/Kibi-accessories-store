@@ -76,29 +76,50 @@ router.post("/login", async (req, res) => {
 //   "email" : "xxx@gmail.com"
 // }
 router.post("/social-account", async (req, res) => {
-  const newUserInfo = new User({
-    username: req.body.email,
-    email: req.body.email,
-    type: "customer",
-  });
-  const cartInfo = new Cart({
-    username: req.body.email,
-  });
-  try {
-    await newUserInfo.save();
-    await cartInfo.save();
-    const accessToken = jwt.sign(
-      {
-        id: req.body.email,
-        type: "customer",
-      },
-      process.env.VUONG_SEC_PASS,
-      { expiresIn: "1d" }
-    );
-    return res.status(200).json({ accessToken });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: err });
+  const userFound = await User.findOne({ username: req.body.email });
+  if (!userFound) {
+    const newUserInfo = new User({
+      username: req.body.email,
+      email: req.body.email,
+      name: req.body.name,
+      type: "customer",
+    });
+    const cartInfo = new Cart({
+      username: req.body.email,
+    });
+    const wishListInfo = new Wishlist({
+      username: req.body.email,
+    });
+    try {
+      await newUserInfo.save();
+      await cartInfo.save();
+      await wishListInfo.save();
+      const accessToken = jwt.sign(
+        {
+          id: req.body.email,
+          type: "customer",
+        },
+        process.env.VUONG_SEC_PASS,
+        { expiresIn: "1d" }
+      );
+      return res.status(200).json({ accessToken });
+    } catch (err) {
+      return res.status(500).json({ error: err });
+    }
+  } else {
+    try {
+      const accessToken = jwt.sign(
+        {
+          id: req.body.email,
+          type: "customer",
+        },
+        process.env.VUONG_SEC_PASS,
+        { expiresIn: "1d" }
+      );
+      return res.status(200).json({ accessToken });
+    } catch (err) {
+      return res.status(500).json({ error: err });
+    }
   }
 });
 module.exports = router;

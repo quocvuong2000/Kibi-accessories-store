@@ -1,4 +1,13 @@
 @use "../../../sass/mixins" as *;
+
+.wrapInformation {
+  top: 35% !important;
+  :global {
+    .ant-modal-content {
+      width: fit-content;
+    }
+  }
+}
 .container {
   @include flex(flex-start, flex-start);
   flex-direction: column;

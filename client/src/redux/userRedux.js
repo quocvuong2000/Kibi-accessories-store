@@ -17,6 +17,7 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isFetching = false;
       state.currentUser = action.payload;
+      state.accessToken = action.payload.accessToken;
       if (action.payload.accessToken) {
         setAuthToken(action.payload.accessToken);
       } else {

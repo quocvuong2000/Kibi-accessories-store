@@ -73,7 +73,7 @@ const ListProduct = (props) => {
         <div className={classes.way__result}>
           <p className={classes.showing}>Showing 1–12 of 35 results</p>
           <div className={classes.short__list__grid}>
-            <Dropdown overlay={menu} placement="topRight" arrow>
+            <Dropdown overlay={menu} placement="bottom" arrow>
               <Button>Default Sorting</Button>
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>

@@ -1,0 +1,59 @@
+@use "../../../sass/mixins" as *;
+.container {
+  margin-top: 76px !important;
+  max-width: 1472px;
+  width: 100%;
+
+  padding: 0 165px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  :global {
+    .ant-form-item {
+      margin: 0;
+    }
+  }
+  .title {
+    width: 100%;
+    @include font(normal, 500, 36px, 40px, 0.02em);
+    color: #333333;
+  }
+  .line {
+    margin-top: 8px;
+    width: 128px;
+    border-bottom: 2px solid #000000;
+    border-top: none;
+  }
+
+  .box_comment {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 10px;
+    .avatar {
+      max-width: 32px;
+      max-height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+      img {
+        max-width: 32px;
+        max-height: 32px;
+        min-width: 32px;
+        min-height: 32px;
+        border-radius: 50%;
+      }
+    }
+
+    .frame_comment {
+      width: 100%;
+
+      .input_comment {
+        border-radius: 20px;
+        background-color: #f0f2f5;
+        border: none;
+      }
+    }
+  }
+}

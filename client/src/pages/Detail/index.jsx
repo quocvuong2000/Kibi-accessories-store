@@ -7,6 +7,7 @@ import { Brand } from "../../components/Brand";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/Product";
 import AppLoader from "../../components/AppLoader";
+import Comment from "./Comment";
 
 const Detail = () => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ const Detail = () => {
           <>
             <ProductView data={product} />
             <AllInfo data={product} />
+            <Comment data={product} />
             <RelateProduct data={product} />
           </>
         ) : (

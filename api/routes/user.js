@@ -19,4 +19,37 @@ router.post("/:token", async (req, res) => {
   }
 });
 
+router.post("/edit/phone", async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.body.userId, {
+    phone: req.body.phone,
+  });
+  try {
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/edit/email", async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.body.userId, {
+    email: req.body.email,
+  });
+  try {
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/edit/password", async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.body.userId, {
+    password: req.body.password,
+  });
+  try {
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;

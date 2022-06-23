@@ -80,7 +80,7 @@ const Header = () => {
       }
     });
   }, [cart]);
-
+  console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} />
@@ -102,9 +102,7 @@ const Header = () => {
             {user.currentUser ? (
               <Link to={"/myaccount/1"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>
-                  {user.currentUser.username}
-                </div>
+                <div className={classes.loginText}>{user.currentUser.name}</div>
               </Link>
             ) : (
               <Link to={"/login"} className={classes.login}>
@@ -157,7 +155,7 @@ const Header = () => {
               <div className={classes.login}>
                 <User size={32} color="#000" weight="thin" />
                 <div className={classes.loginText}>
-                  {user.currentUser ? user.currentUser.username : "Log In"}
+                  {user.currentUser ? user.currentUser.name : "Log In"}
                 </div>
               </div>
               <div

@@ -16,6 +16,8 @@
     "antd": "^4.19.5",
     "axios": "^0.27.2",
     "boxicons": "^2.1.2",
+    "firebase": "^9.8.3",
+    "firebaseui": "^6.0.1",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.4",
     "get-orientation": "1.1.2",
@@ -32,6 +34,8 @@
     "react-headless-tabs": "^4.0.2",
     "react-image": "^4.0.3",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-input-emoji": "^4.1.0",
+    "react-otp-input": "^2.4.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
@@ -69,5 +73,9 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

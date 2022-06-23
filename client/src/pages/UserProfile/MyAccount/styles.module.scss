@@ -2,6 +2,11 @@
 
 .wrapInformation {
   top: 35% !important;
+  :global {
+    .ant-modal-content {
+      width: fit-content;
+    }
+  }
 }
 
 .all {
