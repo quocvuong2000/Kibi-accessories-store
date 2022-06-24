@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-const session = require("express-session");
 const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const brandRoute = require("./routes/brand");
@@ -12,6 +11,7 @@ const categoryRoute = require("./routes/category");
 const cartRoute = require("./routes/cart");
 const userRoute = require("./routes/user");
 const wishlistRoute = require("./routes/wishlist");
+const addressRoute = require("./routes/address");
 dotenv.config();
 
 mongoose
@@ -36,6 +36,7 @@ app.use("/api/category", categoryRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/user", userRoute);
 app.use("/api/wishlist", wishlistRoute);
+app.use("/api/address", addressRoute);
 
 app.listen(5000, () => {
   console.log("Server backend is running");

@@ -1,14 +1,14 @@
+import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
 import {
   Alert,
   Avatar,
-  Button,
-  Fade,
   Menu,
   Snackbar,
   TablePagination,
   Typography,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import { alpha, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,10 +16,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
-import { UilSetting, UilTimesSquare, UilEdit } from "@iconscout/react-unicons";
+import { useState } from "react";
 import productPlaceholder from "../../../assets/images/product-example.png";
-import { styled, alpha } from "@mui/material/styles";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
 import { doDeleteProduct } from "../ProductAPI";
 
 const makeStyle = (status) => {
@@ -50,8 +50,13 @@ export default function ProductList(props) {
   const [productIdSelected, setProductIdSelected] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [productSelectedUpdate, setProductSelectedUpdate] = useState("");
   const open = Boolean(anchorEl);
 
+  const hanldeShowUpdateProductModal = (isVisible) => {
+    setShowUpdateModal(isVisible);
+  };
   const hanldeShowDeleteDialog = (visible) => {
     setDeleteDialog(visible);
   };
@@ -189,7 +194,14 @@ export default function ProductList(props) {
                           Delete
                         </Typography>
                       </MenuItem>
-                      <MenuItem disableRipple>
+                      <MenuItem
+                        disableRipple
+                        onClick={() => {
+                          setShowUpdateModal(true);
+                          setProductSelectedUpdate(productIdSelected);
+                          setAnchorEl(null);
+                        }}
+                      >
                         <UilEdit />
                         <Typography sx={{ marginLeft: "10px" }}>
                           Update
@@ -251,6 +263,14 @@ export default function ProductList(props) {
           Error
         </Alert>
       </Snackbar>
+      {showUpdateModal && (
+        <DialogUpdateProduct
+          showDialog={showUpdateModal}
+          handleShowDialog={hanldeShowUpdateProductModal}
+          reLoadTable={props.reLoadTable}
+          productId={productSelectedUpdate}
+        />
+      )}
     </>
   );
 }

@@ -1,15 +1,11 @@
 const Brand = require("../models/Brand");
 const {
-  verifyToken,
-  verifyTokenAndAuthorization,
   verifyTokenAndStaff,
-  verifyTokenAndAdmin,
 } = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-
 router.post("/", verifyTokenAndStaff, async (req, res) => {
   const newBrand = new Brand(req.body);
 

@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 
 const AddressSchema = new mongoose.Schema(
   {
-    street: { type: String },
-    ward: { type: String },
-    district: { type: String },
-    city: { type: String },
-    user: [
+    username: { type: String },
+    addressList: [
       {
-        userId: { type: String, required: true },
+        
+        street: { type: String },
+        ward: { type: String },
+        district: { type: String },
+        city: { type: String },
+        isDefault: { type: Boolean },
+        recipientName : {type : String},
+        recipientPhone : {type : Number, required : true},
       },
     ],
-    fullAddress: { type: String },
-    default: { type: Boolean },
   },
   { timestamps: true }
 );
