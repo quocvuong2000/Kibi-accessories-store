@@ -10,10 +10,13 @@ const UpdateEmail = () => {
         <p className={s.title}>Your email</p>
         <Form className={s.form_email}>
           <Form.Item
+            name="email"
             rules={[
+              { required: true, message: "Please fill in your email" },
               {
-                required: true,
-                message: "Please field your email",
+                type: "regexp",
+                pattern: new RegExp(/\d+/g),
+                message: "Wrong email",
               },
             ]}
           >

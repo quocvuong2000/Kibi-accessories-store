@@ -11,6 +11,7 @@ import {
   Page404,
   UserProfile,
   Search,
+  Blog,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -87,17 +88,17 @@ const AppLayout = () => {
           <Route
             path="/myaccount"
             element={
-              <UnRequireAuth>
+              <RequireAuth>
                 <UserProfile />
-              </UnRequireAuth>
+              </RequireAuth>
             }
           />
           <Route
             path="/myaccount/:active"
             element={
-              <UnRequireAuth>
+              <RequireAuth>
                 <UserProfile />
-              </UnRequireAuth>
+              </RequireAuth>
             }
           />
           <Route
@@ -117,6 +118,14 @@ const AppLayout = () => {
             }
           />
           <Route path="/login" element={<Login />}></Route>
+          <Route
+            path="/blog"
+            element={
+              <UnRequireAuth>
+                <Blog />
+              </UnRequireAuth>
+            }
+          ></Route>
         </Routes>
       </React.Fragment>
     </AppSuspense>

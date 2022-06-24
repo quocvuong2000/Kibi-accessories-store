@@ -19,3 +19,13 @@ export const socialSignIn = async (email, name) => {
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };
+
+export const updatePhone = async (id, phone) => {
+  const res = await jwtAxios.post("/api/user/edit/phone", {
+    userId: id,
+    phone: phone,
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};

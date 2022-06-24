@@ -1,0 +1,29 @@
+.detail {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  .date_time {
+    color: #fff;
+    font-size: 15px;
+
+    &:after {
+      content: "|";
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+  .blog_author {
+    color: #fff;
+    font-size: 15px;
+
+    .name_author {
+      color: #d84727;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

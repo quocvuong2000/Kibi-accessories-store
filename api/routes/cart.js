@@ -107,29 +107,26 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
   );
   if (!productFound) return res.status(404).json("product not found");
   let cartTemp = [];
-  if (productFound.quantity - 1 <= 0) {
-    cartTemp = cartList.filter((el) => el.productId !== req.body.productId);
-  } else {
-    let newUpdate = {
-      productId: productFound.productId,
-      productName: productFound.productName,
-      productPrice: productFound.productPrice,
-      productImage: productFound.productImage[0],
 
-      quantity: productFound.quantity - 1 === 0 ? 0 : productFound.quantity - 1,
-    };
-    defaultTotalPrice -= productFound.quantity * productFound.productPrice;
-    defaultTotalPrice +=
-      (productFound.quantity - 1 === 0 ? 0 : productFound.quantity - 1) *
-      productFound.productPrice;
-    cartList.forEach((el) => {
-      if (el.productId === req.body.productId) {
-        cartTemp.push(newUpdate);
-      } else {
-        cartTemp.push(el);
-      }
-    });
-  }
+  let newUpdate = {
+    productId: productFound.productId,
+    productName: productFound.productName,
+    productPrice: productFound.productPrice,
+    productImage: productFound.productImage[0],
+
+    quantity: productFound.quantity - 1 === 0 ? 1 : productFound.quantity - 1,
+  };
+  defaultTotalPrice -= productFound.quantity * productFound.productPrice;
+  defaultTotalPrice +=
+    (productFound.quantity - 1 === 0 ? 1 : productFound.quantity - 1) *
+    productFound.productPrice;
+  cartList.forEach((el) => {
+    if (el.productId === req.body.productId) {
+      cartTemp.push(newUpdate);
+    } else {
+      cartTemp.push(el);
+    }
+  });
   try {
     await Cart.findByIdAndUpdate(cartByUser.id, {
       products: cartTemp,

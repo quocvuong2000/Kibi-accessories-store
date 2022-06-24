@@ -12,10 +12,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
       username: req.body.username,
       addressList: [
         {
-          street: req.body.street,
-          ward: req.body.ward,
-          district: req.body.district,
-          city: req.body.city,
+          address: req.body.address,
           isDefault: req.body.isDefault,
           recipientName: req.body.receiverName,
           recipientPhone: req.body.recipientPhone,
@@ -54,16 +51,17 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE ADDRESS
-router.delete("/delete/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   const addressFound = await Address.findOne({
-    productList: [{ _id: req.params.id }],
+    addressList: [{ _id: req.params.id }],
   });
+  console.log("addressFound:", addressFound);
   if (!addressFound) {
     res.status(404).json("address item not found");
   } else {
     try {
       await Address.findOneAndDelete({
-        productList: [{ _id: req.params.id }],
+        addressList: [{ _id: req.params.id }],
       });
       res.status(200).json("delete success");
     } catch (err) {
@@ -75,16 +73,13 @@ router.delete("/delete/:id", verifyTokenAndAuthorization, async (req, res) => {
 //UPDATE ADDRESS
 router.put("/update/:id", verifyTokenAndAuthorization, async (req, res) => {
   const addressFound = await Address.findOne({
-    productList: [{ _id: req.params.id }],
+    addressList: [{ _id: req.params.id }],
   });
   if (!addressFound) {
     res.status(404).json("address item not found");
   } else {
     const newAddress = {
-      street: req.body.street,
-      ward: req.body.ward,
-      district: req.body.district,
-      city: req.body.city,
+      address: req.body.address,
       isDefault: req.body.isDefault,
       recipientName: req.body.receiverName,
       recipientPhone: req.body.recipientPhone,
@@ -92,7 +87,7 @@ router.put("/update/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
       await Address.findByIdAndUpdate(
         {
-          productList: [{ _id: req.params.id }],
+          addressList: [{ _id: req.params.id }],
         },
         newAddress,
         { new: true }
@@ -105,8 +100,8 @@ router.put("/update/:id", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET ADDRESS LIST BY USERNAME
-router.get("/get/:id", verifyTokenAndAuthorization, async (req, res) => {
-  const addressByUser = await Address.findOne({ username: req.body.username });
+router.get("/get/:username", async (req, res) => {
+  const addressByUser = await Address.find({ username: req.params.username });
   if (!addressByUser) {
     res.status(404).json("Not found address");
   } else {
