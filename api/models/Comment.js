@@ -2,9 +2,17 @@ const mongoose = require("mongoose");
 
 const Comment = new mongoose.Schema(
   {
-    userName: { type: String },
-    content: { type: String },
-    rating: { type: Number },
+    username: { type: String, required: true },
+    comments: [
+      {
+        productId: { type: String, required: true },
+        commentList: [
+          {
+            content: { type: String },
+          },
+        ],
+      },
+    ],
   },
   { timestamps: true }
 );
