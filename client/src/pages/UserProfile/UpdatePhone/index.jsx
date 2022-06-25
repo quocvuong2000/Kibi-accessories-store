@@ -1,11 +1,11 @@
 import { Button, Form, Input, message } from "antd";
-import "firebase/auth";
 import { Phone } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useSelector } from "react-redux";
 import { updatePhone } from "../../../api/User";
-import firebase from "../../../services/firebase";
+import { auth } from "../../../firebase/firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import s from "./styles.module.scss";
 
 const UpdatePhone = () => {
@@ -13,8 +13,39 @@ const UpdatePhone = () => {
   const [numotp, setNumOtp] = useState(0);
   const user = useSelector((state) => state.user);
   const [phone, setPhone] = useState(0);
+  const [expandForm, setExpandForm] = useState(false);
   const handleChangeOtp = (otp) => {
     setNumOtp(otp);
+  };
+  const countryCode = "+84";
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {},
+      },
+      auth
+    );
+  };
+  useEffect(() => {
+    console.log("auth.settings;:", auth);
+  }, []);
+  const handleSendOtp = (e) => {
+    e.preventDefault();
+    if (phone.length >= 12) {
+      setExpandForm(true);
+      generateRecaptcha();
+      let appVerifier = window.recaptchaVerifier;
+      signInWithPhoneNumber(auth, phone, appVerifier)
+        .then((confimationResult) => {
+          console.log("confimationResult:", confimationResult);
+          window.confimationResult = confimationResult;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   // const handleSendOtp = () => {
@@ -49,22 +80,12 @@ const UpdatePhone = () => {
   };
   return (
     <div className={s.container}>
-      <div id="recaptcha-container"></div>
       <div className={s.form}>
+        <div id="recaptcha-container"></div>
         <p className={s.title}>Your phone</p>
         {otp === false ? (
-          <Form className={s.form_phone} onFinish={handleUpdatePhone}>
-            <Form.Item
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  type: "regexp",
-                  pattern: new RegExp(/\d+/g),
-                  message: "Wrong format!",
-                },
-              ]}
-            >
+          <Form className={s.form_phone} onFinish={handleSendOtp}>
+            <Form.Item name="phone">
               <Input
                 placeholder="Field your phone number"
                 className={s.input_phone}
@@ -86,6 +107,7 @@ const UpdatePhone = () => {
                 type="primary"
                 htmlType="submit"
                 className={s.update_phone}
+                onClick={handleSendOtp}
               >
                 Submit
               </Button>

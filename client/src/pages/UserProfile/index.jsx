@@ -6,6 +6,7 @@ import MyAccount from "./MyAccount";
 import Address from "./Address";
 import { useParams } from "react-router-dom";
 import Wistlist from "./Wishlist";
+import Viewed from "./Viewed";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -44,7 +45,7 @@ const UserProfile = () => {
           }
           key="3"
         >
-          Content of Tab 3
+          <Viewed />
         </TabPane>
         <TabPane
           tab={

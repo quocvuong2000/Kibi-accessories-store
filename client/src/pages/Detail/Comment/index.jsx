@@ -40,14 +40,12 @@ const Comment = () => {
                 cleanOnEnter
                 placeholder="Type a comment..."
                 onChange={(e) => {
-                  setContent(e.target.value);
+                  setContent(e);
                 }}
               />
             </Form.Item>
             <Rate
-              onChange={(e) => {
-                setRating(e.target.value);
-              }}
+              onChange={setRating}
               defaultValue={rating}
               character={({ index }) => customIcons[index + 1]}
             />

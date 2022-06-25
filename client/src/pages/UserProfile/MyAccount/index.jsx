@@ -40,7 +40,7 @@ const MyAccount = () => {
   const [update, setUpdate] = useState(0);
 
   const user = useSelector((state) => state.user);
-  console.log("user:", user);
+  // console.log("user:", user);
   const showModal = () => {
     setIsModalVisible(true);
   };

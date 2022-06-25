@@ -25,7 +25,7 @@ const Address = () => {
         setListAddress(res);
       }
     });
-    console.log("a");
+    // console.log("a");
   }, [reload]);
 
   const showModal = () => {
