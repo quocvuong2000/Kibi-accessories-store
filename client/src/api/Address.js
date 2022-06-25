@@ -18,23 +18,21 @@ export const createAddress = async (
 };
 
 //DELETE ADDRESS
-export const deleteAddress = async (id) => {
-  const res = await callAPIWithToken.delete(`/api/address/delete/${id}`);
+export const deleteAddress = async (id, itemid) => {
+  const res = await callAPIWithToken.put(`/api/address/delete/`, {
+    addressId: id,
+    addressItemId: itemid,
+  });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
 
 //UPDATE ADDRESS
-export const updateAddress = async (
-  id,
-  recipientname,
-  recipientphone,
-  address
-) => {
-  const res = await callAPIWithToken.put(`/api/address/update/${id}`, {
-    receiverName: recipientname,
-    recipientPhone: recipientphone,
+export const updateAddress = async (id, itemid, address) => {
+  const res = await callAPIWithToken.put(`/api/address/update/`, {
+    addressId: id,
+    addressItemId: itemid,
     address: address,
   });
   if (res && res.status !== 200)

@@ -48,9 +48,12 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE ADDRESS
-router.put("/delete/", verifyTokenAndAuthorization, async (req, res) => {
+router.put("/delete/", async (req, res) => {
   const addressFound = await Address.findById(req.body.addressId);
   // console.log(addressFound);
+  console.log("req.body.addressId:", req.body.addressId);
+  console.log("req.body.addressItemId:", req.body.addressItemId);
+
   if (!addressFound) {
     res.status(404).json("address item not found");
   } else {
@@ -108,7 +111,7 @@ router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
         let newAddressItem = address.addressList.id(req.body.addressItemId);
         // console.log(newAddressItem);
 
-        newAddressItem.street = req.body.address;
+        newAddressItem.address = req.body.address;
         // console.log(newAddressItem);
         return address.save();
       });
@@ -121,8 +124,8 @@ router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET ADDRESS LIST BY USERNAME
-router.get("/get", verifyTokenAndAuthorization, async (req, res) => {
-  const addressByUser = await Address.find({ username: req.body.username });
+router.get("/get/:username", async (req, res) => {
+  const addressByUser = await Address.find({ username: req.params.username });
   if (!addressByUser) {
     res.status(404).json("Not found address");
   } else {

@@ -13,6 +13,21 @@
     .ant-form-item {
       margin: 0;
     }
+
+    .ant-rate {
+      font-size: 13px;
+      margin-left: 15px !important;
+    }
+
+    .react-input-emoji--button {
+      position: absolute;
+      right: 0;
+      top: 15px;
+      z-index: 998;
+    }
+    .react-input-emoji--button__show svg {
+      fill: #d84727;
+    }
   }
   .title {
     width: 100%;
@@ -29,19 +44,20 @@
   .box_comment {
     margin-top: 40px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     column-gap: 10px;
     .avatar {
-      max-width: 32px;
-      max-height: 32px;
-      min-width: 32px;
-      min-height: 32px;
+      margin-top: 2px;
+      max-width: 40px;
+      max-height: 40px;
+      min-width: 40px;
+      min-height: 40px;
       img {
-        max-width: 32px;
-        max-height: 32px;
-        min-width: 32px;
-        min-height: 32px;
+        max-width: 40px;
+        max-height: 40px;
+        min-width: 40px;
+        min-height: 40px;
         border-radius: 50%;
       }
     }

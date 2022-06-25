@@ -37,3 +37,15 @@ export const checkExistsWishlist = async (username, productId) => {
 
   return status;
 };
+
+export const deleteWishList = async (username, productId) => {
+  await callAPIWithToken
+    .post("/api/wishlist/delete", {
+      username: username,
+      productId: productId,
+    })
+    .then((res) => {
+      res.status === 200 && message.success(res.data);
+      res.status === 201 && message.error(res.data);
+    });
+};

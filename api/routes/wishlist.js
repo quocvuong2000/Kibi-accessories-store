@@ -71,4 +71,24 @@ router.post("/exist", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//DELETE WISHLIST
+router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
+  const user = await Wishlist.findOne({ username: req.body.username });
+  if (!user) return res.status(404).json("user wishlist not generate");
+  let wishList = user.products;
+  const productFound = wishList.find((el) => el._id === req.body.productId);
+  if (!productFound) return res.status(404).json("product not found");
+
+  let wishListTemp = wishList.filter((el) => el._id !== req.body.productId);
+
+  try {
+    await Wishlist.findByIdAndUpdate(user.id, {
+      products: wishListTemp,
+    });
+    res.status(200).json("delete success");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
 module.exports = router;

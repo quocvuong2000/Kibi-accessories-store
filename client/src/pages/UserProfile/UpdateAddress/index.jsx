@@ -5,28 +5,27 @@ import { MapPinLine, User, Phone } from "phosphor-react";
 import { useSelector } from "react-redux";
 import { createAddress } from "../../../api/Address";
 
-const UpdateAddress = () => {
+const UpdateAddress = (props) => {
   const [recipientName, setRecipientName] = useState("");
   const [recipientPhone, setRecipientPhone] = useState("");
   const [address, setAddress] = useState("");
   const user = useSelector((state) => state.user);
-  const handleCreateAddress = () => {
-    createAddress(
-      user.currentUser.username,
-      recipientName,
-      recipientPhone,
-      address
-    ).then((res) => {
-      if (res) {
-        message.success("Create success");
-      }
-    });
-  };
+
   return (
     <div className={s.container}>
       <div className={s.form}>
         <p className={s.title}>Your address</p>
-        <Form className={s.form_phone} onFinish={handleCreateAddress}>
+        <Form
+          className={s.form_phone}
+          onFinish={() =>
+            props.handle(
+              user.currentUser.username,
+              recipientName,
+              recipientPhone,
+              address
+            )
+          }
+        >
           <Form.Item
             rules={[
               {

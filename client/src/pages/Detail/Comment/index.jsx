@@ -1,8 +1,20 @@
 import { Button, Form, Input } from "antd";
-import React from "react";
+import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
 import s from "./styles.module.scss";
 import InputEmoji from "react-input-emoji";
+import { Rate } from "antd";
+
 const Comment = () => {
+  const [rating, setRating] = useState(5);
+  const [content, setContent] = useState("");
+  const customIcons = {
+    1: <FrownOutlined />,
+    2: <FrownOutlined />,
+    3: <MehOutlined />,
+    4: <SmileOutlined />,
+    5: <SmileOutlined />,
+  };
   return (
     <div className={s.container}>
       <p className={s.title}>Comments</p>
@@ -24,8 +36,21 @@ const Comment = () => {
                 },
               ]}
             >
-              <InputEmoji cleanOnEnter placeholder="Type a message" />
+              <InputEmoji
+                cleanOnEnter
+                placeholder="Type a comment..."
+                onChange={(e) => {
+                  setContent(e.target.value);
+                }}
+              />
             </Form.Item>
+            <Rate
+              onChange={(e) => {
+                setRating(e.target.value);
+              }}
+              defaultValue={rating}
+              character={({ index }) => customIcons[index + 1]}
+            />
           </Form>
         </div>
       </div>

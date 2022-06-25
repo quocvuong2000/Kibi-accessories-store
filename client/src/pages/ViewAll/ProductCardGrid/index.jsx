@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
-import { Popover } from "antd";
-import { Heart } from "phosphor-react";
+import { message, Popover } from "antd";
+import { Heart, X } from "phosphor-react";
 import numberWithComas from "../../../utils/numberWithCommas";
 import { Link } from "react-router-dom";
 import imgError from "../../../assets/imgDefault.webp";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddToCart } from "../../../api/Cart";
-import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
+import {
+  addToWishList,
+  checkExistsWishlist,
+  deleteWishList,
+} from "../../../api/Wishlist";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
@@ -15,6 +19,7 @@ export const ProductCardGrid = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [exist, setExist] = useState(false);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     user.currentUser &&
@@ -23,7 +28,7 @@ export const ProductCardGrid = (props) => {
         res === 200 && setExist(false);
         res === 201 && setExist(true);
       });
-  }, [data]);
+  }, [data, reload]);
 
   return (
     <div
@@ -31,6 +36,16 @@ export const ProductCardGrid = (props) => {
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
+      {props.isWishlist && props.isWishlist === true && (
+        <X
+          size={20}
+          weight="thin"
+          className={`${s.delete_icon} ${show ? s.show_heart : s.hide_heart}`}
+          onClick={() => {
+            props.handle(user.currentUser.username, data._id);
+          }}
+        />
+      )}
       <Link to={`/detail/${data._id}`}>
         <div className={s.box__product__image}>
           <img
@@ -45,7 +60,11 @@ export const ProductCardGrid = (props) => {
       </Link>
       <div
         className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}
-        onClick={() => addToWishList(user.currentUser.username, data._id)}
+        onClick={() => {
+          addToWishList(user.currentUser.username, data._id).then((res) => {
+            setReload(!reload);
+          });
+        }}
       >
         {exist === false ? (
           <Heart size={20} />

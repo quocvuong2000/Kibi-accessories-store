@@ -2,13 +2,22 @@ import { message, Modal } from "antd";
 import { Plus, Trash } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getAddress } from "../../../api/Address";
+import {
+  createAddress,
+  deleteAddress,
+  getAddress,
+  updateAddress,
+} from "../../../api/Address";
+import EditAddress from "../EditAddress";
 import UpdateAddress from "../UpdateAddress";
 import s from "./styles.module.scss";
 const Address = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [listAddress, setListAddress] = useState([]);
   const user = useSelector((state) => state.user);
+  const [reload, setReload] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [itemedit, setItemEdit] = useState([]);
 
   useEffect(() => {
     getAddress(user.currentUser.username).then((res) => {
@@ -16,8 +25,8 @@ const Address = () => {
         setListAddress(res);
       }
     });
-    console.log(listAddress[0]);
-  }, []);
+    console.log("a");
+  }, [reload]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -31,10 +40,29 @@ const Address = () => {
     setIsModalVisible(false);
   };
 
-  const deleteAddress = (id) => {
-    deleteAddress(id).then((res) => {
+  const deleteAddressFunction = (id, itemid) => {
+    deleteAddress(id, itemid).then((res) => {
       if (res) {
         message.success("Delete success");
+        setReload(!reload);
+      }
+    });
+  };
+
+  const handleCreateAddress = (username, reciname, reciphone, address) => {
+    createAddress(username, reciname, reciphone, address).then((res) => {
+      if (res) {
+        setReload(!reload);
+        message.success("Create success");
+      }
+    });
+  };
+
+  const handleEditAddress = (id, itemid, address) => {
+    updateAddress(id, itemid, address).then((res) => {
+      if (res) {
+        setReload(!reload);
+        message.success("Update success");
       }
     });
   };
@@ -45,7 +73,7 @@ const Address = () => {
         <p className={s.title}>Address</p>
         {listAddress[0]?.addressList?.map((item, index) => {
           return (
-            <div className={s.box_address}>
+            <div className={s.box_address} key={index}>
               <div className={s.address_left}>
                 <p className={s.name_user}>
                   {item.recipientName}
@@ -75,18 +103,33 @@ const Address = () => {
                 </p>
               </div>
               <div className={s.address_right}>
-                <p className={s.text_edit}>Edit</p>
+                <p
+                  className={s.text_edit}
+                  onClick={() => {
+                    setItemEdit(item);
+                    setEdit(true);
+                    showModal();
+                  }}
+                >
+                  Edit
+                </p>
                 <Trash
                   size={20}
                   onClick={() => {
-                    deleteAddress(item._id);
+                    deleteAddressFunction(listAddress[0]._id, item._id);
                   }}
                 />
               </div>
             </div>
           );
         })}
-        <button className={s.add_address} onClick={showModal}>
+        <button
+          className={s.add_address}
+          onClick={() => {
+            setEdit(false);
+            showModal();
+          }}
+        >
           <Plus size={25} weight="fill" /> Add address
         </button>
       </div>
@@ -96,7 +139,15 @@ const Address = () => {
         onCancel={handleCancel}
         className={s.wrapInformation}
       >
-        <UpdateAddress />
+        {edit === true ? (
+          <EditAddress
+            address={itemedit}
+            handle={handleEditAddress}
+            addressId={listAddress[0]._id}
+          />
+        ) : (
+          <UpdateAddress handle={handleCreateAddress} />
+        )}
       </Modal>
     </>
   );
