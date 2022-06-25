@@ -4,6 +4,7 @@ import {
   Box,
   Checkbox,
   DialogActions,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -43,11 +44,16 @@ import {
 import { app } from "../../../firebase/firebase";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
-import { addNewProduct, doGetDetailProduct } from "../ProductAPI";
+import {
+  addNewProduct,
+  doGetDetailProduct,
+  doUpdateProduct,
+} from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
 import { UilTimesCircle } from "@iconscout/react-unicons";
 import Apploader from "../../../components/AppLoader";
 import { useState } from "react";
+import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
 export default function DialogUpdateProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -61,6 +67,7 @@ export default function DialogUpdateProduct(props) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = React.useState([]);
   const [urls, setUrls] = React.useState([]);
+  const [currentUrls, setCurrentUrls] = React.useState([]);
   const [description, setDescription] = React.useState({
     content: "",
     detail: "",
@@ -69,6 +76,7 @@ export default function DialogUpdateProduct(props) {
     warrantyDetail: "",
   });
   const [productDetail, setProductDetail] = useState({});
+  const [progressUpload, setProgressupload] = React.useState(0);
   const hanldeDataCkeditor = (type, data) => {
     switch (type) {
       case "content":
@@ -111,6 +119,7 @@ export default function DialogUpdateProduct(props) {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
+          setProgressupload(progress);
         },
         (error) => {
           console.log(error);
@@ -146,6 +155,7 @@ export default function DialogUpdateProduct(props) {
             howToAdjust: res.product.description.howToAdjust,
             warrantyDetail: res.product.description.warrantyDetail,
           });
+          setCurrentUrls(res.product.images);
         }
       })
       .finally(() => {
@@ -162,9 +172,9 @@ export default function DialogUpdateProduct(props) {
     setActiveStepDes(step);
   };
   const hanldeDeleteImage = (url) => {
-    setImages(images.filter((item) => item !== url));
+    setCurrentUrls(currentUrls.filter((item) => item !== url));
   };
-  console.log(description);
+  console.log(currentUrls);
   return (
     <>
       {loading ? (
@@ -219,14 +229,17 @@ export default function DialogUpdateProduct(props) {
                   },
                 }}
                 onSubmit={async (values) => {
+                  setLoading(true);
+                  console.log(values);
+
                   if (urls.length === images.length) {
                     const product = {
                       ...values,
-                      images: urls,
+                      images: [...urls, ...currentUrls],
                     };
 
                     product &&
-                      addNewProduct(product)
+                      doUpdateProduct(props.productId, product)
                         .then(() => {
                           setSuccess(true);
                           props.handleShowDialog(false);
@@ -238,9 +251,14 @@ export default function DialogUpdateProduct(props) {
                         .finally(() => {
                           setImages([]);
                           setUrls([]);
+                          setLoading(false);
                         });
                   } else {
-                    addNewProduct(values)
+                    const product = {
+                      ...values,
+                      images: currentUrls,
+                    };
+                    doUpdateProduct(props.productId, product)
                       .then(() => {
                         setSuccess(true);
                         props.handleShowDialog(false);
@@ -248,6 +266,9 @@ export default function DialogUpdateProduct(props) {
                       })
                       .catch(() => {
                         setFailure(true);
+                      })
+                      .finally(() => {
+                        setLoading(false);
                       });
                   }
                 }}
@@ -348,7 +369,7 @@ export default function DialogUpdateProduct(props) {
                                 }}
                               >
                                 <InputLabel
-                                  id="label-user-role"
+                                  id="label-brand"
                                   sx={{
                                     background: "#fff",
                                     color: (theme) =>
@@ -359,8 +380,8 @@ export default function DialogUpdateProduct(props) {
                                 >
                                   Brand
                                 </InputLabel>
-                                <Select
-                                  labelId="label-user-role"
+                                <AppSelectField
+                                  labelId="label-brand"
                                   label="Brand"
                                   name="brand"
                                   sx={{
@@ -377,7 +398,7 @@ export default function DialogUpdateProduct(props) {
                                       </MenuItem>
                                     );
                                   })}
-                                </Select>
+                                </AppSelectField>
                               </FormControl>
                             </Box>
                             <Box sx={{ mb: { xs: 3, xl: 3 } }}>
@@ -415,52 +436,94 @@ export default function DialogUpdateProduct(props) {
                               alignItems: "center",
                             }}
                           >
-                            {images.length === 0 ? (
-                              <Avatar
-                                alt="Remy Sharp"
-                                src={unknownUser}
-                                sx={{
-                                  width: 350,
-                                  height: 350,
-                                  mb: 2,
-                                  borderRadius: "0",
-                                }}
-                              />
-                            ) : (
-                              <ImageList
-                                sx={{ width: 500, height: 350 }}
-                                cols={3}
-                                rowHeight={164}
-                              >
-                                {images.map((url, i) => (
-                                  <ImageListItem
-                                    key={i}
-                                    sx={{ position: "relative" }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        position: "absolute",
-                                        right: "0px",
-                                        top: "0px",
-                                        backgroundColor: "#000",
-                                        borderRadius: "20px",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() => hanldeDeleteImage(url)}
+                            <Box
+                              sx={{
+                                width: 500,
+                                height: 450,
+                                overflowY: "auto",
+                              }}
+                            >
+                              <Typography variant="body2_medium">
+                                Current Image
+                              </Typography>
+                              {currentUrls.length === 0 ? (
+                                <Avatar
+                                  alt="Remy Sharp"
+                                  src={unknownUser}
+                                  sx={{
+                                    width: 150,
+                                    height: 150,
+                                    mb: 2,
+                                    borderRadius: "0",
+                                  }}
+                                />
+                              ) : (
+                                <ImageList cols={3} rowHeight={164}>
+                                  {currentUrls.map((url, i) => (
+                                    <ImageListItem
+                                      key={i}
+                                      sx={{ position: "relative" }}
                                     >
-                                      <UilTimesCircle fill={"#fff"} />
-                                    </Box>
-                                    <img
-                                      src={`${URL.createObjectURL(url)}`}
-                                      // srcSet={`${URL.createObjectURL(url)}`}
-                                      alt={i}
-                                      loading="lazy"
-                                    />
-                                  </ImageListItem>
-                                ))}
-                              </ImageList>
-                            )}
-
+                                      <Box
+                                        sx={{
+                                          position: "absolute",
+                                          right: "0px",
+                                          top: "0px",
+                                          backgroundColor: "#000",
+                                          borderRadius: "20px",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => hanldeDeleteImage(url)}
+                                      >
+                                        <UilTimesCircle fill={"#fff"} />
+                                      </Box>
+                                      <img
+                                        style={{ height: "150px" }}
+                                        src={url}
+                                        // srcSet={`${URL.createObjectURL(url)}`}
+                                        alt={i}
+                                        loading="lazy"
+                                      />
+                                    </ImageListItem>
+                                  ))}
+                                </ImageList>
+                              )}
+                              <Divider />
+                              <Typography variant="body2_medium">
+                                New Image
+                              </Typography>
+                              {images.length === 0 ? (
+                                <Avatar
+                                  alt="Remy Sharp"
+                                  src={unknownUser}
+                                  sx={{
+                                    width: 150,
+                                    height: 150,
+                                    mb: 2,
+                                    borderRadius: "0",
+                                  }}
+                                />
+                              ) : (
+                                <ImageList cols={3} rowHeight={164}>
+                                  {images.map((url, i) => (
+                                    <ImageListItem
+                                      key={i}
+                                      sx={{ position: "relative" }}
+                                    >
+                                      <img
+                                        // src={url}
+                                        srcSet={`${URL.createObjectURL(url)}`}
+                                        alt={i}
+                                        loading="lazy"
+                                      />
+                                      <LinearProgressUpload
+                                        progress={progressUpload}
+                                      />
+                                    </ImageListItem>
+                                  ))}
+                                </ImageList>
+                              )}
+                            </Box>
                             <label htmlFor="contained-button-file">
                               <Input
                                 accept="image/*"
@@ -575,7 +638,7 @@ export default function DialogUpdateProduct(props) {
                     <DialogActions>
                       <Button onClick={handleClose}>Cancel</Button>
                       <Button
-                        onClick={handleClose}
+                        // onClick={handleClose}
                         variant="contained"
                         color="primary"
                         type="submit"

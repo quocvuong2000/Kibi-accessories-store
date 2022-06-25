@@ -38,10 +38,11 @@ export const doGetDetailProduct = async (id) => {
   return res.data;
 };
 
-export const doUpdateProduct = async (id) => {
+export const doUpdateProduct = async (id,productData) => {
   const res = await callAPIWithToken({
     url: `/api/product/update/${id}`,
     method: "PUT",
+    data: productData
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
