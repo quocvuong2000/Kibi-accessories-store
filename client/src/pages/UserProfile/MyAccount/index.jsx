@@ -1,4 +1,14 @@
-import { Col, DatePicker, Form, Input, Row, Select, Button, Modal } from "antd";
+import {
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Select,
+  Button,
+  Modal,
+  Progress,
+} from "antd";
 import moment from "moment";
 import { EnvelopeSimple, Key, Phone } from "phosphor-react";
 import React, { useState } from "react";
@@ -10,6 +20,14 @@ import UpdatePhone from "../UpdatePhone";
 import UpdateEmail from "../UpdateEmail";
 import UpdatePassword from "../UpdatePassword";
 import { useSelector } from "react-redux";
+import userPlaceholder from "../../../assets/user_avatar.jpg";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../../../firebase/firebase";
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -36,11 +54,12 @@ const MyAccount = () => {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const [url, setUrl] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [update, setUpdate] = useState(0);
-
+  const [progressUpload, setProgressupload] = React.useState(0);
   const user = useSelector((state) => state.user);
-  // console.log("user:", user);
+  console.log("url:", url);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -54,30 +73,18 @@ const MyAccount = () => {
   };
 
   const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
 
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
+    // Get this url from response in real world.
+    getBase64(info.file.originFileObj, (url) => {
+      setLoading(false);
+      setImageUrl(url);
+    });
   };
 
   const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
+    <div className={s.btnUpload}>
+      <PlusOutlined />
+      <div className={s.text}>Change Image</div>
     </div>
   );
 
@@ -98,7 +105,44 @@ const MyAccount = () => {
             <Col span={12}>
               <p className={s.text_info}>Personal Information</p>
               <Row className={s.avatar_name}>
-                <Col span={8}>
+                <Col
+                  span={8}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  {imageUrl ? (
+                    <div>
+                      {/* <Progress
+                        strokeColor={{
+                          from: "#108ee9",
+                          to: "#87d068",
+                        }}
+                        percent={progressUpload}
+                        type={"circle"}
+                        status="active"
+                      /> */}
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{
+                          width: "120px",
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <img
+                        src={userPlaceholder}
+                        alt=""
+                        style={{
+                          width: "120px",
+                        }}
+                      />
+                    </div>
+                  )}
                   <Upload
                     name="avatar"
                     listType="picture-card"
@@ -108,17 +152,7 @@ const MyAccount = () => {
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                   >
-                    {imageUrl ? (
-                      <img
-                        src={imageUrl}
-                        alt="avatar"
-                        style={{
-                          width: "100%",
-                        }}
-                      />
-                    ) : (
-                      uploadButton
-                    )}
+                    {uploadButton}
                   </Upload>
                 </Col>
                 <Col span={16}>
@@ -184,12 +218,7 @@ const MyAccount = () => {
                   </Form>
                 </Col>
               </Row>
-              <Form
-                initialValues={{
-                  ["dob"]: moment("2015/01/01", dateFormat),
-                  ["gender"]: "other",
-                }}
-              >
+              <Form>
                 <Form.Item
                   labelCol={{
                     span: 7,

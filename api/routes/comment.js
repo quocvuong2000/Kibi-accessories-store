@@ -41,15 +41,18 @@ router.get("/user/:username", async (req, res) => {
   try {
     let comments;
     if (qPage) {
+      console.log(count);
       comments = await Comment.find({
         username: req.params.username,
       })
         .skip(perPage * page - perPage)
         .limit(perPage);
-      count = comments.length;
     } else {
       comments = await Comment.find();
     }
+    count = await Comment.find({
+      username: req.params.username,
+    }).count();
     // console.log(count);
 
     // count = await Comment.count();
@@ -79,12 +82,13 @@ router.get("/product/:productId", async (req, res) => {
       })
         .skip(perPage * page - perPage)
         .limit(perPage);
-      count = comments.length;
     } else {
       comments = await Comment.find();
     }
     // console.log(count);
-
+    count = await Comment.find({
+      productId: req.params.productId,
+    }).count();
     // count = await Comment.count();
     res.status(200).json({
       comments, // comments trên một page

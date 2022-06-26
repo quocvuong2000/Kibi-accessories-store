@@ -111,7 +111,27 @@
     }
   }
 }
-
+.btnUpload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 4px 40px rgba(58, 41, 106, 0.1);
+  border-radius: 5px;
+  height: 48px;
+  width: 130px;
+  margin-top: 10px;
+  .text {
+    font-size: 16px !important;
+    line-height: 22px;
+    /* identical to box height, or 183% */
+    text-align: center;
+    letter-spacing: 0.4px;
+    /* Gray 2 */
+    color: #4f4f4f;
+    margin-left: 4px;
+  }
+}
 .button_update button {
   background: transparent;
   color: #d84727;
@@ -133,4 +153,17 @@
 
 .button_saveinfo span {
   padding: 4px 15px;
+}
+
+:global {
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card {
+    height: 48px;
+    width: 140px;
+    background-color: #fff;
+    border: none !important;
+  }
+  .ant-upload-picture-card-wrapper {
+    display: inline-block;
+    width: auto !important;
+  }
 }
