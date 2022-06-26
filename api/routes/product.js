@@ -94,7 +94,6 @@ router.get("/:idCate", async (req, res) => {
 });
 
 //GET PRODUCT BY BRAND
-
 router.get("/brand/:idBrand", async (req, res) => {
   const qPage = req.query.page;
   let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
