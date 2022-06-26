@@ -23,7 +23,7 @@ const UpdateAddress = (props) => {
             recipientPhone: "",
           }}
           onSubmit={async (values) => {
-            // console.log(values);
+            console.log(values);
             props.handle(
               user.currentUser.username,
               values.recipientName,

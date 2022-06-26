@@ -6,6 +6,7 @@ import { deleteWishList, getAllWishlist } from "../../../api/Wishlist";
 import { ProductCardGrid } from "../../ViewAll/ProductCardGrid";
 import { motion } from "framer-motion";
 import { message } from "antd";
+import EmptyPage from "../../../components/Empty";
 const Wistlist = () => {
   const user = useSelector((state) => state.user);
   const [product, setProduct] = useState([]);
@@ -13,7 +14,7 @@ const Wistlist = () => {
 
   useEffect(() => {
     getAllWishlist(user.currentUser.username).then((res) => {
-      console.log(res[0].products);
+      // console.log(res[0].products);
       setProduct(res[0].products);
     });
   }, [reload]);
@@ -28,20 +29,29 @@ const Wistlist = () => {
   };
 
   return (
-    <div className={s.container}>
-      {product?.map((item, index) => {
-        return (
-          <motion.span animate={{ scale: [2, 1], opacity: [0, 1] }} key={index}>
-            <ProductCardGrid
-              data={item}
-              key={index}
-              handle={handleDelete}
-              isWishlist={true}
-            />
-          </motion.span>
-        );
-      })}
-    </div>
+    <>
+      {product.length > 0 ? (
+        <div className={s.container}>
+          {product?.map((item, index) => {
+            return (
+              <motion.span
+                animate={{ scale: [2, 1], opacity: [0, 1] }}
+                key={index}
+              >
+                <ProductCardGrid
+                  data={item}
+                  key={index}
+                  handle={handleDelete}
+                  isWishlist={true}
+                />
+              </motion.span>
+            );
+          })}
+        </div>
+      ) : (
+        <EmptyPage />
+      )}
+    </>
   );
 };
 

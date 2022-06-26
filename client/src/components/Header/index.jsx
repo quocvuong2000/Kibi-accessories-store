@@ -80,7 +80,7 @@ const Header = () => {
       }
     });
   }, [cart]);
-  console.log(user);
+  // console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} />

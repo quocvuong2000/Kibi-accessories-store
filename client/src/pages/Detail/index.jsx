@@ -8,11 +8,14 @@ import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/Product";
 import AppLoader from "../../components/AppLoader";
 import Comment from "./Comment";
+import { addViewed } from "../../api/Viewed";
+import { useSelector } from "react-redux";
 
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     setLoading(true);
     window.scrollTo(0, 0);
@@ -23,7 +26,13 @@ const Detail = () => {
         }
       })
       .finally(() => {
-        setLoading(false);
+        user.currentUser &&
+          addViewed(user.currentUser.username, id)
+            .then((res) => {})
+            .finally(() => {
+              setLoading(false);
+            });
+        !user.currentUser && setLoading(false);
       });
   }, [id]);
 

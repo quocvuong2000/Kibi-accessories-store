@@ -1,11 +1,21 @@
 import React from "react";
 import s from "./styles.module.scss";
-import { User, MapPin, Eye, Heart, BookOpen } from "phosphor-react";
+import {
+  User,
+  MapPin,
+  Eye,
+  Heart,
+  BookOpen,
+  CreditCard,
+  HandGrabbing,
+  Truck,
+} from "phosphor-react";
 import { Tabs } from "antd";
 import MyAccount from "./MyAccount";
 import Address from "./Address";
 import { useParams } from "react-router-dom";
 import Wistlist from "./Wishlist";
+import Viewed from "./Viewed";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -44,7 +54,7 @@ const UserProfile = () => {
           }
           key="3"
         >
-          Content of Tab 3
+          <Viewed />
         </TabPane>
         <TabPane
           tab={
@@ -66,6 +76,36 @@ const UserProfile = () => {
           key="5"
         >
           Content of Tab 4
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <CreditCard size={24} /> To Pay{" "}
+            </div>
+          }
+          key="6"
+        >
+          To Pay
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <Truck size={24} /> To Ship{" "}
+            </div>
+          }
+          key="7"
+        >
+          To Ship
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <HandGrabbing size={24} /> To Receive{" "}
+            </div>
+          }
+          key="8"
+        >
+          To Receive
         </TabPane>
       </Tabs>
     </div>

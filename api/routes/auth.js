@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Cart = require("../models/Cart");
 const Wishlist = require("../models/Wishlist");
+const Viewed = require("../models/Viewed");
 //REGISTER
 router.post("/register", async (req, res) => {
   const userInfo = new User({
@@ -29,10 +30,15 @@ router.post("/register", async (req, res) => {
   const wishListInfo = new Wishlist({
     username: req.body.username,
   });
+
+  const viewedInfo = new Viewed({
+    username: req.body.username,
+  });
   try {
     const register = await userInfo.save();
     await cartInfo.save();
     await wishListInfo.save();
+    await viewedInfo.save();
     res.status(201).json(register);
   } catch (error) {
     res.status(500).json(error);
@@ -90,10 +96,14 @@ router.post("/social-account", async (req, res) => {
     const wishListInfo = new Wishlist({
       username: req.body.email,
     });
+    const viewedInfo = new Viewed({
+      username: req.body.email,
+    });
     try {
       await newUserInfo.save();
       await cartInfo.save();
       await wishListInfo.save();
+      await viewedInfo.save();
       const accessToken = jwt.sign(
         {
           id: req.body.email,

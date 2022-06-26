@@ -23,10 +23,10 @@ const Login = () => {
 
   const responseFacebook = (res) => {
     if (res) {
-      console.log(res);
+      // console.log(res);
       setWrongCredential(false);
       socialSignIn(res.email, res.name).then((value) => {
-        console.log(res);
+        // console.log(res);
         message.success("Login success");
         const obj = {
           username: res.email,

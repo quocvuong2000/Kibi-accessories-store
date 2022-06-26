@@ -58,9 +58,7 @@ export const deleteCart = async (dispatch, username, productId) => {
 
 export const downQty = async (dispatch, username, productId) => {
   decreaseQty(dispatch, username, productId)
-    .then((res) => {
-      message.success("Decrease success");
-    })
+    .then((res) => {})
     .finally(() => {
       getAllProductCart(username).then((res) => {
         dispatch(decreaseCartSuccess(res));
@@ -73,9 +71,7 @@ export const downQty = async (dispatch, username, productId) => {
 
 export const upQty = async (dispatch, username, productId) => {
   increaseQty(dispatch, username, productId)
-    .then((res) => {
-      message.success("Increase success");
-    })
+    .then((res) => {})
     .finally(() => {
       getAllProductCart(username).then((res) => {
         dispatch(increaseCartSuccess(res));

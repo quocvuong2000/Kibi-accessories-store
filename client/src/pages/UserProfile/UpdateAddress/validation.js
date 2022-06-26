@@ -7,6 +7,6 @@ export const CreateAddressSchema = () => {
     recipientPhone: yup
       .string()
       .required("Please enter phone")
-      .matches(/^-?\d*$/, "Phone not valid"),
+      .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Phone not valid"),
   });
 };

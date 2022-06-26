@@ -1,11 +1,13 @@
 import { Modal } from "antd";
 import "antd/dist/antd.min.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCart, downQty, getAllProductCart, upQty } from "../../api/Cart";
 import { getNumber } from "../../redux/cartRedux";
 import numberWithCommas from "../../utils/numberWithCommas";
 import classes from "./styles2.module.scss";
+import EmptyPage from "../../components/Empty";
+import { Link } from "react-router-dom";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
@@ -22,7 +24,7 @@ export const Cart = (props) => {
     if (user.currentUser != null) {
       getAllProductCart(user.currentUser.username).then((res) => {
         if (res) {
-          console.log(res);
+          // console.log(res);
           setProduct(res.products);
           dispatch(getNumber(res));
         }
@@ -35,7 +37,7 @@ export const Cart = (props) => {
       <div ref={props.aref} style={{ padding: "24px" }}>
         {product?.map((item, index) => {
           return (
-            <>
+            <React.Fragment key={index}>
               <div className={classes.cart__item} key={index}>
                 <div className={classes.cart__item__left}>
                   <div className={classes.cart__item__left__image}>
@@ -127,7 +129,7 @@ export const Cart = (props) => {
                 </div>
               </div>{" "}
               <br />
-            </>
+            </React.Fragment>
           );
         })}
 
@@ -147,7 +149,11 @@ export const Cart = (props) => {
             </div>
           </div>
         </div>
-        <button className={classes.checkout}>Checkout</button>
+        <button className={classes.checkout} onClick={() => {}}>
+          <Link to="/payment" className={classes.txt}>
+            Checkout
+          </Link>
+        </button>
       </div>
     </Modal>
   );
