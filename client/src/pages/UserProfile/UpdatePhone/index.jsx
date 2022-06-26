@@ -1,19 +1,33 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, Form as FormAnt, Input, message } from "antd";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { Field, Form, Formik } from "formik";
 import { Phone } from "phosphor-react";
 import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useSelector } from "react-redux";
 import { updatePhone } from "../../../api/User";
 import { auth } from "../../../firebase/firebase";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import s from "./styles.module.scss";
+import { otpSchema, phoneSchema } from "./validation";
 
-const UpdatePhone = () => {
+const UpdatePhone = (props) => {
   const [otp, setOtp] = useState(false);
   const [numotp, setNumOtp] = useState(0);
   const user = useSelector((state) => state.user);
   const [phone, setPhone] = useState(0);
   const [expandForm, setExpandForm] = useState(false);
+  const [showTime, setShowTime] = useState(true);
+  const [start, setStart] = useState(false);
+  const [seconds, setSeconds] = useState(30);
+  useEffect(() => {
+    start === true &&
+      seconds > 0 &&
+      setTimeout(() => setSeconds(seconds - 1), 1000);
+
+    if (seconds === 0) {
+      setShowTime(false);
+    }
+  }, [seconds, start]);
   const handleChangeOtp = (otp) => {
     setNumOtp(otp);
   };
@@ -28,113 +42,186 @@ const UpdatePhone = () => {
       auth
     );
   };
-  useEffect(() => {
-    console.log("auth.settings;:", auth);
-  }, []);
-  const handleSendOtp = (e) => {
-    e.preventDefault();
-    if (phone.length >= 12) {
+
+  const handleSendOtp = (phoneIn) => {
+    if (phoneIn.length >= 12) {
       setExpandForm(true);
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
-      signInWithPhoneNumber(auth, phone, appVerifier)
+      setOtp(true);
+      setStart(true);
+      signInWithPhoneNumber(auth, phoneIn, appVerifier)
         .then((confimationResult) => {
-          console.log("confimationResult:", confimationResult);
           window.confimationResult = confimationResult;
         })
         .catch((error) => {
           console.log(error);
         });
+      console.log(window.confimationResult);
+    }
+  };
+  const verifyOtp = () => {
+    if (numotp.length === 6) {
+      let confimationResult = window.confimationResult;
+      confimationResult
+        .confirm(numotp)
+        .then((rs) => {
+          if (rs) {
+            updatePhone(user.currentUser._id, phone)
+              .then((res) => {
+                if (res) {
+                  message.success("Update success");
+                }
+              })
+              .finally((res) => {});
+          } else {
+            message.error("Wrong OTP");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      message.error("Wrong format OTP");
     }
   };
 
-  // const handleSendOtp = () => {
-  //   let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
-  //     size: "invisible",
-  //     callback: (response) => {
-  //       console.log("response:", response);
-  //     },
-  //     default: "VN",
-  //   });
-  //   let number = "+84348098023";
-
-  //   firebase
-  //     .auth()
-  //     .signInWithPhoneNumber(number, recaptcha)
-  //     .then((result) => {
-  //       result.confirm(otp).then((res) => {
-  //         console.log(res.user);
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       alert(err);
-  //     });
-  // };
-
-  const handleUpdatePhone = () => {
-    updatePhone(user.currentUser._id, phone).then((res) => {
-      if (res) {
-        message.success("Update success");
-      }
-    });
-  };
   return (
     <div className={s.container}>
       <div className={s.form}>
         <div id="recaptcha-container"></div>
         <p className={s.title}>Your phone</p>
-        {otp === false ? (
-          <Form className={s.form_phone} onFinish={handleSendOtp}>
-            <Form.Item name="phone">
-              <Input
-                placeholder="Field your phone number"
-                className={s.input_phone}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                }}
-                prefix={
-                  <Phone size={20} weight="thin" className={s.icon_phone} />
-                }
-              />
-              <small className={s.small_text}>
-                Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác minh
-                số điện thoại là của bạn
-              </small>
-            </Form.Item>
+        {/* <Formik
+          validationSchema={phoneSchema}
+          initialValues={{
+            phone: "",
+            otp: "",
+          }}
+          onSubmit={handleSendOtp}
+        > */}
 
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={s.update_phone}
-                onClick={handleSendOtp}
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        ) : (
-          <Form
-            className={s.form_phone}
-            onFinish={() => {
-              setOtp(false);
+        {otp === false ? (
+          <Formik
+            validationSchema={phoneSchema}
+            initialValues={{
+              phone: "",
+            }}
+            onSubmit={(values) => {
+              console.log("values.phone:", values.phone);
+              setPhone(values.phone);
+              console.log(phone);
+              handleSendOtp(values.phone);
+              setOtp(true);
             }}
           >
-            <OtpInput value={numotp} onChange={handleChangeOtp} numInputs={6} />
+            {({ errors, touched }) => {
+              return (
+                <Form className={s.form_phone}>
+                  <FormAnt.Item
+                    validateStatus={
+                      Boolean(touched?.phone && errors?.phone)
+                        ? "error"
+                        : "success"
+                    }
+                    help={
+                      Boolean(touched?.phone && errors?.phone) && errors?.phone
+                    }
+                  >
+                    <Field name="phone">
+                      {({ field }) => (
+                        <Input
+                          {...field}
+                          placeholder="Field your phone number"
+                          className={s.input_phone}
+                          // onChange={(e) => {
+                          //   setPhone(e.target.value);
+                          // }}
+                          prefix={
+                            <Phone
+                              size={20}
+                              weight="thin"
+                              className={s.icon_phone}
+                            />
+                          }
+                        />
+                      )}
+                    </Field>
+                  </FormAnt.Item>
+                  <small className={s.small_text}>
+                    Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác
+                    minh số điện thoại là của bạn
+                  </small>
 
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={s.update_phone}
-                onClick={() => {
-                  setOtp(false);
-                }}
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={s.update_phone}
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              );
+            }}
+          </Formik>
+        ) : (
+          <Formik
+            validationSchema={otpSchema}
+            initialValues={{
+              otp: "",
+            }}
+            onSubmit={handleSendOtp}
+          >
+            {({ errors, touched }) => {
+              return (
+                <Form className={s.form_phone}>
+                  <FormAnt.Item
+                    validateStatus={
+                      Boolean(touched?.otp && errors?.otp) ? "error" : "success"
+                    }
+                    help={Boolean(touched?.otp && errors?.otp) && errors?.otp}
+                  >
+                    <Field name="otp">
+                      {({ field }) => (
+                        <OtpInput
+                          {...field}
+                          value={numotp}
+                          onChange={handleChangeOtp}
+                          numInputs={6}
+                          className={s.input_otp}
+                        />
+                      )}
+                    </Field>
+                  </FormAnt.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={s.update_phone}
+                    onClick={verifyOtp}
+                  >
+                    Submit
+                  </Button>
+
+                  <small className={s.small_text}>
+                    Cannot receive your code ?{" "}
+                    {showTime === true ? (
+                      <span>{seconds}s</span>
+                    ) : (
+                      <span
+                        onClick={() => {
+                          handleSendOtp(phone);
+                          setSeconds(30);
+                          setShowTime(true);
+                        }}
+                        className={s.send_again}
+                      >
+                        Send again
+                      </span>
+                    )}
+                  </small>
+                </Form>
+              );
+            }}
+          </Formik>
         )}
       </div>
     </div>

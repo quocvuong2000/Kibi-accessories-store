@@ -215,8 +215,9 @@
   border: none;
   width: 100%;
   padding: 22px 0;
-
-  color: #ffffff;
+  .txt {
+    color: #ffffff !important;
+  }
   @include font(normal, 600, 24px, 24px, 0.02em);
 }
 

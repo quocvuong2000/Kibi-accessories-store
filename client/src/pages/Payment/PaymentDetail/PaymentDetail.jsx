@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import classes from "./styles.module.scss";
+import { useSelector } from "react-redux";
 
 const PaymentDetail = (props) => {
   const paymentInfo = props.paymentInfo;
@@ -12,6 +13,8 @@ const PaymentDetail = (props) => {
     // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
+  const cart = useSelector((state) => state.cart);
+  console.log(cart);
 
   return (
     <div className={classes.paymentDetail}>
@@ -23,7 +26,7 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>SubTotal</div>
                 <div className={classes.price}>
-                  {numberWithCommas(paymentInfo.detailOrder.subTotal)} VND
+                  {numberWithCommas(cart.totalPrice)} VND
                 </div>
               </div>
               <div className={classes.contentItem}>

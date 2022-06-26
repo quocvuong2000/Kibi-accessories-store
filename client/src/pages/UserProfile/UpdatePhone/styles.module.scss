@@ -47,6 +47,17 @@
       row-gap: 10px;
       flex-direction: column;
       width: 100%;
+
+      .input_otp {
+        width: 100%;
+        column-gap: 20px !important;
+        input {
+          border-radius: 10px;
+          width: 90% !important;
+          border: 2px solid #d84727;
+          height: 60px;
+        }
+      }
     }
 
     .update_phone {
@@ -55,6 +66,14 @@
 
     .small_text {
       margin-top: 10px;
+      font-size: 15px;
+      .send_again {
+        color: #d84727;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
 }

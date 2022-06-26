@@ -58,15 +58,13 @@ const EditAddress = (props) => {
                   </small>
                 </FormAnt.Item>
 
-                <Form.Item>
-                  <Button
-                    type="submit"
-                    htmlType="submit"
-                    className={s.update_phone}
-                  >
-                    Submit
-                  </Button>
-                </Form.Item>
+                <Button
+                  type="submit"
+                  htmlType="submit"
+                  className={s.update_phone}
+                >
+                  Submit
+                </Button>
               </Form>
             );
           }}
