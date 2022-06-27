@@ -49,8 +49,24 @@ const Address = () => {
     });
   };
 
-  const handleCreateAddress = (username, reciname, reciphone, address) => {
-    createAddress(username, reciname, reciphone, address).then((res) => {
+  const handleCreateAddress = (
+    username,
+    reciname,
+    reciphone,
+    address,
+    ward,
+    district,
+    city
+  ) => {
+    createAddress(
+      username,
+      reciname,
+      reciphone,
+      address,
+      ward,
+      district,
+      city
+    ).then((res) => {
       if (res) {
         setReload(!reload);
         message.success("Create success");
@@ -58,8 +74,8 @@ const Address = () => {
     });
   };
 
-  const handleEditAddress = (id, itemid, address) => {
-    updateAddress(id, itemid, address).then((res) => {
+  const handleEditAddress = (id, itemid, address, ward, district, city) => {
+    updateAddress(id, itemid, address, ward, district, city).then((res) => {
       if (res) {
         setReload(!reload);
         message.success("Update success");

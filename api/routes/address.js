@@ -16,6 +16,9 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
           isDefault: req.body.isDefault,
           recipientName: req.body.receiverName,
           recipientPhone: req.body.recipientPhone,
+          ward: req.body.ward,
+          district: req.body.district,
+          city: req.body.city,
         },
       ],
     };
@@ -33,6 +36,9 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
       isDefault: req.body.isDefault,
       recipientName: req.body.receiverName,
       recipientPhone: req.body.recipientPhone,
+      ward: req.body.ward,
+      district: req.body.district,
+      city: req.body.city,
     };
     addressList.push(newAddress);
     try {
@@ -110,8 +116,10 @@ router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
         // console.log(address);
         let newAddressItem = address.addressList.id(req.body.addressItemId);
         // console.log(newAddressItem);
-
         newAddressItem.address = req.body.address;
+        newAddressItem.ward = req.body.ward;
+        newAddressItem.district = req.body.district;
+        newAddressItem.city = req.body.city;
         // console.log(newAddressItem);
         return address.save();
       });

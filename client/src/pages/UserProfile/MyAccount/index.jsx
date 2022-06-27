@@ -74,7 +74,7 @@ const MyAccount = () => {
   const uploadButton = (
     <div className={s.btnUpload}>
       <PlusOutlined />
-      <div className={s.text}>Change Image</div>
+      {/* <div className={s.text}>Change Image</div> */}
     </div>
   );
 

@@ -1,14 +1,47 @@
-import { Button, Form as FormAnt, Input } from "antd";
+import { Button, Form as FormAnt, Input, Select } from "antd";
 import { Field, Formik, Form } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { MapPinLine, User, Phone } from "phosphor-react";
 import { useSelector } from "react-redux";
 import { createAddress } from "../../../api/Address";
 import { CreateAddressSchema } from "./validation";
-
+import { getDistrict, getProvince, getWard } from "../../../api/Shipping";
+const { Option } = Select;
 const UpdateAddress = (props) => {
   const user = useSelector((state) => state.user);
+  const [province, setProvince] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [ward, setWard] = useState([]);
+  const [provinceId, setProvinceId] = useState(202);
+  const [districtId, setDistrictId] = useState(3695);
+  const [wardId, setWardId] = useState("90768");
+  const token = "58995546-f558-11ec-8636-7617f3863de9";
+  useEffect(() => {
+    getProvince(token).then((res) => {
+      if (res) {
+        setProvince(res.data.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getDistrict(token, provinceId).then((res) => {
+      if (res) {
+        setDistrict(res.data.data);
+        setDistrictId(res.data.data[0].DistrictID);
+      }
+    });
+  }, [provinceId]);
+
+  useEffect(() => {
+    getWard(token, districtId).then((res) => {
+      if (res) {
+        setWard(res.data.data);
+        setWardId(res.data.data[0].WardCode);
+      }
+    });
+  }, [districtId]);
 
   return (
     <div className={s.container}>
@@ -28,13 +61,92 @@ const UpdateAddress = (props) => {
               user.currentUser.username,
               values.recipientName,
               values.recipientPhone,
-              values.address
+              values.address,
+              wardId,
+              districtId,
+              provinceId
             );
           }}
         >
           {({ errors, touched }) => {
             return (
               <Form className={s.form_phone}>
+                <div className={s.box_form}>
+                  <Select
+                    placeholder="Please choose your province"
+                    style={{ width: 240 }}
+                    onSelect={(value) => {
+                      setProvinceId(value);
+                    }}
+                    value={provinceId}
+                    defaultActiveFirstOption={true}
+                    filterSort={(optionA, optionB) =>
+                      optionA.children
+                        .toLowerCase()
+                        .localeCompare(optionB.children.toLowerCase())
+                    }
+                  >
+                    {province?.map((item, index) => {
+                      return index === 1 ? (
+                        <Option
+                          value={item.ProvinceID}
+                          key={index}
+                          selected="selected"
+                        >
+                          {item.ProvinceName}
+                        </Option>
+                      ) : (
+                        <Option value={item.ProvinceID} key={index}>
+                          {item.ProvinceName}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+
+                  <Select
+                    placeholder="Please choose your province"
+                    style={{ width: 240 }}
+                    onSelect={(value) => {
+                      setDistrictId(value);
+                    }}
+                    value={districtId}
+                    defaultActiveFirstOption={true}
+                    filterSort={(optionA, optionB) =>
+                      optionA.children
+                        .toLowerCase()
+                        .localeCompare(optionB.children.toLowerCase())
+                    }
+                  >
+                    {district?.map((item, index) => {
+                      return (
+                        <Option value={item.DistrictID} key={index}>
+                          {item.DistrictName}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+
+                  <Select
+                    placeholder="Please choose your province"
+                    style={{ width: 240 }}
+                    defaultActiveFirstOption={true}
+                    filterOption={false}
+                    value={wardId}
+                    filterSort={(optionA, optionB) =>
+                      optionA.children
+                        .toLowerCase()
+                        .localeCompare(optionB.children.toLowerCase())
+                    }
+                  >
+                    {ward?.map((item, index) => {
+                      return (
+                        <Option value={item.WardCode} key={index}>
+                          {item.WardName}
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </div>
                 <FormAnt.Item
                   validateStatus={
                     Boolean(touched?.recipientName && errors?.recipientName)

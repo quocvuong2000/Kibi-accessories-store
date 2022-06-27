@@ -72,4 +72,53 @@
       }
     }
   }
+  .box_rs_comment {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 20px;
+    .avatar {
+      margin-top: 2px;
+      max-width: 45px;
+      max-height: 45px;
+      min-width: 45px;
+      min-height: 45px;
+      img {
+        max-width: 45px;
+        max-height: 45px;
+        min-width: 45px;
+        min-height: 45px;
+        border-radius: 50%;
+      }
+    }
+
+    .frame_comment {
+      width: 100%;
+      :global {
+        .ant-rate {
+          margin-left: 0 !important;
+        }
+      }
+      .fullname {
+        font-size: 17px;
+        font-weight: 600;
+      }
+
+      .comment {
+        margin-top: 10px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .see_more {
+    margin-top: 40px;
+    color: #d84727;
+    font-size: 16px;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

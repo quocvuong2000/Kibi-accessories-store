@@ -4,13 +4,19 @@ export const createAddress = async (
   username,
   recipientname,
   recipientphone,
-  address
+  address,
+  ward,
+  district,
+  city
 ) => {
   const res = await callAPIWithToken.post(`/api/address/create`, {
     username: username,
     receiverName: recipientname,
     recipientPhone: recipientphone,
     address: address,
+    ward: ward,
+    district: district,
+    city: city,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
@@ -29,11 +35,21 @@ export const deleteAddress = async (id, itemid) => {
 };
 
 //UPDATE ADDRESS
-export const updateAddress = async (id, itemid, address) => {
+export const updateAddress = async (
+  id,
+  itemid,
+  address,
+  ward,
+  district,
+  city
+) => {
   const res = await callAPIWithToken.put(`/api/address/update/`, {
     addressId: id,
     addressItemId: itemid,
     address: address,
+    ward: ward,
+    district: district,
+    city: city,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
