@@ -78,13 +78,7 @@ const MyAccount = () => {
     </div>
   );
 
-  const onFinish = (values) => {
-    // console.log("Success:", values);
-  };
 
-  const onFinishFailed = (errorInfo) => {
-    // console.log("Failed:", errorInfo);
-  };
   const dateFormat = "YYYY/MM/DD";
   return (
     <div className={s.all}>
@@ -97,7 +91,7 @@ const MyAccount = () => {
           gender: "",
         }}
         onSubmit={async (values) => {
-          console.log(values);
+          // {imageUrl ? : }
         }}
       >
         {({ errors, touched, setFieldValue }) => {

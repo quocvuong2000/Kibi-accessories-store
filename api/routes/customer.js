@@ -1,9 +1,12 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { verifyToken } = require("./verifyToken");
+const {
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
-//GET - PAGINATION
-router.get("/", async (req, res) => {
+//GET LIST CUSTOMER - PAGINATION
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
   const qPage = req.query.page;
   let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
@@ -32,5 +35,26 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+//UPDATE USER - CUSTOMER
+router.put("/update/user/:id", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    const savedNew =  await User.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true});
+    res.status(201).json(savedNew);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//UPDATE PASSWORD - CUSTOMER
+router.patch("/update/password/:id",verifyTokenAndAuthorization, async (req,res) => {
+  const newPassword = req.body.password;
+  try {
+    const savedNew =  await User.findByIdAndUpdate(req.params.id, {$set : newPassword}, {new : true});
+    res.status(201).json(savedNew);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
 
 module.exports = router;
