@@ -30,17 +30,17 @@ const Confirmation = (props) => {
           </div>
           <div className={classes.deliveryItem}>
             <Truck weight="light" />
-            DHL Express
+            GHN Express
           </div>
         </div>
         <div className={classes.contentItem}>
           <div className={classes.itemList}>
-            {paymentInfo.orderDetail.items.map((item, index) => {
+            {props.cart._products?.map((item, index) => {
               return (
                 <div className={classes.item} key={index}>
-                  <div className={classes.productName}>{item.product}</div>
+                  <div className={classes.productName}>{item.productName}</div>
                   <span>
-                    {item.quantity} x {numberWithCommas(item.price)} VND
+                    {item.quantity} x {numberWithCommas(item.productPrice)} VND
                   </span>
                 </div>
               );
@@ -50,33 +50,33 @@ const Confirmation = (props) => {
         <div className={classes.contentItem}>
           <div className={classes.display}>SubTotal</div>
           <div className={classes.price}>
-            {numberWithCommas(paymentInfo.detailOrder.subTotal)} VND
+            {numberWithCommas(props.cart.totalPrice)} VND
           </div>
         </div>
         <div className={classes.contentItem}>
           <div className={classes.display}>Shipping Cost</div>
           <div className={classes.price}>
-            {numberWithCommas(paymentInfo.detailOrder.shippingCost)} VND
+            {numberWithCommas(props.shippingCost)} VND
           </div>
         </div>
-        <div className={classes.contentItem}>
+        {/* <div className={classes.contentItem}>
           <div className={classes.display}>Packaging</div>
           <div className={classes.price}>
             {numberWithCommas(paymentInfo.detailOrder.packaging)} VND
           </div>
-        </div>
+        </div> */}
         <div className={classes.total}>
           <div className={classes.display}>Grand Total</div>
           <div className={classes.price}>
-            {numberWithCommas(paymentInfo.detailOrder.grandTotal)} VND
+            {numberWithCommas(props.cart.totalPrice + props.shippingCost)} VND
           </div>
         </div>
-        <div className={classes.contentAddress}>
+        {/* <div className={classes.contentAddress}>
           <div className={classes.display}>Shipping Address</div>
           <div className={classes.shippingAddress}>
             {paymentInfo.orderDetail.shippingAddress}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

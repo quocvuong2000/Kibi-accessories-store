@@ -26,10 +26,17 @@
     flex-direction: row;
     background-color: white;
     padding: 17px;
-    justify-content: space-between;
     width: 950px;
     border-radius: 7px;
     margin-top: 20px;
+    column-gap: 20px;
+    align-items: center;
+
+    .name_edit {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 
   .address_left {

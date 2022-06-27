@@ -1,27 +1,48 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useClickOutside } from "@mantine/hooks";
-import { Button, Input, Space, notification } from "antd";
+import {
+  Button,
+  Dropdown,
+  Input,
+  Menu,
+  message,
+  notification,
+  Space,
+} from "antd";
 import "antd/dist/antd.min.css";
+import Cookies from "js-cookie";
 import { Handbag, User } from "phosphor-react";
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getAllProductCart } from "../../api/Cart";
 import { getAllCategory } from "../../api/Category";
 import logo from "../../assets/header/image 5.svg";
+import { setAuthToken } from "../../services/jwt-axios";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { setAuthToken } from "../../services/jwt-axios";
-import { getAllProductCart } from "../../api/Cart";
-import axios from "axios";
-import { googleInfo } from "../../api/User";
 const { Search } = Input;
 
 const Header = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
-
+  const handleSignOut = () => {
+    Cookies.remove("token");
+    localStorage.removeItem("persist:root");
+  };
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <p className={classes.link_to_profile}>Your Profile</p>
+      </Menu.Item>
+      <Menu.Item>
+        <p className={classes.sign_out} onClick={handleSignOut}>
+          Sign out
+        </p>
+      </Menu.Item>
+    </Menu>
+  );
   if (user.currentUser) {
     if (user.currentUser.accessToken !== "") {
       setAuthToken(user.currentUser.accessToken);
@@ -101,7 +122,9 @@ const Header = () => {
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
               <Link to={"/myaccount/1"} className={classes.login}>
-                <User size={32} color="#000" weight="thin" />
+                <Dropdown overlay={menu} placement="bottom" arrow>
+                  <User size={32} color="#000" weight="thin" />
+                </Dropdown>
                 <div className={classes.loginText}>{user.currentUser.name}</div>
               </Link>
             ) : (
@@ -113,7 +136,13 @@ const Header = () => {
 
             <div
               className={classes.shopingCart}
-              onClick={() => setVisible(true)}
+              onClick={() => {
+                if (user.currentUser) {
+                  setVisible(true);
+                } else {
+                  message.error("Please Sign In");
+                }
+              }}
             >
               <Handbag size={25} color="#000" weight="thin" />
               <NumItem item={cart.numberCart ?? 0} />

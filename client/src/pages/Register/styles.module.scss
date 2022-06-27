@@ -20,7 +20,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 .inputLogin {
   background: #fcf7fe;
@@ -63,7 +62,7 @@
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 1024px;
   max-width: 100%;
   min-height: 480px;
 
@@ -165,6 +164,29 @@
   }
   .overlay_right {
     transform: translateX(20%);
+  }
+}
+
+.box_form {
+  display: flex;
+
+  justify-content: space-between;
+  column-gap: 20px !important;
+  :global {
+    .ant-form-item-control-input-content {
+      flex-direction: column;
+      row-gap: 20px;
+    }
+
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      background: #fcf7fe;
+      border: none;
+      width: 265px;
+      border-radius: 10px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
   }
 }
 

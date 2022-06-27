@@ -16,9 +16,9 @@ const UpdateAddress = (props) => {
   const [provinceId, setProvinceId] = useState(202);
   const [districtId, setDistrictId] = useState(3695);
   const [wardId, setWardId] = useState("90768");
-  const token = "58995546-f558-11ec-8636-7617f3863de9";
+
   useEffect(() => {
-    getProvince(token).then((res) => {
+    getProvince().then((res) => {
       if (res) {
         setProvince(res.data.data);
       }
@@ -26,7 +26,7 @@ const UpdateAddress = (props) => {
   }, []);
 
   useEffect(() => {
-    getDistrict(token, provinceId).then((res) => {
+    getDistrict(provinceId).then((res) => {
       if (res) {
         setDistrict(res.data.data);
         setDistrictId(res.data.data[0].DistrictID);
@@ -35,7 +35,7 @@ const UpdateAddress = (props) => {
   }, [provinceId]);
 
   useEffect(() => {
-    getWard(token, districtId).then((res) => {
+    getWard(districtId).then((res) => {
       if (res) {
         setWard(res.data.data);
         setWardId(res.data.data[0].WardCode);

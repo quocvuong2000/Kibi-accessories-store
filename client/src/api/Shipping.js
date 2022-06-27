@@ -1,7 +1,7 @@
 import { jwtAxios } from "../services/jwt-axios";
 import axios from "axios";
-
-export const getProvince = async (token) => {
+const token = "58995546-f558-11ec-8636-7617f3863de9";
+export const getProvince = async () => {
   const res = await axios.get(
     "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
     {
@@ -14,7 +14,7 @@ export const getProvince = async (token) => {
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };
-export const getDistrict = async (token, provinceId) => {
+export const getDistrict = async (provinceId) => {
   const res = await axios.get(
     "https://online-gateway.ghn.vn/shiip/public-api/master-data/district",
     {
@@ -29,7 +29,7 @@ export const getDistrict = async (token, provinceId) => {
   return res;
 };
 
-export const getWard = async (token, districtId) => {
+export const getWard = async (districtId) => {
   const res = await axios.get(
     "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward",
     {
@@ -37,6 +37,63 @@ export const getWard = async (token, districtId) => {
         token: token,
       },
       params: { district_id: districtId },
+    }
+  );
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};
+
+export const getInfoService = async (from, to) => {
+  const res = await axios.get(
+    "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
+    {
+      headers: {
+        token: token,
+      },
+      params: {
+        shop_id: process.env.REACT_APP_SHOP_ID,
+        from_district: from,
+        to_district: to,
+      },
+    }
+  );
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};
+
+export const getShippingCost = async (
+  service_id,
+  insurance_value,
+  coupon,
+  to_ward_code,
+  to_district_id,
+  from_district_id,
+  weight,
+  length,
+  width,
+  height
+) => {
+  const res = await axios.get(
+    "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
+    {
+      headers: {
+        token: token,
+        shop_id: process.env.REACT_APP_SHOP_ID,
+      },
+      params: {
+        service_id: service_id,
+        insurance_value: insurance_value,
+        coupon: coupon,
+        from_district_id: from_district_id,
+        to_district_id: to_district_id,
+        to_ward_code: to_ward_code,
+        height: height,
+        length: length,
+        weight: weight,
+        width: width,
+      },
     }
   );
   if (res && res.status !== 200)

@@ -1,21 +1,17 @@
 import { Radio } from "antd";
 import PropsType from "prop-types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import classes from "./styles.module.scss";
 import { useSelector } from "react-redux";
+import { getInfoService, getShippingCost } from "../../../api/Shipping";
 
 const PaymentDetail = (props) => {
-  const paymentInfo = props.paymentInfo;
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = useState(1);
   const onChange = (e) => {
-    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  const cart = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.user);
-  console.log(cart);
 
   return (
     <div className={classes.paymentDetail}>
@@ -27,13 +23,13 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>SubTotal</div>
                 <div className={classes.price}>
-                  {numberWithCommas(cart.totalPrice)} VND
+                  {numberWithCommas(props.cart.totalPrice)} VND
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Shipping Cost</div>
                 <div className={classes.price}>
-                  {numberWithCommas(paymentInfo.detailOrder.shippingCost)} VND
+                  {numberWithCommas(props.shippingCost)} VND
                 </div>
               </div>
               {/* <div className={classes.contentItem}>
@@ -51,7 +47,8 @@ const PaymentDetail = (props) => {
               <div className={classes.total}>
                 <div className={classes.display}>Grand Total</div>
                 <div className={classes.price}>
-                  {numberWithCommas(cart.totalPrice - 500000)} VND
+                  {numberWithCommas(props.cart.totalPrice + props.shippingCost)}{" "}
+                  VND
                 </div>
               </div>
             </div>
@@ -60,7 +57,7 @@ const PaymentDetail = (props) => {
             <div className={classes.top}>
               <div className={classes.title}>Payment Detail</div>
               <div className={classes.time}>
-                {paymentInfo.paymentDetail.timeLitmit}
+                {/* {paymentInfo.paymentDetail.timeLitmit} */}
               </div>
             </div>
             <div className={classes.bottom}>
@@ -77,7 +74,7 @@ const PaymentDetail = (props) => {
                 <div className={classes.display}>Order Number</div>
                 <div className={classes.OrderNumber}>
                   <div className={classes.number}>
-                    {paymentInfo.orderDetail.OrderNumber}
+                    {/* {paymentInfo.orderDetail.OrderNumber} */}
                     <span>COPY</span>
                   </div>
                   <div className={classes.note}>
@@ -88,13 +85,13 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>Purchase Date</div>
                 <div className={classes.price}>
-                  {paymentInfo.orderDetail.PurchaseDate}
+                  {/* {paymentInfo.orderDetail.PurchaseDate} */}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Items</div>
                 <div className={classes.itemList}>
-                  {cart._products?.map((item, index) => {
+                  {props.cart._products?.map((item, index) => {
                     return (
                       <div className={classes.item} key={index}>
                         <div className={classes.productName}>
@@ -112,25 +109,25 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>Name</div>
                 <div className={classes.customerName}>
-                  {user.currentUser.name}
+                  {props.user.currentUser.name}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Phone</div>
                 <div className={classes.customerPhone}>
-                  {user.currentUser.phone ?? "N/A"}
+                  {props.user.currentUser.phone ?? "N/A"}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Email</div>
                 <div className={classes.customerEmail}>
-                  {user.currentUser.email}
+                  {props.user.currentUser.email}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Shipping Address</div>
                 <div className={classes.shippingAddress}>
-                  {paymentInfo.orderDetail.shippingAddress}
+                  {/* {paymentInfo.orderDetail.shippingAddress} */}
                 </div>
               </div>
             </div>

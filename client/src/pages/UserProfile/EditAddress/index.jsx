@@ -14,9 +14,8 @@ const EditAddress = (props) => {
   const [provinceId, setProvinceId] = useState(parseInt(data.city));
   const [districtId, setDistrictId] = useState(parseInt(data.district));
   const [wardId, setWardId] = useState(data.ward);
-  const token = "58995546-f558-11ec-8636-7617f3863de9";
   useEffect(() => {
-    getProvince(token).then((res) => {
+    getProvince().then((res) => {
       if (res) {
         setProvince(res.data.data);
         setProvinceId(parseInt(data.city));
@@ -25,7 +24,7 @@ const EditAddress = (props) => {
   }, [data]);
 
   useEffect(() => {
-    getDistrict(token, provinceId).then((res) => {
+    getDistrict(provinceId).then((res) => {
       if (res) {
         setDistrict(res.data.data);
         setDistrictId(res.data.data[0].DistrictID);
@@ -34,7 +33,7 @@ const EditAddress = (props) => {
   }, [provinceId, data]);
 
   useEffect(() => {
-    getWard(token, districtId).then((res) => {
+    getWard(districtId).then((res) => {
       if (res) {
         setWard(res.data.data);
         setWardId(data.ward);
