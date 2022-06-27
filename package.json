@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "firebase-admin": "^11.0.0",
-    "redux-persist": "^6.0.0"
-  }
-}

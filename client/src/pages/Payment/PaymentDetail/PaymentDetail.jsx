@@ -14,6 +14,7 @@ const PaymentDetail = (props) => {
     setValue(e.target.value);
   };
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
   console.log(cart);
 
   return (
@@ -35,22 +36,22 @@ const PaymentDetail = (props) => {
                   {numberWithCommas(paymentInfo.detailOrder.shippingCost)} VND
                 </div>
               </div>
-              <div className={classes.contentItem}>
+              {/* <div className={classes.contentItem}>
                 <div className={classes.display}>Promo Code</div>
                 <div className={classes.price}>
                   {paymentInfo.detailOrder.promoCode}
                 </div>
-              </div>
-              <div className={classes.contentItem}>
+              </div> */}
+              {/* <div className={classes.contentItem}>
                 <div className={classes.display}>Packaging</div>
                 <div className={classes.price}>
                   {numberWithCommas(paymentInfo.detailOrder.packaging)} VND
                 </div>
-              </div>
+              </div> */}
               <div className={classes.total}>
                 <div className={classes.display}>Grand Total</div>
                 <div className={classes.price}>
-                  {numberWithCommas(paymentInfo.detailOrder.grandTotal)} VND
+                  {numberWithCommas(cart.totalPrice - 500000)} VND
                 </div>
               </div>
             </div>
@@ -93,14 +94,15 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>Items</div>
                 <div className={classes.itemList}>
-                  {paymentInfo.orderDetail.items.map((item, index) => {
+                  {cart._products?.map((item, index) => {
                     return (
                       <div className={classes.item} key={index}>
                         <div className={classes.productName}>
-                          {item.product}
+                          {item.productName}
                         </div>
                         <span>
-                          {item.quantity} x {numberWithCommas(item.price)} VND
+                          {item.quantity} x{" "}
+                          {numberWithCommas(item.productPrice)} VND
                         </span>
                       </div>
                     );
@@ -110,19 +112,19 @@ const PaymentDetail = (props) => {
               <div className={classes.contentItem}>
                 <div className={classes.display}>Name</div>
                 <div className={classes.customerName}>
-                  {paymentInfo.orderDetail.customerName}
+                  {user.currentUser.name}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Phone</div>
                 <div className={classes.customerPhone}>
-                  {paymentInfo.orderDetail.customerPhone}
+                  {user.currentUser.phone ?? "N/A"}
                 </div>
               </div>
               <div className={classes.contentItem}>
                 <div className={classes.display}>Email</div>
                 <div className={classes.customerEmail}>
-                  {paymentInfo.orderDetail.customerEmail}
+                  {user.currentUser.email}
                 </div>
               </div>
               <div className={classes.contentItem}>

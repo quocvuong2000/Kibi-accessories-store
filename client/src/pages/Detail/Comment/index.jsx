@@ -11,7 +11,7 @@ const Comment = (props) => {
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [listComment, setListComment] = useState([]);
-  const [listCommentTemp, setListCommentTemp] = useState([]);
+  const [totalPages, setTotalPages] = useState([]);
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
   const user = useSelector((state) => state.user);
@@ -25,13 +25,13 @@ const Comment = (props) => {
 
   useEffect(() => {
     getCommentByProduct(props.data.product._id, page).then((res) => {
-      console.log("res.data:", res.data);
-      setListComment([...res.data]);
+      setTotalPages(res.data.totalPages);
+
+      setListComment((listComment) => [...listComment, ...res.data.comments]);
     });
   }, [reload, page]);
 
   const handleComment = () => {
-    console.log(content);
     createComment(
       user.currentUser.username,
       props.data.product._id,
@@ -74,7 +74,7 @@ const Comment = (props) => {
         </div>
       </div>
 
-      {listComment.comments?.map((item, index) => {
+      {listComment?.map((item, index) => {
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
@@ -84,15 +84,15 @@ const Comment = (props) => {
               />
             </div>
             <div className={s.frame_comment}>
-              <p className={s.fullname}>{user.currentUser.name}</p>
-              <Rate defaultValue={item.rating} allowHalf />
-              <p className={s.comment}>{item.comment}</p>
+              <p className={s.fullname}>{item.username}</p>
+              <Rate defaultValue={item?.rating} allowHalf />
+              <p className={s.comment}>{item?.comment}</p>
             </div>
           </div>
         );
       })}
 
-      {page >= listComment.totalPages && (
+      {page < totalPages && (
         <div
           className={s.see_more}
           onClick={() => {

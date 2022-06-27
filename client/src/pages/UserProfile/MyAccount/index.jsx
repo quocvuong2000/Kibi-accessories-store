@@ -73,7 +73,6 @@ const MyAccount = () => {
   };
 
   const handleChange = (info) => {
-
     // Get this url from response in real world.
     getBase64(info.file.originFileObj, (url) => {
       setLoading(false);
@@ -84,7 +83,7 @@ const MyAccount = () => {
   const uploadButton = (
     <div className={s.btnUpload}>
       <PlusOutlined />
-      <div className={s.text}>Change Image</div>
+      {/* <div className={s.text}>Change Image</div> */}
     </div>
   );
 
@@ -207,6 +206,7 @@ const MyAccount = () => {
                       }
                     >
                       <Input
+                        disabled={true}
                         allowClear
                         value={
                           user.currentUser !== null

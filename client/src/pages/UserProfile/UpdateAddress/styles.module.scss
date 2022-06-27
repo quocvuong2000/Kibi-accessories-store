@@ -47,6 +47,11 @@
       row-gap: 10px;
       flex-direction: column;
       width: 100%;
+
+      .box_form {
+        display: flex;
+        justify-content: space-between;
+      }
     }
 
     .update_phone {
