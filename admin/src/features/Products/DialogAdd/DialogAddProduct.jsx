@@ -45,7 +45,7 @@ import { getCategoryList } from "../../Categories/CategoryAPI";
 import { addNewProduct } from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
 import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
-
+import AppLoader from "../../../components/AppLoader";
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -147,11 +147,12 @@ export default function DialogAddProduct(props) {
   const handleStepDes = (step) => () => {
     setActiveStepDes(step);
   };
-  const hanldeDeleteImage = (url) => {
-    setImages(images.filter((item) => item !== url));
-  };
+  // const hanldeDeleteImage = (url) => {
+  //   setImages(images.filter((item) => item !== url));
+  // };
   return (
     <>
+      {loading && <AppLoader />}
       <Dialog
         open={props.showDialog}
         onClose={handleClose}
@@ -199,6 +200,7 @@ export default function DialogAddProduct(props) {
             },
           }}
           onSubmit={async (values) => {
+            setLoading(true);
             if (urls.length === images.length) {
               const product = {
                 ...values,
@@ -225,6 +227,7 @@ export default function DialogAddProduct(props) {
                       howToAdjust: "",
                       warrantyDetail: "",
                     });
+                    setLoading(false);
                   });
             } else {
               addNewProduct(values)
@@ -235,6 +238,9 @@ export default function DialogAddProduct(props) {
                 })
                 .catch(() => {
                   setFailure(true);
+                })
+                .finally(() => {
+                  setLoading(false);
                 });
             }
           }}
@@ -537,7 +543,6 @@ export default function DialogAddProduct(props) {
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button
-                  onClick={handleClose}
                   variant="contained"
                   color="primary"
                   type="submit"
