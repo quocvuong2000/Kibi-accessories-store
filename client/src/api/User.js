@@ -29,3 +29,14 @@ export const updatePhone = async (id, phone) => {
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };
+
+export const updateProfile = async (id, fullname, dob, gender) => {
+  const res = await jwtAxios.post(`/api/customer/update/user/${id}`, {
+    name: fullname,
+    dob: dob,
+    gender: gender,
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};

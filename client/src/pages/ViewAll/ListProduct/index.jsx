@@ -12,7 +12,8 @@ import classes from "./styles.module.scss";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const menu = (
   <Menu>
-    <Menu.Item>asdasd</Menu.Item>
+    <Menu.Item>Price up</Menu.Item>
+    <Menu.Item>Price down</Menu.Item>
   </Menu>
 );
 
