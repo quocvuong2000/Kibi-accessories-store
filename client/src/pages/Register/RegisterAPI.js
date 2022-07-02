@@ -5,7 +5,7 @@ export const doSignUp = async (user) => {
     ...user,
     type: "customer",
   });
-  if (res && res.status !== 201)
+  if (res && res.status !== 200 && res.status !== 201)
     throw new Error("something wrongs with code status");
-  return res.data;
+  return res;
 };

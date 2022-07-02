@@ -95,6 +95,11 @@
 
     .frame_comment {
       width: 100%;
+      .delete {
+        color: #d84727;
+        text-decoration: underline;
+        cursor: pointer;
+      }
       :global {
         .ant-rate {
           margin-left: 0 !important;

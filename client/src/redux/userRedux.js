@@ -24,8 +24,16 @@ const userSlice = createSlice({
         setAuthToken(action.payload.access_token);
       }
     },
+    updateStart: (state) => {
+      state.isFetching = true;
+    },
+    updateSuccess: (state, action) => {
+      state.isFetching = false;
+      state.currentUser = action.payload.user;
+    },
   },
 });
 
-export const { loginStart, loginSuccess } = userSlice.actions;
+export const { loginStart, loginSuccess, updateStart, updateSuccess } =
+  userSlice.actions;
 export default userSlice.reducer;

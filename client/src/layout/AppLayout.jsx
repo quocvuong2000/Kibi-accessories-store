@@ -12,6 +12,8 @@ import {
   UserProfile,
   Search,
   Blog,
+  DetailBlog,
+  ViewAllBlog,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -123,6 +125,22 @@ const AppLayout = () => {
             element={
               <UnRequireAuth>
                 <Blog />
+              </UnRequireAuth>
+            }
+          ></Route>
+          <Route
+            path="/detailblog"
+            element={
+              <UnRequireAuth>
+                <DetailBlog />
+              </UnRequireAuth>
+            }
+          ></Route>
+          <Route
+            path="/viewallblog"
+            element={
+              <UnRequireAuth>
+                <ViewAllBlog />
               </UnRequireAuth>
             }
           ></Route>

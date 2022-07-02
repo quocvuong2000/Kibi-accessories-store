@@ -21,6 +21,35 @@
 
     .name_author {
       color: #d84727;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.detail_other {
+  display: flex;
+  flex-direction: row;
+  .date_time_other {
+    color: #9b9b9b;
+    font-size: 15px;
+
+    &:after {
+      content: "|";
+      font-size: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  .blog_author_other {
+    color: #9b9b9b;
+    font-size: 15px;
+
+    .name_author_other {
+      color: #d84727;
+      cursor: pointer;
       &:hover {
         text-decoration: underline;
       }

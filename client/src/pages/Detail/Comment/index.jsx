@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import InputEmoji from "react-input-emoji";
 import { Rate } from "antd";
-import { createComment, getCommentByProduct } from "../../../api/Comment";
+import {
+  createComment,
+  deleteComment,
+  getCommentByProduct,
+} from "../../../api/Comment";
 import { useSelector } from "react-redux";
 
 const Comment = (props) => {
@@ -26,10 +30,17 @@ const Comment = (props) => {
   useEffect(() => {
     getCommentByProduct(props.data.product._id, page).then((res) => {
       setTotalPages(res.data.totalPages);
-
       setListComment((listComment) => [...listComment, ...res.data.comments]);
     });
-  }, [reload, page]);
+  }, [page]);
+
+  useEffect(() => {
+    getCommentByProduct(props.data.product._id, 1).then((res) => {
+      console.log(res);
+      console.log(listComment);
+      setListComment(res.data.comments);
+    });
+  }, [reload]);
 
   const handleComment = () => {
     createComment(
@@ -38,11 +49,21 @@ const Comment = (props) => {
       content,
       rating
     ).then((res) => {
+      console.log(res);
       if (res) {
         message.success("Comment successs");
       }
+      setReload(!reload);
     });
-    setReload(!reload);
+  };
+
+  const handleDeleteComment = (id) => {
+    deleteComment(id).then((res) => {
+      if (res.status === 200) {
+        message.success("Delete Success");
+      }
+      setReload(!reload);
+    });
   };
   return (
     <div className={s.container}>
@@ -57,7 +78,10 @@ const Comment = (props) => {
         </div>
         <div className={s.frame_comment}>
           <InputEmoji
-            onEnter={handleComment}
+            onEnter={() => {
+              handleComment();
+              setContent("");
+            }}
             cleanOnEnter
             placeholder="Type a comment..."
             onChange={(e) => {
@@ -87,6 +111,16 @@ const Comment = (props) => {
               <p className={s.fullname}>{item.username}</p>
               <Rate defaultValue={item?.rating} allowHalf />
               <p className={s.comment}>{item?.comment}</p>
+              {item.username === user.currentUser?.username ? (
+                <p
+                  className={s.delete}
+                  onClick={() => handleDeleteComment(item._id)}
+                >
+                  Delete
+                </p>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         );

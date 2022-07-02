@@ -9,6 +9,7 @@ import {
   CreditCard,
   HandGrabbing,
   Truck,
+  Pen,
 } from "phosphor-react";
 import { Tabs } from "antd";
 import MyAccount from "./MyAccount";
@@ -16,6 +17,7 @@ import Address from "./Address";
 import { useParams } from "react-router-dom";
 import Wistlist from "./Wishlist";
 import Viewed from "./Viewed";
+import Rated from "./Rated";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -66,6 +68,16 @@ const UserProfile = () => {
         >
           <Wistlist />
         </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <Pen size={24} /> Rated
+            </div>
+          }
+          key="5"
+        >
+          <Rated />
+        </TabPane>
 
         <TabPane
           tab={
@@ -73,7 +85,7 @@ const UserProfile = () => {
               <BookOpen size={24} /> Oder Management{" "}
             </div>
           }
-          key="5"
+          key="6"
         >
           Content of Tab 4
         </TabPane>
@@ -83,7 +95,7 @@ const UserProfile = () => {
               <CreditCard size={24} /> To Pay{" "}
             </div>
           }
-          key="6"
+          key="7"
         >
           To Pay
         </TabPane>
@@ -93,7 +105,7 @@ const UserProfile = () => {
               <Truck size={24} /> To Ship{" "}
             </div>
           }
-          key="7"
+          key="8"
         >
           To Ship
         </TabPane>
@@ -103,7 +115,7 @@ const UserProfile = () => {
               <HandGrabbing size={24} /> To Receive{" "}
             </div>
           }
-          key="8"
+          key="9"
         >
           To Receive
         </TabPane>

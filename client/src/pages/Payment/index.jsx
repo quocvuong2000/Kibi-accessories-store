@@ -6,38 +6,6 @@ import { getInfoService, getShippingCost } from "../../api/Shipping";
 import Confirmation from "./Confirmation/Confirmation";
 import PaymentDetail from "./PaymentDetail/PaymentDetail";
 import classes from "./styles.module.scss";
-const fakePaymentData = {
-  detailOrder: {
-    subTotal: 2152000,
-    shippingCost: 500000,
-    promoCode: "VietNamVoDich",
-    packaging: 50000,
-    grandTotal: 2702000,
-  },
-  paymentDetail: {
-    timeLitmit: "12:00:00",
-  },
-  orderDetail: {
-    OrderNumber: "MTAWEB-3A86D4DB",
-    PurchaseDate: "2019-11-07 14:01:48",
-    items: [
-      {
-        product: "Way Kambas Mini Ebony",
-        quantity: 2,
-        price: 10240000,
-      },
-      {
-        product: "Sikka (Ebony & Mapple)",
-        quantity: 1,
-        price: 12640000,
-      },
-    ],
-    customerName: "Rasyidin Arsyad Nasution",
-    customerPhone: "0707000449",
-    customerEmail: "vuongtech@gmail.com",
-    shippingAddress: "367 Hong Bang P11 Q5",
-  },
-};
 const Payment = () => {
   const location = useLocation();
   const [step, setStep] = useState(0);
@@ -81,8 +49,6 @@ const Payment = () => {
       }
     });
   }, [serviceId]);
-
-  console.log("shippingCost:", shippingCost);
 
   return (
     <div className={classes.paymentContainer}>

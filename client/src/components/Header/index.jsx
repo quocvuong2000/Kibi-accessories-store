@@ -19,6 +19,7 @@ import { getAllProductCart } from "../../api/Cart";
 import { getAllCategory } from "../../api/Category";
 import logo from "../../assets/header/image 5.svg";
 import { setAuthToken } from "../../services/jwt-axios";
+import formatName from "../../utils/formatName";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
@@ -44,7 +45,10 @@ const Header = () => {
     </Menu>
   );
   if (user.currentUser) {
-    if (user.currentUser.accessToken !== "") {
+    if (
+      user.currentUser.accessToken !== "" &&
+      user.currentUser.accessToken != null
+    ) {
       setAuthToken(user.currentUser.accessToken);
       getAllProductCart(user.currentUser.username);
     }
@@ -81,20 +85,6 @@ const Header = () => {
 
   // console.log(user);
   useEffect(() => {
-    // window.addEventListener("scroll", () => {
-    //   if (
-    //     document.body.scrollTop > 50 ||
-    //     document.documentElement.scrollTop > 50
-    //   ) {
-    //     headerRef.current.classList.add(classes.shrink);
-    //   } else {
-    //     headerRef.current.classList.remove(classes.shrink);
-    //   }
-    //   return () => {
-    //     window.removeEventListener("scroll");
-    //   };
-    // });
-
     getAllCategory().then((res) => {
       if (res) {
         setCategory(res);
@@ -125,7 +115,9 @@ const Header = () => {
                 <Dropdown overlay={menu} placement="bottom" arrow>
                   <User size={32} color="#000" weight="thin" />
                 </Dropdown>
-                <div className={classes.loginText}>{user.currentUser.name}</div>
+                <div className={classes.loginText}>
+                  {formatName(user.currentUser.name)}
+                </div>
               </Link>
             ) : (
               <Link to={"/login"} className={classes.login}>
@@ -164,6 +156,9 @@ const Header = () => {
                   </Link>
                 );
               })}
+              <Link to={`/blog`} className={classes.navItem}>
+                Blog
+              </Link>
             </div>
           </div>
         </div>

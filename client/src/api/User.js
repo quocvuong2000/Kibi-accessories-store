@@ -1,5 +1,5 @@
 import axios from "axios";
-import { jwtAxios } from "../services/jwt-axios";
+import { callAPIWithToken, jwtAxios } from "../services/jwt-axios";
 
 export const googleInfo = async (access_token) => {
   const res = await axios.get(
@@ -30,13 +30,25 @@ export const updatePhone = async (id, phone) => {
   return res;
 };
 
-export const updateProfile = async (id, fullname, dob, gender) => {
-  const res = await jwtAxios.post(`/api/customer/update/user/${id}`, {
-    name: fullname,
-    dob: dob,
-    gender: gender,
+export const updateEmail = async (id, email) => {
+  const res = await jwtAxios.post("/api/user/edit/email", {
+    userId: id,
+    email: email,
   });
   if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};
+
+export const updatePassword = async (id, oldpassword, newpassword) => {
+  const res = await callAPIWithToken.patch(
+    `/api/customer/update/password/${id}`,
+    {
+      oldpassword: oldpassword,
+      password: newpassword,
+    }
+  );
+  if (res && res.status !== 200 && res.status !== 202)
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };

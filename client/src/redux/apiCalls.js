@@ -5,12 +5,36 @@ import {
   deleteStart,
   increaseStart,
 } from "./cartRedux";
-import { loginStart } from "./userRedux";
+import { loginStart, updateStart } from "./userRedux";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
     const res = await jwtAxios.post("/api/auth/login", user);
+    if (res && res.status !== 200)
+      throw Error("Something wrongs with code status" + res.status);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProfile = async (
+  dispatch,
+  id,
+  fullname,
+  dob,
+  gender,
+  avatar
+) => {
+  dispatch(updateStart());
+  try {
+    const res = await callAPIWithToken.put(`/api/customer/update/user/${id}`, {
+      name: fullname,
+      dob: dob,
+      gender: gender,
+      avatar: avatar,
+    });
     if (res && res.status !== 200)
       throw Error("Something wrongs with code status" + res.status);
     return res.data;

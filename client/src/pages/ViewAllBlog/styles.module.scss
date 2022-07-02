@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  margin-top: 160px;
+  max-width: 1100px;
+  padding-bottom: 50px;
+
+  .list_blog {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 50px;
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 20px;
+      :global {
+        .ant-pagination-item-active {
+          border-color: #d84727;
+          background-color: #d84727;
+          a {
+            color: #fff !important;
+            font-weight: bold;
+          }
+        }
+        .ant-pagination-item {
+          border-color: #d84727;
+          a {
+            color: #d84727;
+          }
+        }
+        .ant-pagination-item-link {
+          border-color: #d84727;
+          color: #d84727;
+        }
+        .anticon {
+          color: #d84727;
+        }
+      }
+    }
+  }
+}
