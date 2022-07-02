@@ -2,7 +2,7 @@
 .blog {
   display: flex;
   flex-direction: column;
-
+  max-width: 1100px;
   margin: 0 auto;
   padding-bottom: 50px;
   &_img_main {
@@ -29,6 +29,13 @@
       text-align: center;
       opacity: 1;
       background: #000;
+
+      .title {
+        padding: 0px;
+        margin-left: -30px;
+        margin-top: -101px;
+        margin-bottom: 30px;
+      }
 
       .desc {
         margin: 0 auto 7px;

@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const registerSchema = () => {
   return yup.object({
-    username: yup.string().required("Please enter username"),
+    name: yup.string().required("Please enter name"),
     email: yup.string().required("Please enter email").email("Invalid email!"),
     password: yup.string().required("Please enter password"),
     address: yup.string().required("Please enter address"),

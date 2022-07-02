@@ -20,7 +20,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE COMMENT
-router.delete("/delete", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   try {
     await Comment.findByIdAndRemove(req.body.commentId);
     // const addCart = await pInfo.save();
@@ -82,7 +82,8 @@ router.get("/product/:productId", async (req, res) => {
       })
         .sort({ createdAt: -1 })
         .skip(perPage * page - perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .sort({ createdAt: -1 });
     } else {
       comments = await Comment.find();
     }

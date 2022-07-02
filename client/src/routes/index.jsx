@@ -8,4 +8,17 @@ const Page404 = React.lazy(() => import("../pages/404/index"));
 const UserProfile = React.lazy(() => import("../pages/UserProfile/index"));
 const Search = React.lazy(() => import("../pages/Search/index"));
 const Blog = React.lazy(() => import("../pages/Blog/index"));
-export { Home, Detail, Payment, Login, Page404, UserProfile, Search, Blog };
+const DetailBlog = React.lazy(() => import("../pages/DetailBlog/index"));
+const ViewAllBlog = React.lazy(() => import("../pages/ViewAllBlog/index"));
+export {
+  Home,
+  Detail,
+  Payment,
+  Login,
+  Page404,
+  UserProfile,
+  Search,
+  Blog,
+  DetailBlog,
+  ViewAllBlog,
+};

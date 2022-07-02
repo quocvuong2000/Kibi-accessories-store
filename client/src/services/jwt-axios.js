@@ -58,6 +58,7 @@ callAPIWithToken.interceptors.response.use(
   }
 );
 export const setAuthToken = (token) => {
+  console.log("token:", token);
   if (token) {
     jwtAxios.defaults.headers.common.Authorization = `Bearer ${token}`;
     Cookies.set("token", token);

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./styles.module.scss";
-import { Form as FormAnt, Input, Select } from "antd";
+import { Form as FormAnt, Input, Select, message } from "antd";
 import { Field, Form, Formik } from "formik";
 import { registerSchema } from "./validation";
 import { doSignUp } from "./RegisterAPI";
 import { getDistrict, getProvince, getWard } from "../../api/Shipping";
+import { useLocation, useSearchParams } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+import CryptoJS from "crypto-js";
+import { async } from "@firebase/util";
 const { Option } = Select;
 const Register = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [randomChar, setRandomChar] = useState("");
+  const search = useLocation().search;
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
   const [province, setProvince] = useState([]);
@@ -16,6 +23,109 @@ const Register = () => {
   const [provinceId, setProvinceId] = useState(202);
   const [districtId, setDistrictId] = useState(3695);
   const [wardId, setWardId] = useState("90768");
+  const query = new URLSearchParams(search);
+  const id = new URLSearchParams(search).get("id");
+  const email = new URLSearchParams(search).get("email");
+  const prv = new URLSearchParams(search).get("prv");
+  const name = new URLSearchParams(search).get("name");
+  const password = new URLSearchParams(search).get("password");
+  const cityid = new URLSearchParams(search).get("cityid");
+  const districtid = new URLSearchParams(search).get("districtid");
+  const wardid = new URLSearchParams(search).get("wardid");
+  const address = new URLSearchParams(search).get("address");
+  const phone = new URLSearchParams(search).get("phone");
+
+  const handleRegister = (name, email, password, address, phone) => {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < 300; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    setRandomChar(result);
+    var enc = CryptoJS.AES.encrypt(
+      email,
+      `${process.env.REACT_APP_PRIVATE_KEY}`
+    ).toString();
+    emailjs
+      .send(
+        "service_3fco6q6",
+        "template_t9ihe46",
+        {
+          to_name: email,
+          from_name: "bin01012000@gmail.com",
+          message: ` <a href='https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${name.replaceAll(
+            " ",
+            "+"
+          )}&cityid=${provinceId}&wardid=${wardId}&districtid=${districtId}&address=${address.replaceAll(
+            " ",
+            "+"
+          )}&phone=${phone}&password=${password}' target='_blank'> Google </a>`,
+        },
+        "v3GcHX1OV7AjPKEdx"
+      )
+      .then(
+        (res) => {
+          if (res.status === 200) {
+            message.success("Please check your email and verify");
+          } else if (res.status === 201) {
+            message.success("Email already exists");
+          }
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  useEffect(() => {
+    if (prv != null && prv != undefined) {
+      var tempprv = prv.replaceAll(" ", "+");
+      var hashedPassword = CryptoJS.AES.decrypt(
+        tempprv,
+        `${process.env.REACT_APP_PRIVATE_KEY}`
+      );
+      var OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+    } else {
+      var OriginalPassword = "";
+    }
+
+    if (
+      id?.length === 300 &&
+      query.has("id") &&
+      query.has("email") &&
+      OriginalPassword === email
+    ) {
+      var values = {
+        name: name,
+        email: email,
+        password: password,
+        address: address,
+        phone: phone,
+        wards: wardid,
+        city: cityid,
+        district: districtid,
+      };
+      doSignUp(values)
+        .then((res) => {
+          if (res.status === 200) {
+            message.success("Register Successful");
+          }
+          console.log("res:", res);
+          setSuccess(true);
+          setFailure(false);
+        })
+        .catch((res) => {
+          console.log("res:", res);
+          setSuccess(false);
+          setFailure(true);
+        });
+    }
+
+    setSearchParams("");
+  }, []);
+
   useEffect(() => {
     getProvince().then((res) => {
       if (res) {
@@ -46,20 +156,18 @@ const Register = () => {
     <Formik
       validationSchema={registerSchema}
       initialValues={{
-        username: "",
+        name: "",
         email: "",
         password: "",
       }}
       onSubmit={async (values) => {
-        doSignUp(values)
-          .then(() => {
-            setSuccess(true);
-            setFailure(false);
-          })
-          .catch(() => {
-            setSuccess(false);
-            setFailure(true);
-          });
+        handleRegister(
+          values.name,
+          values.email,
+          values.password,
+          values.address,
+          values.phone
+        );
       }}
     >
       {({ errors, touched }) => {
@@ -70,27 +178,7 @@ const Register = () => {
               <span style={{ color: "green" }}>Sign up successful</span>
             )}
             {failure && <span style={{ color: "red" }}>Sign up failure</span>}
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.username && errors?.username)
-                  ? "error"
-                  : "success"
-              }
-              help={
-                Boolean(touched?.username && errors?.username) &&
-                errors?.username
-              }
-            >
-              <Field name="username">
-                {({ field }) => (
-                  <Input
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Username"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
+
             <FormAnt.Item
               validateStatus={
                 Boolean(touched?.email && errors?.email) ? "error" : "success"
@@ -124,6 +212,22 @@ const Register = () => {
                     {...field}
                     className={classes.inputLogin}
                     placeholder="Password"
+                  />
+                )}
+              </Field>
+            </FormAnt.Item>
+            <FormAnt.Item
+              validateStatus={
+                Boolean(touched?.name && errors?.name) ? "error" : "success"
+              }
+              help={Boolean(touched?.name && errors?.name) && errors?.name}
+            >
+              <Field name="name">
+                {({ field }) => (
+                  <Input
+                    {...field}
+                    className={classes.inputLogin}
+                    placeholder="Name"
                   />
                 )}
               </Field>

@@ -9,6 +9,8 @@ const BlogSchema = new mongoose.Schema(
         userId: { type: String },
       },
     ],
+    categoryblog: { type: mongoose.Schema.Types.ObjectId, ref: "CategoryBlog" },
+    isBrowse: { type: Boolean },
   },
   { timestamps: true }
 );

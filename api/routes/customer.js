@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+var CryptoJS = require("crypto-js");
 const {
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
@@ -37,24 +38,55 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //UPDATE USER - CUSTOMER
-router.put("/update/user/:id", verifyTokenAndAuthorization, async (req, res) => {
-  try {
-    const savedNew =  await User.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true});
-    res.status(201).json(savedNew);
-  } catch (error) {
-    res.status(500).json(error);
+router.put(
+  "/update/user/:id",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      const savedNew = await User.findByIdAndUpdate(
+        req.params.id,
+        { $set: req.body },
+        { new: true }
+      );
+      res.status(200).json(savedNew);
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
-});
+);
 
 //UPDATE PASSWORD - CUSTOMER
-router.patch("/update/password/:id",verifyTokenAndAuthorization, async (req,res) => {
-  const newPassword = req.body.password;
-  try {
-    const savedNew =  await User.findByIdAndUpdate(req.params.id, {$set : newPassword}, {new : true});
-    res.status(201).json(savedNew);
-  } catch (error) {
-    res.status(500).json(error);
+router.patch(
+  "/update/password/:id",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    const userFound = await User.findById(req.params.id);
+    const hashedPassword = CryptoJS.AES.decrypt(
+      userFound.password,
+      process.env.VUONG_SEC_PASS
+    );
+    const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    if (OriginalPassword !== req.body.oldpassword) {
+      return res.status(202).json("Wrong password");
+    }
+    const newPassword = req.body.password;
+    try {
+      const savedNew = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          password: CryptoJS.AES.encrypt(
+            newPassword,
+            process.env.VUONG_SEC_PASS
+          ).toString(),
+        },
+        { new: true }
+      );
+      res.status(200).json(savedNew);
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
-})
+);
 
 module.exports = router;

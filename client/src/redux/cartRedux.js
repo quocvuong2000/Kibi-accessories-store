@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setAuthToken } from "../services/jwt-axios";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {

@@ -1,0 +1,41 @@
+.container {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  .list_trending {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .one_category {
+      display: flex;
+      position: relative;
+      max-width: 265px;
+      max-height: 225px;
+      min-width: 265px;
+      min-height: 225px;
+      img {
+        max-width: 265px;
+        max-height: 225px;
+        min-width: 265px;
+        min-height: 225px;
+        object-fit: cover;
+      }
+
+      .name_category {
+        width: 100%;
+        position: absolute;
+        background: rgba($color: #000000, $alpha: 0.4);
+        color: #fff;
+        bottom: 0;
+        font-size: 24px;
+        .name {
+          margin: 0;
+          padding: 0;
+          padding-left: 10px !important;
+        }
+      }
+    }
+  }
+}
