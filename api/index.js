@@ -15,6 +15,8 @@ const wishlistRoute = require("./routes/wishlist");
 const addressRoute = require("./routes/address");
 const commentRoute = require("./routes/comment");
 const viewedRoute = require("./routes/viewed");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
 dotenv.config();
 
 mongoose
@@ -43,6 +45,8 @@ app.use("/api/wishlist", wishlistRoute);
 app.use("/api/address", addressRoute);
 app.use("/api/comment", commentRoute);
 app.use("/api/viewed", viewedRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/stripe", stripeRoute);
 
 app.listen(5000, () => {
   console.log("Server backend is running");

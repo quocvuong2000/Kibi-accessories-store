@@ -52,6 +52,11 @@ const cartSlice = createSlice({
       state._products = action.payload.products;
       state.totalPrice = action.payload.totalPrice;
     },
+    deleteAllCart: (state, action) => {
+      state.isFetching = false;
+      state._products = [];
+      state.totalPrice = 0;
+    },
   },
 });
 
@@ -65,5 +70,6 @@ export const {
   decreaseStart,
   decreaseCartSuccess,
   getNumber,
+  deleteAllCart
 } = cartSlice.actions;
 export default cartSlice.reducer;

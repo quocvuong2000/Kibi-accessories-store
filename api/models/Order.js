@@ -13,11 +13,15 @@ const OrderSchema = new mongoose.Schema({
       quantity: { type: Number },
     },
   ],
-  status : {type : String},
+  status: { type: String },
   totalProduct: { type: Number },
   totalPrice: { type: Number },
+  shippingPrice: { type: Number },
   amount: { type: Number },
-  address: { type: String, required: true },
+  address: { type: String },
+  recipientName: { type: String },
+  recipientPhone: { type: Number, required: true },
+  paid: { type: Boolean },
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

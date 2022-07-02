@@ -219,6 +219,24 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//DELETE ALL CART
+router.post("/delete/all", verifyTokenAndAuthorization, async (req, res) => {
+  //FIND CART
+  const cartByUser = await Cart.findOne({ username: req.body.username });
+  if (!cartByUser) return res.status(404).json("user cart not generate");
+  try {
+    await Cart.findByIdAndUpdate(cartByUser.id, {
+      products: [],
+      totalPrice: 0,
+    });
+    // const addCart = await pInfo.save();
+    res.status(200).json("Delete all success");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 //OVERRIDING CURRENT CART
 // {productId,username,quantity }
 router.post("/overriding", verifyTokenAndAuthorization, async (req, res) => {
