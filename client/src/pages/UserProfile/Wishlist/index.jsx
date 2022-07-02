@@ -32,6 +32,8 @@ const Wistlist = () => {
     <>
       {product.length > 0 ? (
         <div className={s.container}>
+          <p className={s.text}>Wishlist</p>
+          <div className={s.list_wishlist}>
           {product?.map((item, index) => {
             return (
               <motion.span
@@ -47,6 +49,7 @@ const Wistlist = () => {
               </motion.span>
             );
           })}
+          </div>
         </div>
       ) : (
         <EmptyPage />

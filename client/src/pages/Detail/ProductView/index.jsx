@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShoppingCartSimple } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleAddToCart } from "../../../api/Cart";
+import {  handleAddToCartOverride } from "../../../api/Cart";
 import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
 import numberWithCommas from "../../../utils/numberWithCommas";
@@ -126,10 +126,11 @@ const ProductView = (props) => {
               <button
                 className={styles.add_to_cart}
                 onClick={() =>
-                  handleAddToCart(
+                  handleAddToCartOverride(
                     dispatch,
                     user.currentUser.username,
-                    props.data.product._id
+                    props.data.product._id,
+                    qty
                   )
                 }
               >

@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding-bottom: 50px;
+  .text {
+    font-size: 25px !important;
+  }
+  :global {
+    .ant-form-item {
+      margin: 0;
+    }
+
+    .ant-rate {
+      font-size: 13px;
+    }
+
+    .react-input-emoji--button {
+      position: absolute;
+      right: 0;
+      top: 15px;
+      z-index: 998;
+    }
+    .react-input-emoji--button__show svg {
+      fill: #d84727;
+    }
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  .one_content {
+    display: flex;
+    flex-direction: row;
+    column-gap: 60px;
+    align-items: flex-start;
+
+    .image {
+      max-width: 200px;
+      max-height: 250px;
+      min-width: 200px;
+      min-height: 250px;
+      img {
+        max-width: 200px;
+        max-height: 250px;
+        min-width: 200px;
+        min-height: 250px;
+      }
+    }
+
+    .box_comment {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+
+      .username {
+        font-size: 17px;
+      }
+
+      .content_comment {
+        margin-top: 3px;
+      }
+    }
+  }
+}

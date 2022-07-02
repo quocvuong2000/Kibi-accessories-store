@@ -4,6 +4,7 @@ import {
   decreaseStart,
   deleteStart,
   increaseStart,
+  overrideStart,
 } from "./cartRedux";
 import { loginStart, updateStart } from "./userRedux";
 
@@ -49,6 +50,22 @@ export const addCart = async (dispatch, user, idProduct) => {
     const res = await callAPIWithToken.post("/api/cart/add", {
       username: user,
       productId: idProduct,
+    });
+    if (res && res.status !== 200)
+      throw Error("Something wrongs with code status" + res.status);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const overrideCart = async (dispatch, user, idProduct, quantity) => {
+  dispatch(overrideStart());
+  try {
+    const res = await callAPIWithToken.post("/api/cart/overriding", {
+      username: user,
+      productId: idProduct,
+      quantity: quantity,
     });
     if (res && res.status !== 200)
       throw Error("Something wrongs with code status" + res.status);

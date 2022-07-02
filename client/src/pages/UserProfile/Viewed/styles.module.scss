@@ -1,14 +1,17 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-top: 15px;
-  padding-left: 30px;
   padding-bottom: 50px;
+  .text {
+    font-size: 25px !important;
+  }
 
   .clear_history {
     color: #d84727;
     cursor: pointer;
     font-size: 20px;
+    padding-left: 30px;
+    padding-top: 15px;
 
     &:hover {
       text-decoration: underline;

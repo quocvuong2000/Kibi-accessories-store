@@ -5,12 +5,14 @@ import {
   decreaseQty,
   deleteProductCart,
   increaseQty,
+  overrideCart,
 } from "../redux/apiCalls";
 import {
   addCartSuccess,
   decreaseCartSuccess,
   deleteCartSuccess,
   increaseCartSuccess,
+  overrideCartSuccess,
 } from "../redux/cartRedux";
 import { callAPIWithToken } from "../services/jwt-axios";
 
@@ -31,6 +33,23 @@ export const handleAddToCart = async (dispatch, username, productId) => {
     .finally(() => {
       getAllProductCart(username).then((res) => {
         dispatch(addCartSuccess(res));
+      });
+    })
+    .catch((e) => {
+      // setWrongCredential(true);
+      throw e;
+    });
+};
+
+export const handleAddToCartOverride = async (dispatch, username, productId, quantity) => {
+  overrideCart(dispatch, username, productId, quantity)
+    .then((res) => {
+      // setWrongCredential(false);
+      message.success("Add success");
+    })
+    .finally(() => {
+      getAllProductCart(username).then((res) => {
+        dispatch(overrideCartSuccess(res));
       });
     })
     .catch((e) => {
