@@ -6,11 +6,29 @@ import { Clock, Truck } from "phosphor-react";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import { useState } from "react";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
+import { Link, useLocation } from "react-router-dom";
+import { doGetDetailOrder } from "../ConfirmationAPI";
+import { message } from "antd";
+import AppLoader from "../../../components/AppLoader";
 
 const Confirmation = (props) => {
+  const location = useLocation();
+  // console.log(location.pathname.split("/")[2]);
+  const [orderDetail, setOrderDetail] = useState();
+  const id = location.pathname.split("/")[2];
+  useEffect(() => {
+    doGetDetailOrder(id)
+      .then((res) => {
+        console.log(res);
+        setOrderDetail(res);
+      })
+      .catch(() => {
+        message.error("Loading order detail fail");
+      });
+  }, [id]);
   return (
     <>
-      {props.orderDetail ? (
+      {orderDetail ? (
         <div className={classes.confirmationDetail}>
           <div className={classes.left}>
             <div className={classes.image}>
@@ -20,9 +38,9 @@ const Confirmation = (props) => {
             <span>
               Your order have been confirmed, please wait and track your order
             </span>
-            <div className={classes.btn}>
+            <Link to={"/myaccount/6"} className={classes.btn}>
               <button>Go to track page</button>
-            </div>
+            </Link>
           </div>
           <div className={classes.right}>
             <div className={classes.delivery}>
@@ -38,13 +56,13 @@ const Confirmation = (props) => {
             <div className={classes.contentItem}>
               <div className={classes.display}>Order ID: </div>
               <div className={classes.price}>
-                {numberWithCommas(props.orderDetail._id)}
+                {numberWithCommas(orderDetail._id)}
               </div>
             </div>
             <div className={classes.contentItem}>
               <div className={classes.display}>Items</div>
               <div className={classes.itemList}>
-                {props.orderDetail.products?.map((item, index) => {
+                {orderDetail.products?.map((item, index) => {
                   return (
                     <div className={classes.item} key={index}>
                       <div className={classes.productName}>
@@ -62,19 +80,19 @@ const Confirmation = (props) => {
             <div className={classes.contentItem}>
               <div className={classes.display}>Recipient Name</div>
               <div className={classes.price}>
-                {checkTypeItem(props.orderDetail.recipientName)}
+                {checkTypeItem(orderDetail.recipientName)}
               </div>
             </div>
             <div className={classes.contentItem}>
               <div className={classes.display}>Recipient Phone</div>
               <div className={classes.price}>
-                {checkTypeItem(props.orderDetail.recipientPhone)}
+                {checkTypeItem(orderDetail.recipientPhone)}
               </div>
             </div>
             <div className={classes.contentItem}>
               <div className={classes.display}>SubTotal</div>
               <div className={classes.price}>
-                {numberWithCommas(props.orderDetail.totalPrice)} VND
+                {numberWithCommas(orderDetail.totalPrice)} VND
               </div>
             </div>
             <div className={classes.contentItem}>
@@ -92,9 +110,7 @@ const Confirmation = (props) => {
             <div className={classes.total}>
               <div className={classes.display}>Grand Total</div>
               <div className={classes.price}>
-                {numberWithCommas(
-                  props.orderDetail.totalPrice + props.shippingCost
-                )}{" "}
+                {numberWithCommas(orderDetail.totalPrice + props.shippingCost)}{" "}
                 VND
               </div>
             </div>
@@ -107,7 +123,7 @@ const Confirmation = (props) => {
           </div>
         </div>
       ) : (
-        ""
+        <AppLoader />
       )}
     </>
   );

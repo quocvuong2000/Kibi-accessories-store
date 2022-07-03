@@ -2,7 +2,7 @@ import { message } from "antd";
 import { CalendarCheck, CreditCard, ListChecks } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getInfoService, getShippingCost } from "../../api/Shipping";
 import Confirmation from "./Confirmation/Confirmation";
 import { getAddress } from "./PaymentAPI";
@@ -24,7 +24,7 @@ const Payment = () => {
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
   const [orderDetail, setOrderDetail] = useState();
-  // console.log(user);
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
     setStep(location.pathname.split("/")[1] === "payment" ? 0 : 1);
@@ -44,7 +44,8 @@ const Payment = () => {
         setAdrress(res[0].addressList);
       })
       .catch(() => {
-        message.error("Loading address failure");
+        message.error("Loading address fail, you must create one to continue");
+        navigate("/myaccount/");
       })
       .finally(() => {
         setLoading(false);
@@ -75,15 +76,15 @@ const Payment = () => {
     setLoadingPayment(isLoading);
   };
 
-  const takeOrderDetailForConfirmation = (id) => {
-    doGetDetailOrder(id)
-      .then((res) => {
-        setOrderDetail(res);
-      })
-      .catch(() => {
-        message.error("Loading order detail fail");
-      });
-  };
+  // const takeOrderDetailForConfirmation = (id) => {
+  //   doGetDetailOrder(id)
+  //     .then((res) => {
+  //       setOrderDetail(res);
+  //     })
+  //     .catch(() => {
+  //       message.error("Loading order detail fail");
+  //     });
+  // };
 
   return (
     <>
@@ -127,17 +128,9 @@ const Payment = () => {
                   user={user}
                   address={address}
                   hanldeLoading={hanldeLoading}
-                  takeOrderDetailForConfirmation={
-                    takeOrderDetailForConfirmation
-                  }
                 />
               ) : (
-                orderDetail && (
-                  <Confirmation
-                    orderDetail={orderDetail}
-                    shippingCost={shippingCost}
-                  />
-                )
+                <Confirmation shippingCost={shippingCost} />
               )}
             </div>
           </div>

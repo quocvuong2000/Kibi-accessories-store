@@ -43,12 +43,12 @@ const PaymentDetail = (props) => {
           message.success("Payment success");
           props.hanldeLoading(false);
           console.log(res);
-          props.takeOrderDetailForConfirmation(res.newOrder._id);
+          // props.takeOrderDetailForConfirmation(res.newOrder._id);
 
           setTimeout(() => {
             doDeleteAllCart({ username: data.username });
             dispatch(deleteAllCart());
-            navigate("/confirmation");
+            navigate(`/confirmation/${res.newOrder._id}`);
           }, 1000);
         })
         .catch(() => {
@@ -77,12 +77,12 @@ const PaymentDetail = (props) => {
       .then((res) => {
         message.success("Payment success");
         props.hanldeLoading(false);
-        props.takeOrderDetailForConfirmation(res._id);
+        // props.takeOrderDetailForConfirmation(res._id);
 
         setTimeout(() => {
           doDeleteAllCart({ username: data.username });
           dispatch(deleteAllCart());
-          navigate("/confirmation");
+          navigate(`/confirmation/${res._id}`);
         }, 1000);
       })
       .catch(() => {

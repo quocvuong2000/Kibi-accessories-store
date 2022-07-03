@@ -16,7 +16,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     (total, cur) => (total += cur.productPrice * cur.quantity),
     0
   );
-  const quantityAdded = req.body.quantity || 1;
+  let quantityAdded = req.body.quantity || 1;
   // cartList.forEach((el) => {
   //   return (defaultTotalPrice += el.productPrice * el.quantity);
   // });
@@ -45,10 +45,11 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     const productFound = cartList.find(
       (el) => el.productId === req.body.productId
     );
-    const quantityFound = req.body.quantity ?? 1;
+    let quantityFound = 1;
     let cartTemp = [];
     let newUpdate;
     if (productFound !== undefined) {
+      quantityFound = productFound.quantity;
       newUpdate = {
         productId: productFound.productId,
         productName: productFound.productName,

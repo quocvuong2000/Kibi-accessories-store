@@ -136,6 +136,66 @@ router.get("/status/get", async (req, res) => {
   }
 });
 
+//GET ORDER BY STATUS AND USER
+router.get("/customer/status/get", async (req, res) => {
+  const qPage = req.query.page;
+  const qStatus = req.query.status;
+  const qUser = req.query.username;
+  let page = parseInt(qPage) || 1;
+  let perPage = 5;
+  let count = 0;
+  let totalPages = 1;
+  try {
+    let orders;
+    if (qPage) {
+      if (qStatus === "PENDING") {
+        orders = await Order.find({ status: "PENDING", username: qUser })
+          .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
+        count = await Order.find({
+          status: "PENDING",
+          username: qUser,
+        }).count();
+      }
+      if (qStatus === "DELIVERY") {
+        orders = await Order.find({ status: "DELIVERY", username: qUser })
+          .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
+        count = await Order.find({
+          status: "DELIVERY",
+          username: qUser,
+        }).count();
+      }
+      if (qStatus === "COMPLETED") {
+        orders = await Order.find({ status: "COMPLETED", username: qUser })
+          .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
+        count = await Order.find({
+          status: "COMPLETED",
+          username: qUser,
+        }).count();
+      }
+    }
+    let nextPage = parseInt(page) + 1;
+    totalPages = Math.ceil(count / perPage);
+    if (page === totalPages) {
+      nextPage = null;
+    }
+    res.status(200).json({
+      orders,
+      currentPage: parseInt(page),
+      totalPages: totalPages,
+      nextPage,
+      totalItems: count,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 //GET ORDER BY ID - CREATED BY USER
 router.get("/detail/get/:id", async (req, res) => {
   const orderFound = await Order.findById(req.params.id);

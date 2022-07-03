@@ -56,7 +56,7 @@ const AppLayout = () => {
             }
           />
           <Route
-            path="/confirmation"
+            path="/confirmation/:id"
             element={
               <RequireAuth>
                 <Payment />
