@@ -83,7 +83,7 @@ const Header = () => {
     menuRef.current.classList.toggle(classes.active);
   };
 
-  // console.log(user);
+  //console.log(user);
   useEffect(() => {
     getAllCategory().then((res) => {
       if (res) {
@@ -91,7 +91,7 @@ const Header = () => {
       }
     });
   }, [cart]);
-  // console.log(user);
+  //console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} />

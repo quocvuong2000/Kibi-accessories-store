@@ -1,30 +1,22 @@
-import { Col, Image, Popover, Row } from "antd";
+import { Col, Image, message, Popover, Row } from "antd";
+import parse from "html-react-parser";
 import { Heart } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { handleAddToCart } from "../../../api/Cart";
+import { addToWishList } from "../../../api/Wishlist";
+import imgError from "../../../assets/imgDefault.webp";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
-import parse from "html-react-parser";
-import imgError from "../../../assets/imgDefault.webp";
-import { useDispatch, useSelector } from "react-redux";
-import { handleAddToCart } from "../../../api/Cart";
-import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
 
 export const ProductCardList = (props) => {
   const data = props.data;
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [exist, setExist] = useState(false);
+
   const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    user.currentUser &&
-      checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
-        // console.log(res);
-        res === 200 && setExist(false);
-        res === 201 && setExist(true);
-      });
-  }, [data, reload]);
   return (
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
       <Col span={5} className={s.box__product__image}>
@@ -61,19 +53,27 @@ export const ProductCardList = (props) => {
               color="#a94242"
               weight="thin"
               onClick={() => {
-                addToWishList(user.currentUser.username, data._id).then(
-                  (res) => {
-                    setReload(!reload);
-                  }
-                );
+                if (user.currentUser) {
+                  addToWishList(user.currentUser.username, data._id).then(
+                    (res) => {
+                      setReload(!reload);
+                    }
+                  );
+                } else {
+                  message.error("Please sign in");
+                }
               }}
             />
           </Popover>
           <button
             className={s.btnCart}
-            onClick={() =>
-              handleAddToCart(dispatch, user.currentUser.username, data._id)
-            }
+            onClick={() => {
+              if (user.currentUser) {
+                handleAddToCart(dispatch, user.currentUser.username, data._id);
+              } else {
+                message.error("Please sign in");
+              }
+            }}
           >
             Add to cart
           </button>

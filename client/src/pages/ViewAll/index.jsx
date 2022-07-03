@@ -15,7 +15,7 @@ const ViewAll = () => {
     setLoading(true);
     getAllProduct(idCate, 1)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
           setProduct(res);
@@ -32,20 +32,20 @@ const ViewAll = () => {
 
   const fetchMore = () => {
     // while (page !== totalPages) {
-      getAllProduct(idCate, page)
-        .then((res) => {
-          document.getElementsByTagName("body").overflow = "hidden";
-          if (res) {
-            setProduct((product) => [...product, ...res]);
-          }
-        })
-        .catch(() => {
-          message.error("Loading list failure");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-        setPage(page+1);
+    getAllProduct(idCate, page)
+      .then((res) => {
+        document.getElementsByTagName("body").overflow = "hidden";
+        if (res) {
+          setProduct((product) => [...product, ...res]);
+        }
+      })
+      .catch(() => {
+        message.error("Loading list failure");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    setPage(page + 1);
     // }
   };
   return (

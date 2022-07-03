@@ -1,12 +1,11 @@
 import { Button, Form as FormAnt, Input, Select } from "antd";
-import { Field, Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
-import s from "./styles.module.scss";
-import { MapPinLine, User, Phone } from "phosphor-react";
+import { Field, Form, Formik } from "formik";
+import { MapPinLine, Phone, User } from "phosphor-react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { createAddress } from "../../../api/Address";
-import { CreateAddressSchema } from "./validation";
 import { getDistrict, getProvince, getWard } from "../../../api/Shipping";
+import s from "./styles.module.scss";
+import { CreateAddressSchema } from "./validation";
 const { Option } = Select;
 const UpdateAddress = (props) => {
   const user = useSelector((state) => state.user);
@@ -56,7 +55,7 @@ const UpdateAddress = (props) => {
             recipientPhone: "",
           }}
           onSubmit={async (values) => {
-            console.log(values);
+            //console.log(values);
             props.handle(
               user.currentUser.username,
               values.recipientName,

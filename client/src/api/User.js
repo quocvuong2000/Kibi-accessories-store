@@ -22,7 +22,7 @@ export const socialSignIn = async (email, name, avatar) => {
 };
 
 export const updatePhone = async (id, phone) => {
-  const res = await jwtAxios.post("/api/user/edit/phone", {
+  const res = await callAPIWithToken.post("/api/user/edit/phone", {
     userId: id,
     phone: phone,
   });
@@ -32,7 +32,7 @@ export const updatePhone = async (id, phone) => {
 };
 
 export const updateEmail = async (id, email) => {
-  const res = await jwtAxios.post("/api/user/edit/email", {
+  const res = await callAPIWithToken.post("/api/user/edit/email", {
     userId: id,
     email: email,
   });
@@ -63,5 +63,13 @@ export const updateForgotPassword = async (email, newpassword) => {
   );
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
+  return res;
+};
+
+export const checkExist = async (email) => {
+  const res = await jwtAxios.get(`/api/auth/exist/${email}`);
+  if (res && res.status !== 200 && res.status !== 201) {
+    throw Error("Something wrongs with code status" + res.status);
+  }
   return res;
 };

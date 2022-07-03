@@ -140,7 +140,21 @@ router.post("/social-account", async (req, res) => {
         process.env.VUONG_SEC_PASS,
         { expiresIn: "1d" }
       );
-      return res.status(200).json({ accessToken });
+      var info = {
+        _id: newUserInfo._id,
+        username: newUserInfo.username,
+        name: newUserInfo.name,
+        email: newUserInfo.email,
+        type: newUserInfo.type,
+        avatar: newUserInfo.avatar,
+        createdAt: newUserInfo.createdAt,
+        updatedAt: newUserInfo.updatedAt,
+        __v: newUserInfo.__v,
+        dob: newUserInfo.dob,
+        gender: newUserInfo.gender,
+        accessToken: accessToken,
+      };
+      return res.status(200).json({ accessToken, info });
     } catch (err) {
       return res.status(500).json({ error: err });
     }
@@ -154,7 +168,36 @@ router.post("/social-account", async (req, res) => {
         process.env.VUONG_SEC_PASS,
         { expiresIn: "1d" }
       );
-      return res.status(200).json({ accessToken });
+
+      var info = {
+        _id: userFound._id,
+        username: userFound.username,
+        name: userFound.name,
+        email: userFound.email,
+        type: userFound.type,
+        avatar: userFound.avatar,
+        createdAt: userFound.createdAt,
+        updatedAt: userFound.updatedAt,
+        __v: userFound.__v,
+        dob: userFound.dob,
+        gender: userFound.gender,
+        accessToken: accessToken,
+      };
+
+      return res.status(200).json({ accessToken, info });
+    } catch (err) {
+      return res.status(500).json({ error: err });
+    }
+  }
+});
+
+router.get("/exist/:email", async (req, res) => {
+  const userFound = await User.findOne({ email: req.body.email });
+  if (userFound) {
+    return res.status(201).json("Exists");
+  } else {
+    try {
+      return res.status(200).json("No exists");
     } catch (err) {
       return res.status(500).json({ error: err });
     }

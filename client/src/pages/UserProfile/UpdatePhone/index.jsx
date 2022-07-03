@@ -15,7 +15,6 @@ const UpdatePhone = (props) => {
   const [numotp, setNumOtp] = useState(0);
   const user = useSelector((state) => state.user);
   const [phone, setPhone] = useState(0);
-  const [expandForm, setExpandForm] = useState(false);
   const [showTime, setShowTime] = useState(true);
   const [start, setStart] = useState(false);
   const [seconds, setSeconds] = useState(30);
@@ -45,7 +44,6 @@ const UpdatePhone = (props) => {
 
   const handleSendOtp = (phoneIn) => {
     if (phoneIn.length >= 12) {
-      setExpandForm(true);
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
       setOtp(true);
@@ -55,9 +53,9 @@ const UpdatePhone = (props) => {
           window.confimationResult = confimationResult;
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
-      console.log(window.confimationResult);
+      //console.log(window.confimationResult);
     }
   };
   const verifyOtp = () => {
@@ -79,7 +77,7 @@ const UpdatePhone = (props) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       message.error("Wrong format OTP");
@@ -107,9 +105,9 @@ const UpdatePhone = (props) => {
               phone: "",
             }}
             onSubmit={(values) => {
-              console.log("values.phone:", values.phone);
+              //console.log("values.phone:", values.phone);
               setPhone(values.phone);
-              console.log(phone);
+              //console.log(phone);
               handleSendOtp(values.phone);
               setOtp(true);
             }}

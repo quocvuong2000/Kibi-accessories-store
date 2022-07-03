@@ -40,7 +40,7 @@ const Payment = () => {
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
-        // console.log(res[0].addressList);
+        //console.log(res[0].addressList);
         setAdrress(res[0].addressList);
       })
       .catch(() => {
@@ -71,7 +71,7 @@ const Payment = () => {
     });
   }, [serviceId, cart.totalPrice]);
 
-  // console.log("shippingCost:", shippingCost);
+  //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
   };

@@ -9,6 +9,7 @@ import {
   getAddress,
   updateAddress,
 } from "../../../api/Address";
+import AppLoader from "../../../components/AppLoader";
 import EditAddress from "../EditAddress";
 import UpdateAddress from "../UpdateAddress";
 import s from "./styles.module.scss";
@@ -19,14 +20,19 @@ const Address = () => {
   const [reload, setReload] = useState(false);
   const [edit, setEdit] = useState(false);
   const [itemedit, setItemEdit] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAddress(user.currentUser.username).then((res) => {
-      if (res) {
-        setListAddress(res);
-      }
-    });
-    // console.log("a");
+    getAddress(user.currentUser.username)
+      .then((res) => {
+        if (res) {
+          setListAddress(res);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    //console.log("a");
   }, [reload]);
 
   const showModal = () => {
@@ -86,6 +92,7 @@ const Address = () => {
 
   return (
     <>
+      {isLoading === true && <AppLoader />}
       <div className={s.container}>
         <p className={s.title}>Address</p>
         {listAddress[0]?.addressList?.map((item, index) => {

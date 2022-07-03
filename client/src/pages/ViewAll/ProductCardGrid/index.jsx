@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import s from "./styles.module.scss";
 import { message, Popover } from "antd";
 import { Heart, X } from "phosphor-react";
-import numberWithComas from "../../../utils/numberWithCommas";
-import { Link } from "react-router-dom";
-import imgError from "../../../assets/imgDefault.webp";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { handleAddToCart } from "../../../api/Cart";
-import {
-  addToWishList,
-  checkExistsWishlist,
-  deleteWishList,
-} from "../../../api/Wishlist";
+import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
+import imgError from "../../../assets/imgDefault.webp";
+import numberWithComas from "../../../utils/numberWithCommas";
+import s from "./styles.module.scss";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
@@ -24,11 +20,11 @@ export const ProductCardGrid = (props) => {
   useEffect(() => {
     user.currentUser &&
       checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
-        // console.log(res);
+        //console.log(res);
         res === 200 && setExist(false);
         res === 201 && setExist(true);
       });
-  }, [data, reload]);
+  }, [data, reload, user.currentUser]);
 
   return (
     <div
@@ -61,9 +57,13 @@ export const ProductCardGrid = (props) => {
       <div
         className={`${s.add_to_wish} ${show ? s.show_heart : s.hide_heart}`}
         onClick={() => {
-          addToWishList(user.currentUser.username, data._id).then((res) => {
-            setReload(!reload);
-          });
+          if (user.currentUser) {
+            addToWishList(user.currentUser.username, data._id).then((res) => {
+              setReload(!reload);
+            });
+          } else {
+            message.error("Please sign in");
+          }
         }}
       >
         {exist === false ? (
@@ -95,9 +95,13 @@ export const ProductCardGrid = (props) => {
         ) : (
           <p
             className={`${s.txt_add} ${show ? s.show_txt : s.hide_txt}`}
-            onClick={() =>
-              handleAddToCart(dispatch, user.currentUser.username, data._id)
-            }
+            onClick={() => {
+              if (user.currentUser) {
+                handleAddToCart(dispatch, user.currentUser.username, data._id);
+              } else {
+                message.error("Please sign in");
+              }
+            }}
           >
             + Add to cart
           </p>

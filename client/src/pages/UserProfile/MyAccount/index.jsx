@@ -130,7 +130,7 @@ const MyAccount = () => {
           }
         },
         (error) => {
-          console.log(error.text);
+          //console.log(error.text);
         }
       );
   };
@@ -162,7 +162,7 @@ const MyAccount = () => {
     </div>
   );
   const dispatch = useDispatch();
-  console.log(user);
+  //console.log(user);
   return (
     <div className={s.all}>
       <Formik

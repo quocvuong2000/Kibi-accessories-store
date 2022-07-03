@@ -1,12 +1,21 @@
 import { message } from "antd";
 import { callAPIWithToken, jwtAxios } from "../services/jwt-axios";
 
-export const createComment = async (username, productId, comment, rating) => {
+export const createComment = async (
+  username,
+  productId,
+  comment,
+  rating,
+  name,
+  avatar
+) => {
   const res = await callAPIWithToken.post("/api/comment/create", {
     username: username,
     productId: productId,
     comment: comment,
     rating: rating,
+    name: name,
+    avatar: avatar,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);

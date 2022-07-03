@@ -2,29 +2,24 @@ import { Modal } from "antd";
 import "antd/dist/antd.min.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { deleteCart, downQty, getAllProductCart, upQty } from "../../api/Cart";
 import { getNumber } from "../../redux/cartRedux";
 import numberWithCommas from "../../utils/numberWithCommas";
 import classes from "./styles2.module.scss";
-import EmptyPage from "../../components/Empty";
-import { Link } from "react-router-dom";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
-  const [update, setUpdate] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    setUpdate(false);
-
     if (user.currentUser != null) {
       getAllProductCart(user.currentUser.username).then((res) => {
         if (res) {
-          // console.log(res);
+          //console.log(res);
           setProduct(res.products);
           dispatch(getNumber(res));
         }
@@ -71,7 +66,6 @@ export const Cart = (props) => {
                     <button
                       className={classes.sub}
                       onClick={() => {
-                        setDisabled(false);
                         cart.isFetching === false &&
                           downQty(
                             dispatch,

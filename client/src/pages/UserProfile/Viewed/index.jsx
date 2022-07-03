@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { clearViewed, getViewed } from "../../../api/Viewed";
+import AppLoader from "../../../components/AppLoader";
 import EmptyPage from "../../../components/Empty";
 import { ProductCardGrid } from "../../ViewAll/ProductCardGrid";
 import s from "./styles.module.scss";
@@ -10,11 +11,16 @@ const Viewed = () => {
   const user = useSelector((state) => state.user);
   const [product, setProduct] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getViewed(user.currentUser.username).then((res) => {
-      setProduct(res[0].products);
-    });
+    getViewed(user.currentUser.username)
+      .then((res) => {
+        setProduct(res[0].products);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [reload]);
 
   const handleClear = () => {
@@ -28,6 +34,7 @@ const Viewed = () => {
 
   return (
     <>
+      {isLoading === true && <AppLoader />}
       {product.length > 0 ? (
         <div className={s.container}>
           <p className={s.text}>Viewed</p>

@@ -13,13 +13,13 @@ import AppLoader from "../../../components/AppLoader";
 
 const Confirmation = (props) => {
   const location = useLocation();
-  // console.log(location.pathname.split("/")[2]);
+  //console.log(location.pathname.split("/")[2]);
   const [orderDetail, setOrderDetail] = useState();
   const id = location.pathname.split("/")[2];
   useEffect(() => {
     doGetDetailOrder(id)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setOrderDetail(res);
       })
       .catch(() => {

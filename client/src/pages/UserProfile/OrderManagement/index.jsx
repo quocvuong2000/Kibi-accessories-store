@@ -26,7 +26,7 @@ const OrderManagement = () => {
     setCurrent(value);
     setCurrentStatus(STATUS[value]);
   };
-  console.log(currentStatus);
+  //console.log(currentStatus);
   useEffect(() => {
     doGetListOrderByCustomer(1, currentStatus, user.currentUser.username)
       .then((res) => {

@@ -5,6 +5,7 @@ const token =
   typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";
 
 const localUrl = "http://localhost:5000";
+//console.log(process.env.URL_API);
 const jwtAxios = axios.create({
   baseURL: localUrl, // YOUR_API_URL HERE
   timeout: 5000,

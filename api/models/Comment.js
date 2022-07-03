@@ -6,6 +6,8 @@ const Comment = new mongoose.Schema(
     productId: { type: String, required: true },
     comment: { type: String },
     rating: { type: Number },
+    name: { type: String },
+    avatar: { type: String },
   },
   { timestamps: true }
 );

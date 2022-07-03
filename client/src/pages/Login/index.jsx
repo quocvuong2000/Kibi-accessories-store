@@ -89,16 +89,9 @@ const Login = () => {
       console.log(res);
       setWrongCredential(false);
       socialSignIn(res.email, res.name, res.picture.data.url).then((value) => {
-        // console.log(res);
         message.success("Login success");
-        const obj = {
-          username: res.email,
-          email: res.email,
-          name: res.name,
-          avatar: res.picture.data.url,
-          accessToken: value.data.accessToken,
-        };
-        dispatch(loginSuccess(obj));
+
+        dispatch(loginSuccess(value.data.info));
         navigate("/");
       });
     }
@@ -108,18 +101,11 @@ const Login = () => {
       setWrongCredential(false);
 
       googleInfo(res.access_token).then((info) => {
-        console.log(info);
+        // console.log(info);
         socialSignIn(info.data.email, info.data.name, info.data.picture).then(
           (res) => {
             message.success("Login success");
-            const obj = {
-              username: info.data.email,
-              email: info.data.email,
-              name: info.data.name,
-              avatar: info.data.picture,
-              accessToken: res.data.accessToken,
-            };
-            dispatch(loginSuccess(obj));
+            dispatch(loginSuccess(res.data.info));
             navigate("/");
           }
         );
@@ -169,7 +155,7 @@ const Login = () => {
                   message.success("Login success");
                   dispatch(loginSuccess(res));
                   navigate("/");
-                  // console.log(res);
+                  console.log(res);
                 })
                 .catch(() => {
                   setWrongCredential(true);
