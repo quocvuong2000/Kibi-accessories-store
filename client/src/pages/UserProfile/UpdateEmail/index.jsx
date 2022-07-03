@@ -1,43 +1,65 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, Form as FormAnt, Input } from "antd";
+import { Field, Form, Formik } from "formik";
 import { Envelope } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import s from "./styles.module.scss";
-import emailjs from "@emailjs/browser";
-import { updateEmail } from "../../../api/User";
-
+import { emailSchema } from "./validation";
 const UpdateEmail = (props) => {
-  const [email, setEmail] = useState("");
-
   return (
     <div className={s.container}>
       <div className={s.form}>
         <p className={s.title}>Your email</p>
-        <Form className={s.form_email} onFinish={() => props.update(email)}>
-          <Form.Item name="email">
-            <Input
-              placeholder="Field your email"
-              className={s.input_email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              prefix={
-                <Envelope size={20} weight="thin" className={s.icon_phone} />
-              }
-            />
-            <small className={s.small_text}>
-              Mã xác thực (OTP) sẽ được gửi đến email này để xác minh email là
-              của bạn
-            </small>
-          </Form.Item>
+        <Formik
+          validationSchema={emailSchema}
+          initialValues={{
+            email: "",
+          }}
+          onSubmit={(values) => {
+            props.update(values.email);
+          }}
+        >
+          {({ errors, touched }) => {
+            return (
+              <Form className={s.form_email}>
+                <FormAnt.Item
+                  validateStatus={
+                    Boolean(touched?.email && errors?.email)
+                      ? "error"
+                      : "success"
+                  }
+                  help={
+                    Boolean(touched?.email && errors?.email) && errors?.email
+                  }
+                >
+                  <Field name="email">
+                    {({ field }) => (
+                      <Input
+                        {...field}
+                        placeholder="Field your email"
+                        className={s.input_email}
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className={s.update_email}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+                        prefix={
+                          <Envelope
+                            size={20}
+                            weight="thin"
+                            className={s.icon_phone}
+                          />
+                        }
+                      />
+                    )}
+                  </Field>
+                </FormAnt.Item>
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className={s.update_email}
+                >
+                  Submit
+                </Button>
+              </Form>
+            );
+          }}
+        </Formik>
       </div>
     </div>
   );

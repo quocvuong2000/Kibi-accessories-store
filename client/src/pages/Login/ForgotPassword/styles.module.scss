@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  :global {
+    .ant-form-item {
+      margin: 0;
+    }
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+    .ant-input-affix-wrapper:hover,
+    .ant-input-affix-wrapper-focused,
+    .ant-input-affix-wrapper:focus {
+      border-color: #d84727;
+      box-shadow: none;
+    }
+    .ant-btn-primary {
+      background: #d84727;
+      border-color: #d84727;
+    }
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  .box_forgot {
+    display: flex;
+    flex-direction: column;
+  }
+}

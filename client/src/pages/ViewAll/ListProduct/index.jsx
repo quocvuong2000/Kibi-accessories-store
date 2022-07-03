@@ -19,6 +19,7 @@ const menu = (
 
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
+  const [page, setPage] = useState(1);
   const handleGrid = () => {
     setGlActive(false);
   };
@@ -63,10 +64,18 @@ const ListProduct = (props) => {
             <Spin indicator={antIcon} />
           </div>
         ) : props.data.products?.length > 0 ? (
-          <div>
+          <div id="scrollableDiv">
             <InfiniteScroll
-              dataLength={2}
+              dataLength={1}
+              next={() => {
+                alert("asdjsadj");
+                if (page < props.totalPages) {
+                  props.fetchMore(page);
+                }
+              }}
               hasMore={true}
+              loader={<h4>Loading...</h4>}
+              scrollableTarget="scrollableDiv"
               endMessage={
                 <p style={{ textAlign: "center" }}>
                   <b>Yay! You have seen it all</b>

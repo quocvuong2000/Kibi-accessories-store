@@ -72,14 +72,12 @@ export const Cart = (props) => {
                       className={classes.sub}
                       onClick={() => {
                         setDisabled(false);
-                        {
-                          cart.isFetching === false &&
-                            downQty(
-                              dispatch,
-                              user.currentUser.username,
-                              item.productId
-                            );
-                        }
+                        cart.isFetching === false &&
+                          downQty(
+                            dispatch,
+                            user.currentUser.username,
+                            item.productId
+                          );
                       }}
                     >
                       <p className={classes.icon_sub}></p>
@@ -88,14 +86,12 @@ export const Cart = (props) => {
                     <button
                       className={classes.add}
                       onClick={() => {
-                        {
-                          cart.isFetching === false &&
-                            upQty(
-                              dispatch,
-                              user.currentUser.username,
-                              item.productId
-                            );
-                        }
+                        cart.isFetching === false &&
+                          upQty(
+                            dispatch,
+                            user.currentUser.username,
+                            item.productId
+                          );
                       }}
                     >
                       <p className={classes.icon_add}></p>
@@ -108,14 +104,12 @@ export const Cart = (props) => {
                     <button
                       className={classes.delete}
                       onClick={() => {
-                        {
-                          cart.isFetching === false &&
-                            deleteCart(
-                              dispatch,
-                              user.currentUser.username,
-                              item.productId
-                            );
-                        }
+                        cart.isFetching === false &&
+                          deleteCart(
+                            dispatch,
+                            user.currentUser.username,
+                            item.productId
+                          );
                       }}
                     >
                       <box-icon
@@ -149,10 +143,14 @@ export const Cart = (props) => {
             </div>
           </div>
         </div>
-        <button className={classes.checkout} onClick={() => {}}>
-          <Link to="/payment" className={classes.txt}>
-            Checkout
-          </Link>
+        <button className={classes.checkout}>
+          {product.length > 0 ? (
+            <Link to="/payment" className={classes.txt}>
+              Checkout
+            </Link>
+          ) : (
+            <div className={classes.txt}>Checkout</div>
+          )}
         </button>
       </div>
     </Modal>

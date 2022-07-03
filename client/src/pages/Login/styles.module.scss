@@ -11,7 +11,14 @@
     z-index: 5;
   }
 }
-
+.form_forgot {
+  top: 35% !important;
+  :global {
+    .ant-modal-content {
+      width: fit-content;
+    }
+  }
+}
 .backgroundContainer {
   background: #e5e5e5;
   overflow: hidden;
@@ -20,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .inputLogin {
     background: #fcf7fe;
     border-radius: 10px;

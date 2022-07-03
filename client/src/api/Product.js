@@ -5,8 +5,8 @@ export const getProduct = async (id) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
-export const getAllProduct = async (id) => {
-  const res = await jwtAxios.get(`/api/product/${id}`);
+export const getAllProduct = async (id,page) => {
+  const res = await jwtAxios.get(`/api/product/${id}?page=${page}`);
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res.data;

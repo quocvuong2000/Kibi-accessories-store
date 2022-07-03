@@ -10,10 +10,11 @@ export const googleInfo = async (access_token) => {
   return res;
 };
 
-export const socialSignIn = async (email, name) => {
+export const socialSignIn = async (email, name, avatar) => {
   const res = await jwtAxios.post("/api/auth/social-account", {
     email: email,
     name: name,
+    avatar: avatar,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
@@ -49,6 +50,18 @@ export const updatePassword = async (id, oldpassword, newpassword) => {
     }
   );
   if (res && res.status !== 200 && res.status !== 202)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};
+
+export const updateForgotPassword = async (email, newpassword) => {
+  const res = await jwtAxios.patch(
+    `/api/customer/update/forgotpassword/${email}`,
+    {
+      password: newpassword,
+    }
+  );
+  if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };

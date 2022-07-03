@@ -17,6 +17,7 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "stripe": "^9.10.0"
   }
 }

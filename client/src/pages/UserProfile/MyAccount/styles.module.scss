@@ -13,6 +13,52 @@
   .box {
     margin-bottom: 20px;
 
+    .title {
+      text-align: center;
+
+      .tde {
+        font-size: 16px;
+        line-height: 20px;
+        text-transform: uppercase;
+        display: flex;
+        margin-left: 70px;
+
+        span {
+          &::before,
+          &::after {
+            content: "";
+            background: url(https://image.ibb.co/d21QDA/bgh-nz1-l.png);
+            width: 87px;
+            height: 50px;
+            position: absolute;
+            top: 19px;
+            z-index: -1;
+          }
+
+          &::before {
+            left: -44px;
+          }
+
+          &::after {
+            transform: rotateY(180deg);
+            right: -44px !important;
+          }
+
+          background: #d84727;
+          height: 50px;
+          line-height: 50px;
+          padding: 0px 20px;
+          color: white;
+          position: relative;
+          display: inline-block;
+          margin: 0;
+          z-index: 45;
+          border-radius: 10px 10px 0px 0px;
+          border: 1px solid #d84727;
+        }
+      }
+    }
+
     :global {
       .ant-form-item-label
         > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before,
@@ -57,6 +103,7 @@
       border-radius: 10px;
 
       .text_info {
+        margin-top: 10px;
         font-size: 20px;
       }
 

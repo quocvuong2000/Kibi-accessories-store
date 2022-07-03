@@ -115,6 +115,7 @@ router.post("/social-account", async (req, res) => {
       username: req.body.email,
       email: req.body.email,
       name: req.body.name,
+      avatar: req.body.avatar,
       type: "customer",
     });
     const cartInfo = new Cart({

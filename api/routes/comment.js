@@ -41,10 +41,10 @@ router.get("/user/:username", async (req, res) => {
   try {
     let comments;
     if (qPage) {
-      console.log(count);
       comments = await Comment.find({
         username: req.params.username,
       })
+        .sort({ createdAt: 1 })
         .skip(perPage * page - perPage)
         .limit(perPage);
     } else {
@@ -67,7 +67,7 @@ router.get("/user/:username", async (req, res) => {
   }
 });
 
-//GET COMMENT BY USERNAME
+//GET COMMENT BY PRODUCT
 router.get("/product/:productId", async (req, res) => {
   const qPage = req.query.page;
 
@@ -80,6 +80,7 @@ router.get("/product/:productId", async (req, res) => {
       comments = await Comment.find({
         productId: req.params.productId,
       })
+        .sort({ createdAt: -1 })
         .skip(perPage * page - perPage)
         .limit(perPage)
         .sort({ createdAt: -1 });

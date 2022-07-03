@@ -21,6 +21,7 @@ const ProductSchema = new mongoose.Schema(
     images: { type: Array },
     newStatus: { type: Boolean },
     sale: { type: Number },
+    tag: { type: Array },
   },
   { timestamps: true }
 );

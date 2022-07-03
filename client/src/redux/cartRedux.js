@@ -23,15 +23,7 @@ const cartSlice = createSlice({
       state.numberCart = action.payload.products.length;
       state.totalPrice = action.payload.totalPrice;
     },
-    overrideStart: (state) => {
-      state.isFetching = true;
-    },
-    overrideCartSuccess: (state, action) => {
-      state.isFetching = false;
-      state._products = action.payload.products;
-      state.numberCart = action.payload.products.length;
-      state.totalPrice = action.payload.totalPrice;
-    },
+
 
     deleteStart: (state) => {
       state.isFetching = true;
@@ -60,6 +52,11 @@ const cartSlice = createSlice({
       state._products = action.payload.products;
       state.totalPrice = action.payload.totalPrice;
     },
+    deleteAllCart: (state, action) => {
+      state.isFetching = false;
+      state._products = [];
+      state.totalPrice = 0;
+    },
   },
 });
 
@@ -73,7 +70,7 @@ export const {
   decreaseStart,
   decreaseCartSuccess,
   getNumber,
-  overrideStart,
-  overrideCartSuccess
+  
+  deleteAllCart
 } = cartSlice.actions;
 export default cartSlice.reducer;

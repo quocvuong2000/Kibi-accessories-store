@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import Wistlist from "./Wishlist";
 import Viewed from "./Viewed";
 import Rated from "./Rated";
+import OrderManagement from "./OrderManagement";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -87,37 +88,7 @@ const UserProfile = () => {
           }
           key="6"
         >
-          Content of Tab 4
-        </TabPane>
-        <TabPane
-          tab={
-            <div className={s.tab}>
-              <CreditCard size={24} /> To Pay{" "}
-            </div>
-          }
-          key="7"
-        >
-          To Pay
-        </TabPane>
-        <TabPane
-          tab={
-            <div className={s.tab}>
-              <Truck size={24} /> To Ship{" "}
-            </div>
-          }
-          key="8"
-        >
-          To Ship
-        </TabPane>
-        <TabPane
-          tab={
-            <div className={s.tab}>
-              <HandGrabbing size={24} /> To Receive{" "}
-            </div>
-          }
-          key="9"
-        >
-          To Receive
+          <OrderManagement />
         </TabPane>
       </Tabs>
     </div>

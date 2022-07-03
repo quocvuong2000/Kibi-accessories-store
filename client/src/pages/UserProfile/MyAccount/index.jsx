@@ -69,9 +69,8 @@ const MyAccount = () => {
   const email = new URLSearchParams(search).get("email");
   const prv = new URLSearchParams(search).get("prv");
   useEffect(() => {
-
     if (prv != null && prv != undefined) {
-      var tempprv = prv.replaceAll(" ", "+")
+      var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
         `${process.env.REACT_APP_PRIVATE_KEY}`
@@ -80,7 +79,7 @@ const MyAccount = () => {
     } else {
       var OriginalPassword = "";
     }
-    
+
     if (
       id?.length === 300 &&
       query.has("id") &&
@@ -163,8 +162,7 @@ const MyAccount = () => {
     </div>
   );
   const dispatch = useDispatch();
-  console.log("user.currentUser.dob:", user.currentUser.dob);
-  console.log("user.currentUser?.gender:", user.currentUser?.gender);
+  console.log(user);
   return (
     <div className={s.all}>
       <Formik
@@ -201,7 +199,11 @@ const MyAccount = () => {
             <Form className={s.input_name}>
               <Row className={s.container}>
                 <Col className={s.box} span={24}>
-                  <p className={s.text}>Account Information</p>
+                  <div className={s.title}>
+                    <h3 className={s.tde}>
+                      <span>Account Information</span>
+                    </h3>
+                  </div>
                   <Row className={s.form_info}>
                     <Col span={12}>
                       <p className={s.text_info}>Personal Information</p>

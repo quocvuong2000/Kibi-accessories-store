@@ -24,8 +24,8 @@ export const getAllProductCart = async (user) => {
   return res.data;
 };
 
-export const handleAddToCart = async (dispatch, username, productId) => {
-  addCart(dispatch, username, productId)
+export const handleAddToCart = async (dispatch, username, productId, quantity) => {
+  addCart(dispatch, username, productId,quantity)
     .then((res) => {
       // setWrongCredential(false);
       message.success("Add success");
@@ -41,22 +41,6 @@ export const handleAddToCart = async (dispatch, username, productId) => {
     });
 };
 
-export const handleAddToCartOverride = async (dispatch, username, productId, quantity) => {
-  overrideCart(dispatch, username, productId, quantity)
-    .then((res) => {
-      // setWrongCredential(false);
-      message.success("Add success");
-    })
-    .finally(() => {
-      getAllProductCart(username).then((res) => {
-        dispatch(overrideCartSuccess(res));
-      });
-    })
-    .catch((e) => {
-      // setWrongCredential(true);
-      throw e;
-    });
-};
 
 export const deleteCart = async (dispatch, username, productId) => {
   deleteProductCart(dispatch, username, productId)

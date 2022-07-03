@@ -16,6 +16,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     (total, cur) => (total += cur.productPrice * cur.quantity),
     0
   );
+  const quantityAdded = req.body.quantity || 1;
   // cartList.forEach((el) => {
   //   return (defaultTotalPrice += el.productPrice * el.quantity);
   // });
@@ -30,7 +31,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             productName: productAdded.product,
             productPrice: productAdded.price,
             productImage: productAdded.images[0],
-            quantity: 1,
+            quantity: quantityAdded,
           },
         ],
         totalPrice: defaultTotalPrice + productAdded.price,
@@ -44,6 +45,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     const productFound = cartList.find(
       (el) => el.productId === req.body.productId
     );
+    const quantityFound = req.body.quantity ?? 1;
     let cartTemp = [];
     let newUpdate;
     if (productFound !== undefined) {
@@ -52,11 +54,10 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productName: productFound.productName,
         productPrice: productFound.productPrice,
         productImage: productFound.productImage[0],
-        quantity: productFound.quantity + 1,
+        quantity: quantityFound + 1,
       };
-      defaultTotalPrice -= productFound.quantity * productFound.productPrice;
-      defaultTotalPrice +=
-        (productFound.quantity + 1) * productFound.productPrice;
+      defaultTotalPrice -= quantityFound * productFound.productPrice;
+      defaultTotalPrice += (quantityFound + 1) * productFound.productPrice;
       cartList.forEach((el) => {
         if (el.productId === req.body.productId) {
           cartTemp.push(newUpdate);
@@ -71,7 +72,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
         productPrice: productAdded.price,
         //Image in product
         productImage: productAdded.images[0],
-        quantity: 1,
+        quantity: quantityAdded,
       };
       defaultTotalPrice += productAdded.price;
       cartTemp = cartList;
@@ -219,88 +220,21 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
-//OVERRIDING CURRENT CART
-// {productId,username,quantity }
-router.post("/overriding", verifyTokenAndAuthorization, async (req, res) => {
-  const productAdded = await Product.findById(req.body.productId);
+//DELETE ALL CART
+router.post("/delete/all", verifyTokenAndAuthorization, async (req, res) => {
+  //FIND CART
   const cartByUser = await Cart.findOne({ username: req.body.username });
   if (!cartByUser) return res.status(404).json("user cart not generate");
-
-  let cartList = cartByUser.products;
-  let defaultTotalPrice = cartList.reduce(
-    (total, cur) => (total += cur.productPrice * cur.quantity),
-    0
-  );
-  if (cartList.length === 0) {
-    try {
-      // const addCart = await pInfo.save();
-      defaultTotalPrice -= productAdded.quantity * productAdded.price;
-      defaultTotalPrice += req.body.quantity * productAdded.price;
-      await Cart.findByIdAndUpdate(cartByUser.id, {
-        products: [
-          {
-            productId: productAdded.id,
-            productName: productAdded.product,
-            productPrice: productAdded.price,
-            productImage: productAdded.images[0],
-            quantity: req.body.quantity,
-          },
-        ],
-      });
-      res.status(200).json({ totalPrice: defaultTotalPrice });
-    } catch (error) {
-      console.log(error);
-      res.status(501).json(error);
-    }
-  } else {
-    //FIND IF PRODUCT ALREADY EXISTS
-    const productFound = cartList.find(
-      (el) => el.productId === req.body.productId
-    );
-    let cartTemp = [];
-    let newUpdate;
-    if (productFound !== undefined) {
-      newUpdate = {
-        productId: productFound.productId,
-        productName: productFound.productName,
-        productPrice: productFound.productPrice,
-        productImage: productFound.productImage[0],
-        quantity: req.body.quantity,
-      };
-      defaultTotalPrice -= productFound.quantity * productFound.price;
-      defaultTotalPrice += req.body.quantity * productFound.price;
-      cartList.forEach((el) => {
-        if (el.productId === req.body.productId) {
-          cartTemp.push(newUpdate);
-        } else {
-          cartTemp.push(el);
-        }
-      });
-    } else {
-      newUpdate = {
-        productId: productAdded.id,
-        productName: productAdded.product,
-        productPrice: productAdded.price,
-        //Image in product
-        productImage: productAdded.images[0],
-        quantity: req.body.quantity,
-      };
-      defaultTotalPrice -= productFound.quantity * productFound.price;
-      defaultTotalPrice += req.body.quantity * productFound.price;
-      cartTemp = cartList;
-      cartTemp.push(newUpdate);
-    }
-    try {
-      // const addCart = await pInfo.save();
-      await Cart.findByIdAndUpdate(cartByUser.id, {
-        products: cartTemp,
-        totalPrice: defaultTotalPrice,
-      });
-      res.status(200).json({ totalPrice: defaultTotalPrice });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json(error);
-    }
+  try {
+    await Cart.findByIdAndUpdate(cartByUser.id, {
+      products: [],
+      totalPrice: 0,
+    });
+    // const addCart = await pInfo.save();
+    res.status(200).json("Delete all success");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
   }
 });
 

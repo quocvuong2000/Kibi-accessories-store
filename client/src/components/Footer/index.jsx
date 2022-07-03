@@ -6,11 +6,11 @@ export const Footer = () => {
   const left = [
     {
       title: "Address",
-      desc: "Store & Office Jl. Setrasari Kulon III, No. 10-12, Sukarasa,Sukasari, Bandung, Jawa Barat, Indonesia 40152",
+      desc: "180 Cao Lỗ, Phường 4, Quận 8, Thành phố Hồ Chí Minh",
     },
     {
       title: "Office Hour",
-      desc: "Monday - Sunday 10.00 - 18.00",
+      desc: "Monday - Saturday 09.00 AM - 18.00 PM",
     },
   ];
 

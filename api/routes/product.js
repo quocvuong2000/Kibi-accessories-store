@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:idCate", async (req, res) => {
   const qPage = req.query.page;
-  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 1; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
   try {
@@ -151,5 +151,7 @@ router.get("/get/:id", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
 
 module.exports = router;

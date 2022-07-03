@@ -89,4 +89,27 @@ router.patch(
   }
 );
 
+//FORGOTPASSWORD
+
+router.patch("/update/forgotpassword/:email", async (req, res) => {
+  console.log(req.params.email);
+  console.log("req.body.password:", req.body.password);
+  const newPassword = req.body.password;
+  try {
+    const savedNew = await User.findOneAndUpdate(
+      { email: req.params.email },
+      {
+        password: CryptoJS.AES.encrypt(
+          newPassword,
+          process.env.VUONG_SEC_PASS
+        ).toString(),
+      },
+      { new: true }
+    );
+    res.status(200).json(savedNew);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
