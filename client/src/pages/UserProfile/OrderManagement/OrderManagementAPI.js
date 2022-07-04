@@ -2,12 +2,10 @@ import { callAPIWithToken } from "../../../services/jwt-axios";
 
 const doGetListOrderByCustomer = async (page, status, username) => {
   const res = await callAPIWithToken({
-    url: `/api/order/customer/status/get`,
+    url: `/api/order/customer/status/get/?page=${page}&username=${username}`,
     method: "GET",
     params: {
-      page,
       status,
-      username,
     },
   });
   if (res && res.status !== 200)

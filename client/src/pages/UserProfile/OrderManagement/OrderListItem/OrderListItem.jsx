@@ -3,9 +3,10 @@ import React from "react";
 import { checkTypeItem } from "../../../../utils/checkTypeItem";
 import classes from "./styles.module.scss";
 import moment from "moment";
-const OrderListItem = (props) => {
+import { Link } from "react-router-dom";
+const OrderListItem = ({ orderItem }) => {
   const statusCondition = () => {
-    switch (props.data && props.data.service?.status) {
+    switch (orderItem && orderItem.status) {
       case "PENDING":
         return classes.pending;
       case "DELIVERY":
@@ -23,7 +24,10 @@ const OrderListItem = (props) => {
     }
   };
   return (
-    <div className={classes.orderItemContainer}>
+    <Link
+      to={`/confirmation/${orderItem._id}`}
+      className={classes.orderItemContainer}
+    >
       <Row className={classes.orderInfor}>
         <Col
           span={12}
@@ -34,13 +38,40 @@ const OrderListItem = (props) => {
           }}
         >
           <div className={classes.date}>
-            {props.orderItem.createdAt
-              ? moment(props.orderItem.createdAt).format("lll")
+            {orderItem.createdAt
+              ? moment(orderItem.createdAt).format("lll")
               : "N/A"}
           </div>
           <div className={`${classes.status} ${statusCondition()}`}>
             <div className={`${statusCondition()}`}> </div>
-            {props.orderItem.status}
+            {orderItem.status}
+          </div>
+        </Col>
+        <Col
+          span={12}
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <div className={classes.code}>#{checkTypeItem(orderItem._id)}</div>
+        </Col>
+      </Row>
+      <Row className={classes.price}>
+        <Col
+          span={12}
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <div className={classes.receipient}>
+            Recipient name: {checkTypeItem(orderItem.recipientName)}
+          </div>
+          <div className={classes.receipientPhone}>
+            Recipient phone: {checkTypeItem(orderItem.recipientPhone)}
           </div>
         </Col>
         <Col
@@ -52,7 +83,7 @@ const OrderListItem = (props) => {
           }}
         >
           <div className={classes.code}>
-            #{checkTypeItem(props.orderItem._id)}
+            Total Product: {checkTypeItem(orderItem.products.length)}
           </div>
         </Col>
       </Row>
@@ -65,12 +96,11 @@ const OrderListItem = (props) => {
             alignItems: "center",
           }}
         >
-          <div className={classes.date}>
-            {props.orderItem.createdAt
-              ? props.orderItem.createdAt.toString()
-              : "N/A"}
+          <div className={classes.address}>Address: </div>
+          <div className={classes.addressName}>
+            {" "}
+            {checkTypeItem(orderItem.address)}
           </div>
-          <div className={classes.status}>{props.orderItem.status}</div>
         </Col>
         <Col
           span={12}
@@ -81,40 +111,11 @@ const OrderListItem = (props) => {
           }}
         >
           <div className={classes.code}>
-            #{checkTypeItem(props.orderItem._id)}
+            Total Price : {checkTypeItem(orderItem.totalPrice)}
           </div>
         </Col>
       </Row>
-      <Row className={classes.price}>
-        <Col
-          span={12}
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
-          <div className={classes.date}>
-            {props.orderItem.createdAt
-              ? props.orderItem.createdAt.toString()
-              : "N/A"}
-          </div>
-          <div className={classes.status}>{props.orderItem.status}</div>
-        </Col>
-        <Col
-          span={12}
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <div className={classes.code}>
-            #{checkTypeItem(props.orderItem._id)}
-          </div>
-        </Col>
-      </Row>
-    </div>
+    </Link>
   );
 };
 

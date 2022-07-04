@@ -19,18 +19,25 @@ const OrderManagement = () => {
   const [currentStatus, setCurrentStatus] = useState(STATUS[0]);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [noOrderData, setNoOrderData] = useState(false);
   const [orderList, setOrderList] = useState([]);
+  const [nextPage, setNextPage] = useState();
   const onChange = (value) => {
     setCurrent(value);
     setCurrentStatus(STATUS[value]);
   };
   console.log(currentStatus);
   useEffect(() => {
+    setPage(1);
     doGetListOrderByCustomer(1, currentStatus, user.currentUser.username)
       .then((res) => {
         setOrderList(res.orders);
+        setNextPage(res.nextPage);
+        setNoOrderData(false);
+        if (res.totalItems === 0) {
+          setNoOrderData(true);
+        }
       })
       .catch(() => {
         message.error("Loading error");
@@ -40,6 +47,20 @@ const OrderManagement = () => {
       });
   }, [user.currentUser.username, currentStatus]);
 
+  const fetchNext = () => {
+    setPage(page + 1);
+    doGetListOrderByCustomer(page + 1, currentStatus, user.currentUser.username)
+      .then((res) => {
+        setOrderList((prev) => [...prev, ...res.orders]);
+        setNextPage(res.nextPage);
+      })
+      .catch(() => {
+        message.error("Loading error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   return (
     <div>
       <Steps current={current} onChange={onChange}>
@@ -71,7 +92,7 @@ const OrderManagement = () => {
             <AppLoader />
           </div>
         ) : noOrderData ? (
-          <div className={classes.noData}>
+          <div className={classes.noData} style={{ marginTop: "80px" }}>
             <Empty
               image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
               imageStyle={{
@@ -81,9 +102,21 @@ const OrderManagement = () => {
             />
           </div>
         ) : (
-          orderList.map((item, index) => {
-            return <OrderListItem key={index} orderItem={item} />;
-          })
+          <>
+            {orderList.map((item, index) => {
+              return <OrderListItem key={index} orderItem={item} />;
+            })}
+            {nextPage !== null && (
+              <div
+                className={classes.seeMore}
+                onClick={() => {
+                  fetchNext();
+                }}
+              >
+                See more order
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

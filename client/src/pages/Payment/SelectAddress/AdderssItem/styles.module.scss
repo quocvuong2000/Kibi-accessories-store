@@ -1,0 +1,38 @@
+@use "../../../sass/mixins" as *;
+
+.addressItem {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.name_user {
+  font-size: 16px;
+  display: flex;
+
+  & > span {
+    font-size: 12px;
+    margin: 0px 0px 0px 15px;
+    display: inline-block;
+    align-items: center;
+    color: rgb(38, 188, 78);
+    text-transform: none;
+
+    @include flex();
+    width: fit-content;
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0px 0px 0px 5px;
+    }
+  }
+}
+
+.address_user {
+  max-width: 750px;
+}
+
+.opa {
+  opacity: 0.6;
+}

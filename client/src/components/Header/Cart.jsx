@@ -145,7 +145,7 @@ export const Cart = (props) => {
         </div>
         <button className={classes.checkout}>
           {product.length > 0 ? (
-            <Link to="/payment" className={classes.txt}>
+            <Link to="/checkout" className={classes.txt}>
               Checkout
             </Link>
           ) : (
