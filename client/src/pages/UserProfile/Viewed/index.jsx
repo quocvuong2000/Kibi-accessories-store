@@ -35,9 +35,13 @@ const Viewed = () => {
   return (
     <>
       {isLoading === true && <AppLoader />}
+      <div className={s.title}>
+        <h3 className={s.tde}>
+          <span>Viewed</span>
+        </h3>
+      </div>
       {product.length > 0 ? (
         <div className={s.container}>
-          <p className={s.text}>Viewed</p>
           <div className={s.clear_history} onClick={handleClear}>
             Clear
           </div>

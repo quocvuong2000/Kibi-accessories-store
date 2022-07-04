@@ -6,6 +6,7 @@ import { getCommentByUser } from "../../../api/Comment";
 import { getProduct } from "../../../api/Product";
 import s from "./styles.module.scss";
 import AppLoader from "../../../components/AppLoader";
+import EmptyPage from "../../../components/Empty";
 
 const Rated = () => {
   const [listComment, setListComment] = useState([]);
@@ -36,29 +37,37 @@ const Rated = () => {
   return (
     <>
       {isLoading === true && <AppLoader />}
-      <div className={s.container}>
-        <p className={s.text}>Rated</p>
-        {listComment?.map((item, index) => {
-          getProduct(item.productId).then((value) => {
-            setImage(value.product.images[0]);
-          });
-
-          return (
-            <div className={s.one_content}>
-              <div className={s.image}>
-                <Link to={`/detail/${item.productId}`}>
-                  <img src={image} alt="" />
-                </Link>
-              </div>
-              <div className={s.box_comment}>
-                <p className={s.username}>{item.username} </p>
-                <Rate disabled defaultValue={item?.rating} allowHalf />
-                <p className={s.content_comment}>{item.comment}</p>
-              </div>
-            </div>
-          );
-        })}
+      <div className={s.title}>
+        <h3 className={s.tde}>
+          <span>Rated</span>
+        </h3>
       </div>
+      {listComment.length > 0 ? (
+        <div className={s.container}>
+          {listComment?.map((item, index) => {
+            getProduct(item.productId).then((value) => {
+              setImage(value.product.images[0]);
+            });
+
+            return (
+              <div className={s.one_content}>
+                <div className={s.image}>
+                  <Link to={`/detail/${item.productId}`}>
+                    <img src={image} alt="" />
+                  </Link>
+                </div>
+                <div className={s.box_comment}>
+                  <p className={s.username}>{item.username} </p>
+                  <Rate disabled defaultValue={item?.rating} allowHalf />
+                  <p className={s.content_comment}>{item.comment}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <EmptyPage />
+      )}
     </>
   );
 };

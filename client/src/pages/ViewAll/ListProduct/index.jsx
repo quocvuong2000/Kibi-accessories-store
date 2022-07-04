@@ -3,17 +3,24 @@ import { Button, Dropdown, Menu, Spin } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
 import { DotsNine, ListDashes } from "phosphor-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EmptyPage from "../../../components/Empty";
 import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
 import classes from "./styles.module.scss";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-const menu = (
+const menuPrice = (
   <Menu>
     <Menu.Item>Price up</Menu.Item>
     <Menu.Item>Price down</Menu.Item>
+  </Menu>
+);
+
+const menuRating = (
+  <Menu>
+    <Menu.Item>Rating up</Menu.Item>
+    <Menu.Item>Rating down</Menu.Item>
   </Menu>
 );
 
@@ -26,10 +33,6 @@ const ListProduct = (props) => {
   const handleList = () => {
     setGlActive(true);
   };
-  const variants = {
-    open: { opacity: 1, x: 0 },
-    closed: { opacity: 0, x: "-100%" },
-  };
 
   return (
     <>
@@ -41,9 +44,16 @@ const ListProduct = (props) => {
           />
         </div>
         <div className={classes.way__result}>
-          <p className={classes.showing}>Showing 1–12 of 35 results</p>
+          <p className={classes.showing}>
+            {props.data?.totalItems <= 10
+              ? `Showing 1- ${props.data?.totalItems} of ${props.data?.totalItems} results`
+              : `Showing 1-10 of ${props.data?.totalItems} results`}
+          </p>
           <div className={classes.short__list__grid}>
-            <Dropdown overlay={menu} placement="bottom" arrow>
+            <Dropdown overlay={menuRating} placement="bottom" arrow>
+              <Button>Default Sorting</Button>
+            </Dropdown>
+            <Dropdown overlay={menuPrice} placement="bottom" arrow>
               <Button>Default Sorting</Button>
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>
@@ -74,7 +84,6 @@ const ListProduct = (props) => {
                 }
               }}
               hasMore={true}
-              loader={<h4>Loading...</h4>}
               scrollableTarget="scrollableDiv"
               endMessage={
                 <p style={{ textAlign: "center" }}>
@@ -87,7 +96,7 @@ const ListProduct = (props) => {
               >
                 {props.data.products?.map((item, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       {glActive ? (
                         <motion.span
                           animate={
@@ -95,7 +104,6 @@ const ListProduct = (props) => {
                               ? { scale: [2, 1], opacity: [0, 1] }
                               : { x: "-100%" }
                           }
-                          whil
                           key={index}
                         >
                           <ProductCardList data={item} key={index} />
@@ -111,7 +119,7 @@ const ListProduct = (props) => {
                           <ProductCardGrid data={item} key={index} />{" "}
                         </motion.span>
                       )}
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>
