@@ -51,6 +51,15 @@ const PaymentDetail = (props) => {
   const [token, setToken] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currentAddressName = props.addressSelected
+    ? props.addressSelected.address
+    : props.address[0].address;
+  const currentRecipientName = props.addressSelected
+    ? props.addressSelected.recipientName
+    : props.address[0].recipientName;
+  const currentRecipientPhone = props.addressSelected
+    ? props.addressSelected.recipientPhone
+    : props.address[0].recipientPhone;
   useEffect(() => {
     if (token) {
       props.hanldeLoading(true);
@@ -95,9 +104,9 @@ const PaymentDetail = (props) => {
     const data = {
       username: props.user.currentUser.username,
       email: props.user.currentUser.email,
-      address: props.address[0].address,
-      recipientName: props.address[0].recipientName,
-      recipientPhone: props.address[0].recipientPhone,
+      address: currentAddressName,
+      recipientName: currentRecipientName,
+      recipientPhone: currentRecipientPhone,
     };
     doCheckoutByCod(data)
       .then((res) => {
@@ -189,7 +198,6 @@ const PaymentDetail = (props) => {
   }, []);
 
   const handleMomo = (amount) => {
-    console.log(amount);
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
         var win = window.open(res.data.payUrl);
@@ -308,21 +316,21 @@ const PaymentDetail = (props) => {
                 <div className={classes.contentItem}>
                   <div className={classes.display}>Shipping Address</div>
                   <div className={classes.shippingAddress}>
-                    {props.address[0].address}
+                    {currentAddressName}
                     {/* {paymentInfo.orderDetail.shippingAddress} */}
                   </div>
                 </div>
                 <div className={classes.contentItem}>
                   <div className={classes.display}>Recipient Name</div>
                   <div className={classes.shippingAddress}>
-                    {props.address[0].recipientName}
+                    {currentRecipientName}
                     {/* {paymentInfo.orderDetail.shippingAddress} */}
                   </div>
                 </div>
                 <div className={classes.contentItem}>
                   <div className={classes.display}>Recipient Phone</div>
                   <div className={classes.shippingAddress}>
-                    {props.address[0].recipientPhone}
+                    {currentRecipientPhone}
                     {/* {paymentInfo.orderDetail.shippingAddress} */}
                   </div>
                 </div>
@@ -332,32 +340,47 @@ const PaymentDetail = (props) => {
         </div>
 
         {methodPayment === 1 ? (
-          <StripeCheckout
-            name={props.user.currentUser.name}
-            image={avatarPlaceholder}
-            description={`Tổng của bạn là ${numberWithCommas(
-              props.cart.totalPrice
-            )} VND`}
-            amount={props.cart.totalPrice}
-            email={props.user.currentUser.email}
-            token={onToken}
-            stripeKey={STRIPE_PK_KEY}
-            currency="VND"
-          >
-            <div className={classes.btn}>
+          <div className={classes.btnContainer}>
+            <div className={classes.btn} onClick={() => navigate("/checkout")}>
+              <button>Select address</button>
+            </div>
+            <StripeCheckout
+              name={props.user.currentUser.name}
+              image={avatarPlaceholder}
+              description={`Tổng của bạn là ${numberWithCommas(
+                props.cart.totalPrice
+              )} VND`}
+              amount={props.cart.totalPrice}
+              email={props.user.currentUser.email}
+              token={onToken}
+              stripeKey={STRIPE_PK_KEY}
+              currency="VND"
+            >
+              <div className={classes.btn}>
+                <button>Proceed Payment</button>
+              </div>
+            </StripeCheckout>
+          </div>
+        ) : methodPayment === 2 ? (
+          <div className={classes.btnContainer}>
+            <div className={classes.btn} onClick={() => navigate("/checkout")}>
+              <button>Select address</button>
+            </div>
+            <div className={classes.btn} onClick={hanldeCheckoutCOD}>
               <button>Proceed Payment</button>
             </div>
-          </StripeCheckout>
-        ) : methodPayment === 2 ? (
-          <div className={classes.btn} onClick={hanldeCheckoutCOD}>
-            <button>Proceed Payment</button>
           </div>
         ) : (
-          <div
-            className={classes.btn}
-            onClick={() => handleMomo(props.cart.totalPrice)}
-          >
-            <button>Proceed Payment</button>
+          <div className={classes.btnContainer}>
+            <div className={classes.btn} onClick={() => navigate("/checkout")}>
+              <button>Select address</button>
+            </div>
+            <div
+              className={classes.btn}
+              onClick={() => handleMomo(props.cart.totalPrice)}
+            >
+              <button>Proceed Payment</button>
+            </div>
           </div>
         )}
       </div>

@@ -143,4 +143,24 @@ router.get("/get/:username", async (req, res) => {
     }
   }
 });
+
+//GET ADDRESS LIST BY USERNAME AND ID
+router.get("/get/:username/detail/:id", async (req, res) => {
+  const addressByUser = await Address.findOne({
+    username: req.params.username,
+  });
+  if (!addressByUser) {
+    res.status(404).json("Not found address");
+  } else {
+    const address = addressByUser.addressList.find(
+      (el) => el.id === req.params.id
+    );
+    // console.log(address);
+    try {
+      res.status(200).json(address);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+});
 module.exports = router;

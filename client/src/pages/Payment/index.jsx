@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getInfoService, getShippingCost } from "../../api/Shipping";
 import Confirmation from "./Confirmation/Confirmation";
-import { getAddress } from "./PaymentAPI";
+import { getAddress, getDetailAddress } from "./PaymentAPI";
 import PaymentDetail from "./PaymentDetail/PaymentDetail";
 import classes from "./styles.module.scss";
 import AppLoader from "../../components/AppLoader";
@@ -19,7 +19,8 @@ const Payment = () => {
   const [shopinfo, setShopInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingPayment, setLoadingPayment] = useState(false);
-  const [address, setAdrress] = useState();
+  const [address, setAdrress] = useState([]);
+  const [addressSelected, setAddressSelected] = useState();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
@@ -48,7 +49,6 @@ const Payment = () => {
       })
       .catch(() => {
         message.error("Loading address fail, you must create one to continue");
-        navigate("/myaccount/2");
       })
       .finally(() => {
         setLoading(false);
@@ -73,21 +73,24 @@ const Payment = () => {
       }
     });
   }, [serviceId, cart.totalPrice]);
-
+  const hanldeSelectAddress = (id) => {
+    setLoadingPayment(true);
+    getDetailAddress(user.currentUser.username, id)
+      .then((res) => {
+        setAddressSelected(res);
+        navigate("/payment");
+      })
+      .catch(() => {
+        message.error("Error when select address");
+      })
+      .finally(() => {
+        setLoadingPayment(false);
+      });
+  };
   //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
   };
-
-  // const takeOrderDetailForConfirmation = (id) => {
-  //   doGetDetailOrder(id)
-  //     .then((res) => {
-  //       setOrderDetail(res);
-  //     })
-  //     .catch(() => {
-  //       message.error("Loading order detail fail");
-  //     });
-  // };
 
   return (
     <>
@@ -126,13 +129,19 @@ const Payment = () => {
             </div>
             {loadingPayment && <AppLoader />}
             <div className={classes.content}>
-              {step === 0 && <SelectAddress />}
+              {step === 0 && (
+                <SelectAddress
+                  address={address}
+                  hanldeSelectAddress={hanldeSelectAddress}
+                />
+              )}
               {step === 1 && (
                 <PaymentDetail
                   shippingCost={shippingCost}
                   cart={cart}
                   user={user}
                   address={address}
+                  addressSelected={addressSelected}
                   hanldeLoading={hanldeLoading}
                 />
               )}

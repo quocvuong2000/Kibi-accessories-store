@@ -1,9 +1,13 @@
-@use "../../../sass/mixins" as *;
+@use "../../../../sass//mixins" as *;
 
 .addressItem {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 480px;
 }
 
 .name_user {
@@ -12,7 +16,7 @@
 
   & > span {
     font-size: 12px;
-    margin: 0px 0px 0px 15px;
+    margin: 0px 0px 0px 2px;
     display: inline-block;
     align-items: center;
     color: rgb(38, 188, 78);
@@ -24,7 +28,7 @@
     span {
       display: inline-block;
       vertical-align: middle;
-      margin: 0px 0px 0px 5px;
+      margin: 0px 0px 0px 3px;
     }
   }
 }
