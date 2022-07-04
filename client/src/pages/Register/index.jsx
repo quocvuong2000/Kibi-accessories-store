@@ -10,6 +10,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import CryptoJS from "crypto-js";
 import { async } from "@firebase/util";
+import { checkExist } from "../../api/User";
 const { Option } = Select;
 const Register = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,47 +37,52 @@ const Register = () => {
   const phone = new URLSearchParams(search).get("phone");
 
   const handleRegister = (name, email, password, address, phone) => {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 300; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    setRandomChar(result);
-    var enc = CryptoJS.AES.encrypt(
-      email,
-      `${process.env.REACT_APP_PRIVATE_KEY}`
-    ).toString();
-    emailjs
-      .send(
-        "service_3fco6q6",
-        "template_t9ihe46",
-        {
-          to_name: email,
-          from_name: "bin01012000@gmail.com",
-          message: ` <a href='https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${name.replaceAll(
-            " ",
-            "+"
-          )}&cityid=${provinceId}&wardid=${wardId}&districtid=${districtId}&address=${address.replaceAll(
-            " ",
-            "+"
-          )}&phone=${phone}&password=${password}' target='_blank'> Google </a>`,
-        },
-        "v3GcHX1OV7AjPKEdx"
-      )
-      .then(
-        (res) => {
-          if (res.status === 200) {
-            message.success("Please check your email and verify");
-          } else if (res.status === 201) {
-            message.success("Email already exists");
-          }
-        },
-        (error) => {
-          console.log(error.text);
+    checkExist(email).then((res) => {
+      if (res.status === 200) {
+        var result = "";
+        var characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var charactersLength = characters.length;
+        for (var i = 0; i < 300; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
         }
-      );
+        setRandomChar(result);
+        var enc = CryptoJS.AES.encrypt(
+          email,
+          `${process.env.REACT_APP_PRIVATE_KEY}`
+        ).toString();
+
+        emailjs
+          .send(
+            "service_3fco6q6",
+            "template_t9ihe46",
+            {
+              to_name: email,
+              from_name: "kibiaccessories@gmail.com",
+              message: ` <a href='https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${
+                name.includes(" ") ? name.replaceAll(" ", "+") : name
+              }&cityid=${provinceId}&wardid=${wardId}&districtid=${districtId}&address=${
+                address.includes(" ") ? address.replaceAll(" ", "+") : address
+              }&phone=${phone}&password=${password}' target='_blank'> Google </a>`,
+            },
+            "v3GcHX1OV7AjPKEdx"
+          )
+          .then(
+            (res) => {
+              if (res.status === 200) {
+                message.success("Please check your email and verify");
+              }
+            },
+            (error) => {
+              //console.log(error.text);
+            }
+          );
+      } else if (res.status === 201) {
+        message.error("Email already exists");
+      }
+    });
   };
 
   useEffect(() => {
@@ -97,6 +103,7 @@ const Register = () => {
       query.has("email") &&
       OriginalPassword === email
     ) {
+      //console.log("asdsd");
       var values = {
         name: name,
         email: email,
@@ -111,13 +118,15 @@ const Register = () => {
         .then((res) => {
           if (res.status === 200) {
             message.success("Register Successful");
+            setSuccess(true);
+            setFailure(false);
+          } else if (res.status === 201) {
+            message.error("Email already exists");
           }
-          console.log("res:", res);
-          setSuccess(true);
-          setFailure(false);
+          //console.log("res:", res);
         })
         .catch((res) => {
-          console.log("res:", res);
+          //console.log("res:", res);
           setSuccess(false);
           setFailure(true);
         });

@@ -55,7 +55,7 @@ const products = [
   },
 ];
 function onChange(a, b, c) {
-  // console.log(a, b, c);
+  //console.log(a, b, c);
 }
 const Featured = () => {
   return (

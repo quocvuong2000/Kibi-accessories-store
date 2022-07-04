@@ -3,11 +3,11 @@ import { Form, Input, Button, DatePicker, InputNumber, Select } from "antd";
 export const FirstForm = () => {
   const { Option } = Select;
   const onFinish = (values) => {
-    // console.log("Success:", values);
+    //console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
-    // console.log("Failed:", errorInfo);
+    //console.log("Failed:", errorInfo);
   };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>

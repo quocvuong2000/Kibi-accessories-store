@@ -24,7 +24,6 @@ const cartSlice = createSlice({
       state.totalPrice = action.payload.totalPrice;
     },
 
-
     deleteStart: (state) => {
       state.isFetching = true;
     },
@@ -56,6 +55,7 @@ const cartSlice = createSlice({
       state.isFetching = false;
       state._products = [];
       state.totalPrice = 0;
+      state.numberCart = 0;
     },
   },
 });
@@ -70,7 +70,7 @@ export const {
   decreaseStart,
   decreaseCartSuccess,
   getNumber,
-  
-  deleteAllCart
+
+  deleteAllCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;

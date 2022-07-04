@@ -1,9 +1,9 @@
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
 import { motion } from "framer-motion";
 import { ShoppingCartSimple } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  handleAddToCart, handleAddToCartOverride } from "../../../api/Cart";
+import { handleAddToCart, handleAddToCartOverride } from "../../../api/Cart";
 import model1 from "../../../assets/detail/model1.png";
 import model2 from "../../../assets/detail/model2.png";
 import numberWithCommas from "../../../utils/numberWithCommas";
@@ -125,14 +125,18 @@ const ProductView = (props) => {
               {/* onClick={handleAddToCart} */}
               <button
                 className={styles.add_to_cart}
-                onClick={() =>
-                  handleAddToCart(
-                    dispatch,
-                    user.currentUser.username,
-                    props.data.product._id,
-                    qty
-                  )
-                }
+                onClick={() => {
+                  if (user.currentUser) {
+                    handleAddToCart(
+                      dispatch,
+                      user.currentUser.username,
+                      props.data.product._id,
+                      qty
+                    );
+                  } else {
+                    message.error("Please sign in");
+                  }
+                }}
               >
                 <ShoppingCartSimple size={20} /> Add to cart
               </button>

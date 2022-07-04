@@ -7,17 +7,24 @@ import { ProductCardGrid } from "../../ViewAll/ProductCardGrid";
 import { motion } from "framer-motion";
 import { message } from "antd";
 import EmptyPage from "../../../components/Empty";
+import AppLoader from "../../../components/AppLoader";
+
 const Wistlist = () => {
   const user = useSelector((state) => state.user);
   const [product, setProduct] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAllWishlist(user.currentUser.username).then((res) => {
-      // console.log(res[0].products);
-      setProduct(res[0].products);
-    });
-  }, [reload]);
+    getAllWishlist(user.currentUser.username)
+      .then((res) => {
+        //console.log(res[0].products);
+        setProduct(res[0].products);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [reload, user.currentUser.username]);
 
   const handleDelete = (username, id) => {
     deleteWishList(username, id).then((res) => {
@@ -30,25 +37,26 @@ const Wistlist = () => {
 
   return (
     <>
+      {isLoading === true && <AppLoader />}
       {product.length > 0 ? (
         <div className={s.container}>
           <p className={s.text}>Wishlist</p>
           <div className={s.list_wishlist}>
-          {product?.map((item, index) => {
-            return (
-              <motion.span
-                animate={{ scale: [2, 1], opacity: [0, 1] }}
-                key={index}
-              >
-                <ProductCardGrid
-                  data={item}
+            {product?.map((item, index) => {
+              return (
+                <motion.span
+                  animate={{ scale: [2, 1], opacity: [0, 1] }}
                   key={index}
-                  handle={handleDelete}
-                  isWishlist={true}
-                />
-              </motion.span>
-            );
-          })}
+                >
+                  <ProductCardGrid
+                    data={item}
+                    key={index}
+                    handle={handleDelete}
+                    isWishlist={true}
+                  />
+                </motion.span>
+              );
+            })}
           </div>
         </div>
       ) : (

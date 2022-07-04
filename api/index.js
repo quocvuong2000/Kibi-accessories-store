@@ -17,6 +17,7 @@ const commentRoute = require("./routes/comment");
 const viewedRoute = require("./routes/viewed");
 const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
+const momoRoute = require("./routes/momo");
 dotenv.config();
 
 mongoose
@@ -47,7 +48,9 @@ app.use("/api/comment", commentRoute);
 app.use("/api/viewed", viewedRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/stripe", stripeRoute);
+app.use("/api/momo", momoRoute);
 
-app.listen(5000, () => {
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
   console.log("Server backend is running");
 });

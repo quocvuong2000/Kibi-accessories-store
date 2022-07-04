@@ -34,7 +34,7 @@ const SecondForm = ({ classes }) => {
         croppedAreaPixels,
         rotation
       );
-      // console.log("donee", { croppedImage });
+      //console.log("donee", { croppedImage });
       setCroppedImage(croppedImage);
     } catch (e) {
       console.error(e);

@@ -10,6 +10,8 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
     productId: req.body.productId,
     comment: req.body.comment,
     rating: req.body.rating,
+    name: req.body.name,
+    avatar: req.body.avatar,
   });
   try {
     const savedData = await newCommentSaved.save();
@@ -38,6 +40,7 @@ router.get("/user/:username", async (req, res) => {
   let perPage = 5; // số lượng comment xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
+
   try {
     let comments;
     if (qPage) {
@@ -91,8 +94,12 @@ router.get("/product/:productId", async (req, res) => {
     count = await Comment.find({
       productId: req.params.productId,
     }).count();
+    const user = await Comment.find({
+      user: req.body.userid,
+    });
     // count = await Comment.count();
     res.status(200).json({
+      user: user,
       comments, // comments trên một page
       currentPage: page, // page hiện tại
       totalPages: Math.ceil(count / perPage), // tổng số các page: ;

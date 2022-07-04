@@ -1,10 +1,9 @@
 import { Button, Form as FormAnt, Input, message } from "antd";
-import s from "./styles.module.scss";
 import { Field, Form, Formik } from "formik";
-import { PasswordSchema } from "./passwordvali";
 import { updatePassword } from "../../../api/User";
-import { updateProfile } from "../../../redux/apiCalls";
 import { updateSuccess } from "../../../redux/userRedux";
+import { PasswordSchema } from "./passwordvali";
+import s from "./styles.module.scss";
 const UpdatePassword = (props) => {
   const user = props.user;
   const dispatch = props.dispatch;
@@ -24,7 +23,7 @@ const UpdatePassword = (props) => {
               values.oldpassword,
               values.password
             ).then((res) => {
-              console.log(res);
+              //console.log(res);
               if (res.status === 200) {
                 const obj = {
                   user: res.data,
