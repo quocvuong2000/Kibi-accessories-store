@@ -8,7 +8,7 @@ import { useState } from "react";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
 import { Link, useLocation } from "react-router-dom";
 import { doGetDetailOrder } from "../ConfirmationAPI";
-import { message } from "antd";
+import { Empty, message } from "antd";
 import AppLoader from "../../../components/AppLoader";
 
 const Confirmation = (props) => {
@@ -123,7 +123,13 @@ const Confirmation = (props) => {
           </div>
         </div>
       ) : (
-        <AppLoader />
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          description={"No Data"}
+        />
       )}
     </>
   );
