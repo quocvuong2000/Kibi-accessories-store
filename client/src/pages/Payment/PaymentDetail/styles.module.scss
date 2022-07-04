@@ -196,28 +196,30 @@
       }
     }
   }
-
-  .btn {
-    width: 100%;
+  .btnContainer {
     display: flex;
-    justify-content: center;
-    margin-bottom: 10rem;
-    button {
-      cursor: pointer;
-      border: none;
+    width: 100%;
+    justify-content: space-around;
+    .btn {
       display: flex;
-      background: #d84727;
       justify-content: center;
-      align-items: center;
-      font-family: "Taviraj";
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 32px;
-      /* identical to box height, or 160% */
-      letter-spacing: 0.03em;
-      color: #ffffff;
-      padding: 15px 37px;
+      button {
+        cursor: pointer;
+        border: none;
+        display: flex;
+        background: #d84727;
+        justify-content: center;
+        align-items: center;
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        /* identical to box height, or 160% */
+        letter-spacing: 0.03em;
+        color: #ffffff;
+        padding: 10px 20px;
+      }
     }
   }
 }

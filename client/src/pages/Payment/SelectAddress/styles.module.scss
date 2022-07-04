@@ -1,0 +1,90 @@
+.addressSelectContainer {
+  :global {
+    .ant-radio-wrapper {
+      box-sizing: border-box;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      font-feature-settings: "tnum";
+      position: relative;
+      display: flex !important;
+      align-items: center !important;
+      margin: 0 8px 0 0;
+      cursor: pointer;
+    }
+  }
+  .addressList {
+    height: 335px;
+    overflow-y: auto;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      /* identical to box height, or 133% */
+      letter-spacing: 0.02em;
+      color: #333333;
+    }
+    span {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* or 150% */
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #333333;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        background: #d84727;
+        border: none;
+        padding: 18px 102px;
+        cursor: pointer;
+        font-family: "Taviraj";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 32px;
+        /* identical to box height, or 160% */
+        letter-spacing: 0.02em;
+        color: #ffffff;
+      }
+    }
+  }
+  .continue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      background: #d84727;
+      border: none;
+      padding: 16px 80px;
+      cursor: pointer;
+      font-family: "Taviraj";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 32px;
+      /* identical to box height, or 160% */
+      letter-spacing: 0.02em;
+      color: #ffffff;
+    }
+  }
+}

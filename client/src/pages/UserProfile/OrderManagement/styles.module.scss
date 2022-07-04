@@ -89,3 +89,13 @@
     }
   }
 }
+
+.seeMore {
+  margin-top: 40px;
+  color: #d84727;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

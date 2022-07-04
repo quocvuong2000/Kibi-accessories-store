@@ -8,6 +8,16 @@ export const getAddress = async (username) => {
   return res.data;
 };
 
+//GET ADDRESS BY USERNAME AND ID
+export const getDetailAddress = async (username, id) => {
+  const res = await callAPIWithToken.get(
+    `/api/address/get/${username}/detail/${id}`
+  );
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};
+
 //CREATE ORDER BY CARD
 export const doCheckoutByCard = async (data) => {
   const res = await jwtAxios.post(`/api/stripe/payment`, data);

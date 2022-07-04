@@ -8,18 +8,11 @@
   box-sizing: border-box;
   border-radius: 5px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  .serviceContainer {
-    margin-bottom: 10px;
-  }
-  .staffContainer {
-    padding-bottom: 18px;
-    border-bottom: solid 1px #ebf0ff;
-    margin-bottom: 18px;
-  }
+ 
 
   .code {
     font-family: "Inter";
@@ -31,7 +24,8 @@
     /* Cyan / 9 */
     color: #00474f;
   }
-  .serviceName {
+  .receipient,
+  .receipientPhone {
     font-family: "Inter";
     font-style: normal;
     font-weight: 500;
@@ -40,6 +34,10 @@
     /* identical to box height */
     /* Black blue */
     color: #223263;
+    margin-top: 10px;
+  }
+  .receipientPhone {
+    margin-left: 10px;
   }
   .date {
     font-family: "Inter";
@@ -51,44 +49,7 @@
     margin-right: 10px;
     color: rgba(0, 0, 0, 0.85);
   }
-  .technical,
-  .staffName {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 15px;
-    /* identical to box height */
 
-    /* #000000 */
-
-    color: rgba(0, 0, 0, 0.65);
-
-    /* Inside auto layout */
-  }
-  .staffImage {
-    display: flex;
-    align-items: center;
-    margin: 0 5px;
-    width: 18px;
-    height: 18px;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-  .duration {
-    font-family: "Inter";
-    font-style: italic;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 22px;
-    /* identical to box height, or 183% */
-    /* Cyan / 9 */
-    color: #00474f;
-  }
   .status {
     font-weight: 700;
     font-size: 14px;
@@ -133,18 +94,9 @@
       }
     }
   }
-  .customerImg {
-    width: 35px;
-    height: 35px;
-    margin-right: 15px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-  }
-  .customerName {
+
+  .address,
+  .addressName {
     font-family: "Inter";
     font-style: normal;
     font-weight: 500;
@@ -152,22 +104,9 @@
     line-height: 17px;
     /* Black blue */
     color: #223263;
-  }
-  .infoDetail {
-    display: flex;
     margin-top: 10px;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 22px;
-    /* identical to box height, or 183% */
-    color: rgba(0, 0, 0, 0.85);
-    :global {
-      .anticon {
-        margin-right: 10px;
-      }
-    }
-    .text {
-      margin-right: 10px;
-    }
+  }
+  .addressName {
+    margin-left: 10px;
   }
 }

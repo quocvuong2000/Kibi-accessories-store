@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getInfoService, getShippingCost } from "../../api/Shipping";
 import Confirmation from "./Confirmation/Confirmation";
-import { getAddress } from "./PaymentAPI";
+import { getAddress, getDetailAddress } from "./PaymentAPI";
 import PaymentDetail from "./PaymentDetail/PaymentDetail";
 import classes from "./styles.module.scss";
 import AppLoader from "../../components/AppLoader";
-import { doGetDetailOrder, doGetDetailOrderCard } from "./ConfirmationAPI";
+import SelectAddress from "./SelectAddress/SelectAddress";
 
 const Payment = () => {
   const location = useLocation();
@@ -19,15 +19,18 @@ const Payment = () => {
   const [shopinfo, setShopInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingPayment, setLoadingPayment] = useState(false);
-  const [address, setAdrress] = useState();
+  const [address, setAdrress] = useState([]);
+  const [addressSelected, setAddressSelected] = useState();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
-  const [orderDetail, setOrderDetail] = useState();
   const navigate = useNavigate();
+  const currentStateUrl = location.pathname.split("/")[1];
   useEffect(() => {
     window.scrollTo(0, 0);
-    setStep(location.pathname.split("/")[1] === "payment" ? 0 : 1);
+    setStep(
+      currentStateUrl === "checkout" ? 0 : currentStateUrl === "payment" ? 1 : 2
+    );
   }, [location.pathname]);
   useEffect(() => {
     getInfoService(1542, 1442).then((res) => {
@@ -37,6 +40,7 @@ const Payment = () => {
       }
     });
   }, []);
+  //GET ADDRESS
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
@@ -45,12 +49,11 @@ const Payment = () => {
       })
       .catch(() => {
         message.error("Loading address fail, you must create one to continue");
-        navigate("/myaccount/");
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [user.currentUser.username]);
+  }, [user.currentUser.username, navigate]);
 
   useEffect(() => {
     getShippingCost(
@@ -70,21 +73,24 @@ const Payment = () => {
       }
     });
   }, [serviceId, cart.totalPrice]);
-
+  const hanldeSelectAddress = (id) => {
+    setLoadingPayment(true);
+    getDetailAddress(user.currentUser.username, id)
+      .then((res) => {
+        setAddressSelected(res);
+        navigate("/payment");
+      })
+      .catch(() => {
+        message.error("Error when select address");
+      })
+      .finally(() => {
+        setLoadingPayment(false);
+      });
+  };
   //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
   };
-
-  // const takeOrderDetailForConfirmation = (id) => {
-  //   doGetDetailOrder(id)
-  //     .then((res) => {
-  //       setOrderDetail(res);
-  //     })
-  //     .catch(() => {
-  //       message.error("Loading order detail fail");
-  //     });
-  // };
 
   return (
     <>
@@ -94,7 +100,9 @@ const Payment = () => {
         <div className={classes.paymentContainer}>
           <div className={classes.payment}>
             <div className={classes.paymentHeader}>
-              <div className={classes.title}>
+              <div
+                className={`${classes.title} ${step === 0 && classes.active}`}
+              >
                 1. Checkout
                 <div className={classes.icon}>
                   <CalendarCheck size={28} weight="fill" />
@@ -102,7 +110,7 @@ const Payment = () => {
               </div>
               <div className={classes.line}></div>
               <div
-                className={`${classes.title} ${step === 0 && classes.active}`}
+                className={`${classes.title} ${step === 1 && classes.active}`}
               >
                 2. Payment
                 <div className={classes.icon}>
@@ -111,7 +119,7 @@ const Payment = () => {
               </div>
               <div className={classes.line}></div>
               <div
-                className={`${classes.title} ${step === 1 && classes.active}`}
+                className={`${classes.title} ${step === 2 && classes.active}`}
               >
                 3. Confirmation
                 <div className={classes.icon}>
@@ -121,17 +129,23 @@ const Payment = () => {
             </div>
             {loadingPayment && <AppLoader />}
             <div className={classes.content}>
-              {step === 0 ? (
+              {step === 0 && (
+                <SelectAddress
+                  address={address}
+                  hanldeSelectAddress={hanldeSelectAddress}
+                />
+              )}
+              {step === 1 && (
                 <PaymentDetail
                   shippingCost={shippingCost}
                   cart={cart}
                   user={user}
                   address={address}
+                  addressSelected={addressSelected}
                   hanldeLoading={hanldeLoading}
                 />
-              ) : (
-                <Confirmation shippingCost={shippingCost} />
               )}
+              {step === 2 && <Confirmation shippingCost={shippingCost} />}
             </div>
           </div>
         </div>

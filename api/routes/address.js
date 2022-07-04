@@ -14,7 +14,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
       addressList: [
         {
           address: req.body.address,
-          isDefault: req.body.isDefault,
+          isDefault: true,
           recipientName: req.body.receiverName,
           recipientPhone: req.body.recipientPhone,
           ward: req.body.ward,
@@ -31,17 +31,32 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
       res.status(500).json(err);
     }
   } else {
+    let newAddress = {};
     let addressList = addressByUser.addressList;
-    const newAddress = {
-      address: req.body.address,
-      isDefault: req.body.isDefault,
-      recipientName: req.body.receiverName,
-      recipientPhone: req.body.recipientPhone,
-      ward: req.body.ward,
-      district: req.body.district,
-      city: req.body.city,
-    };
+
+    if (addressList.length === 0) {
+      newAddress = {
+        address: req.body.address,
+        isDefault: true,
+        recipientName: req.body.receiverName,
+        recipientPhone: req.body.recipientPhone,
+        ward: req.body.ward,
+        district: req.body.district,
+        city: req.body.city,
+      };
+    } else {
+      newAddress = {
+        address: req.body.address,
+        isDefault: false,
+        recipientName: req.body.receiverName,
+        recipientPhone: req.body.recipientPhone,
+        ward: req.body.ward,
+        district: req.body.district,
+        city: req.body.city,
+      };
+    }
     addressList.push(newAddress);
+
     try {
       const savedAddress = await Address.findByIdAndUpdate(addressByUser.id, {
         addressList: addressList,
@@ -93,23 +108,6 @@ router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
   if (!addressFound) {
     res.status(404).json("address item not found");
   } else {
-    // let addressItemFound = addressFound.addressList.find(
-    //   (el) => el.id === req.body.addressItemId
-    // );
-    // const newAddressItem = {
-
-    // }
-    // // addressItemFound = { ...addressItemFound, street: req.body.address };
-    // console.log(addressItemFound);
-
-    // const newList = [];
-    // addressFound.addressList.forEach((el) => {
-    //   if (el.id === req.body.addressItemId) {
-    //     newList.push(addressItemFound);
-    //   } else {
-    //     newList.push(el);
-    //   }
-    // });
     try {
       const newaddress = await Address.findOne({
         username: addressFound.username,
@@ -140,6 +138,26 @@ router.get("/get/:username", async (req, res) => {
   } else {
     try {
       res.status(200).json(addressByUser);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+});
+
+//GET ADDRESS LIST BY USERNAME AND ID
+router.get("/get/:username/detail/:id", async (req, res) => {
+  const addressByUser = await Address.findOne({
+    username: req.params.username,
+  });
+  if (!addressByUser) {
+    res.status(404).json("Not found address");
+  } else {
+    const address = addressByUser.addressList.find(
+      (el) => el.id === req.params.id
+    );
+    // console.log(address);
+    try {
+      res.status(200).json(address);
     } catch (err) {
       res.status(500).json(err);
     }

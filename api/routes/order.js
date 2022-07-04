@@ -180,7 +180,7 @@ router.get("/customer/status/get", async (req, res) => {
       }
     }
     let nextPage = parseInt(page) + 1;
-    totalPages = Math.ceil(count / perPage);
+    if (count !== 0) totalPages = Math.ceil(count / perPage);
     if (page === totalPages) {
       nextPage = null;
     }

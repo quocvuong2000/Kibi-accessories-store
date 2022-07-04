@@ -20,7 +20,6 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
   // cartList.forEach((el) => {
   //   return (defaultTotalPrice += el.productPrice * el.quantity);
   // });
-
   if (cartList.length === 0) {
     try {
       // const addCart = await pInfo.save();
@@ -34,7 +33,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             quantity: quantityAdded,
           },
         ],
-        totalPrice: defaultTotalPrice + productAdded.price,
+        totalPrice: quantityAdded * productAdded.price,
       });
       res.status(200).json("update success");
     } catch (error) {
@@ -49,16 +48,30 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
     let cartTemp = [];
     let newUpdate;
     if (productFound !== undefined) {
-      quantityFound = productFound.quantity;
-      newUpdate = {
-        productId: productFound.productId,
-        productName: productFound.productName,
-        productPrice: productFound.productPrice,
-        productImage: productFound.productImage[0],
-        quantity: quantityFound + 1,
-      };
-      defaultTotalPrice -= quantityFound * productFound.productPrice;
-      defaultTotalPrice += (quantityFound + 1) * productFound.productPrice;
+      if (req.body.quantity) {
+        quantityFound = req.body.quantity;
+        newUpdate = {
+          productId: productFound.productId,
+          productName: productFound.productName,
+          productPrice: productFound.productPrice,
+          productImage: productFound.productImage[0],
+          quantity: quantityFound,
+        };
+        defaultTotalPrice -= productFound.quantity * productFound.productPrice;
+        defaultTotalPrice += quantityFound * productFound.productPrice;
+      } else {
+        quantityFound = productFound.quantity;
+        newUpdate = {
+          productId: productFound.productId,
+          productName: productFound.productName,
+          productPrice: productFound.productPrice,
+          productImage: productFound.productImage[0],
+          quantity: quantityFound + 1,
+        };
+        defaultTotalPrice -= quantityFound * productFound.productPrice;
+        defaultTotalPrice += (quantityFound + 1) * productFound.productPrice;
+      }
+
       cartList.forEach((el) => {
         if (el.productId === req.body.productId) {
           cartTemp.push(newUpdate);
