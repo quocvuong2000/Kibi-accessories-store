@@ -23,6 +23,8 @@ const menu = (
         <b>$1000</b>
       </p>
     </div>
+    <hr className={classes.line_devide} />
+    <p className={classes.title_filter}>Brand</p>
     <Checkbox.Group
       style={{ width: "100%" }}
       className={classes.checkbox_group}
