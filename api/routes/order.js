@@ -198,8 +198,11 @@ router.get("/customer/status/get", async (req, res) => {
 
 //GET ORDER BY ID - CREATED BY USER
 router.get("/detail/get/:id", async (req, res) => {
-  const orderFound = await Order.findById(req.params.id);
+  console.log("req.params.id:", req.params.id);
+
   try {
+    const orderFound = await Order.findById(req.params.id);
+    console.log("orderFound:", orderFound);
     res.status(200).json(orderFound);
   } catch (error) {
     res.status(500).json(error);

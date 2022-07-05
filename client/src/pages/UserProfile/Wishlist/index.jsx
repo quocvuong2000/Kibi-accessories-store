@@ -38,9 +38,13 @@ const Wistlist = () => {
   return (
     <>
       {isLoading === true && <AppLoader />}
+      <div className={s.title}>
+        <h3 className={s.tde}>
+          <span>Wishlist</span>
+        </h3>
+      </div>
       {product.length > 0 ? (
         <div className={s.container}>
-          <p className={s.text}>Wishlist</p>
           <div className={s.list_wishlist}>
             {product?.map((item, index) => {
               return (

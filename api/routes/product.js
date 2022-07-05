@@ -168,6 +168,4 @@ router.get("/get/:id", async (req, res) => {
   }
 });
 
-//GET PRODUCT WITH FILTER
-
 module.exports = router;

@@ -15,7 +15,6 @@ const ViewAll = () => {
     setLoading(true);
     getAllProduct(idCate, 1)
       .then((res) => {
-        //console.log(res);
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
           setProduct(res);

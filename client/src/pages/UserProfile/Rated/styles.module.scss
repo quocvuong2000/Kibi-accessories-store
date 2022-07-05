@@ -1,11 +1,55 @@
+.title {
+  text-align: center;
+
+  .tde {
+    font-size: 18px;
+    line-height: 20px;
+    text-transform: uppercase;
+    display: flex;
+    margin-left: 70px;
+
+    span {
+      width: 270px;
+      &::before,
+      &::after {
+        content: "";
+        background: url("../../../assets/after.png");
+        width: 87px;
+        height: 50px;
+        position: absolute;
+        top: 19px;
+        z-index: -1;
+      }
+
+      &::before {
+        left: -44px;
+      }
+
+      &::after {
+        transform: rotateY(180deg);
+        right: -44px !important;
+      }
+
+      background: #d84727;
+      height: 50px;
+      line-height: 50px;
+      padding: 0px 20px;
+      color: white;
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      z-index: 45;
+      border-radius: 10px 10px 0px 0px;
+      border: 1px solid #d84727;
+    }
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-  padding-bottom: 50px;
-  .text {
-    font-size: 25px !important;
-  }
+  padding-bottom: 100px;
+
   :global {
     .ant-form-item {
       margin: 0;
@@ -30,6 +74,7 @@
     padding: 0;
   }
   .one_content {
+    margin-top: 50px;
     display: flex;
     flex-direction: row;
     column-gap: 60px;

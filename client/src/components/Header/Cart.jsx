@@ -139,7 +139,11 @@ export const Cart = (props) => {
         </div>
         <button className={classes.checkout}>
           {product.length > 0 ? (
-            <Link to="/checkout" className={classes.txt}>
+            <Link
+              to="/checkout"
+              className={classes.txt}
+              onClick={() => props.setVisible(false)}
+            >
               Checkout
             </Link>
           ) : (

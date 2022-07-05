@@ -1,5 +1,53 @@
 @use "../../../sass/mixins" as *;
+.filter {
+  z-index: 998;
+  .text_range {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  .title_filter {
+    padding: 10px 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba($color: #000000, $alpha: 0.6);
+  }
+  .line_devide {
+    padding-top: 10px;
+    border: none;
+    border-bottom: 2px solid #d84727 !important;
+  }
+  :global {
+    .MuiSlider-thumb {
+      width: 16px;
+      height: 16px;
+    }
+    .MuiSlider-rail,
+    .MuiSlider-track {
+      height: 6px;
+    }
+    .MuiSlider-root {
+      color: #d84727;
+    }
+    .ant-dropdown-menu {
+      padding: 30px;
+    }
+    .ant-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      row-gap: 10px;
+    }
 
+    .ant-checkbox-wrapper {
+      margin-left: 0 !important;
+    }
+  }
+}
 .container {
   margin: 0 auto;
   max-width: 100vw;

@@ -1,15 +1,14 @@
-import { Button, Form, Input, message } from "antd";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { message, Rate } from "antd";
+import { useEffect, useState } from "react";
 import InputEmoji from "react-input-emoji";
-import { Rate } from "antd";
+import { useSelector } from "react-redux";
 import {
   createComment,
   deleteComment,
   getCommentByProduct,
 } from "../../../api/Comment";
-import { useSelector } from "react-redux";
+import s from "./styles.module.scss";
 
 const Comment = (props) => {
   const [rating, setRating] = useState(5);
@@ -33,7 +32,7 @@ const Comment = (props) => {
       setTotalPages(res.data.totalPages);
       setListComment((listComment) => [...listComment, ...res.data.comments]);
     });
-  }, [page]);
+  }, [page, props.data.product._id]);
 
   useEffect(() => {
     getCommentByProduct(props.data.product._id, 1).then((res) => {
@@ -41,7 +40,7 @@ const Comment = (props) => {
       //console.log(listComment);
       setListComment(res.data.comments);
     });
-  }, [reload]);
+  }, [reload, props.data.product._id]);
 
   const handleComment = () => {
     createComment(
@@ -107,7 +106,7 @@ const Comment = (props) => {
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
-              <img src={item?.avatar} alt={item?.name} />
+              <img src={item?.avatar} alt="" />
             </div>
             <div className={s.frame_comment}>
               <p className={s.fullname}>{item?.name}</p>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./styles.module.scss";
 import {
   User,
@@ -22,7 +22,7 @@ import OrderManagement from "./OrderManagement";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
-
+  useEffect(() => {}, [active]);
   return (
     <div className={s.container}>
       <p className={s.url}>
