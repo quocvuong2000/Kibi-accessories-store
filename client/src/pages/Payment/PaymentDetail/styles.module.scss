@@ -85,6 +85,19 @@
           padding: 20px 0px;
           width: 100%;
           height: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          // :global{
+          //   .ant-radio .ant-radio-checked{
+
+          //   }
+          // }
+          span {
+            display: flex;
+            align-items: center;
+            margin-top: 4px;
+          }
           .paymentChoice {
             display: flex;
             flex-direction: column;

@@ -1,26 +1,26 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Spin } from "antd";
+import { Button, Checkbox, Dropdown, Menu, Spin } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
-import { DotsNine, ListDashes } from "phosphor-react";
+import { DotsNine, ListDashes, Funnel } from "phosphor-react";
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EmptyPage from "../../../components/Empty";
 import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
+import RangePrice from "../RangePrice";
 import classes from "./styles.module.scss";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-const menuPrice = (
-  <Menu>
-    <Menu.Item>Price up</Menu.Item>
-    <Menu.Item>Price down</Menu.Item>
-  </Menu>
-);
 
-const menuRating = (
+const menu = (
   <Menu>
-    <Menu.Item>Rating up</Menu.Item>
-    <Menu.Item>Rating down</Menu.Item>
+    <RangePrice />
+    <Checkbox.Group style={{ width: "100%" }}>
+      <Checkbox value="A">A</Checkbox>
+      <Checkbox value="A">A</Checkbox>
+      <Checkbox value="A">A</Checkbox>
+      <Checkbox value="A">A</Checkbox>
+    </Checkbox.Group>
   </Menu>
 );
 
@@ -50,11 +50,14 @@ const ListProduct = (props) => {
               : `Showing 1-10 of ${props.data?.totalItems} results`}
           </p>
           <div className={classes.short__list__grid}>
-            <Dropdown overlay={menuRating} placement="bottom" arrow>
-              <Button>Default Sorting</Button>
-            </Dropdown>
-            <Dropdown overlay={menuPrice} placement="bottom" arrow>
-              <Button>Default Sorting</Button>
+            <Dropdown
+              overlay={menu}
+              placement="bottomLeft"
+              arrow
+              trigger={["click"]}
+              overlayClassName={classes.filter}
+            >
+              <Funnel size={24} weight="thin" />
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>
             <ListDashes

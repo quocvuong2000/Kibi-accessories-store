@@ -50,7 +50,7 @@ const Rated = () => {
             });
 
             return (
-              <div className={s.one_content}>
+              <div className={s.one_content} key={index}>
                 <div className={s.image}>
                   <Link to={`/detail/${item.productId}`}>
                     <img src={image} alt="" />

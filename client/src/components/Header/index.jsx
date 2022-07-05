@@ -68,15 +68,15 @@ const Header = () => {
       </Menu.Item>
     </Menu>
   );
-  // if (user.currentUser) {
-  //   if (
-  //     user.currentUser.accessToken !== "" &&
-  //     user.currentUser.accessToken != null
-  //   ) {
-  //     setAuthToken(user.currentUser.accessToken);
-  //     getAllProductCart(user.currentUser.username);
-  //   }
-  // }
+  if (user.currentUser) {
+    if (
+      user.currentUser.accessToken !== "" &&
+      user.currentUser.accessToken != null
+    ) {
+      setAuthToken(user.currentUser.accessToken);
+      getAllProductCart(user.currentUser.username);
+    }
+  }
 
   const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -118,7 +118,7 @@ const Header = () => {
   //console.log(user);
   return (
     <div className={classes.container}>
-      <Cart visible={visible} aref={ref} />
+      <Cart visible={visible} aref={ref} setVisible={setVisible} />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.top}>
           <Link to={"/"} className={classes.logo}>
