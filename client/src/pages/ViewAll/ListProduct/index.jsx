@@ -15,11 +15,22 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const menu = (
   <Menu>
     <RangePrice />
-    <Checkbox.Group style={{ width: "100%" }}>
+    <div className={classes.text_range}>
+      <p className={classes.min_range_price}>
+        <b>$0</b>
+      </p>
+      <p className={classes.max_range_price}>
+        <b>$1000</b>
+      </p>
+    </div>
+    <Checkbox.Group
+      style={{ width: "100%" }}
+      className={classes.checkbox_group}
+    >
       <Checkbox value="A">A</Checkbox>
-      <Checkbox value="A">A</Checkbox>
-      <Checkbox value="A">A</Checkbox>
-      <Checkbox value="A">A</Checkbox>
+      <Checkbox value="b">b</Checkbox>
+      <Checkbox value="c">c</Checkbox>
+      <Checkbox value="d">d</Checkbox>
     </Checkbox.Group>
   </Menu>
 );

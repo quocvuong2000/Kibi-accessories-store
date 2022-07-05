@@ -1,6 +1,37 @@
 @use "../../../sass/mixins" as *;
 .filter {
   z-index: 998;
+  .text_range {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  :global {
+    .MuiSlider-thumb {
+      width: 16px;
+      height: 16px;
+    }
+    .MuiSlider-rail,
+    .MuiSlider-track {
+      height: 6px;
+    }
+    .MuiSlider-root {
+      color: #d84727;
+    }
+    .ant-dropdown-menu {
+      padding: 30px;
+    }
+    .ant-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      row-gap: 10px;
+    }
+
+    .ant-checkbox-wrapper {
+      margin-left: 0;
+    }
+  }
 }
 .container {
   margin: 0 auto;
