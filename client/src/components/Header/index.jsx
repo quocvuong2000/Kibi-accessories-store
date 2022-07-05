@@ -26,6 +26,7 @@ import classes from "./styles.module.scss";
 const { Search } = Input;
 
 const Header = () => {
+  let navigate2 = useNavigate();
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const handleSignOut = () => {
@@ -37,13 +38,16 @@ const Header = () => {
       <Menu.Item>
         <div className={classes.box_profile}>
           <div className={classes.avatar_menu}>
-            <img src={user.currentUser.avatar} alt="" />
+            <img src={user.currentUser?.avatar} alt="" />
           </div>
-          <p className={classes.name_avatar}>{user.currentUser.name}</p>
+          <p className={classes.name_avatar}>{user.currentUser?.name}</p>
         </div>
       </Menu.Item>
       <Menu.Item>
-        <div className={classes.link_to_profile}>
+        <div
+          className={classes.link_to_profile}
+          onClick={() => navigate2(`/myaccount/1`)}
+        >
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
@@ -135,12 +139,11 @@ const Header = () => {
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
-              <Link to={"/myaccount/1"} className={classes.login}>
+              <div className={classes.login}>
                 <Dropdown
                   overlay={menu}
                   placement="bottomLeft"
                   arrow
-                  trigger={["click"]}
                   overlayClassName={classes.menu_header}
                 >
                   <User size={32} color="#000" weight="thin" />
@@ -148,7 +151,7 @@ const Header = () => {
                 <div className={classes.loginText}>
                   {formatName(user.currentUser.name)}
                 </div>
-              </Link>
+              </div>
             ) : (
               <Link to={"/login"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />

@@ -10,6 +10,8 @@ import {
   HandGrabbing,
   Truck,
   Pen,
+  Ticket,
+  ShoppingBagOpen,
 } from "phosphor-react";
 import { Tabs } from "antd";
 import MyAccount from "./MyAccount";
@@ -19,6 +21,7 @@ import Wistlist from "./Wishlist";
 import Viewed from "./Viewed";
 import Rated from "./Rated";
 import OrderManagement from "./OrderManagement";
+import Voucher from "./Voucher";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -87,6 +90,26 @@ const UserProfile = () => {
             </div>
           }
           key="6"
+        >
+          <OrderManagement />
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <Ticket size={24} /> Voucher
+            </div>
+          }
+          key="7"
+        >
+          <Voucher />
+        </TabPane>
+        <TabPane
+          tab={
+            <div className={s.tab}>
+              <ShoppingBagOpen size={24} /> Purchased Product
+            </div>
+          }
+          key="8"
         >
           <OrderManagement />
         </TabPane>

@@ -70,7 +70,7 @@ const ListProduct = (props) => {
               trigger={["click"]}
               overlayClassName={classes.filter}
             >
-              <Funnel size={24} weight="thin" />
+              <Funnel size={24} weight="thin" style={{ cursor: "pointer" }} />
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>
             <ListDashes

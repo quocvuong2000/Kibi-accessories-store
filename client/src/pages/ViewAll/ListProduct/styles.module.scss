@@ -1,6 +1,6 @@
 @use "../../../sass/mixins" as *;
 .filter {
-  z-index: 998;
+  z-index: 998 !important;
   .text_range {
     display: flex;
     flex-direction: row;

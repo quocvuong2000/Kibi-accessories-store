@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  align-items: center;
+  padding-bottom: 50px;
+  margin-top: 30px;
+  .box_voucher {
+    display: flex;
+    flex-direction: row;
+    .left_voucher {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 2px dashed #999999;
+      position: relative;
+      background: white;
+      img {
+        padding: 20px;
+      }
+      &::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(360deg, black 50%, transparent 50%);
+        border-radius: 50%;
+        position: absolute;
+        right: -10px;
+        top: -8px;
+      }
+      &::before {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(180deg, black 50%, transparent 50%);
+        border-radius: 50%;
+        position: absolute;
+        right: -10px;
+        bottom: -8px;
+      }
+    }
+    .right_voucher {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 400px;
+      background: white;
+    }
+  }
+}
