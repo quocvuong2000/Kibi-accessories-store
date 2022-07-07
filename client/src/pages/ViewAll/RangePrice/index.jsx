@@ -3,10 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import { Checkbox } from "antd";
 const RangePrice = (props) => {
-  const [value, setValue] = React.useState([0, 1000000]);
-
   const rangeSelector = (event, newValue) => {
-    setValue(newValue);
+    props.setValue(newValue);
     console.log(newValue);
   };
   return (
@@ -21,11 +19,11 @@ const RangePrice = (props) => {
         Price
       </Typography>
       <Slider
-        value={value}
+        value={props.value}
         onChange={rangeSelector}
         valueLabelDisplay="auto"
-        min={0}
-        max={1000}
+        min={1000000}
+        max={10000000}
       />
     </div>
   );

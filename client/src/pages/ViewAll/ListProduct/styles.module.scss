@@ -21,6 +21,18 @@
     border: none;
     border-bottom: 2px solid #d84727 !important;
   }
+  .submit_filter {
+    margin-top: 15px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background: #d84727;
+    border: none;
+    color: white;
+    padding: 2px 0;
+    font-size: 18px;
+  }
   :global {
     .MuiSlider-thumb {
       width: 16px;

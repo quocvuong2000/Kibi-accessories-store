@@ -68,6 +68,7 @@ const MyAccount = () => {
   const id = new URLSearchParams(search).get("id");
   const email = new URLSearchParams(search).get("email");
   const prv = new URLSearchParams(search).get("prv");
+  const [verify, setVerify] = useState(false);
   useEffect(() => {
     if (prv != null && prv != undefined) {
       var tempprv = prv.replaceAll(" ", "+");
@@ -96,6 +97,7 @@ const MyAccount = () => {
         }
       });
     }
+    setVerify(false);
     setSearchParams("");
   }, []);
 
@@ -107,6 +109,7 @@ const MyAccount = () => {
     for (var i = 0; i < 300; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+
     setRandomChar(result);
     var enc = CryptoJS.AES.encrypt(
       email,
@@ -425,7 +428,13 @@ const MyAccount = () => {
         className={s.wrapInformation}
       >
         {update === 0 && <UpdatePhone />}
-        {update === 1 && <UpdateEmail update={handleUpdateEmail} />}
+        {update === 1 && (
+          <UpdateEmail
+            update={handleUpdateEmail}
+            verify={verify}
+            setVerify={setVerify}
+          />
+        )}
         {update === 2 && <UpdatePassword user={user} dispatch={dispatch} />}
       </Modal>
     </div>

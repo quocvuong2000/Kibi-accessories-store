@@ -3,8 +3,9 @@ import { Button, Checkbox, Dropdown, Menu, Spin } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
 import { DotsNine, ListDashes, Funnel } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { getBrand } from "../../../api/Brand";
 import EmptyPage from "../../../components/Empty";
 import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
@@ -12,40 +13,58 @@ import RangePrice from "../RangePrice";
 import classes from "./styles.module.scss";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-const menu = (
-  <Menu>
-    <RangePrice />
-    <div className={classes.text_range}>
-      <p className={classes.min_range_price}>
-        <b>$0</b>
-      </p>
-      <p className={classes.max_range_price}>
-        <b>$1000</b>
-      </p>
-    </div>
-    <hr className={classes.line_devide} />
-    <p className={classes.title_filter}>Brand</p>
-    <Checkbox.Group
-      style={{ width: "100%" }}
-      className={classes.checkbox_group}
-    >
-      <Checkbox value="A">A</Checkbox>
-      <Checkbox value="b">b</Checkbox>
-      <Checkbox value="c">c</Checkbox>
-      <Checkbox value="d">d</Checkbox>
-    </Checkbox.Group>
-  </Menu>
-);
-
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
   const [page, setPage] = useState(1);
+  const [value, setValue] = useState("");
+  const [range, setRange] = useState([1000000, 10000000]);
+  const [idBrand, setIdBrand] = useState("");
+
   const handleGrid = () => {
     setGlActive(false);
   };
   const handleList = () => {
     setGlActive(true);
   };
+
+  function handleChange(checkedValues) {
+    setValue(checkedValues.target.value);
+  }
+  const menu = (
+    <Menu>
+      <RangePrice setValue={setRange} value={range} />
+      <div className={classes.text_range}>
+        <p className={classes.min_range_price}>1m </p>
+        <p className={classes.max_range_price}>10m</p>
+      </div>
+      <hr className={classes.line_devide} />
+      <p className={classes.title_filter}>Brand</p>
+      <Checkbox.Group
+        style={{ width: "100%" }}
+        className={classes.checkbox_group}
+      >
+        {props.listBrand?.brands?.map((item, index) => {
+          return (
+            <Checkbox
+              key={index}
+              checked={item._id === value}
+              value={item._id}
+              onChange={() => setIdBrand(item._id)}
+            >
+              {item.brand}
+            </Checkbox>
+          );
+        })}
+      </Checkbox.Group>
+
+      <button
+        className={classes.submit_filter}
+        onClick={() => props.handleFilter("", idBrand, range[0], range[1], "")}
+      >
+        Submit
+      </button>
+    </Menu>
+  );
 
   return (
     <>
@@ -59,8 +78,13 @@ const ListProduct = (props) => {
         <div className={classes.way__result}>
           <p className={classes.showing}>
             {props.data?.totalItems <= 10
-              ? `Showing 1- ${props.data?.totalItems} of ${props.data?.totalItems} results`
+              ? props.data?.totalItems !== 0 &&
+                props.data?.totalItems !== undefined &&
+                `Showing 1- ${props.data?.totalItems} of ${props.data?.totalItems} results`
               : `Showing 1-10 of ${props.data?.totalItems} results`}
+
+            {props.data?.totalItems === undefined ||
+              (props.data?.totalItems === 0 && `Showing 0 of 0 result`)}
           </p>
           <div className={classes.short__list__grid}>
             <Dropdown

@@ -192,7 +192,8 @@ router.post("/social-account", async (req, res) => {
 });
 
 router.get("/exist/:email", async (req, res) => {
-  const userFound = await User.findOne({ email: req.body.email });
+  const userFound = await User.findOne({ email: req.params.email });
+  console.log("userFound:", userFound);
   if (userFound) {
     return res.status(201).json("Exists");
   } else {

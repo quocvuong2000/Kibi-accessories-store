@@ -48,22 +48,27 @@ const UpdatePhone = (props) => {
       let appVerifier = window.recaptchaVerifier;
       setOtp(true);
       setStart(true);
+      console.log("appVerifier:", appVerifier);
       signInWithPhoneNumber(auth, phoneIn, appVerifier)
         .then((confimationResult) => {
+          console.log("confimationResult:", confimationResult);
           window.confimationResult = confimationResult;
         })
         .catch((error) => {
-          //console.log(error);
+          console.log(error);
         });
+      setSeconds(30);
       //console.log(window.confimationResult);
     }
   };
   const verifyOtp = () => {
     if (numotp.length === 6) {
       let confimationResult = window.confimationResult;
+      console.log("confimationResult:", confimationResult);
       confimationResult
         .confirm(numotp)
         .then((rs) => {
+          console.log("rs:", rs);
           if (rs) {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {
@@ -77,7 +82,7 @@ const UpdatePhone = (props) => {
           }
         })
         .catch((error) => {
-          //console.log(error);
+          message.error("Wrong OTP");
         });
     } else {
       message.error("Wrong format OTP");

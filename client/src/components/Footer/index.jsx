@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
 import "boxicons";
+import MessengerCustomerChat from "react-messenger-customer-chat/lib/MessengerCustomerChat";
 export const Footer = () => {
   const left = [
     {
@@ -78,6 +79,11 @@ export const Footer = () => {
 
   return (
     <div className={styles.container}>
+      <MessengerCustomerChat
+        pageId="107587432015584"
+        appId="10152368852405295"
+        // htmlRef="<REF_STRING>"
+      />
       <div className={styles.footer}>
         <div className={styles.footer__address}>
           <div className={`${styles.footer__address__logo} ${styles.top__all}`}>
