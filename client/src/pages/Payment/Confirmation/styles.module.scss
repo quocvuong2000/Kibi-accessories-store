@@ -93,6 +93,8 @@
       letter-spacing: 0.03em;
       color: #333333;
       .itemList {
+        max-height: 200px;
+        overflow-y: auto;
         .item {
           .productName {
             font-family: "Taviraj";

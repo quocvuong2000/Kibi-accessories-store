@@ -1,4 +1,4 @@
-import { message, Radio } from "antd";
+import { message, Radio, Modal } from "antd";
 import PropsType from "prop-types";
 import React, { useEffect, useState } from "react";
 import {
@@ -14,7 +14,13 @@ import { getInfoService, getShippingCost } from "../../../api/Shipping";
 import StripeCheckout from "react-stripe-checkout";
 import avatarPlaceholder from "../../../assets/user_avatar.jpg";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
-import { CreditCard, Truck, Wallet } from "phosphor-react";
+import {
+  ArrowFatLinesRight,
+  CreditCard,
+  Tag,
+  Truck,
+  Wallet,
+} from "phosphor-react";
 import {
   doCheckoutByCard,
   doCheckoutByCod,
@@ -24,6 +30,8 @@ import {
   updateOrder,
 } from "../PaymentAPI";
 import { deleteAllCart } from "../../../redux/cartRedux";
+import { getVoucher } from "../../../api/Voucher";
+import ListVoucher from "../ListVoucher";
 
 const STRIPE_PK_KEY =
   "pk_test_51K0LBnFjydqiWgwtTtGT2ONJJuo4TAWczmDWero4QwWVw7p6n93JvDHkkDe70u1XVF5cT0kCsJQC59DJmQdBGPys00B3LSLWLk";
@@ -46,6 +54,33 @@ const PaymentDetail = (props) => {
   const transId = new URLSearchParams(search).get("transId");
   const signature = new URLSearchParams(search).get("signature");
   // -----------------------------------END STATE MOMO-----------------------------------
+
+  //-------------------------------------START STATE VOUCHER---------------------------------------------
+
+  const [listVoucher, setListVoucher] = useState([]);
+  const [salePrice, setSalePrice] = useState(0);
+  const [idVoucher, setIdVoucher] = useState(0);
+  const [nameVoucher, setNameVoucher] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  useEffect(() => {
+    getVoucher(props.user.currentUser.username).then((res) => {
+      setListVoucher(res.data);
+    });
+  }, []);
+
+  //-------------------------------------END STATE VOUCHER---------------------------------------------
   const [searchParams, setSearchParams] = useSearchParams();
   const [methodPayment, setMethodPayment] = useState(1);
   const [token, setToken] = useState();
@@ -60,6 +95,45 @@ const PaymentDetail = (props) => {
   const currentRecipientPhone = props.addressSelected
     ? props.addressSelected.recipientPhone
     : props.address[0].recipientPhone;
+
+  const currentWard = props.addressSelected
+    ? props.addressSelected.ward
+    : props.address[0].ward;
+  const currentDistrict = props.addressSelected
+    ? props.addressSelected.district
+    : props.address[0].district;
+  const currentCity = props.addressSelected
+    ? props.addressSelected.city
+    : props.address[0].city;
+  const [serviceId, setServiceId] = useState(0);
+  const [shippingCost, setShippingCost] = useState(0);
+  useEffect(() => {
+    getInfoService(1450, currentDistrict).then((res) => {
+      if (res) {
+        setServiceId(res.data.data[0].service_id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getShippingCost(
+      serviceId,
+      props.cart.totalPrice,
+      null,
+      currentWard,
+      currentDistrict,
+      1450,
+      1000,
+      15,
+      15,
+      15
+    ).then((res) => {
+      if (res) {
+        setShippingCost(res.data.data.total);
+      }
+    });
+  }, [serviceId, props.cart.totalPrice, currentWard, currentDistrict]);
+  console.log("shippingCost:", shippingCost);
   useEffect(() => {
     if (token) {
       props.hanldeLoading(true);
@@ -206,10 +280,22 @@ const PaymentDetail = (props) => {
     });
   };
 
+  console.log(nameVoucher);
+
   //-------------------------------------END MOMO---------------------------------------------
+
+  //-------------------------------------START VOUCHER---------------------------------------------
 
   return (
     <>
+      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <ListVoucher
+          listVoucher={listVoucher}
+          setIdVoucher={setIdVoucher}
+          setSalePrice={setSalePrice}
+          setNameVoucher={setNameVoucher}
+        />
+      </Modal>
       <div className={classes.paymentDetail}>
         <div className={classes.information}>
           <div className={classes.left}>
@@ -224,16 +310,26 @@ const PaymentDetail = (props) => {
                 </div>
                 <div className={classes.contentItem}>
                   <div className={classes.display}>Shipping Cost</div>
+
                   <div className={classes.price}>
-                    {numberWithCommas(props.shippingCost)} VND
+                    {numberWithCommas(shippingCost)} VND
                   </div>
                 </div>
-
+                <div
+                  className={classes.select_voucher}
+                  onClick={() => showModal()}
+                >
+                  <div className={classes.title_voucher}>
+                    <ArrowFatLinesRight size={20} weight="thin" /> Select
+                    Voucher <Tag size={20} weight="thin" />
+                  </div>
+                  <div className={classes.name_voucher}>{nameVoucher}</div>
+                </div>
                 <div className={classes.total}>
                   <div className={classes.display}>Grand Total</div>
                   <div className={classes.price}>
                     {numberWithCommas(
-                      props.cart.totalPrice + props.shippingCost
+                      props.cart.totalPrice + shippingCost - salePrice
                     )}{" "}
                     VND
                   </div>
@@ -348,9 +444,9 @@ const PaymentDetail = (props) => {
               name={props.user.currentUser.name}
               image={avatarPlaceholder}
               description={`Tổng của bạn là ${numberWithCommas(
-                props.cart.totalPrice
+                props.cart.totalPrice + props.shippingCost - salePrice
               )} VND`}
-              amount={props.cart.totalPrice}
+              amount={props.cart.totalPrice + props.shippingCost - salePrice}
               email={props.user.currentUser.email}
               token={onToken}
               stripeKey={STRIPE_PK_KEY}
@@ -377,7 +473,11 @@ const PaymentDetail = (props) => {
             </div>
             <div
               className={classes.btn}
-              onClick={() => handleMomo(props.cart.totalPrice)}
+              onClick={() =>
+                handleMomo(
+                  props.cart.totalPrice + props.shippingCost - salePrice
+                )
+              }
             >
               <button>Proceed Payment</button>
             </div>

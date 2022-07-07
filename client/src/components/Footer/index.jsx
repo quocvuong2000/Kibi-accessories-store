@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
 import "boxicons";
-import MessengerCustomerChat from "react-messenger-customer-chat/lib/MessengerCustomerChat";
 export const Footer = () => {
   const left = [
     {
@@ -18,15 +17,15 @@ export const Footer = () => {
   const getInTouch = [
     {
       title: "Phone",
-      desc: "022-20277564",
+      desc: "034-8098023",
     },
     {
       title: "Service Center",
-      desc: "0811-233-8899",
+      desc: "090-9090909",
     },
     {
       title: "Customer Service",
-      desc: "0811-235-9988",
+      desc: "098-7654321",
     },
   ];
 
@@ -79,11 +78,6 @@ export const Footer = () => {
 
   return (
     <div className={styles.container}>
-      <MessengerCustomerChat
-        pageId="107587432015584"
-        appId="10152368852405295"
-        // htmlRef="<REF_STRING>"
-      />
       <div className={styles.footer}>
         <div className={styles.footer__address}>
           <div className={`${styles.footer__address__logo} ${styles.top__all}`}>

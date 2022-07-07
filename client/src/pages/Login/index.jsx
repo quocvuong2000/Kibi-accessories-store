@@ -29,6 +29,9 @@ const Login = () => {
   const prv = new URLSearchParams(search).get("prv");
   const ps = new URLSearchParams(search).get("ps");
   useEffect(() => {
+    document.title = "KIBI | Login ";
+  }, []);
+  useEffect(() => {
     if (prv != null && prv != undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(

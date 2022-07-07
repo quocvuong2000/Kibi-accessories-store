@@ -15,10 +15,14 @@
       margin: 0 8px 0 0;
       cursor: pointer;
     }
+    .ant-space-item {
+      padding: 10px 0;
+    }
   }
   .addressList {
     height: 335px;
     overflow-y: auto;
+    overflow-x: hidden;
   }
   .right {
     display: flex;

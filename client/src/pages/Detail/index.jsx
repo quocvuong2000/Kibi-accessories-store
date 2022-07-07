@@ -17,6 +17,9 @@ const Detail = () => {
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
   useEffect(() => {
+    document.title = "KIBI | Detail";
+  }, []);
+  useEffect(() => {
     setLoading(true);
     window.scrollTo(0, 0);
     getProduct(id)

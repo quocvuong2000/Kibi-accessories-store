@@ -14,6 +14,9 @@ const ViewAll = () => {
   const [page, setPage] = useState(2);
   const { idCate } = useParams();
   useEffect(() => {
+    document.title = "KIBI | List";
+  }, []);
+  useEffect(() => {
     setLoading(true);
     getAllProduct(idCate, 1)
       .then((res) => {

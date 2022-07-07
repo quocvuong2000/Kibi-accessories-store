@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./styles.module.scss";
 import pageerror from "../../assets/404.png";
 import line1 from "../../assets/line1.png";
@@ -6,6 +6,9 @@ import line2 from "../../assets/line2.png";
 import { Link } from "react-router-dom";
 
 const Page404 = () => {
+  useEffect(() => {
+    document.title = "KIBI | Not Found";
+  }, []);
   return (
     <div className={s.container}>
       <div className={s.box_text}>

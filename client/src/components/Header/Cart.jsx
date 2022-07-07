@@ -30,28 +30,29 @@ export const Cart = (props) => {
   return (
     <Modal centered visible={props.visible}>
       <div ref={props.aref} style={{ padding: "24px" }}>
-        {product?.map((item, index) => {
-          return (
-            <React.Fragment key={index}>
-              <div className={classes.cart__item} key={index}>
-                <div className={classes.cart__item__left}>
-                  <div className={classes.cart__item__left__image}>
-                    <img src={item.productImage[0]} alt={item.productName} />
-                  </div>
-                  <div className={classes.cart__item__left__info}>
-                    <p className={classes.title}>{item.productName}</p>
-                    {/* <p className={classes.voucher}>
+        <div className={classes.box_cart_item}>
+          {product?.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <div className={classes.cart__item} key={index}>
+                  <div className={classes.cart__item__left}>
+                    <div className={classes.cart__item__left__image}>
+                      <img src={item.productImage[0]} alt={item.productName} />
+                    </div>
+                    <div className={classes.cart__item__left__info}>
+                      <p className={classes.title}>{item.productName}</p>
+                      {/* <p className={classes.voucher}>
                     Rp {item.priceVoucher}
                     <span className={classes.line}></span>
                   </p> */}
-                    <p className={classes.price}>
-                      {numberWithCommas(item.productPrice)}đ
-                    </p>
-                    {/* <p className={classes.detail}>{item.cate}</p> */}
+                      <p className={classes.price}>
+                        {numberWithCommas(item.productPrice)}đ
+                      </p>
+                      {/* <p className={classes.detail}>{item.cate}</p> */}
+                    </div>
                   </div>
-                </div>
-                <div className={classes.cart__item__right}>
-                  {/* <p className={classes.cart__item__right__select}>
+                  <div className={classes.cart__item__right}>
+                    {/* <p className={classes.cart__item__right__select}>
                   Select Packaging
                 </p>
                 <select className={classes.cart__item__right__price}>
@@ -62,65 +63,65 @@ export const Cart = (props) => {
                     {item.option}
                   </option>
                 </select> */}
-                  <div className={classes.cart__item__right__option}>
-                    <button
-                      className={classes.sub}
-                      onClick={() => {
-                        cart.isFetching === false &&
-                          downQty(
-                            dispatch,
-                            user.currentUser.username,
-                            item.productId
-                          );
-                      }}
-                    >
-                      <p className={classes.icon_sub}></p>
-                    </button>
-                    <p className={classes.count}>{item.quantity}</p>
-                    <button
-                      className={classes.add}
-                      onClick={() => {
-                        cart.isFetching === false &&
-                          upQty(
-                            dispatch,
-                            user.currentUser.username,
-                            item.productId
-                          );
-                      }}
-                    >
-                      <p className={classes.icon_add}></p>
-                      <p className={classes.icon_add2}></p>
-                    </button>
+                    <div className={classes.cart__item__right__option}>
+                      <button
+                        className={classes.sub}
+                        onClick={() => {
+                          cart.isFetching === false &&
+                            downQty(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }}
+                      >
+                        <p className={classes.icon_sub}></p>
+                      </button>
+                      <p className={classes.count}>{item.quantity}</p>
+                      <button
+                        className={classes.add}
+                        onClick={() => {
+                          cart.isFetching === false &&
+                            upQty(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }}
+                      >
+                        <p className={classes.icon_add}></p>
+                        <p className={classes.icon_add2}></p>
+                      </button>
 
-                    <p className={classes.result}>
-                      {numberWithCommas(item.productPrice * item.quantity)}đ
-                    </p>
-                    <button
-                      className={classes.delete}
-                      onClick={() => {
-                        cart.isFetching === false &&
-                          deleteCart(
-                            dispatch,
-                            user.currentUser.username,
-                            item.productId
-                          );
-                      }}
-                    >
-                      <box-icon
-                        name="trash"
-                        color="#d84727"
-                        size="24px"
-                        type="solid"
-                      ></box-icon>
-                    </button>
+                      <p className={classes.result}>
+                        {numberWithCommas(item.productPrice * item.quantity)}đ
+                      </p>
+                      <button
+                        className={classes.delete}
+                        onClick={() => {
+                          cart.isFetching === false &&
+                            deleteCart(
+                              dispatch,
+                              user.currentUser.username,
+                              item.productId
+                            );
+                        }}
+                      >
+                        <box-icon
+                          name="trash"
+                          color="#d84727"
+                          size="24px"
+                          type="solid"
+                        ></box-icon>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>{" "}
-              <br />
-            </React.Fragment>
-          );
-        })}
-
+                </div>{" "}
+                <br />
+              </React.Fragment>
+            );
+          })}
+        </div>
         <hr className={classes.line_deli} />
         <div className={classes.sub__total}>
           {/* <p className={classes.voucher}>35% OFF</p> */}

@@ -14,9 +14,6 @@ import SelectAddress from "./SelectAddress/SelectAddress";
 const Payment = () => {
   const location = useLocation();
   const [step, setStep] = useState(0);
-
-  const [serviceId, setServiceId] = useState(0);
-  const [shopinfo, setShopInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [address, setAdrress] = useState([]);
@@ -24,6 +21,7 @@ const Payment = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
+
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
   useEffect(() => {
@@ -32,14 +30,7 @@ const Payment = () => {
       currentStateUrl === "checkout" ? 0 : currentStateUrl === "payment" ? 1 : 2
     );
   }, [location.pathname]);
-  useEffect(() => {
-    getInfoService(1542, 1442).then((res) => {
-      if (res) {
-        setShopInfo(res.data);
-        setServiceId(res.data.data[0].service_id);
-      }
-    });
-  }, []);
+
   //GET ADDRESS
   useEffect(() => {
     getAddress(user.currentUser.username)
@@ -55,28 +46,11 @@ const Payment = () => {
       });
   }, [user.currentUser.username, navigate]);
 
-  useEffect(() => {
-    getShippingCost(
-      serviceId,
-      cart.totalPrice,
-      null,
-      "20314",
-      1444,
-      1542,
-      1000,
-      15,
-      15,
-      15
-    ).then((res) => {
-      if (res) {
-        setShippingCost(res.data.data.total);
-      }
-    });
-  }, [serviceId, cart.totalPrice]);
   const hanldeSelectAddress = (id) => {
     setLoadingPayment(true);
     getDetailAddress(user.currentUser.username, id)
       .then((res) => {
+        console.log("res:", res);
         setAddressSelected(res);
         navigate("/payment");
       })
@@ -137,6 +111,7 @@ const Payment = () => {
               )}
               {step === 1 && (
                 <PaymentDetail
+                  setShippingCost={setShippingCost}
                   shippingCost={shippingCost}
                   cart={cart}
                   user={user}
@@ -145,7 +120,13 @@ const Payment = () => {
                   hanldeLoading={hanldeLoading}
                 />
               )}
-              {step === 2 && <Confirmation shippingCost={shippingCost} />}
+              {step === 2 && (
+                <Confirmation
+                  address={address}
+                  addressSelected={addressSelected}
+                  shippingCost={shippingCost}
+                />
+              )}
             </div>
           </div>
         </div>

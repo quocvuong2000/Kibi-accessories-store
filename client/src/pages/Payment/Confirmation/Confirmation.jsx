@@ -10,12 +10,42 @@ import { Link, useLocation } from "react-router-dom";
 import { doGetDetailOrder } from "../ConfirmationAPI";
 import { Empty, message } from "antd";
 import AppLoader from "../../../components/AppLoader";
-
+import { getInfoService, getLeadTime } from "../../../api/Shipping";
+import timeToDate from "../../../utils/timeToDate";
 const Confirmation = (props) => {
+  const [serviceId, setServiceId] = useState(0);
+  console.log("addressSelected:", props.address[0]);
+  const currentWard = props.addressSelected
+    ? props.addressSelected.ward
+    : props.address[0].ward;
+  const currentDistrict = props.addressSelected
+    ? props.addressSelected.district
+    : props.address[0].district;
+  const currentCity = props.addressSelected
+    ? props.addressSelected.city
+    : props.address[0].city;
   const location = useLocation();
   //console.log(location.pathname.split("/")[2]);
   const [orderDetail, setOrderDetail] = useState();
   const id = location.pathname.split("/")[2];
+  const [leadTime, setLeadTime] = useState(0);
+
+  useEffect(() => {
+    getInfoService(1450, currentDistrict).then((res) => {
+      if (res) {
+        setServiceId(res.data.data[0].service_id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getLeadTime(currentDistrict, currentWard, serviceId).then((res) => {
+      if (res) {
+        setLeadTime(res.data?.data?.leadtime);
+      }
+    });
+  }, [serviceId]);
+  console.log("timeToDate(leadTime);:", timeToDate(leadTime));
   useEffect(() => {
     doGetDetailOrder(id)
       .then((res) => {
@@ -46,7 +76,7 @@ const Confirmation = (props) => {
             <div className={classes.delivery}>
               <div className={classes.deliveryItem}>
                 <Clock weight="light" />
-                10 days delivery
+                {timeToDate(leadTime)}
               </div>
               <div className={classes.deliveryItem}>
                 <Truck weight="light" />

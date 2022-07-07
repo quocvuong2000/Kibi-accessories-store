@@ -20,6 +20,7 @@ const viewedRoute = require("./routes/viewed");
 const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const momoRoute = require("./routes/momo");
+const voucherRoute = require("./routes/voucher");
 
 const monitorOrders = require("./triggers/ChangeStreamOrder");
 const monitorProduct = require("./triggers/ChangeStreamProduct");
@@ -50,6 +51,7 @@ app.use("/api/viewed", viewedRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/stripe", stripeRoute);
 app.use("/api/momo", momoRoute);
+app.use("/api/voucher", voucherRoute);
 
 //TRIGGER
 

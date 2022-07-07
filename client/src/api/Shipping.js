@@ -100,3 +100,27 @@ export const getShippingCost = async (
     throw Error("Something wrongs with code status" + res.status);
   return res;
 };
+
+export const getLeadTime = async (todistrict, toward, serviceid) => {
+  var data = {
+    from_district_id: 1450,
+    to_district_id: parseInt(todistrict),
+    to_ward_code: `${toward}`,
+    from_ward_code: "20804",
+    service_id: serviceid,
+  };
+  const res = await axios({
+    method: "post",
+    url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime",
+    headers: {
+      token: token,
+      shop_id: process.env.REACT_APP_SHOP_ID,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  });
+
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res;
+};

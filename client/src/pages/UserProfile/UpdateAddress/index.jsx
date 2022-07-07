@@ -40,7 +40,7 @@ const UpdateAddress = (props) => {
         setWardId(res.data.data[0].WardCode);
       }
     });
-  }, [districtId]);
+  }, [districtId, provinceId]);
 
   return (
     <div className={s.container}>

@@ -105,6 +105,7 @@ router.put("/delete/", async (req, res) => {
 //UPDATE ADDRESS
 router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
   const addressFound = await Address.findById(req.body.addressId);
+  console.log("addressFound:", addressFound);
   if (!addressFound) {
     res.status(404).json("address item not found");
   } else {

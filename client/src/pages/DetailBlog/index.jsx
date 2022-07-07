@@ -5,8 +5,12 @@ import imgmain from "../../assets/imgmainblog.jpg";
 import { Link } from "react-router-dom";
 import SmallBlog from "../Blog/SmallBlog";
 import Title from "../Blog/Title";
+import { useEffect } from "react";
 
 const DetailBlog = () => {
+  useEffect(() => {
+    document.title = "KIBI | Detail Blog";
+  }, []);
   return (
     <div className={s.container}>
       <div className={s.left_detailblog}>

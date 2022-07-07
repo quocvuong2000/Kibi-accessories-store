@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import BlogVideo from "./BlogVideo";
 import Carousel from "./Carousel/Carousel";
 import Category from "./Category/Category";
@@ -9,6 +10,9 @@ import classes from "./styles.module.scss";
 import Testimonial from "./Testimonial/Testimonial";
 
 const Home = () => {
+  useEffect(() => {
+    document.title = "KIBI | Home";
+  }, []);
   return (
     <div className={classes.home}>
       <motion.div

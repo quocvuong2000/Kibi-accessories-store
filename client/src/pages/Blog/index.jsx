@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import blogmain from "../../assets/blogmain.jpg";
 import BoxSwipe from "./BoxSwipe";
@@ -10,6 +11,9 @@ import Title from "./Title";
 import Trending from "./Trending";
 
 const Blog = () => {
+  useEffect(() => {
+    document.title = "KIBI | Blog";
+  }, []);
   return (
     <div className={s.blog}>
       <div className={s.blog_img_main}>

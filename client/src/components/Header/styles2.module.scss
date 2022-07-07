@@ -1,4 +1,8 @@
 @use "../../sass/mixins" as *;
+.box_cart_item {
+  max-height: 300px;
+  overflow-y: auto;
+}
 .cart__item {
   p {
     margin-bottom: unset !important;

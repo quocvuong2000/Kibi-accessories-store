@@ -7,6 +7,7 @@ const VoucherSchema = new mongoose.Schema(
     salePrice: { type: Number },
     duration: { type: String },
     expireDay: { type: String },
+    image: { type: String },
   },
   { timestamps: true }
 );

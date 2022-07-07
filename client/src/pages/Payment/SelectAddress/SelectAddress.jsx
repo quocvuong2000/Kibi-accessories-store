@@ -78,7 +78,12 @@ const SelectAddress = ({ address, hanldeSelectAddress }) => {
                 <Space direction="vertical">
                   {address.map((item, index) => {
                     return (
-                      <Radio value={item._id}>
+                      <Radio
+                        value={item._id}
+                        ward={item.ward}
+                        district={item.district}
+                        city={item.city}
+                      >
                         <AddressItem item={item} key={index} />
                       </Radio>
                     );

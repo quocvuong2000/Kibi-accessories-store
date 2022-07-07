@@ -45,6 +45,20 @@
             letter-spacing: 0.03em;
             color: #333333;
           }
+          .select_voucher {
+            color: #d84727;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            column-gap: 10px;
+            .title_voucher {
+              display: flex;
+              column-gap: 10px;
+              align-items: center;
+            }
+          }
           .total {
             display: flex;
             justify-content: space-between;
@@ -191,6 +205,8 @@
               }
             }
             .itemList {
+              max-height: 100px;
+              overflow-y: auto;
               .item {
                 span {
                   font-family: "Taviraj";
