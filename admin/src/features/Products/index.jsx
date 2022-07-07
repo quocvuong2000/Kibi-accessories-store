@@ -21,7 +21,6 @@ const Products = () => {
     setReload(status);
   };
   useEffect(() => {
-    console.log("first");
     getProductList(page)
       .then((res) => {
         if (res) {

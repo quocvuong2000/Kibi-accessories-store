@@ -38,6 +38,34 @@ const verifyTokenAndStaff = (req, res, next) => {
     }
   });
 };
+
+const verifyTokenAndProductStaff = (req,res,next) => {
+  verifyToken(req, res, () => {
+    if (req.user.type === "product_staff" || req.user.type === "admin") {
+      next();
+    } else {
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+}
+const verifyTokenAndBlogStaff = (req,res,next) => {
+  verifyToken(req, res, () => {
+    if (req.user.type === "blog_staff" || req.user.type === "admin") {
+      next();
+    } else {
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+}
+const verifyTokenAndOrderStaff = (req,res,next) => {
+  verifyToken(req, res, () => {
+    if (req.user.type === "blog_staff" || req.user.type === "admin") {
+      next();
+    } else {
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+}
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.role.type === "admin") {
@@ -52,5 +80,8 @@ module.exports = {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndStaff,
+  verifyTokenAndProductStaff,
+  verifyTokenAndBlogStaff,
+  verifyTokenAndOrderStaff,
   verifyTokenAndAdmin,
 };

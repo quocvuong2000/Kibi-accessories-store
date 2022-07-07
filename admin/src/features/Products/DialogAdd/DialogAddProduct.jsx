@@ -46,6 +46,7 @@ import { addNewProduct } from "../ProductAPI";
 import unknownUser from "../../../assets/images/product.png";
 import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
 import AppLoader from "../../../components/AppLoader";
+import { AddProductSchema } from "./validation";
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -183,14 +184,15 @@ export default function DialogAddProduct(props) {
           </Stepper>
         </Box>
         <Formik
+          validationSchema={AddProductSchema}
           validateOnChange={true}
           initialValues={{
             product: "",
-            price: 0,
+            price: "",
             category: "",
             brand: "",
             topSales: false,
-            quantity: 0,
+            quantity: "",
             description: {
               content: "",
               detail: "",
@@ -295,11 +297,11 @@ export default function DialogAddProduct(props) {
                           }}
                         >
                           <InputLabel
-                            id="label-user-type"
+                            id="label-category-type"
                             sx={{
                               background: "#fff",
                               color: (theme) =>
-                                errors.userType && touched.userType
+                                errors.category && touched.category
                                   ? "#f44336"
                                   : "currentcolor",
                             }}
@@ -307,7 +309,7 @@ export default function DialogAddProduct(props) {
                             Category
                           </InputLabel>
                           <AppSelectField
-                            labelId="label-user-type"
+                            labelId="label-category-type"
                             size="small"
                             label={"Category"}
                             name="category"
@@ -334,19 +336,19 @@ export default function DialogAddProduct(props) {
                           }}
                         >
                           <InputLabel
-                            id="label-user-role"
+                            id="label-brand-role"
                             sx={{
                               background: "#fff",
                               color: (theme) =>
-                                errors.userType && touched.userType
+                                errors.brand && touched.brand
                                   ? "#f44336"
                                   : "currentcolor",
                             }}
                           >
                             Brand
                           </InputLabel>
-                          <Select
-                            labelId="label-user-role"
+                          <AppSelectField
+                            labelId="label-brand-role"
                             label="Brand"
                             name="brand"
                             sx={{
@@ -363,7 +365,7 @@ export default function DialogAddProduct(props) {
                                 </MenuItem>
                               );
                             })}
-                          </Select>
+                          </AppSelectField>
                         </FormControl>
                       </Box>
                       <Box sx={{ mb: { xs: 3, xl: 3 } }}>
