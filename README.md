@@ -10,3 +10,6 @@
 	=> vô từng thư mục và gõ lệnh npm install để cài đặt các package cần thiết cho việc chạy source code
 	=> sau khi đã install hết, vô thư mục "api" và chạy server api bằng lệnh "npm start"
 	=> sau khi đã chạy server và kết nối vô DB thành công ta vô 2 thư mục còn lại để chạy source như trên bằng lệnh "npm start"
+4. Tài khoản thử nghiệm ( taikhoan / matkhau )
+	- vuong@kibi.vn / 123456 (Admin)
+	- ngduonganhhuy@gmail.com / 123123123

@@ -23,6 +23,7 @@ import formatName from "../../utils/formatName";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
+import placeholderAvatar from "../../assets/user_avatar.jpg";
 const { Search } = Input;
 
 const Header = () => {
@@ -32,27 +33,36 @@ const Header = () => {
   const handleSignOut = () => {
     Cookies.remove("token");
     localStorage.removeItem("persist:root");
+    navigate2("/login");
   };
   const menu = (
     <Menu>
       <Menu.Item>
-        <div className={classes.box_profile}>
+        <Link to={"/myaccount/1"} className={classes.box_profile}>
           <div className={classes.avatar_menu}>
-            <img src={user.currentUser?.avatar} alt="" />
+            <img
+              src={
+                user.currentUser
+                  ? user.currentUser.avatar
+                    ? user.currentUser.avatar
+                    : placeholderAvatar
+                  : placeholderAvatar
+              }
+              alt=""
+            />
           </div>
-          <p className={classes.name_avatar}>{user.currentUser?.name}</p>
-        </div>
+          <p className={classes.name_avatar}>
+            {user.currentUser ? user.currentUser.name : ""}
+          </p>
+        </Link>
       </Menu.Item>
       <Menu.Item>
-        <div
-          className={classes.link_to_profile}
-          onClick={() => navigate2(`/myaccount/1`)}
-        >
+        <Link to={"/myaccount/1"} className={classes.link_to_profile}>
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
           Your Profile
-        </div>
+        </Link>
       </Menu.Item>
       <Menu.Item>
         <Link className={classes.wish_list} to={"/myaccount/4"}>
@@ -139,19 +149,20 @@ const Header = () => {
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
-              <div className={classes.login}>
-                <Dropdown
-                  overlay={menu}
-                  placement="bottomLeft"
-                  arrow
-                  overlayClassName={classes.menu_header}
-                >
+              <Dropdown
+                overlay={menu}
+                placement="bottomLeft"
+                arrow
+                trigger={["click"]}
+                overlayClassName={classes.menu_header}
+              >
+                <div className={classes.login}>
                   <User size={32} color="#000" weight="thin" />
-                </Dropdown>
-                <div className={classes.loginText}>
-                  {formatName(user.currentUser.name)}
+                  <div className={classes.loginText}>
+                    {formatName(user.currentUser.name)}
+                  </div>
                 </div>
-              </div>
+              </Dropdown>
             ) : (
               <Link to={"/login"} className={classes.login}>
                 <User size={32} color="#000" weight="thin" />

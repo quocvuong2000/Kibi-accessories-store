@@ -9,7 +9,7 @@ const UnRequireAuth = ({ children }) => {
     <>
       <Header />
       <div>{children}</div>
-      <Chat />
+      {/* <Chat /> */}
       <Footer />
     </>
   );

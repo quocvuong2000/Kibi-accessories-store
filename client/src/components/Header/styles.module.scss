@@ -406,3 +406,15 @@
     }
   }
 }
+
+.loginText {
+  &:hover {
+    color: #d84727;
+  }
+  &:active {
+    color: #d84727;
+  }
+  &:focus {
+    color: #d84727;
+  }
+}
