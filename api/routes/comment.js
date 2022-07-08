@@ -12,6 +12,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
     rating: req.body.rating,
     name: req.body.name,
     avatar: req.body.avatar,
+    productImage : req.body.productImage,
   });
   try {
     const savedData = await newCommentSaved.save();

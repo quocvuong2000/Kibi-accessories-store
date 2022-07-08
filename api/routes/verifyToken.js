@@ -15,7 +15,6 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json("You are not authenticated!");
   }
 };
-
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
     if (
@@ -38,10 +37,9 @@ const verifyTokenAndStaff = (req, res, next) => {
     }
   });
 };
-
 const verifyTokenAndProductStaff = (req,res,next) => {
   verifyToken(req, res, () => {
-    if (req.user.type === "product_staff" || req.user.type === "admin") {
+    if ((req.user.type === "staff" && req.user.role === "product") || req.user.type === "admin") {
       next();
     } else {
       res.status(403).json("You are not alowed to do that!");
@@ -50,7 +48,7 @@ const verifyTokenAndProductStaff = (req,res,next) => {
 }
 const verifyTokenAndBlogStaff = (req,res,next) => {
   verifyToken(req, res, () => {
-    if (req.user.type === "blog_staff" || req.user.type === "admin") {
+    if ((req.user.type === "staff" && req.user.role === "blog") || req.user.type === "admin") {
       next();
     } else {
       res.status(403).json("You are not alowed to do that!");
@@ -59,7 +57,7 @@ const verifyTokenAndBlogStaff = (req,res,next) => {
 }
 const verifyTokenAndOrderStaff = (req,res,next) => {
   verifyToken(req, res, () => {
-    if (req.user.type === "blog_staff" || req.user.type === "admin") {
+    if ((req.user.type === "staff" && req.user.role === "order") || req.user.type === "admin") {
       next();
     } else {
       res.status(403).json("You are not alowed to do that!");
