@@ -59,8 +59,8 @@ const Comment = (props) => {
     });
   };
 
-  const handleDeleteComment = (id) => {
-    deleteComment(id).then((res) => {
+  const handleDeleteComment = (id, pId) => {
+    deleteComment(id, pId).then((res) => {
       if (res.status === 200) {
         message.success("Delete Success");
       }
@@ -74,10 +74,7 @@ const Comment = (props) => {
       {user.currentUser && (
         <div className={s.box_comment}>
           <div className={s.avatar}>
-            <img
-              src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.6435-1/117913220_1830938403726260_3219453326340367531_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=7206a8&_nc_ohc=Z4Ox8sBTvdEAX9up7gs&tn=LMYK3ndhwOI69WET&_nc_ht=scontent.fsgn5-6.fna&oh=00_AT99BPtz__aOWR-55OqN8v-TiZy17Cq78BRd6nhpqcRKLA&oe=62D890C5"
-              alt=""
-            />
+            <img src={user.currentUser?.avatar} loading="lazy" alt="" />
           </div>
           <div className={s.frame_comment}>
             <InputEmoji
@@ -106,7 +103,7 @@ const Comment = (props) => {
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
-              <img src={item?.avatar} alt="" />
+              <img src={item?.avatar} loading="lazy" alt="" />
             </div>
             <div className={s.frame_comment}>
               <p className={s.fullname}>{item?.name}</p>
@@ -115,7 +112,9 @@ const Comment = (props) => {
               {item?.username === user.currentUser?.username ? (
                 <p
                   className={s.delete}
-                  onClick={() => handleDeleteComment(item._id)}
+                  onClick={() =>
+                    handleDeleteComment(item._id, props.data.product._id)
+                  }
                 >
                   Delete
                 </p>

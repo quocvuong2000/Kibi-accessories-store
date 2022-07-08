@@ -22,6 +22,7 @@ const ProductSchema = new mongoose.Schema(
     newStatus: { type: Boolean },
     sale: { type: Number },
     tag: { type: Array },
+    avgRating: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

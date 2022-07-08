@@ -12,7 +12,7 @@ const RangePrice = (props) => {
       style={{
         margin: "auto",
         display: "block",
-        width: "200px",
+        width: "100%",
       }}
     >
       <Typography id="range-slider" gutterBottom>

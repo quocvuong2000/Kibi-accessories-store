@@ -40,9 +40,10 @@ export const getCommentByUser = async (username, page) => {
   return res;
 };
 
-export const deleteComment = async (id) => {
+export const deleteComment = async (id, productId) => {
   const res = await callAPIWithToken.post(`/api/comment/delete`, {
     commentId: id,
+    productId: productId,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);

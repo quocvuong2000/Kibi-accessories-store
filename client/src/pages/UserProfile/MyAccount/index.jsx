@@ -20,7 +20,7 @@ import { EnvelopeSimple, Key, Phone } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { updateEmail } from "../../../api/User";
+import { checkExist, updateEmail } from "../../../api/User";
 import userPlaceholder from "../../../assets/user_avatar.jpg";
 import { updateProfile } from "../../../redux/apiCalls";
 import { updateSuccess } from "../../../redux/userRedux";
@@ -102,40 +102,49 @@ const MyAccount = () => {
   }, []);
 
   const handleUpdateEmail = (email) => {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 300; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    setRandomChar(result);
-    var enc = CryptoJS.AES.encrypt(
-      email,
-      `${process.env.REACT_APP_PRIVATE_KEY}`
-    ).toString();
-    emailjs
-      .send(
-        "service_3fco6q6",
-        "template_t9ihe46",
-        {
-          to_name: email,
-          from_name: "bin01012000@gmail.com",
-          message: ` <a href='https://localhost:3000/myaccount/1/?id=${result}&email=${email}&prv=${enc}' target='_blank'> Google </a>`,
-        },
-        "v3GcHX1OV7AjPKEdx"
-      )
-      .then(
-        (res) => {
-          if (res.status === 200) {
-            message.success("Please check your email and verify");
-          }
-        },
-        (error) => {
-          //console.log(error.text);
+    checkExist(email).then((res) => {
+      if (res.status === 200) {
+        var result = "";
+        var characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var charactersLength = characters.length;
+        for (var i = 0; i < 300; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
         }
-      );
+
+        setRandomChar(result);
+        var enc = CryptoJS.AES.encrypt(
+          email,
+          `${process.env.REACT_APP_PRIVATE_KEY}`
+        ).toString();
+        emailjs
+          .send(
+            "service_3fco6q6",
+            "template_t9ihe46",
+            {
+              to_name: email,
+              from_name: "kibiaccessories@kibi.vn",
+              link: `https://localhost:3000/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
+            },
+            "v3GcHX1OV7AjPKEdx"
+          )
+          .then(
+            (res) => {
+              if (res.status === 200) {
+                setVerify(true);
+                message.success("Please check your email and verify");
+              }
+            },
+            (error) => {
+              //console.log(error.text);
+            }
+          );
+      } else {
+        message.error("Email already exists");
+      }
+    });
   };
 
   const showModal = () => {
@@ -311,7 +320,7 @@ const MyAccount = () => {
                           onChange={(value, dateString) =>
                             setFieldValue("dob", dateString)
                           }
-                          value={
+                          defaultValue={
                             user.currentUser?.dob
                               ? moment(user.currentUser?.dob, dateFormat)
                               : undefined

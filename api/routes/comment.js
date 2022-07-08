@@ -1,4 +1,5 @@
 const Comment = require("../models/Comment");
+const Product = require("../models/Product");
 const User = require("../models/User");
 const router = require("express").Router();
 const { verifyTokenAndAuthorization } = require("./verifyToken");
@@ -13,8 +14,22 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
     name: req.body.name,
     avatar: req.body.avatar,
   });
+
+  const comment = await Comment.find({
+    productId: req.body.productId,
+  });
+
+  let total = req.body.rating;
+  comment.forEach((e) => {
+    total += e.rating;
+  });
+
+  const product = await Product.findByIdAndUpdate(req.body.productId, {
+    avgRating: (total / comment.length).toFixed(1),
+  });
   try {
     const savedData = await newCommentSaved.save();
+    await product.save();
     res.status(200).json(savedData);
   } catch (error) {
     res.status(500).json(err);
@@ -25,6 +40,20 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
 router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   try {
     await Comment.findByIdAndRemove(req.body.commentId);
+    const comment = await Comment.find({
+      productId: req.body.productId,
+    });
+
+    let total = 0;
+    comment.forEach((e) => {
+      total += e.rating;
+    });
+
+    const product = await Product.findByIdAndUpdate(req.body.productId, {
+      avgRating: (total / comment.length).toFixed(1),
+    });
+
+    await product.save();
     // const addCart = await pInfo.save();
     res.status(200).json("Delete success");
   } catch (error) {

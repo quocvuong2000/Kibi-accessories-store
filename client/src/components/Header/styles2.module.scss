@@ -175,7 +175,7 @@
     margin-bottom: unset !important;
   }
   flex-direction: row;
-  @include flex(center, space-between);
+  @include flex(center, flex-end);
   .voucher {
     color: #01522d;
     @include font(normal, 500, 20px, 24px, 0.02em);
@@ -220,6 +220,7 @@
   width: 100%;
   padding: 22px 0;
   .txt {
+    cursor: pointer;
     color: #ffffff !important;
   }
   @include font(normal, 600, 24px, 24px, 0.02em);

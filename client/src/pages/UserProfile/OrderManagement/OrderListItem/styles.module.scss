@@ -1,3 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  align-items: center;
+  .button_remove {
+    background-color: #d84727;
+    color: #fff;
+    border: none;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: no-drop;
+      background-color: #999;
+      filter: none !important;
+    }
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+}
 .orderItemContainer {
   padding: 10px;
   margin-bottom: 15px;
@@ -8,11 +33,10 @@
   box-sizing: border-box;
   border-radius: 5px;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
- 
 
   .code {
     font-family: "Inter";

@@ -14,6 +14,7 @@ import {
   Blog,
   DetailBlog,
   ViewAllBlog,
+  Client,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -55,7 +56,7 @@ const AppLayout = () => {
               </RequireAuth>
             }
           />
-           <Route
+          <Route
             path="/checkout"
             element={
               <RequireAuth>

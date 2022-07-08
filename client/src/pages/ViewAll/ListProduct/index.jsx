@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Dropdown, Menu, Spin } from "antd";
+import { Button, Checkbox, Dropdown, Menu, Radio, Spin } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
 import { DotsNine, ListDashes, Funnel } from "phosphor-react";
@@ -39,24 +39,22 @@ const ListProduct = (props) => {
       </div>
       <hr className={classes.line_devide} />
       <p className={classes.title_filter}>Brand</p>
-      <Checkbox.Group
-        style={{ width: "100%" }}
-        className={classes.checkbox_group}
-      >
+      <Radio.Group style={{ width: "100%" }} className={classes.checkbox_group}>
         {props.listBrand?.brands?.map((item, index) => {
           return (
-            <Checkbox
+            <Radio
               key={index}
               checked={item._id === value}
               value={item._id}
               onChange={() => setIdBrand(item._id)}
             >
               {item.brand}
-            </Checkbox>
+            </Radio>
           );
         })}
-      </Checkbox.Group>
-
+      </Radio.Group>
+      <hr className={classes.line_devide} />
+      <p className={classes.title_filter}>Rating</p>
       <button
         className={classes.submit_filter}
         onClick={() => props.handleFilter("", idBrand, range[0], range[1], "")}

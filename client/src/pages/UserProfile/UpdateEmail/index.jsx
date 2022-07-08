@@ -18,7 +18,6 @@ const UpdateEmail = (props) => {
             }}
             onSubmit={(values) => {
               props.update(values.email);
-              props.setVerify(true);
             }}
           >
             {({ errors, touched }) => {

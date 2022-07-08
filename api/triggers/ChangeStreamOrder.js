@@ -20,7 +20,7 @@ async function monitorOrders(client, timeInMs) {
     const expireDay = new Date();
     expireDay.setDate(currentDay.getDate() + inUseDay);
     const newVoucher = {
-      voucherName: "Mua hang hon 5tr",
+      voucherName: "Giảm 50K",
       username: next.fullDocument.username,
       salePrice: 50000,
       duration: 5,

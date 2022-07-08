@@ -69,6 +69,7 @@ const UpdatePhone = (props) => {
         .confirm(numotp)
         .then((rs) => {
           console.log("rs:", rs);
+          setOtp(false);
           if (rs) {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {

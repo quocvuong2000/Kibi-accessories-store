@@ -30,7 +30,7 @@ import {
   updateOrder,
 } from "../PaymentAPI";
 import { deleteAllCart } from "../../../redux/cartRedux";
-import { getVoucher } from "../../../api/Voucher";
+import { deletedVoucher, getVoucher } from "../../../api/Voucher";
 import ListVoucher from "../ListVoucher";
 
 const STRIPE_PK_KEY =
@@ -107,6 +107,7 @@ const PaymentDetail = (props) => {
     : props.address[0].city;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
+
   useEffect(() => {
     getInfoService(1450, currentDistrict).then((res) => {
       if (res) {
@@ -130,6 +131,7 @@ const PaymentDetail = (props) => {
     ).then((res) => {
       if (res) {
         setShippingCost(res.data.data.total);
+        props.setShippingCost(res.data.data.total);
       }
     });
   }, [serviceId, props.cart.totalPrice, currentWard, currentDistrict]);
@@ -139,7 +141,10 @@ const PaymentDetail = (props) => {
       props.hanldeLoading(true);
       const data = {
         tokenId: token.id,
-        amount: props.cart.totalPrice,
+        amount:
+          props.cart.totalPrice + shippingCost - salePrice > 0
+            ? props.cart.totalPrice + shippingCost - salePrice
+            : 0,
         username: props.user.currentUser.username,
         email: props.user.currentUser.email,
         address: props.address[0].address,
@@ -234,11 +239,12 @@ const PaymentDetail = (props) => {
         .then((res) => {
           console.log("res:", res);
           if (res.statusCode === 200) {
-            console.log("res.data:", res.data);
-            console.log("signature:", signature);
             if (res.data === signature) {
               const datasecond = {
-                amount: props.cart.totalPrice,
+                amount:
+                  props.cart.totalPrice + shippingCost - salePrice > 0
+                    ? props.cart.totalPrice + shippingCost - salePrice
+                    : 0,
                 username: props.user.currentUser.username,
                 email: props.user.currentUser.email,
                 address: props.address[0].address,
@@ -247,7 +253,6 @@ const PaymentDetail = (props) => {
               };
               updateOrder(datasecond)
                 .then((res) => {
-                  console.log("res:", res);
                   if (res.statusCode === 200) {
                     message.success("Payment success");
                     props.hanldeLoading(false);
@@ -272,6 +277,7 @@ const PaymentDetail = (props) => {
   }, []);
 
   const handleMomo = (amount) => {
+    localStorage.setItem("idVauchoemxiuanhnhe", idVoucher);
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
         var win = window.open(res.data.payUrl);
@@ -328,9 +334,11 @@ const PaymentDetail = (props) => {
                 <div className={classes.total}>
                   <div className={classes.display}>Grand Total</div>
                   <div className={classes.price}>
-                    {numberWithCommas(
-                      props.cart.totalPrice + shippingCost - salePrice
-                    )}{" "}
+                    {props.cart.totalPrice + shippingCost - salePrice > 0
+                      ? numberWithCommas(
+                          props.cart.totalPrice + shippingCost - salePrice
+                        )
+                      : 0}{" "}
                     VND
                   </div>
                 </div>

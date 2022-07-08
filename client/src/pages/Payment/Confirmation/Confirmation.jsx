@@ -12,6 +12,8 @@ import { Empty, message } from "antd";
 import AppLoader from "../../../components/AppLoader";
 import { getInfoService, getLeadTime } from "../../../api/Shipping";
 import timeToDate from "../../../utils/timeToDate";
+import { deletedVoucher } from "../../../api/Voucher";
+
 const Confirmation = (props) => {
   const [serviceId, setServiceId] = useState(0);
   console.log("addressSelected:", props.address[0]);
@@ -38,6 +40,8 @@ const Confirmation = (props) => {
     });
   }, []);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     getLeadTime(currentDistrict, currentWard, serviceId).then((res) => {
       if (res) {
@@ -49,7 +53,11 @@ const Confirmation = (props) => {
   useEffect(() => {
     doGetDetailOrder(id)
       .then((res) => {
-        //console.log(res);
+        var idVoucher = localStorage.getItem("idVauchoemxiuanhnhe");
+        if (idVoucher !== "") {
+          deletedVoucher(idVoucher).then(() => {});
+          localStorage.removeItem("idVauchoemxiuanhnhe");
+        }
         setOrderDetail(res);
       })
       .catch(() => {
