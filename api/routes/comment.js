@@ -13,6 +13,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
     rating: req.body.rating,
     name: req.body.name,
     avatar: req.body.avatar,
+    productImage: req.body.productImage,
   });
 
   const comment = await Comment.find({
@@ -78,7 +79,8 @@ router.get("/user/:username", async (req, res) => {
       })
         .sort({ createdAt: 1 })
         .skip(perPage * page - perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .sort({ createdAt: -1 });
     } else {
       comments = await Comment.find();
     }

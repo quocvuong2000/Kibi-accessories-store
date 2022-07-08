@@ -1,3 +1,11 @@
+.container {
+  :global {
+    .ant-modal {
+      top: 200px;
+    }
+  }
+}
+
 .paymentDetail {
   width: 1110px;
   display: flex;

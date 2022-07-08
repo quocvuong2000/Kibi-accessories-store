@@ -37,7 +37,7 @@ const Rated = () => {
         setIsLoading(false);
       });
   }, []);
-
+  console.log("listComment:", listComment);
   return (
     <>
       {isLoading === true && <AppLoader />}
@@ -53,7 +53,7 @@ const Rated = () => {
               <div className={s.one_content} key={index}>
                 <div className={s.image}>
                   <Link to={`/detail/${item.productId}`}>
-                    <img src={image} alt="" />
+                    <img src={item.productImage} alt="" />
                   </Link>
                 </div>
                 <div className={s.box_comment}>

@@ -293,7 +293,7 @@ const PaymentDetail = (props) => {
   //-------------------------------------START VOUCHER---------------------------------------------
 
   return (
-    <>
+    <div className={classes.container}>
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <ListVoucher
           listVoucher={listVoucher}
@@ -492,7 +492,7 @@ const PaymentDetail = (props) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 PaymentDetail.propsType = {

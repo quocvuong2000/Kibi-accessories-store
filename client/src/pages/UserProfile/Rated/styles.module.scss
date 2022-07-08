@@ -50,6 +50,14 @@
   row-gap: 30px;
   padding-bottom: 100px;
 
+  .see_more {
+    color: #d84727;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   :global {
     .ant-form-item {
       margin: 0;

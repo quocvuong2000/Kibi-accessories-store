@@ -40,6 +40,7 @@ const Comment = (props) => {
       //console.log(listComment);
       setListComment(res.data.comments);
     });
+    console.log("props.data.product:", props.data.product);
   }, [reload, props.data.product._id]);
 
   const handleComment = () => {
@@ -49,7 +50,8 @@ const Comment = (props) => {
       content,
       rating,
       user.currentUser.name,
-      user.currentUser.avatar
+      user.currentUser.avatar,
+      props.data.product.images[0]
     ).then((res) => {
       //console.log(res);
       if (res) {

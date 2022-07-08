@@ -11,6 +11,7 @@ import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
 import RangePrice from "../RangePrice";
 import classes from "./styles.module.scss";
+import DotLoading from "../../../components/Verify/DotLoading";
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const ListProduct = (props) => {
@@ -34,8 +35,8 @@ const ListProduct = (props) => {
     <Menu>
       <RangePrice setValue={setRange} value={range} />
       <div className={classes.text_range}>
-        <p className={classes.min_range_price}>1m </p>
-        <p className={classes.max_range_price}>10m</p>
+        <p className={classes.min_range_price}>1.000.000vnđ</p>
+        <p className={classes.max_range_price}>10.000.000vnđ</p>
       </div>
       <hr className={classes.line_devide} />
       <p className={classes.title_filter}>Brand</p>
@@ -66,7 +67,7 @@ const ListProduct = (props) => {
 
   return (
     <>
-      <div className={classes.container}>
+      <div className={classes.container} id="scrollableDiv">
         <div className={classes.image__wrap}>
           <img
             src="https://matoa-indonesia.com/wp-content/uploads/2022/05/Req-10-01-1-scaled.jpg"
@@ -112,16 +113,24 @@ const ListProduct = (props) => {
             <Spin indicator={antIcon} />
           </div>
         ) : props.data.products?.length > 0 ? (
-          <div id="scrollableDiv">
+          <div>
             <InfiniteScroll
-              dataLength={1}
+              dataLength={props.data.products.length}
               next={() => {
-                alert("asdjsadj");
-                if (page < props.totalPages) {
-                  props.fetchMore(page);
-                }
+                alert("asdsadjh");
               }}
               hasMore={true}
+              loader={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingBottom: "50px",
+                  }}
+                >
+                  <DotLoading />
+                </div>
+              }
               scrollableTarget="scrollableDiv"
               endMessage={
                 <p style={{ textAlign: "center" }}>

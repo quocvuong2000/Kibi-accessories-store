@@ -8,6 +8,7 @@ const Comment = new mongoose.Schema(
     rating: { type: Number },
     name: { type: String },
     avatar: { type: String },
+    productImage : {type : String}
   },
   { timestamps: true }
 );
