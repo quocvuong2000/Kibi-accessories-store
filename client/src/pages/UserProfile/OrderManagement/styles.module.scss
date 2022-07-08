@@ -94,7 +94,11 @@
   margin-top: 40px;
   color: #d84727;
   font-size: 16px;
+  padding-bottom: 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+
   &:hover {
     text-decoration: underline;
   }

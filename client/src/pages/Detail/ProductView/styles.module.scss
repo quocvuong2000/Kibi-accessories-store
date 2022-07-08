@@ -137,6 +137,7 @@ svg {
             width: 24px;
             height: 24px;
             border: 1px solid #777777;
+
             box-sizing: border-box;
             position: relative;
             cursor: pointer;
@@ -151,6 +152,8 @@ svg {
               position: absolute;
               border: 1px solid #777777;
               border-bottom: none !important;
+              border-right: none !important;
+              border-left: none !important;
               bottom: 50%;
               left: 0;
               right: 0;
@@ -179,11 +182,13 @@ svg {
             .icon_add {
               position: absolute;
               border: 1px solid #ffffff;
-              bottom: 50%;
+              bottom: 49%;
               left: 0;
               right: 0;
               border-bottom: none;
               margin: 0 4px;
+              border-right: none !important;
+              border-left: none !important;
             }
             .icon_add2 {
               position: absolute;

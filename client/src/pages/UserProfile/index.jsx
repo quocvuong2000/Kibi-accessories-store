@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
-import s from "./styles.module.scss";
+import { Tabs } from "antd";
 import {
-  User,
-  MapPin,
+  BookOpen,
   Eye,
   Heart,
-  BookOpen,
-  CreditCard,
-  HandGrabbing,
-  Truck,
+  MapPin,
   Pen,
   Ticket,
-  ShoppingBagOpen,
+  User,
 } from "phosphor-react";
-import { Tabs } from "antd";
-import MyAccount from "./MyAccount";
-import Address from "./Address";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Wistlist from "./Wishlist";
-import Viewed from "./Viewed";
-import Rated from "./Rated";
+import Address from "./Address";
+import MyAccount from "./MyAccount";
 import OrderManagement from "./OrderManagement";
+import Rated from "./Rated";
+import s from "./styles.module.scss";
+import Viewed from "./Viewed";
 import Voucher from "./Voucher";
+import Wistlist from "./Wishlist";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
@@ -103,7 +99,7 @@ const UserProfile = () => {
         >
           <Voucher />
         </TabPane>
-        <TabPane
+        {/* <TabPane
           tab={
             <div className={s.tab}>
               <ShoppingBagOpen size={24} /> Purchased Product
@@ -112,7 +108,7 @@ const UserProfile = () => {
           key="8"
         >
           <OrderManagement />
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     </div>
   );

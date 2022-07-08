@@ -14,7 +14,6 @@ import { checkExist } from "../../api/User";
 const { Option } = Select;
 const Register = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [randomChar, setRandomChar] = useState("");
   const search = useLocation().search;
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
@@ -48,7 +47,6 @@ const Register = () => {
             Math.floor(Math.random() * charactersLength)
           );
         }
-        setRandomChar(result);
         var enc = CryptoJS.AES.encrypt(
           email,
           `${process.env.REACT_APP_PRIVATE_KEY}`
@@ -162,201 +160,204 @@ const Register = () => {
   }, [districtId]);
 
   return (
-    <Formik
-      validationSchema={registerSchema}
-      initialValues={{
-        name: "",
-        email: "",
-        password: "",
-      }}
-      onSubmit={async (values) => {
-        handleRegister(
-          values.name,
-          values.email,
-          values.password,
-          values.address,
-          values.phone
-        );
-      }}
-    >
-      {({ errors, touched }) => {
-        return (
-          <Form>
-            <h1>Create Account</h1>
-            {success && (
-              <span style={{ color: "green" }}>Sign up successful</span>
-            )}
-            {failure && <span style={{ color: "red" }}>Sign up failure</span>}
+    <>
+      <Formik
+        validationSchema={registerSchema}
+        initialValues={{
+          name: "",
+          email: "",
+          password: "",
+        }}
+        onSubmit={async (values) => {
+          handleRegister(
+            values.name,
+            values.email,
+            values.password,
+            values.address,
+            values.phone
+          );
+        }}
+      >
+        {({ errors, touched }) => {
+          return (
+            <Form>
+              <h1>Create Account</h1>
+              {success && (
+                <span style={{ color: "green" }}>Sign up successful</span>
+              )}
+              {failure && <span style={{ color: "red" }}>Sign up failure</span>}
 
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.email && errors?.email) ? "error" : "success"
-              }
-              help={Boolean(touched?.email && errors?.email) && errors?.email}
-            >
-              <Field name="email">
-                {({ field }) => (
-                  <Input
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Email"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.password && errors?.password)
-                  ? "error"
-                  : "success"
-              }
-              help={
-                Boolean(touched?.password && errors?.password) &&
-                errors?.password
-              }
-            >
-              <Field name="password">
-                {({ field }) => (
-                  <Input.Password
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Password"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.name && errors?.name) ? "error" : "success"
-              }
-              help={Boolean(touched?.name && errors?.name) && errors?.name}
-            >
-              <Field name="name">
-                {({ field }) => (
-                  <Input
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Name"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
-            <FormAnt.Item className={classes.box_form}>
-              <Select
-                placeholder="Please choose your province"
-                onSelect={(value) => {
-                  setProvinceId(value);
-                }}
-                value={provinceId}
-                defaultActiveFirstOption={true}
-                filterSort={(optionA, optionB) =>
-                  optionA.children
-                    .toLowerCase()
-                    .localeCompare(optionB.children.toLowerCase())
+              <FormAnt.Item
+                validateStatus={
+                  Boolean(touched?.email && errors?.email) ? "error" : "success"
+                }
+                help={Boolean(touched?.email && errors?.email) && errors?.email}
+              >
+                <Field name="email">
+                  {({ field }) => (
+                    <Input
+                      {...field}
+                      className={classes.inputLogin}
+                      placeholder="Email"
+                    />
+                  )}
+                </Field>
+              </FormAnt.Item>
+              <FormAnt.Item
+                validateStatus={
+                  Boolean(touched?.password && errors?.password)
+                    ? "error"
+                    : "success"
+                }
+                help={
+                  Boolean(touched?.password && errors?.password) &&
+                  errors?.password
                 }
               >
-                {province?.map((item, index) => {
-                  return index === 1 ? (
-                    <Option
-                      value={item.ProvinceID}
-                      key={index}
-                      selected="selected"
-                    >
-                      {item.ProvinceName}
-                    </Option>
-                  ) : (
-                    <Option value={item.ProvinceID} key={index}>
-                      {item.ProvinceName}
-                    </Option>
-                  );
-                })}
-              </Select>
+                <Field name="password">
+                  {({ field }) => (
+                    <Input.Password
+                      {...field}
+                      className={classes.inputLogin}
+                      placeholder="Password"
+                    />
+                  )}
+                </Field>
+              </FormAnt.Item>
+              <FormAnt.Item
+                validateStatus={
+                  Boolean(touched?.name && errors?.name) ? "error" : "success"
+                }
+                help={Boolean(touched?.name && errors?.name) && errors?.name}
+              >
+                <Field name="name">
+                  {({ field }) => (
+                    <Input
+                      {...field}
+                      className={classes.inputLogin}
+                      placeholder="Name"
+                    />
+                  )}
+                </Field>
+              </FormAnt.Item>
+              <FormAnt.Item className={classes.box_form}>
+                <Select
+                  placeholder="Please choose your province"
+                  onSelect={(value) => {
+                    setProvinceId(value);
+                  }}
+                  value={provinceId}
+                  defaultActiveFirstOption={true}
+                  filterSort={(optionA, optionB) =>
+                    optionA.children
+                      .toLowerCase()
+                      .localeCompare(optionB.children.toLowerCase())
+                  }
+                >
+                  {province?.map((item, index) => {
+                    return index === 1 ? (
+                      <Option
+                        value={item.ProvinceID}
+                        key={index}
+                        selected="selected"
+                      >
+                        {item.ProvinceName}
+                      </Option>
+                    ) : (
+                      <Option value={item.ProvinceID} key={index}>
+                        {item.ProvinceName}
+                      </Option>
+                    );
+                  })}
+                </Select>
 
-              <Select
-                placeholder="Please choose your province"
-                onSelect={(value) => {
-                  setDistrictId(value);
-                }}
-                value={districtId}
-                defaultActiveFirstOption={true}
-                filterSort={(optionA, optionB) =>
-                  optionA.children
-                    .toLowerCase()
-                    .localeCompare(optionB.children.toLowerCase())
+                <Select
+                  placeholder="Please choose your province"
+                  onSelect={(value) => {
+                    setDistrictId(value);
+                  }}
+                  value={districtId}
+                  defaultActiveFirstOption={true}
+                  filterSort={(optionA, optionB) =>
+                    optionA.children
+                      .toLowerCase()
+                      .localeCompare(optionB.children.toLowerCase())
+                  }
+                >
+                  {district?.map((item, index) => {
+                    return (
+                      <Option value={item.DistrictID} key={index}>
+                        {item.DistrictName}
+                      </Option>
+                    );
+                  })}
+                </Select>
+
+                <Select
+                  placeholder="Please choose your province"
+                  defaultActiveFirstOption={true}
+                  filterOption={false}
+                  value={wardId}
+                  filterSort={(optionA, optionB) =>
+                    optionA.children
+                      .toLowerCase()
+                      .localeCompare(optionB.children.toLowerCase())
+                  }
+                >
+                  {ward?.map((item, index) => {
+                    return (
+                      <Option value={item.WardCode} key={index}>
+                        {item.WardName}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </FormAnt.Item>
+              <FormAnt.Item
+                validateStatus={
+                  Boolean(touched?.address && errors?.address)
+                    ? "error"
+                    : "success"
+                }
+                help={
+                  Boolean(touched?.address && errors?.address) &&
+                  errors?.address
                 }
               >
-                {district?.map((item, index) => {
-                  return (
-                    <Option value={item.DistrictID} key={index}>
-                      {item.DistrictName}
-                    </Option>
-                  );
-                })}
-              </Select>
-
-              <Select
-                placeholder="Please choose your province"
-                defaultActiveFirstOption={true}
-                filterOption={false}
-                value={wardId}
-                filterSort={(optionA, optionB) =>
-                  optionA.children
-                    .toLowerCase()
-                    .localeCompare(optionB.children.toLowerCase())
+                <Field name="address">
+                  {({ field }) => (
+                    <Input
+                      {...field}
+                      className={classes.inputLogin}
+                      placeholder="Address"
+                    />
+                  )}
+                </Field>
+              </FormAnt.Item>
+              <FormAnt.Item
+                validateStatus={
+                  Boolean(touched?.phone && errors?.phone) ? "error" : "success"
                 }
+                help={Boolean(touched?.phone && errors?.phone) && errors?.phone}
               >
-                {ward?.map((item, index) => {
-                  return (
-                    <Option value={item.WardCode} key={index}>
-                      {item.WardName}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </FormAnt.Item>
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.address && errors?.address)
-                  ? "error"
-                  : "success"
-              }
-              help={
-                Boolean(touched?.address && errors?.address) && errors?.address
-              }
-            >
-              <Field name="address">
-                {({ field }) => (
-                  <Input
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Address"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
-            <FormAnt.Item
-              validateStatus={
-                Boolean(touched?.phone && errors?.phone) ? "error" : "success"
-              }
-              help={Boolean(touched?.phone && errors?.phone) && errors?.phone}
-            >
-              <Field name="phone">
-                {({ field }) => (
-                  <Input
-                    {...field}
-                    className={classes.inputLogin}
-                    placeholder="Phone"
-                  />
-                )}
-              </Field>
-            </FormAnt.Item>
+                <Field name="phone">
+                  {({ field }) => (
+                    <Input
+                      {...field}
+                      className={classes.inputLogin}
+                      placeholder="Phone"
+                    />
+                  )}
+                </Field>
+              </FormAnt.Item>
 
-            <Link to="#">Forgot your password?</Link>
-            <button type="submit">Sign Up</button>
-          </Form>
-        );
-      }}
-    </Formik>
+              <Link to="#">Forgot your password?</Link>
+              <button type="submit">Sign Up</button>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 

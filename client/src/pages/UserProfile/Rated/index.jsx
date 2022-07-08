@@ -29,11 +29,15 @@ const Rated = () => {
   }, [page]);
 
   useEffect(() => {
-    getCommentByUser(user.currentUser.username, 1).then((res) => {
-      setListComment(res.data.comments);
-    });
+    getCommentByUser(user.currentUser.username, 1)
+      .then((res) => {
+        setListComment(res.data.comments);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
-
+  console.log("listComment:", listComment);
   return (
     <>
       {isLoading === true && <AppLoader />}
@@ -45,15 +49,11 @@ const Rated = () => {
       {listComment.length > 0 ? (
         <div className={s.container}>
           {listComment?.map((item, index) => {
-            getProduct(item.productId).then((value) => {
-              setImage(value.product.images[0]);
-            });
-
             return (
               <div className={s.one_content} key={index}>
                 <div className={s.image}>
                   <Link to={`/detail/${item.productId}`}>
-                    <img src={image} alt="" />
+                    <img src={item.productImage} alt="" />
                   </Link>
                 </div>
                 <div className={s.box_comment}>
@@ -64,6 +64,16 @@ const Rated = () => {
               </div>
             );
           })}
+          {page < totalPages && (
+            <div
+              className={s.see_more}
+              onClick={() => {
+                setPage(page + 1);
+              }}
+            >
+              See more comments
+            </div>
+          )}
         </div>
       ) : (
         <EmptyPage />

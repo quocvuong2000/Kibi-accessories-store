@@ -10,6 +10,7 @@ const Search = React.lazy(() => import("../pages/Search/index"));
 const Blog = React.lazy(() => import("../pages/Blog/index"));
 const DetailBlog = React.lazy(() => import("../pages/DetailBlog/index"));
 const ViewAllBlog = React.lazy(() => import("../pages/ViewAllBlog/index"));
+
 export {
   Home,
   Detail,

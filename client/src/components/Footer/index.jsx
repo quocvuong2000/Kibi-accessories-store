@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
 import "boxicons";
+import { useNavigate } from "react-router-dom";
 export const Footer = () => {
   const left = [
     {
@@ -76,6 +77,8 @@ export const Footer = () => {
     },
   ];
 
+  let navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <div className={styles.footer}>
@@ -123,7 +126,14 @@ export const Footer = () => {
           })}
 
           <div className={styles.footer__getintouch__icon}>
-            <div className={styles.facebook}>
+            <div
+              className={styles.facebook}
+              onClick={() => {
+                navigate(
+                  "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
+                );
+              }}
+            >
               <box-icon
                 name="facebook"
                 type="logo"
@@ -132,7 +142,14 @@ export const Footer = () => {
                 color="#d84727"
               ></box-icon>
             </div>
-            <div className={styles.instagram}>
+            <div
+              className={styles.instagram}
+              onClick={() => {
+                navigate(
+                  "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
+                );
+              }}
+            >
               <box-icon
                 name="instagram"
                 type="logo"

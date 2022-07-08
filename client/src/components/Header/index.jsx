@@ -121,7 +121,6 @@ const Header = () => {
     menuRef.current.classList.toggle(classes.active);
   };
 
-  //console.log(user);
   useEffect(() => {
     getAllCategory().then((res) => {
       if (res) {
@@ -129,7 +128,6 @@ const Header = () => {
       }
     });
   }, [cart]);
-  //console.log(user);
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} setVisible={setVisible} />
@@ -164,10 +162,14 @@ const Header = () => {
                 </div>
               </Dropdown>
             ) : (
-              <Link to={"/login"} className={classes.login}>
+              <div
+                to={"/login"}
+                className={classes.login}
+                onClick={() => navigate2("/login")}
+              >
                 <User size={32} color="#000" weight="thin" />
                 <div className={classes.loginText}>Log In</div>
-              </Link>
+              </div>
             )}
 
             <div

@@ -67,18 +67,26 @@ const socketIo = require("socket.io")(server, {
     origin: "*",
   },
 });
-
+var roomno = 1;
 socketIo.on("connection", (socket) => {
-  ///Handle khi có connect từ client tới
-  console.log("New client connected" + socket.id);
+  socket.emit("output-message", "old message");
+  socket.on("old-message", function (data) {
+    console.log(data);
+  });
+  socket.join("room");
+  socket
+    .in("room-" + roomno)
+    .emit("connectToRoom", "You are in room no. " + roomno);
+  socket.on("connect", function (socket) {
+    socket.emit("B", somethingElse);
+  });
 
   socket.on("sendDataClient", function (data) {
-    // Handle khi có sự kiện tên là sendDataClient từ phía client
-    socketIo.emit("sendDataServer", { data }); // phát sự kiện  có tên sendDataServer cùng với dữ liệu tin nhắn từ phía server
+    socketIo.emit("sendDataServer", { data });
   });
 
   socket.on("disconnect", () => {
-    console.log("Client disconnected"); // Khi client disconnect thì log ra terminal.
+    console.log("Client disconnected");
   });
 });
 

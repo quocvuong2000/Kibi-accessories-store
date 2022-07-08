@@ -7,7 +7,8 @@ export const createComment = async (
   comment,
   rating,
   name,
-  avatar
+  avatar,
+  productImage
 ) => {
   const res = await callAPIWithToken.post("/api/comment/create", {
     username: username,
@@ -16,6 +17,7 @@ export const createComment = async (
     rating: rating,
     name: name,
     avatar: avatar,
+    productImage: productImage,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
@@ -40,9 +42,10 @@ export const getCommentByUser = async (username, page) => {
   return res;
 };
 
-export const deleteComment = async (id) => {
+export const deleteComment = async (id, productId) => {
   const res = await callAPIWithToken.post(`/api/comment/delete`, {
     commentId: id,
+    productId: productId,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);

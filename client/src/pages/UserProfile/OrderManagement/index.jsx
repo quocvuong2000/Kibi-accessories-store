@@ -1,11 +1,11 @@
 import { Empty, message, Steps } from "antd";
 import "antd/dist/antd.css";
-import { CreditCard, HandGrabbing, Truck } from "phosphor-react";
+import { CreditCard, FastForward, HandGrabbing, Truck } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AppLoader from "../../../components/AppLoader";
 import OrderListItem from "./OrderListItem/OrderListItem";
-import { doGetListOrder, doGetListOrderByCustomer } from "./OrderManagementAPI";
+import { doGetListOrderByCustomer } from "./OrderManagementAPI";
 import classes from "./styles.module.scss";
 
 const { Step } = Steps;
@@ -23,6 +23,7 @@ const OrderManagement = () => {
   const [noOrderData, setNoOrderData] = useState(false);
   const [orderList, setOrderList] = useState([]);
   const [nextPage, setNextPage] = useState();
+  const [reload, setReload] = useState(false);
   const onChange = (value) => {
     setCurrent(value);
     setCurrentStatus(STATUS[value]);
@@ -45,7 +46,7 @@ const OrderManagement = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user.currentUser.username, currentStatus]);
+  }, [user.currentUser.username, currentStatus, reload]);
 
   const fetchNext = () => {
     setPage(page + 1);
@@ -104,7 +105,14 @@ const OrderManagement = () => {
         ) : (
           <>
             {orderList.map((item, index) => {
-              return <OrderListItem key={index} orderItem={item} />;
+              return (
+                <OrderListItem
+                  key={index}
+                  orderItem={item}
+                  setReload={setReload}
+                  reload={reload}
+                />
+              );
             })}
             {nextPage !== null && (
               <div
@@ -113,7 +121,12 @@ const OrderManagement = () => {
                   fetchNext();
                 }}
               >
-                See more order
+                See more order{" "}
+                <FastForward
+                  size={20}
+                  weight="thin"
+                  style={{ marginLeft: "5px" }}
+                />
               </div>
             )}
           </>

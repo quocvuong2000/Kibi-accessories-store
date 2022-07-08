@@ -232,4 +232,13 @@ router.get("/customer/get/:username", async (req, res) => {
   }
 });
 
+router.post("/cancel", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    await Order.findByIdAndRemove(req.body.id);
+    res.status(200).json("Delete success");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
