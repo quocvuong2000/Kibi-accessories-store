@@ -1,9 +1,20 @@
-import { Avatar, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import {
+  Avatar,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
-import {StyledMenu} from '../../../theme/styledMenu';
+import { StyledMenu } from "../../../theme/styledMenu";
 import productPlaceholder from "../../../assets/images/product-example.png";
-const StaffList = ({staffs,takePage}) => {
+const StaffList = ({ staffs, takePage }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState({
     delete: false,
@@ -25,9 +36,10 @@ const StaffList = ({staffs,takePage}) => {
   const handleChangePage = (_event, newPage) => {
     takePage(newPage + 1);
   };
+  // console.log("staffs", staffs);
   return (
     <>
-       <div style={{ height: "465px" }}>
+      <div style={{ height: "465px" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
             stickyHeader
@@ -37,15 +49,15 @@ const StaffList = ({staffs,takePage}) => {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Setting</TableCell>
-                <TableCell align="left">Product Image</TableCell>
-                <TableCell>Product ID</TableCell>
-                <TableCell align="left">Product Name</TableCell>
-                <TableCell align="left">Price</TableCell>
-                <TableCell align="left">Quantity</TableCell>
+                <TableCell align="left">Avatar</TableCell>
+                <TableCell align="left">Staff</TableCell>
+                <TableCell>Staff Role</TableCell>
+                <TableCell align="left">Phone Number</TableCell>
+                <TableCell align="left">Gender</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {staffs.products?.map((row) => (
+              {staffs.staffs?.map((row) => (
                 <TableRow
                   key={row._id}
                   sx={{
@@ -110,17 +122,15 @@ const StaffList = ({staffs,takePage}) => {
                   </TableCell>
                   <TableCell align="left">
                     <Avatar
-                      alt="Remy Sharp"
-                      src={row.images ? row.images[0] : productPlaceholder}
+                      alt=""
+                      src={row.avatar ? row.avatar : productPlaceholder}
                       sx={{ width: 50, height: 50 }}
                     />
                   </TableCell>
-                  <TableCell>{row._id}</TableCell>
-                  <TableCell align="left">{row.product}</TableCell>
-                  <TableCell align="left">{row.price}</TableCell>
-                  <TableCell align="left">
-                   {row.quantity}
-                  </TableCell>
+                  <TableCell>{row.username}</TableCell>
+                  <TableCell align="left">{row.role}</TableCell>
+                  <TableCell align="left">{row.phone}</TableCell>
+                  <TableCell align="left">{row.gender}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -134,9 +144,9 @@ const StaffList = ({staffs,takePage}) => {
           page={(staffs?.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
-        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default StaffList
+export default StaffList;

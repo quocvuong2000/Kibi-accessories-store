@@ -17,9 +17,7 @@ const RequireAuth = ({ children }) => {
   // console.log(deCodeToken);
 
   if (deCodeToken.exp < Date.now() / 1000) {
-    console.log("first");
     Cookies.remove("token");
-    localStorage.removeItem("persist:root");
   }
   return (
     <>
