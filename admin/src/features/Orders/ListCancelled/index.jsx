@@ -39,7 +39,7 @@ const ListCancelled = () => {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage+1);
   };
 
   return (
@@ -79,9 +79,9 @@ const ListCancelled = () => {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={ListCancelled.orders?.totalItems || 1}
+          count={ListCancelled.totalItems || 1}
           rowsPerPage={10}
-          page={(ListCancelled.orders?.currentPage || 1) - 1}
+          page={(ListCancelled.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>
