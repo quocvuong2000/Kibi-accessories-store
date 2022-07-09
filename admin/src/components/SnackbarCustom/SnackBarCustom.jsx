@@ -1,15 +1,10 @@
 import {
-  Alert,
-  Avatar,
-  Menu,
-  Snackbar,
-  TablePagination,
-  Typography,
+  Alert, Snackbar
 } from "@mui/material";
 
-import React from 'react'
+import React from 'react';
 
-const SnackBarCustom = ({open, setStateWhenClose,label}) => {
+const SnackBarCustom = ({open, setStateWhenClose,label , status}) => {
   return (
     <Snackbar
     open={open}
@@ -17,7 +12,7 @@ const SnackBarCustom = ({open, setStateWhenClose,label}) => {
     onClose={() => setStateWhenClose(false)}
     anchorOrigin={{ vertical: "top", horizontal: "center" }}
   >
-    <Alert severity="error" sx={{ width: "100%" }}>
+    <Alert severity={status} sx={{ width: "100%" }}>
       {label}
     </Alert>
   </Snackbar>

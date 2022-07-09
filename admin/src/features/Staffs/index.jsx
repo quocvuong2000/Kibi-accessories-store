@@ -14,12 +14,14 @@ const Staffs = () => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(true);
   useEffect(() => {
-    doGetstaffList(page).then((res) => {
-      setStaffs(res);
-    }).finally(()=> {
-      setLoading(false);
-    });
-  }, [page]);
+    doGetstaffList(page)
+      .then((res) => {
+        setStaffs(res);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [page, reload]);
   const takePage = (page) => {
     setPage(page);
   };

@@ -38,4 +38,74 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//CREATE STAFF
+router.post("/register", verifyTokenAndAdmin,async (req, res) => {
+  const userInfo = new User({
+    username: req.body.email,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.VUONG_SEC_PASS
+    ).toString(),
+    name: req.body.name,
+    phone: req.body.phone,
+    address: req.body.address,
+    dob: req.body.dob,
+    gender: req.body.gender,
+    type: req.body.type,
+    role : req.body.role,
+    avatar : req.body.avatar,
+  });
+  const userFound = await User.findOne({ email: req.body.email });
+  if (userFound !== null && userFound !== undefined) {
+    try {
+      return res.status(201).json("Email already exist");
+    } catch (error) {
+      return res.status(501).json(error);
+    }
+  }
+
+  try {
+    const register = await userInfo.save();
+    res.status(200).json(register);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//DELETE STAFF
+router.delete("/delete/:id",verifyTokenAndAdmin,async (req,res)=> {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("Delete success");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
+//UPDATE STAFF
+router.put("/update/:id",verifyTokenAndAdmin,async(req,res)=> {
+  try {
+    const updateStaff = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updateStaff);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+//GET DETAIL STAFF
+router.get("/detail/:id",verifyTokenAndAdmin,async(req,res)=> {
+  try {
+    const staffFound = await User.findById(req.params.id);
+    res.status(200).json(staffFound);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
 module.exports = router;

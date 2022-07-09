@@ -13,8 +13,12 @@ import {
 import React, { useState } from "react";
 import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
 import { StyledMenu } from "../../../theme/styledMenu";
-import productPlaceholder from "../../../assets/images/product-example.png";
-const StaffList = ({ staffs, takePage }) => {
+import userPlaceholder from "../../../assets/user.jpg";
+import { doDeleteStaff } from "../StaffsAPI";
+import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import DialogUpdateStaff from "../DialogUpdateStaff/DialogUpdateStaff";
+const StaffList = ({ staffs, takePage, reLoadTable }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState({
     delete: false,
@@ -26,6 +30,22 @@ const StaffList = ({ staffs, takePage }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [staffSelectedUpdate, setStaffSelectedUpdate] = useState("");
   const open = Boolean(anchorEl);
+
+  const hanldeDeleteStaff = () => {
+    doDeleteStaff(deleteDialog.id)
+      .then(() => {
+        setSuccess(true);
+        reLoadTable("delete" + Date.now());
+        setDeleteDialog({
+          delete: false,
+          id: "",
+        });
+      })
+      .catch(() => {
+        setFailure(true);
+      });
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -35,6 +55,12 @@ const StaffList = ({ staffs, takePage }) => {
   };
   const handleChangePage = (_event, newPage) => {
     takePage(newPage + 1);
+  };
+  const hanldeShowDeleteDialog = (visible) => {
+    setDeleteDialog(visible);
+  };
+  const hanldeShowUpdateProductModal = (isVisible) => {
+    setShowUpdateModal(isVisible);
   };
   // console.log("staffs", staffs);
   return (
@@ -123,12 +149,12 @@ const StaffList = ({ staffs, takePage }) => {
                   <TableCell align="left">
                     <Avatar
                       alt=""
-                      src={row.avatar ? row.avatar : productPlaceholder}
+                      src={row.avatar ? row.avatar : userPlaceholder}
                       sx={{ width: 50, height: 50 }}
                     />
                   </TableCell>
                   <TableCell>{row.username}</TableCell>
-                  <TableCell align="left">{row.role}</TableCell>
+                  <TableCell align="left">{row.role} management</TableCell>
                   <TableCell align="left">{row.phone}</TableCell>
                   <TableCell align="left">{row.gender}</TableCell>
                 </TableRow>
@@ -145,6 +171,33 @@ const StaffList = ({ staffs, takePage }) => {
           onPageChange={handleChangePage}
         />
       </div>
+      <SnackBarCustom
+        open={success}
+        setStateWhenClose={setSuccess}
+        label={"Delete Success"}
+        status={"success"}
+      />
+      <SnackBarCustom
+        open={failure}
+        setStateWhenClose={setFailure}
+        label={"Delete Failure"}
+        status={"error"}
+      />
+      <ConfirmationDialog
+        show={deleteDialog.delete}
+        hanldeShow={hanldeShowDeleteDialog}
+        hanldeAgree={hanldeDeleteStaff}
+        title={"Delete Staff"}
+        content={"Are you sure to delete"}
+      />
+      {showUpdateModal && (
+        <DialogUpdateStaff
+          showDialog={showUpdateModal}
+          handleShowDialog={hanldeShowUpdateProductModal}
+          reLoadTable={reLoadTable}
+          staffId={staffSelectedUpdate}
+        />
+      )}
     </>
   );
 };
