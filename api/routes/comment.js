@@ -63,6 +63,38 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//GET ALL COMMENTS PER PAGE
+router.get("/get", async (req, res) => {
+  const qPage = req.query.page;
+
+  let perPage = 5; // số lượng comment xuất hiện trên 1 page
+  let page = qPage || 1;
+  let count = 0;
+
+  try {
+    let comments;
+    if (qPage) {
+      comments = await Comment.find()
+        .sort({ createdAt: 1 })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .sort({ createdAt: -1 });
+    } else {
+      comments = await Comment.find();
+    }
+    count = await Comment.find().count();
+
+    res.status(200).json({
+      comments, // comments trên một page
+      currentPage: page, // page hiện tại
+      totalPages: Math.ceil(count / perPage), // tổng số các page: ;
+      totalItems: count,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET COMMENT BY USERNAME
 router.get("/user/:username", async (req, res) => {
   const qPage = req.query.page;

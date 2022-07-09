@@ -95,6 +95,8 @@ router.patch("/complete/:id", async (req, res) => {
   }
 });
 
+//GET ALL
+
 //GET ORDER BY STATUS
 router.get("/status/get", async (req, res) => {
   const qPage = req.query.page;
@@ -123,6 +125,12 @@ router.get("/status/get", async (req, res) => {
           .skip(perPage * page - perPage)
           .limit(perPage);
         count = await Order.find({ status: "COMPLETED" }).count();
+      }
+      if (qStatus === "CANCELLED") {
+        orders = await Order.find({ status: "CANCELLED" })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
+        count = await Order.find({ status: "CANCELLED" }).count();
       }
     }
     res.status(200).json({
@@ -232,6 +240,7 @@ router.get("/customer/get/:username", async (req, res) => {
   }
 });
 
+//UPDATE STATUS -> CANCELLED
 router.post("/cancel", verifyTokenAndAuthorization, async (req, res) => {
   try {
     await Order.findByIdAndRemove(req.body.id);

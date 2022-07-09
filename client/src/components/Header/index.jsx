@@ -11,7 +11,14 @@ import {
 } from "antd";
 import "antd/dist/antd.min.css";
 import Cookies from "js-cookie";
-import { Handbag, Heart, SignOut, User, UserCircle } from "phosphor-react";
+import {
+  Handbag,
+  Heart,
+  LockKey,
+  SignOut,
+  User,
+  UserCircle,
+} from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,6 +77,14 @@ const Header = () => {
             <Heart size={24} className={classes.icon_box} />
           </div>
           Wish List
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link className={classes.wish_list} to={"/myaccount/1?showpass=true"}>
+          <div className={classes.icon}>
+            <LockKey size={24} className={classes.icon_box} />
+          </div>
+          Change Password
         </Link>
       </Menu.Item>
       <Menu.Item>

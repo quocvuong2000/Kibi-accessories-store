@@ -68,6 +68,7 @@ const MyAccount = () => {
   const id = new URLSearchParams(search).get("id");
   const email = new URLSearchParams(search).get("email");
   const prv = new URLSearchParams(search).get("prv");
+  const showpassword = new URLSearchParams(search).get("showpass");
   const [verify, setVerify] = useState(false);
   useEffect(() => {
     if (prv != null && prv != undefined) {
@@ -96,8 +97,17 @@ const MyAccount = () => {
           email = "";
         }
       });
+      setVerify(false);
+      setSearchParams("");
     }
-    setVerify(false);
+  }, []);
+
+  useEffect(() => {
+    console.log("showpassword:", showpassword);
+    if (showpassword === "true") {
+      setUpdate(2);
+      showModal();
+    }
     setSearchParams("");
   }, []);
 
@@ -145,6 +155,7 @@ const MyAccount = () => {
         message.error("Email already exists");
       }
     });
+    setTimeout(() => setVerify(false), 6000);
   };
 
   const showModal = () => {

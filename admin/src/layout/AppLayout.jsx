@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense";
+import Comments from "../features/Comment";
 import {
   Brands,
   Categories,
@@ -39,6 +40,7 @@ const AppLayout = () => {
           <Route path="customers" element={<Customers />} />
           <Route path="orders" element={<Orders />} />
           <Route path="vouchers" element={<Vouchers />} />
+          <Route path="comments" element={<Comments />} />
         </Route>
         <Route
           path="/"

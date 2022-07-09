@@ -6,7 +6,7 @@ import addressImg from "../../../assets/checkout/Wavy Buddies - Address.png";
 import UpdateAddress from "../../UserProfile/UpdateAddress";
 import AddressItem from "./AdderssItem/AddressItem";
 import classes from "./styles.module.scss";
-const SelectAddress = ({ address, hanldeSelectAddress }) => {
+const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)._id : {}
   );
@@ -36,6 +36,7 @@ const SelectAddress = ({ address, hanldeSelectAddress }) => {
       city
     ).then((res) => {
       if (res) {
+        setReload(!reload);
         message.success("Create success");
       }
     });

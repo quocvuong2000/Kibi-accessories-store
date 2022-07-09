@@ -25,6 +25,7 @@ const OrderManagement = () => {
   const [nextPage, setNextPage] = useState();
   const [reload, setReload] = useState(false);
   const onChange = (value) => {
+    setLoading(true);
     setCurrent(value);
     setCurrentStatus(STATUS[value]);
   };
@@ -88,7 +89,7 @@ const OrderManagement = () => {
         />
       </Steps>
       <div className={classes.orderList}>
-        {loading ? (
+        {loading === true ? (
           <div className={classes.loading}>
             <AppLoader />
           </div>

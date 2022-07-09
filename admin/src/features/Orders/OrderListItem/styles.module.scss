@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  width: 100%;
+  border: 2px solid #ebf0ff;
+
+  &.bgpending {
+    background: linear-gradient(180deg, #ffffff 60.28%, #92d9fc 100%);
+    box-shadow: 0 0 4px #92d9fc;
+  }
+  &.bgdelivery {
+    background: linear-gradient(180deg, #ffffff 60.28%, #9da0ff 100%);
+    box-shadow: 0 0 4px #9da0ff;
+  }
+  &.bgstarting {
+    color: #ffc833;
+  }
+  &.bgcancel {
+    background: linear-gradient(180deg, #ffffff 60.28%, #ff664b 100%);
+    box-shadow: 0 0 4px #ff664b;
+  }
+  &.bgcomplete {
+    background: linear-gradient(180deg, #ffffff 60.28%, #85ffe5 100%);
+    box-shadow: 0 0 4px #85ffe5;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .one_item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    .left_item {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+
+      .box_date_status {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        align-items: center;
+        .date_item {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          /* #000000 */
+          margin-right: 10px;
+          color: rgba(0, 0, 0, 0.85);
+        }
+        .status_item {
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 17px;
+          display: flex;
+          align-items: center;
+          &.pending {
+            color: #40bfff;
+          }
+          &.delivery {
+            color: #5c61f4;
+          }
+          &.starting {
+            color: #ffc833;
+          }
+          &.cancel {
+            color: #ff664b;
+          }
+          &.complete {
+            color: #53d1b6;
+          }
+          span {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            margin-right: 10px;
+            &.pending {
+              background-color: #40bfff;
+            }
+            &.delivery {
+              background-color: #5c61f4;
+            }
+            &.schedule {
+              background-color: #5c61f4;
+            }
+            &.starting {
+              background-color: #ffc833;
+            }
+            &.cancel {
+              background-color: #ff664b;
+            }
+            &.complete {
+              background-color: #53d1b6;
+            }
+          }
+        }
+      }
+    }
+    .right_item {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      margin-right: 10px;
+
+      .paid {
+        position: absolute;
+        max-width: 130px;
+        right: 275px;
+        bottom: 20px;
+      }
+    }
+  }
+}
