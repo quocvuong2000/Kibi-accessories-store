@@ -23,6 +23,7 @@ const Login = () => {
   const [active, setActive] = React.useState(false);
   const [wrongCredentials, setWrongCredential] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [verify, setVerify] = React.useState(false);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const email = new URLSearchParams(search).get("email");
@@ -133,7 +134,7 @@ const Login = () => {
         onCancel={handleCancel}
         className={styles.form_forgot}
       >
-        <ForgotPassword />
+        <ForgotPassword verify={verify} setVerify={setVerify} />
       </Modal>
       <div
         className={`${styles.container} ${

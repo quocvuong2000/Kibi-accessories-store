@@ -8,7 +8,7 @@ import {
   Ticket,
   User,
 } from "phosphor-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Address from "./Address";
 import MyAccount from "./MyAccount";
@@ -21,13 +21,17 @@ import Wistlist from "./Wishlist";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
-  useEffect(() => {}, [active]);
+
+  const [isActive, setIsActive] = useState(active);
+  useEffect(() => {
+    setIsActive(active);
+  }, [active]);
   return (
     <div className={s.container}>
       <p className={s.url}>
         Home / <span className={s.url_main}>My Account</span>
       </p>
-      <Tabs tabPosition="left" defaultActiveKey={`${active}`}>
+      <Tabs tabPosition="left" defaultActiveKey={`${isActive}`} ac>
         <TabPane
           tab={
             <div className={s.tab}>

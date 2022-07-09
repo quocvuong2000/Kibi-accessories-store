@@ -3,10 +3,11 @@ import { Button, Form as FormAnt, Input, message } from "antd";
 import CryptoJS from "crypto-js";
 import { Field, Form, Formik } from "formik";
 import { Envelope } from "phosphor-react";
+import Verify from "../../../components/Verify";
 import s from "./styles.module.scss";
 import { emailSchema } from "./validation";
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const sendEmail = (email) => {
     var enc = CryptoJS.AES.encrypt(
       email,
@@ -44,49 +45,59 @@ const ForgotPassword = () => {
 
   return (
     <div className={s.container}>
-      <Formik
-        validationSchema={emailSchema}
-        initialValues={{
-          email: "",
-        }}
-        onSubmit={(values) => {
-          sendEmail(values.email);
-        }}
-      >
-        {({ errors, touched }) => {
-          return (
-            <Form className={s.box_forgot}>
-              <FormAnt.Item
-                validateStatus={
-                  Boolean(touched?.email && errors?.email) ? "error" : "success"
-                }
-                help={Boolean(touched?.email && errors?.email) && errors?.email}
-              >
-                <Field name="email">
-                  {({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="Field your email"
-                      prefix={<Envelope size={20} weight="thin" />}
-                    />
-                  )}
-                </Field>
-              </FormAnt.Item>
-              <small className={s.small_text}>
-                Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác minh
-                số điện thoại là của bạn
-              </small>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={s.update_phone}
-              >
-                Submit
-              </Button>
-            </Form>
-          );
-        }}
-      </Formik>
+      {props.verify === false ? (
+        <Formik
+          validationSchema={emailSchema}
+          initialValues={{
+            email: "",
+          }}
+          onSubmit={(values) => {
+            props.setVerify(true);
+            sendEmail(values.email);
+            setTimeout(() => props.setVerify(false), 6000);
+          }}
+        >
+          {({ errors, touched }) => {
+            return (
+              <Form className={s.box_forgot}>
+                <FormAnt.Item
+                  validateStatus={
+                    Boolean(touched?.email && errors?.email)
+                      ? "error"
+                      : "success"
+                  }
+                  help={
+                    Boolean(touched?.email && errors?.email) && errors?.email
+                  }
+                >
+                  <Field name="email">
+                    {({ field }) => (
+                      <Input
+                        {...field}
+                        placeholder="Field your email"
+                        prefix={<Envelope size={20} weight="thin" />}
+                      />
+                    )}
+                  </Field>
+                </FormAnt.Item>
+                <small className={s.small_text}>
+                  Mã xác thực (OTP) sẽ được gửi đến số điện thoại này để xác
+                  minh số điện thoại là của bạn
+                </small>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className={s.update_phone}
+                >
+                  Submit
+                </Button>
+              </Form>
+            );
+          }}
+        </Formik>
+      ) : (
+        <Verify />
+      )}
     </div>
   );
 };

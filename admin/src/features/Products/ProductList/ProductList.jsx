@@ -57,9 +57,11 @@ export default function ProductList(props) {
   const hanldeShowUpdateProductModal = (isVisible) => {
     setShowUpdateModal(isVisible);
   };
+
   const hanldeShowDeleteDialog = (visible) => {
     setDeleteDialog(visible);
   };
+
   const hanldeDeleteProduct = () => {
     doDeleteProduct(deleteDialog.id)
       .then(() => {

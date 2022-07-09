@@ -21,6 +21,7 @@ const Payment = () => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
+  const [reload, setReload] = useState(false);
 
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
@@ -44,7 +45,7 @@ const Payment = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user.currentUser.username, navigate]);
+  }, [user.currentUser.username, navigate, reload]);
 
   const hanldeSelectAddress = (id) => {
     setLoadingPayment(true);
@@ -107,6 +108,8 @@ const Payment = () => {
                 <SelectAddress
                   address={address}
                   hanldeSelectAddress={hanldeSelectAddress}
+                  reload={reload}
+                  setReload={setReload}
                 />
               )}
               {step === 1 && (
