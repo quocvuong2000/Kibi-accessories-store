@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const Product = require("../models/Product");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -69,6 +70,17 @@ router.get("/", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+//DELETE
+router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    await Product.deleteMany({category : req.params.id});
+    await Category.findByIdAndDelete(req.params.id);
+    res.status(200).json("Delete category and all product related success");
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

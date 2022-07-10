@@ -54,15 +54,9 @@ const AppLayout = () => {
               <Dashboard />
             </RequireAuth>
           }
-        />
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          }
-        />
+        >
+          <Route index element={<Home />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/404" element={<Error404 />} />
         <Route path="/*" element={<Navigate to="/404" />} />

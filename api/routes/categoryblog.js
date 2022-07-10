@@ -1,10 +1,6 @@
 const CategoryBlog = require("../models/CategoryBlog");
-const {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndStaff,
-  verifyTokenAndAdmin,
-} = require("./verifyToken");
+const Category = require("../models/Category");
+const { verifyTokenAndStaff } = require("./verifyToken");
 
 const router = require("express").Router();
 
@@ -23,6 +19,7 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 //DELETE - ONLY ADMIN AND STAFF
 router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
   try {
+    await Category.deleteMany({ categoryblog: req.params.id });
     await CategoryBlog.findByIdAndDelete(req.params.id);
     res.status(200).json("Category has been deleted...");
   } catch (err) {
