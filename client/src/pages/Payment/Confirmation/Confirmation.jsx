@@ -49,7 +49,9 @@ const Confirmation = (props) => {
       }
     });
   }, [serviceId]);
-  console.log("timeToDate(leadTime);:", timeToDate(leadTime));
+
+  // console.log("timeToDate(leadTime);:", timeToDate(leadTime));
+
   useEffect(() => {
     doGetDetailOrder(id)
       .then((res) => {
@@ -64,6 +66,7 @@ const Confirmation = (props) => {
         message.error("Loading order detail fail");
       });
   }, [id]);
+
   return (
     <>
       {orderDetail ? (

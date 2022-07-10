@@ -138,7 +138,7 @@ const AppLayout = () => {
             }
           ></Route>
           <Route
-            path="/detailblog"
+            path="/detailblog/:id"
             element={
               <UnRequireAuth>
                 <DetailBlog />
@@ -146,7 +146,7 @@ const AppLayout = () => {
             }
           ></Route>
           <Route
-            path="/viewallblog"
+            path="/viewallblog/:id"
             element={
               <UnRequireAuth>
                 <ViewAllBlog />

@@ -130,12 +130,15 @@ const UpdateAddress = (props) => {
                     style={{ width: 240 }}
                     defaultActiveFirstOption={true}
                     filterOption={false}
-                    value={wardId}
+                    value={`${wardId}`}
                     filterSort={(optionA, optionB) =>
                       optionA.children
                         .toLowerCase()
                         .localeCompare(optionB.children.toLowerCase())
                     }
+                    onSelect={(value) => {
+                      setWardId(value);
+                    }}
                   >
                     {ward?.map((item, index) => {
                       return (

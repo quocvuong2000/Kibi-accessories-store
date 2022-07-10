@@ -70,4 +70,14 @@ router.get("/", async (req, res) => {
   }
 });
 
+//CREATE
+router.get("/:id", async (req, res) => {
+  try {
+    const cate = await CategoryBlog.findById(req.params.id);
+    res.status(200).json({ cate });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -7,10 +7,28 @@ import { EffectCards } from "swiper";
 import Title from "../Title";
 import SmallBlog from "../SmallBlog";
 import { Pagination } from "swiper";
+import { getCategoryBlogById } from "../../../api/CategoryBlog";
+import { getBlogByCate } from "../../../api/Blog";
 const Popular = () => {
+  const [blogList, setBlogList] = useState([]);
+  const [catBlog, setCatBlog] = useState({});
+  useEffect(() => {
+    getCategoryBlogById("62ca8b506fa219ccec1fc516").then((res) => {
+      setCatBlog(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (catBlog.cate?._id) {
+      getBlogByCate(catBlog.cate?._id, 10).then((res) => {
+        setBlogList(res);
+      });
+    }
+  }, []);
+
   return (
     <div className={s.container}>
-      <Title title="POPULAR ARTICLES" />
+      <Title title={catBlog.cate?.title} id={catBlog.cate?._id} />
       <Swiper
         slidesPerView={1}
         spaceBetween={10}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../Title";
 import s from "./styles.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,11 +7,29 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper";
 import NormalBlog from "../NormalBlog";
+import { getCategoryBlogById } from "../../../api/CategoryBlog";
+import { getBlogByCate } from "../../../api/Blog";
 
 const Sponsored = () => {
+  const [blogList, setBlogList] = useState([]);
+  const [catBlog, setCatBlog] = useState({});
+  useEffect(() => {
+    getCategoryBlogById("62ca8b456fa219ccec1fc512").then((res) => {
+      setCatBlog(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (catBlog.cate?._id) {
+      getBlogByCate(catBlog.cate?._id, 10).then((res) => {
+        setBlogList(res);
+      });
+    }
+  }, []);
+
   return (
     <div className={s.container}>
-      <Title title="SPONSORED POSTS" />
+      <Title title={catBlog.cate?.title} id={catBlog.cate?._id} />
       <Swiper
         effect={"coverflow"}
         grabCursor={true}

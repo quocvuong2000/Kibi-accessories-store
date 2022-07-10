@@ -73,19 +73,52 @@ router.get("/", async (req, res) => {
   }
 });
 
+//GET ALL LIMIT
+router.get("/all", async (req, res) => {
+  try {
+    let blogs;
+    blogs = await Blog.find().limit(req.query.limit);
+
+    res.status(200).json({
+      blogs,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.get("/:idCateBlog", async (req, res) => {
   const qPage = req.query.page;
-  var page = qPage || 1;
+  let page = qPage || 1;
+  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+
   try {
     let blogs;
     if (qPage) {
-      blogs = await Blog.find({ category: req.params.idCate })
+      blogs = await Blog.find({
+        categoryblog: req.params.idCateBlog,
+        status: "APPROVAL",
+      })
         .skip(perPage * page - perPage)
         .limit(perPage);
     } else {
-      blogs = await Product.find({ category: req.params.idCate });
+      if (req.params.limit) {
+        blogs = await Blog.find({
+          categoryblog: req.params.idCateBlog,
+          status: "APPROVAL",
+        }).limit(req.query.limit);
+      } else {
+        blogs = await Blog.find({
+          categoryblog: req.params.idCateBlog,
+          status: "APPROVAL",
+        });
+      }
     }
-    count = await Product.find({ category: req.params.idCate }).count();
+    count = await Blog.find({
+      categoryblog: req.params.idCateBlog,
+      status: "APPROVAL",
+    }).count();
+    console.log(blogs);
     res.status(200).json({
       blogs, // sản phẩm trên một page
       currentPage: page, // page hiện tại
@@ -99,8 +132,9 @@ router.get("/:idCateBlog", async (req, res) => {
 
 //GET PRODUCT BY ID -> DETAIL
 router.get("/get/:id", async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
   try {
+    const blog = await Blog.findById(req.params.id);
+
     res.status(200).json({ blog });
   } catch (error) {
     res.status(500).json(error);

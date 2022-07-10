@@ -142,7 +142,7 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
       </Link>
       {orderItem.status === "PENDING" && (
         <Popconfirm
-          title="Are u sure abt that"
+          title="Are you sure about that"
           visible={visible}
           onConfirm={() => handleOk(orderItem._id)}
           onCancel={handleCancel}
@@ -151,7 +151,7 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
             className={`${classes.button_remove} ${
               orderItem.paid === true && classes.disabled
             } `}
-            onClick={!orderItem.paid === false && showPopconfirm}
+            onClick={orderItem.paid === false && showPopconfirm}
           >
             Cancel
           </button>
