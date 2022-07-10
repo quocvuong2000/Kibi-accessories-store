@@ -1,7 +1,6 @@
 const Brand = require("../models/Brand");
-const {
-  verifyTokenAndStaff,
-} = require("./verifyToken");
+const Product = require("../models/Product");
+const { verifyTokenAndStaff, verifyTokenAndAdmin } = require("./verifyToken");
 
 const router = require("express").Router();
 
@@ -42,6 +41,17 @@ router.get("/", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+//DELETE
+router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    await Product.deleteMany({ brand: req.params.id });
+    await Brand.findByIdAndDelete(req.params.id);
+    res.status(200).json("Delete brand and all product related success");
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

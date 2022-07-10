@@ -5,7 +5,8 @@ export const createBlog = async (
   content,
   categoryblog,
   author,
-  categoryname
+  categoryname,
+  thumbnail
 ) => {
   const res = await callAPIWithToken.post(`/api/blog/`, {
     title: title,
@@ -13,6 +14,7 @@ export const createBlog = async (
     categoryblog: categoryblog,
     author: author,
     categoryname: categoryname,
+    thumbnail : thumbnail,
     status: "PENDING",
   });
   if (res && res.status !== 200)

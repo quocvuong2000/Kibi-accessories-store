@@ -9,37 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import classes from "./styles.module.scss";
 import moment from "moment";
-function createData(name, trackingId, date, status) {
-  return { name, trackingId, date, status };
-}
 
-// const rows = [
-//   createData("Lasania Chiken Fri", 18908424, "2 March 2022", "Approved"),
-//   createData("Big Baza Bang ", 18908424, "2 March 2022", "Pending"),
-//   createData("Mouth Freshner", 18908424, "2 March 2022", "Approved"),
-//   createData("Cupcake", 18908421, "2 March 2022", "Delivered"),
-// ];
-
-const makeStyle = (status) => {
-  if (status === "Approved") {
-    return {
-      background: "rgb(145 254 159 / 47%)",
-      color: "green",
-    };
-  } else if (status === "Pending") {
-    return {
-      background: "#ffadad8f",
-      color: "red",
-    };
-  } else {
-    return {
-      background: "#59bfff",
-      color: "white",
-    };
-  }
-};
 
 export default function BrandList(props) {
+  // const [success, setSuccess] = useState(false);
+  // const [failure, setFailure] = useState(false);
   const handleChangePage = (_event, newPage) => {
     props.takePage(newPage + 1);
   };
@@ -86,7 +60,7 @@ export default function BrandList(props) {
                 <TableCell align="left">
                   <span
                     className={classes.status}
-                    style={makeStyle(row.status)}
+                    // style={makeStyle(row.status)}
                   >
                     N/A
                   </span>

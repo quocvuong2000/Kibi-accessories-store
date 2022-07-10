@@ -414,7 +414,7 @@ export default function DialogUpdateProduct(props) {
                               />
                             </Box>
 
-                            {/* QUANTITY */}
+                            {/* Sale */}
                             <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                               <AppTextField
                                 size="small"

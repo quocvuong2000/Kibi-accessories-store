@@ -13,6 +13,7 @@ const BlogSchema = new mongoose.Schema(
     categoryblog: { type: mongoose.Schema.Types.ObjectId, ref: "CategoryBlog" },
     status: { type: String },
     categoryname: { type: String },
+    thumbnail: { type: String },
   },
   { timestamps: true }
 );

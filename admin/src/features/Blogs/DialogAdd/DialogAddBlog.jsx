@@ -1,22 +1,33 @@
+import styled from "@emotion/styled";
 import {
-  Alert,
+  Avatar,
   Box,
   FormControl,
+  Grid,
   InputLabel,
-  MenuItem,
-  Snackbar,
+  MenuItem
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable
+} from "firebase/storage";
 import { Form, Formik } from "formik";
 import * as React from "react";
 import { useState } from "react";
 import AppSelectField from "../../../@crema/core/AppFormComponents/AppSelectField";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
+import thumbnailPlaceholder from "../../../assets/noimage.png";
+import AppLoader from "../../../components/AppLoader";
 import CHKditor from "../../../components/CHKditor/CHKditor";
+import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
+import { app } from "../../../firebase/firebase";
 import { getCategoryBlogList } from "../../CategoryBlog/CategoryBlogAPI";
 import { createBlog } from "../BlogAPI";
 import { AddBlogSchema } from "./validation";
@@ -26,9 +37,16 @@ export default function DialogAddBlog(props) {
   const [failure, setFailure] = React.useState(false);
   const [catBlogList, setCatBlogList] = React.useState([]);
   const [page, setPage] = useState(1);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(
+    `
+    `
+  );
   const [loading, setLoading] = useState(false);
   const [innerTextSync, setInnerTextSync] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const Input = styled("input")({
+    display: "none",
+  });
   const hanldeDataCkeditor = (type, data) => {
     setContent(data);
   };
@@ -43,7 +61,13 @@ export default function DialogAddBlog(props) {
 
   return (
     <>
-      <Dialog open={props.showDialog} onClose={handleClose}>
+      {loading && <AppLoader />}
+      <Dialog
+        open={props.showDialog}
+        onClose={handleClose}
+        fullWidth={true}
+        maxWidth={"lg"}
+      >
         <DialogTitle>ADD NEW BLOG</DialogTitle>
         <Formik
           validationSchema={AddBlogSchema}
@@ -56,68 +80,130 @@ export default function DialogAddBlog(props) {
           }}
           onSubmit={async (values) => {
             setLoading(true);
-            createBlog(
-              values.title,
-              values.content,
-              values.categoryBlog,
-              values.author,
-              innerTextSync
-            ).then((res) => {
-              if (res.status === 200) {
-                props.handleShowDialog(false);
-                props.reLoadTable("sucess" + Date.now());
-              }
-            });
+            if (thumbnail) {
+              const fileName = new Date().getTime() + thumbnail.name;
+              const storage = getStorage(app);
+              const storageRef = ref(storage, fileName);
+              const uploadTask = uploadBytesResumable(storageRef, thumbnail);
+
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                  );
+                },
+                (error) => {
+                  console.log(error);
+                },
+                async () => {
+                  await getDownloadURL(uploadTask.snapshot.ref).then(
+                    (downloadURL) => {
+                      createBlog(
+                        values.title,
+                        values.content,
+                        values.categoryBlog,
+                        values.author,
+                        innerTextSync,
+                        downloadURL
+                      ).then((res) => {
+                        if (res.status === 200) {
+                          setLoading(false);
+                          setSuccess(true);
+                          setTimeout(() => {
+                            props.handleShowDialog(false);
+                            props.reLoadTable("sucess" + Date.now());
+                          }, 500);
+                        }
+                      }).catch(()=> {
+                        setFailure(true);
+                      });
+                    }
+                  );
+                }
+              );
+            } else {
+              createBlog(
+                values.title,
+                values.content,
+                values.categoryBlog,
+                values.author,
+                innerTextSync
+              ).then((res) => {
+                if (res.status === 200) {
+                  setLoading(false);
+                  setSuccess(true);
+                  setTimeout(() => {
+                    props.handleShowDialog(false);
+                    props.reLoadTable("sucess" + Date.now());
+                  }, 500);
+                }
+              }).catch(()=> {
+                setFailure(true);
+              });
+            }
           }}
         >
           {({ setFieldValue, errors, touched }) => (
-            <Form noValidate autoComplete="off">
+            <Form noValidate autoComplete="off" style={{ minHeight: "550px" }}>
               <DialogContent>
-                <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                  <FormControl
-                    size="small"
+                <Grid container spacing={5} sx={{ p: 2 }}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
                     sx={{
                       width: "100%",
+                      height: "100%",
+                      textAlign: "center",
                     }}
                   >
-                    <InputLabel
-                      id="label-category-type"
-                      sx={{
-                        background: "#fff",
-                        color: (theme) =>
-                          errors.category && touched.category
-                            ? "#f44336"
-                            : "currentcolor",
-                      }}
-                    >
-                      Category Blog
-                    </InputLabel>
-                    <AppSelectField
-                      labelId="label-category-type"
+                    <FormControl
                       size="small"
-                      label={"Category Blog"}
-                      name="categoryBlog"
-                      onChange={(event) => {
-                        setFieldValue("categoryBlog", event.target.value);
+                      sx={{
+                        width: "100%",
                       }}
                     >
-                      {catBlogList.categories?.map((item, index) => {
-                        return (
-                          <MenuItem
-                            value={item._id}
-                            key={index}
-                            title={item.title}
-                          >
-                            {item.title}
-                          </MenuItem>
-                        );
-                      })}
-                    </AppSelectField>
+                      <InputLabel
+                        id="label-category-type"
+                        sx={{
+                          background: "#fff",
+                          color: (theme) =>
+                            errors.category && touched.category
+                              ? "#f44336"
+                              : "currentcolor",
+                        }}
+                      >
+                        Category Blog
+                      </InputLabel>
+
+                      <AppSelectField
+                        labelId="label-category-type"
+                        size="small"
+                        label={"Category Blog"}
+                        name="categoryBlog"
+                        onChange={(event) => {
+                          setFieldValue("categoryBlog", event.target.value);
+                        }}
+                      >
+                        {catBlogList.categories?.map((item, index) => {
+                          return (
+                            <MenuItem
+                              value={item._id}
+                              key={index}
+                              title={item.title}
+                            >
+                              {item.title}
+                            </MenuItem>
+                          );
+                        })}
+                      </AppSelectField>
+                    </FormControl>
+
                     <Box
                       sx={{ mb: { xs: 3, xl: 3 } }}
                       style={{
                         width: "100%",
-
                         marginTop: "20px",
                       }}
                     >
@@ -149,22 +235,60 @@ export default function DialogAddBlog(props) {
                         }}
                       />
                     </Box>
-                    <Box
-                      sx={{ mb: { xs: 3, xl: 3 } }}
-                      style={{
-                        width: "100%",
-                        minHeight: "214px",
-                      }}
-                    >
-                      <CHKditor
-                        field={"content"}
-                        setValue={setFieldValue}
-                        data={content}
-                        updateData={hanldeDataCkeditor}
-                        type={"content"}
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box>
+                      <Avatar
+                        alt=""
+                        src={
+                          thumbnail
+                            ? URL.createObjectURL(thumbnail)
+                            : thumbnailPlaceholder
+                        }
+                        sx={{
+                          width: 250,
+                          height: 250,
+                          mb: 2,
+                          borderRadius: "10px",
+                        }}
+                        loading="lazy"
                       />
+                      <label htmlFor="contained-button-file">
+                        <Input
+                          accept="image/*"
+                          id="contained-button-file"
+                          multiple
+                          type="file"
+                          onChange={(e) => setThumbnail(e.target.files[0])}
+                        />
+                        <Button variant="contained" component="span">
+                          Update Avatar
+                        </Button>
+                      </label>
                     </Box>
-                  </FormControl>
+                  </Grid>
+                </Grid>
+
+                {/* CKEDITOR */}
+                <Box>
+                  <CHKditor
+                    field={"content"}
+                    setValue={setFieldValue}
+                    data={content}
+                    updateData={hanldeDataCkeditor}
+                    type={"content"}
+                  />
                 </Box>
               </DialogContent>
               <DialogActions>
@@ -175,26 +299,18 @@ export default function DialogAddBlog(props) {
           )}
         </Formik>
       </Dialog>
-      <Snackbar
+      <SnackBarCustom
         open={success}
-        autoHideDuration={1000}
-        onClose={() => setSuccess(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          Add success
-        </Alert>
-      </Snackbar>
-      <Snackbar
+        setStateWhenClose={setSuccess}
+        label={"Create Blog Success"}
+        status={"success"}
+      />
+      <SnackBarCustom
         open={failure}
-        autoHideDuration={1000}
-        onClose={() => setFailure(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="error" sx={{ width: "100%" }}>
-          Error
-        </Alert>
-      </Snackbar>
+        setStateWhenClose={setFailure}
+        label={"Create Blog Failure, Please try again"}
+        status={"error"}
+      />
     </>
   );
 }
