@@ -110,7 +110,7 @@ const ListProduct = (props) => {
         </div>
         {props.loading === true ? (
           <div className={classes.spin}>
-            <Spin indicator={antIcon} />
+            <DotLoading />
           </div>
         ) : props.data.products?.length > 0 ? (
           <div>

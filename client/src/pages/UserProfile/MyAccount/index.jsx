@@ -50,7 +50,7 @@ const beforeUpload = (file) => {
 
   return isJpgOrPng && isLt2M;
 };
-const token = Cookies.get("token");
+const token = Cookies.get("tokenClient");
 const dateFormat = "YYYY/MM/DD";
 const MyAccount = () => {
   const { Option } = Select;

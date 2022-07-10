@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense/index";
 import { CompleteProfile } from "../pages/CompleteProfile";
 import ViewAll from "../pages/ViewAll";
+import ViewAllByBrand from "../pages/ViewAll/viewallbybrand";
 import {
   Detail,
   Home,
@@ -85,6 +86,14 @@ const AppLayout = () => {
             element={
               <UnRequireAuth>
                 <ViewAll />
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="/viewall/:idBrandPr"
+            element={
+              <UnRequireAuth>
+                <ViewAllByBrand />
               </UnRequireAuth>
             }
           />

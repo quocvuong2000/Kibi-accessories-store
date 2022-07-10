@@ -32,6 +32,7 @@
     color: white;
     padding: 2px 0;
     font-size: 18px;
+    cursor: pointer;
   }
   :global {
     .MuiSlider-thumb {
@@ -44,7 +45,12 @@
     }
     .MuiSlider-root {
       color: #d84727;
+      input {
+        width: 40px;
+        height: 40px;
+      }
     }
+
     .ant-dropdown-menu {
       padding: 30px;
     }

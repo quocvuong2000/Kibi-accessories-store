@@ -137,19 +137,40 @@ router.get("/:idCate", async (req, res) => {
 //GET PRODUCT BY BRAND
 router.get("/brand/:idBrand", async (req, res) => {
   const qPage = req.query.page;
+  const qName = req.query.name;
+  const qBrand = req.query.brand;
+  const qFromPrice = req.query.fromPrice;
+  const qToPrice = req.query.toPrice;
+  const qRating = req.query.rating;
   let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
+
+  let query = qName ? { product: { $regex: qName, $options: "i" } } : {};
+  if (qFromPrice && qToPrice) {
+    query = {
+      ...query,
+      ...{ price: { $gte: parseInt(qFromPrice), $lte: parseInt(qToPrice) } },
+    };
+  }
+  if (qBrand) {
+    query = { ...query, ...{ brand: qBrand } };
+  }
+  if (qRating) {
+    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+  }
+
+  query = { ...query, ...{ brand: req.params.idBrand } };
   try {
     let products;
     if (qPage) {
-      products = await Product.find({ brand: req.params.idBrand })
+      products = await Product.find(query)
         .skip(perPage * page - perPage)
         .limit(perPage);
     } else {
-      products = await Product.find({ brand: req.params.idBrand });
+      products = await Product.find(query);
     }
-    count = await Product.count();
+    count = await Product.find(query).count();
     res.status(200).json({
       products, // sản phẩm trên một page
       currentPage: page, // page hiện tại

@@ -9,16 +9,16 @@ import DotRing from "../components/DotRing";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  const isLoggedIn = Boolean(Cookies.get("token"));
+  const isLoggedIn = Boolean(Cookies.get("tokenClient"));
 
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ form: location }} replace />;
   }
-  const deCodeToken = jwt_decode(Cookies.get("token"));
+  const deCodeToken = jwt_decode(Cookies.get("tokenClient"));
   // console.log(deCodeToken);
 
   if (deCodeToken.exp < Date.now() / 1000) {
-    Cookies.remove("token");
+    Cookies.remove("tokenClient");
   }
   return (
     <>

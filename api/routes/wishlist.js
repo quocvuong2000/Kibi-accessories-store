@@ -91,4 +91,19 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+//DELELE OVER ID PRODUCT
+router.post(
+  "/deleteallproduct",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      Wishlist.deleteMany({ product: [{ _id: req.body.productId }] });
+      res.status(200).json("delete success");
+    } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+    }
+  }
+);
 module.exports = router;

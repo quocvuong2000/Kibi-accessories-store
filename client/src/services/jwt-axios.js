@@ -2,7 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 const token =
-  typeof Cookies.get("token") !== "undefined" ? Cookies.get("token") : "";
+  typeof Cookies.get("tokenClient") !== "undefined"
+    ? Cookies.get("tokenClient")
+    : "";
 
 const localUrl = "http://localhost:5000";
 //console.log(process.env.URL_API);
@@ -26,7 +28,7 @@ const callAPIWithToken = axios.create({
 
 callAPIWithToken.interceptors.request.use(
   async (config) => {
-    const tok = await Cookies.get("token");
+    const tok = await Cookies.get("tokenClient");
     config.headers = {
       Authorization: `Bearer ${tok}`,
       Accept: "application/json",
@@ -47,7 +49,7 @@ callAPIWithToken.interceptors.response.use(
   },
   (err) => {
     if (err.response && err.response.status === 401) {
-      Cookies.remove("token");
+      Cookies.remove("tokenClient");
       <Navigate replace to="/login" />;
       // redirect to login
     }
@@ -61,10 +63,10 @@ callAPIWithToken.interceptors.response.use(
 export const setAuthToken = (token) => {
   if (token) {
     jwtAxios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    Cookies.set("token", token);
+    Cookies.set("tokenClient", token);
   } else {
     delete jwtAxios.defaults.headers.common.Authorization;
-    Cookies.remove("token");
+    Cookies.remove("tokenClient");
   }
 };
 export { jwtAxios, callAPIWithToken };

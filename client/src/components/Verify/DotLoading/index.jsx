@@ -3,7 +3,7 @@ import s from "./styles.module.scss";
 
 const DotLoading = () => {
   return (
-    <div className="col-3">
+    <div className="col-3" style={{ paddingBottom: "30px" }}>
       <div className="snippet" data-title=".dot-pulse">
         <div className="stage">
           <div className={s.dot_pulse}></div>

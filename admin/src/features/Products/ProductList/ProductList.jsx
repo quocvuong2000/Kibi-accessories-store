@@ -1,9 +1,10 @@
 import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
 import {
   Alert,
-  Avatar, Snackbar,
+  Avatar,
+  Snackbar,
   TablePagination,
-  Typography
+  Typography,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Table from "@mui/material/Table";
@@ -18,7 +19,7 @@ import productPlaceholder from "../../../assets/images/product-example.png";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { StyledMenu } from "../../../theme/styledMenu";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
-import { doDeleteProduct } from "../ProductAPI";
+import { deleteWishList, doDeleteProduct } from "../ProductAPI";
 const makeStyle = (status) => {
   if (status === "Approved") {
     return {
@@ -61,6 +62,18 @@ export default function ProductList(props) {
 
   const hanldeDeleteProduct = () => {
     doDeleteProduct(deleteDialog.id)
+      .then(() => {
+        setSuccess(true);
+        props.reLoadTable("delete" + Date.now());
+        setDeleteDialog({
+          delete: false,
+          id: "",
+        });
+      })
+      .catch(() => {
+        setFailure(true);
+      });
+    deleteWishList(deleteDialog.id)
       .then(() => {
         setSuccess(true);
         props.reLoadTable("delete" + Date.now());

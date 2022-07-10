@@ -38,7 +38,7 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const handleSignOut = () => {
-    Cookies.remove("token");
+    Cookies.remove("tokenClient");
     localStorage.removeItem("persist:root");
     navigate2("/login");
   };
