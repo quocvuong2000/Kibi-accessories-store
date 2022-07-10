@@ -1,31 +1,49 @@
 const CategoryBlog = require("../models/CategoryBlog");
-const { verifyTokenAndAdmin } = require("./verifyToken");
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndStaff,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-router.post("/", verifyTokenAndAdmin, async (req, res) => {
-  const newCategoryBlog = new CategoryBlog(req.body);
+router.post("/", verifyTokenAndStaff, async (req, res) => {
+  const newCategory = new CategoryBlog(req.body);
 
   try {
-    const savedCategoryBlog = await newCategoryBlog.save();
-    res.status(200).json(savedCategoryBlog);
+    const savedCategory = await newCategory.save();
+    res.status(200).json(savedCategory);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-//DELETE
-router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+
+//DELETE - ONLY ADMIN AND STAFF
+router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
   try {
     await CategoryBlog.findByIdAndDelete(req.params.id);
-    res.status(200).json("CategoryBlog has been deleted...");
+    res.status(200).json("Category has been deleted...");
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//GET
+//UPDATE - ONLY ADMIN AND STAFF
+router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
+  try {
+    await CategoryBlog.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+    });
+    res.status(200).json("Category has been updated...");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
+//GET - PAGINATION
+// pagination
 router.get("/", async (req, res) => {
   const qPage = req.query.page;
   let perPage = 8; // số lượng sản phẩm xuất hiện trên 1 page
@@ -53,4 +71,3 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-//UPDATE

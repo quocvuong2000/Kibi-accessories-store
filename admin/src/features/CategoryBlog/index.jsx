@@ -4,16 +4,17 @@ import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import AppLoader from "../../@crema/core/AppLoader";
-import { getCategoryList } from "./CategoryAPI";
-import CategoryList from "./CategoryList/CategoryList";
+
+import { getCategoryBlogList } from "./CategoryBlogAPI";
+import CategoryBlogList from "./CategoryBlogList/CategoryBlogList";
 import HeaderCat from "./Header/HeaderCat";
 import classes from "./styles.module.scss";
 
-const Categories = () => {
-  const [categoryList, setCategoryList] = useState({});
+const CategoryBlog = () => {
+  const [categoryBlogList, setCategoryBlogList] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(true);
+  const [reload, setReload] = useState("");
 
   const takePage = (page) => {
     setPage(page);
@@ -23,10 +24,10 @@ const Categories = () => {
   };
 
   useEffect(() => {
-    getCategoryList(page)
+    getCategoryBlogList(page)
       .then((res) => {
         if (res) {
-          setCategoryList(res);
+          setCategoryBlogList(res);
         }
       })
       .finally(() => {
@@ -58,10 +59,10 @@ const Categories = () => {
               >
                 <h3>Category</h3>
                 <HeaderCat reLoadTable={reLoadTable} />
-                <CategoryList
+                <CategoryBlogList
                   takePage={takePage}
-                  categoryList={categoryList}
                   reLoadTable={reLoadTable}
+                  categoryBlogList={categoryBlogList}
                 />
               </Box>
             </Grid>
@@ -72,4 +73,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default CategoryBlog;

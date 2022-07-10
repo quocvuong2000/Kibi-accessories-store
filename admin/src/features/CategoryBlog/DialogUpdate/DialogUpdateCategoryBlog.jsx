@@ -7,8 +7,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Form, Formik } from "formik";
 import * as React from "react";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
-import { addNewCategory } from "../CategoryAPI";
-export default function DialogAddCategory(props) {
+import { createCategoryblog, updateCategoryBlog } from "../CategoryBlogAPI";
+export default function DialogUpdateCategoryBlog(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const handleClose = () => {
@@ -18,15 +18,14 @@ export default function DialogAddCategory(props) {
   return (
     <>
       <Dialog open={props.showDialog} onClose={handleClose}>
-        <DialogTitle>ADD NEW CATEGORY</DialogTitle>
+        <DialogTitle>ADD NEW CATEGORY BLOG</DialogTitle>
         <Formik
           validateOnChange={true}
           initialValues={{
-            categoryName: "",
+            title: `${props.categoryName}`,
           }}
           onSubmit={async (values) => {
-            console.log(values);
-            addNewCategory(values.categoryName)
+            updateCategoryBlog(props.categoryId, values.title)
               .then(() => {
                 setSuccess(true);
                 props.handleShowDialog(false);
@@ -41,9 +40,9 @@ export default function DialogAddCategory(props) {
             <DialogContent>
               <Box>
                 <AppTextField
-                  placeholder={"Category Name"}
-                  label={"categoryName"}
-                  name="categoryName"
+                  placeholder={"Title"}
+                  label={"title"}
+                  name="title"
                   variant="outlined"
                   sx={{
                     width: "100%",
@@ -53,7 +52,7 @@ export default function DialogAddCategory(props) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button type="submit">Add</Button>
+              <Button type="submit">Update</Button>
             </DialogActions>
           </Form>
         </Formik>
@@ -65,7 +64,7 @@ export default function DialogAddCategory(props) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert severity="success" sx={{ width: "100%" }}>
-          Add success
+          Update success
         </Alert>
       </Snackbar>
       <Snackbar

@@ -1,77 +1,99 @@
-import styled from "@emotion/styled";
-import { UilSetting, UilEdit, UilTimesSquare } from "@iconscout/react-unicons";
 import {
-  alpha,
+  UilCheck,
+  UilClockNine,
+  UilEdit,
+  UilSetting,
+  UilTimes,
+  UilTimesSquare,
+} from "@iconscout/react-unicons";
+import {
+  Alert,
   Menu,
-  MenuItem,
+  Snackbar,
   TablePagination,
   Typography,
 } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { alpha, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import moment from "moment";
+import parse from "html-react-parser";
 import * as React from "react";
+import { useState } from "react";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { deleteCategory } from "../CategoryAPI";
-import DialogUpdateCategory from "../DialogUpdate.jsx/DialogUpdateCategory";
+import { deleteBlog } from "../BlogAPI";
+import DialogUpdateBlog from "../DialogUpdate/DialogUpdateBlog";
 
-const makeStyle = (status) => {
-  if (status === "Approved") {
-    return {
-      background: "rgb(145 254 159 / 47%)",
-      color: "green",
-    };
-  } else if (status === "Pending") {
-    return {
-      background: "#ffadad8f",
-      color: "red",
-    };
-  } else {
-    return {
-      background: "#59bfff",
-      color: "white",
-    };
-  }
-};
-
-export default function CategoryList(props) {
+export default function BlogList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const [showUpdateModal, setShowUpdateModal] = React.useState(false);
-  const [categorySelectedUpdate, setCategorySelectedUpdate] =
-    React.useState("");
-  const [idCateUpdate, setIdCateUpdate] = React.useState("");
   const [deleteDialog, setDeleteDialog] = React.useState({
     delete: false,
     id: "",
   });
-  const handleChangePage = (_event, newPage) => {
-    props.takePage(newPage + 1);
-  };
+  const [blogIdSelected, setBlogIdSelected] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
+  const [failure, setFailure] = React.useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [blogSelectedUpdate, setBlogSelectedUpdate] = useState("");
+  const [allDes, setAllDes] = useState({
+    title: "",
+    content: "",
+    categoryblog: "",
+    author: "",
+    categoryname: "",
+  });
+  const open = Boolean(anchorEl);
 
   const hanldeShowUpdateProductModal = (isVisible) => {
     setShowUpdateModal(isVisible);
+  };
+
+  const hanldeShowDeleteDialog = (visible) => {
+    setDeleteDialog(visible);
+  };
+
+  const hanldeDeleteBlog = () => {
+    deleteBlog(deleteDialog.id)
+      .then((res) => {
+        if (res.status === 200) {
+          props.reLoadTable("delete" + Date.now());
+          setDeleteDialog({
+            delete: false,
+            id: "",
+          });
+        }
+      })
+      .catch(() => {
+        setFailure(true);
+      });
   };
   const handleClick = (event) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
-
-  const handleDeleteCategory = () => {
-    deleteCategory(deleteDialog.id).then((res) => {
-      props.reLoadTable("delete" + Date.now());
-      setDeleteDialog({
-        delete: false,
-        id: "",
-      });
-    });
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleChangePage = (_event, newPage) => {
+    props.takePage(newPage + 1);
   };
 
+  const doChooseClass = (type) => {
+    switch (type) {
+      case "PENDING":
+        return <UilClockNine />;
+      case "APPROVAL":
+        return <UilCheck color="#00FF22" />;
+      case "REJECTED":
+        return <UilTimes color="#FF3300" />;
+      default:
+        return "";
+    }
+  };
   const StyledMenu = styled((props) => (
     <Menu
       elevation={0}
@@ -113,15 +135,10 @@ export default function CategoryList(props) {
       },
     },
   }));
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const hanldeShowDeleteDialog = (visible) => {
-    setDeleteDialog(visible);
-  };
+  // return focus to the button when we transitioned from !open -> open
   return (
     <>
-      <div>
+      <div style={{ height: "465px" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
             stickyHeader
@@ -131,17 +148,24 @@ export default function CategoryList(props) {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Setting</TableCell>
-                <TableCell>Category ID</TableCell>
-                <TableCell align="left">Category Name</TableCell>
-                <TableCell align="left">Update At</TableCell>
-                <TableCell align="left">Product Related</TableCell>
+                <TableCell align="left">Author</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell align="left">Content</TableCell>
+                <TableCell align="left">Category Blog</TableCell>
+                <TableCell align="left">Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {props.categoryList.categories?.map((row, index) => (
+              {props.blogList?.blogs?.map((row) => (
                 <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  key={row._id}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    maxHeight: 440,
+                  }}
+                  onClick={() => {
+                    setBlogIdSelected(row._id);
+                  }}
                 >
                   <TableCell
                     align="left"
@@ -169,7 +193,7 @@ export default function CategoryList(props) {
                         onClick={() => {
                           setDeleteDialog({
                             delete: true,
-                            id: row._id,
+                            id: blogIdSelected,
                           });
                           setAnchorEl(null);
                         }}
@@ -183,9 +207,15 @@ export default function CategoryList(props) {
                       <MenuItem
                         disableRipple
                         onClick={() => {
+                          setAllDes({
+                            title: row.title,
+                            content: row.content,
+                            categoryblog: row.categoryblog,
+                            author: row.author,
+                            categoryname: row.categoryname,
+                          });
                           setShowUpdateModal(true);
-                          setCategorySelectedUpdate(row.category);
-                          setIdCateUpdate(row._id);
+                          setBlogSelectedUpdate(blogIdSelected);
                           setAnchorEl(null);
                         }}
                       >
@@ -196,13 +226,12 @@ export default function CategoryList(props) {
                       </MenuItem>
                     </StyledMenu>
                   </TableCell>
-                  <TableCell>{row._id}</TableCell>
-                  <TableCell align="left">{row.category}</TableCell>
+                  <TableCell align="left">{row.author}</TableCell>
+                  <TableCell>{row.title}</TableCell>
+                  <TableCell align="left">{parse(row.content)}</TableCell>
+                  <TableCell align="left">{row.categoryname}</TableCell>
                   <TableCell align="left">
-                    {moment(row.updatedAt).format("DD-MM-YYYY")}
-                  </TableCell>
-                  <TableCell align="left">
-                    <span style={makeStyle(row.status)}>N/A</span>
+                    {doChooseClass(row.status)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -212,26 +241,46 @@ export default function CategoryList(props) {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={props.categoryList?.totalItems}
+          count={props.blogList?.totalItems || 1}
           rowsPerPage={10}
-          page={props.categoryList?.currentPage - 1}
+          page={(props.blogList?.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>
       <ConfirmationDialog
         show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
-        hanldeAgree={handleDeleteCategory}
-        title={"Delete product"}
+        hanldeAgree={hanldeDeleteBlog}
+        title={"Delete blog"}
         content={"Are you sure to delete"}
       />
+      <Snackbar
+        open={success}
+        autoHideDuration={1000}
+        onClose={() => setSuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          Delete success
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={failure}
+        autoHideDuration={1000}
+        onClose={() => setFailure(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          Error
+        </Alert>
+      </Snackbar>
       {showUpdateModal && (
-        <DialogUpdateCategory
+        <DialogUpdateBlog
           showDialog={showUpdateModal}
           handleShowDialog={hanldeShowUpdateProductModal}
           reLoadTable={props.reLoadTable}
-          categoryName={categorySelectedUpdate}
-          categoryId={idCateUpdate}
+          blogId={blogSelectedUpdate}
+          allDes={allDes}
         />
       )}
     </>

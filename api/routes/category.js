@@ -30,6 +30,20 @@ router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
   }
 });
 
+//UPDATE - ONLY ADMIN AND STAFF
+router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
+  try {
+    console.log("req.params.id:", req.params.id);
+    console.log("req.body.category:", req.body.category);
+    await Category.findByIdAndUpdate(req.params.id, {
+      category: req.body.category,
+    });
+    res.status(200).json("Category has been updated...");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET - PAGINATION
 // pagination
 router.get("/", async (req, res) => {

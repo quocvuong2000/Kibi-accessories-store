@@ -1,17 +1,17 @@
 import { callAPIWithToken } from "../../services/jwt-axios";
 
-export const addNewCategory = async (categoryInfo) => {
-  const res = await callAPIWithToken.post("/api/category/", {
-    category: categoryInfo,
+export const createCategoryblog = async (title) => {
+  const res = await callAPIWithToken.post("/api/categoryblog/", {
+    title: title,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
 
-export const getCategoryList = async (page) => {
+export const getCategoryBlogList = async (page) => {
   const res = await callAPIWithToken({
-    url: `/api/category/`,
+    url: `/api/categoryblog/`,
     params: { page: page },
     method: "GET",
   });
@@ -20,16 +20,16 @@ export const getCategoryList = async (page) => {
   return res.data;
 };
 
-export const deleteCategory = async (id) => {
-  const res = await callAPIWithToken.delete(`/api/category/${id}`);
+export const deleteCategoryBlog = async (id) => {
+  const res = await callAPIWithToken.delete(`/api/categoryblog/${id}`);
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
 
-export const updateCategory = async (id, category) => {
-  const res = await callAPIWithToken.patch(`/api/category/${id}`, {
-    category: category,
+export const updateCategoryBlog = async (id, title) => {
+  const res = await callAPIWithToken.patch(`/api/categoryblog/${id}`, {
+    title: title,
   });
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);

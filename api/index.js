@@ -10,6 +10,7 @@ const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const brandRoute = require("./routes/brand");
 const categoryRoute = require("./routes/category");
+const categoryBlogRoute = require("./routes/categoryblog");
 const cartRoute = require("./routes/cart");
 const userRoute = require("./routes/user");
 const customerRoute = require("./routes/customer");
@@ -22,6 +23,7 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const momoRoute = require("./routes/momo");
 const voucherRoute = require("./routes/voucher");
+const blogRoute = require("./routes/blog");
 
 const monitorOrders = require("./triggers/ChangeStreamOrder");
 const monitorProduct = require("./triggers/ChangeStreamProduct");
@@ -54,7 +56,8 @@ app.use("/api/order", orderRoute);
 app.use("/api/stripe", stripeRoute);
 app.use("/api/momo", momoRoute);
 app.use("/api/voucher", voucherRoute);
-
+app.use("/api/categoryblog", categoryBlogRoute);
+app.use("/api/blog", blogRoute);
 //TRIGGER
 
 const port = process.env.PORT || 5000;

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { UilSetting, UilEdit, UilTimesSquare } from "@iconscout/react-unicons";
+import { UilSetting, UilTimesSquare, UilEdit } from "@iconscout/react-unicons";
 import {
   alpha,
   Menu,
@@ -16,8 +16,11 @@ import TableRow from "@mui/material/TableRow";
 import moment from "moment";
 import * as React from "react";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { deleteCategory } from "../CategoryAPI";
-import DialogUpdateCategory from "../DialogUpdate.jsx/DialogUpdateCategory";
+import { deleteCategoryBlog } from "../CategoryBlogAPI";
+import DialogUpdateCategoryBlog from "../DialogUpdate/DialogUpdateCategoryBlog";
+function createData(name, trackingId, date, status) {
+  return { name, trackingId, date, status };
+}
 
 const makeStyle = (status) => {
   if (status === "Approved") {
@@ -38,7 +41,7 @@ const makeStyle = (status) => {
   }
 };
 
-export default function CategoryList(props) {
+export default function CategoryBlogList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -53,8 +56,7 @@ export default function CategoryList(props) {
   const handleChangePage = (_event, newPage) => {
     props.takePage(newPage + 1);
   };
-
-  const hanldeShowUpdateProductModal = (isVisible) => {
+  const hanldeShowUpdateCategoryModal = (isVisible) => {
     setShowUpdateModal(isVisible);
   };
   const handleClick = (event) => {
@@ -62,8 +64,8 @@ export default function CategoryList(props) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleDeleteCategory = () => {
-    deleteCategory(deleteDialog.id).then((res) => {
+  const handleDeleteCategoryBlog = () => {
+    deleteCategoryBlog(deleteDialog.id).then((res) => {
       props.reLoadTable("delete" + Date.now());
       setDeleteDialog({
         delete: false,
@@ -132,15 +134,15 @@ export default function CategoryList(props) {
               <TableRow>
                 <TableCell align="left">Setting</TableCell>
                 <TableCell>Category ID</TableCell>
-                <TableCell align="left">Category Name</TableCell>
+                <TableCell align="left">Category Blog Name</TableCell>
                 <TableCell align="left">Update At</TableCell>
                 <TableCell align="left">Product Related</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {props.categoryList.categories?.map((row, index) => (
+              {props.categoryBlogList?.categories?.map((row) => (
                 <TableRow
-                  key={index}
+                  key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
@@ -184,7 +186,7 @@ export default function CategoryList(props) {
                         disableRipple
                         onClick={() => {
                           setShowUpdateModal(true);
-                          setCategorySelectedUpdate(row.category);
+                          setCategorySelectedUpdate(row.title);
                           setIdCateUpdate(row._id);
                           setAnchorEl(null);
                         }}
@@ -197,7 +199,7 @@ export default function CategoryList(props) {
                     </StyledMenu>
                   </TableCell>
                   <TableCell>{row._id}</TableCell>
-                  <TableCell align="left">{row.category}</TableCell>
+                  <TableCell align="left">{row.title}</TableCell>
                   <TableCell align="left">
                     {moment(row.updatedAt).format("DD-MM-YYYY")}
                   </TableCell>
@@ -212,23 +214,23 @@ export default function CategoryList(props) {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={props.categoryList?.totalItems}
+          count={props.categoryBlogList?.totalItems}
           rowsPerPage={10}
-          page={props.categoryList?.currentPage - 1}
+          page={props.categoryBlogList?.currentPage - 1}
           onPageChange={handleChangePage}
         />
       </div>
       <ConfirmationDialog
         show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
-        hanldeAgree={handleDeleteCategory}
+        hanldeAgree={handleDeleteCategoryBlog}
         title={"Delete product"}
         content={"Are you sure to delete"}
       />
       {showUpdateModal && (
-        <DialogUpdateCategory
+        <DialogUpdateCategoryBlog
           showDialog={showUpdateModal}
-          handleShowDialog={hanldeShowUpdateProductModal}
+          handleShowDialog={hanldeShowUpdateCategoryModal}
           reLoadTable={props.reLoadTable}
           categoryName={categorySelectedUpdate}
           categoryId={idCateUpdate}

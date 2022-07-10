@@ -1,6 +1,8 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense";
+import ApproveBlog from "../features/ApproveBlog";
+
 import Comments from "../features/Comment";
 import {
   Brands,
@@ -15,6 +17,7 @@ import {
   Orders,
   Vouchers,
   Error404,
+  CategoryBlog,
 } from "../routes";
 import RequireAuth from "../routes/RequireAuth";
 
@@ -41,6 +44,8 @@ const AppLayout = () => {
           <Route path="orders" element={<Orders />} />
           <Route path="vouchers" element={<Vouchers />} />
           <Route path="comments" element={<Comments />} />
+          <Route path="categoryblog" element={<CategoryBlog />} />
+          <Route path="approveblog" element={<ApproveBlog />} />
         </Route>
         <Route
           path="/"

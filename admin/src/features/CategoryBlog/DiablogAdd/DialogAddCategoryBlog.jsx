@@ -7,8 +7,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Form, Formik } from "formik";
 import * as React from "react";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
-import { addNewCategory } from "../CategoryAPI";
-export default function DialogAddCategory(props) {
+import { createCategoryblog } from "../CategoryBlogAPI";
+export default function DialogAddCategoryBlog(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
   const handleClose = () => {
@@ -18,15 +18,14 @@ export default function DialogAddCategory(props) {
   return (
     <>
       <Dialog open={props.showDialog} onClose={handleClose}>
-        <DialogTitle>ADD NEW CATEGORY</DialogTitle>
+        <DialogTitle>ADD NEW CATEGORY BLOG</DialogTitle>
         <Formik
           validateOnChange={true}
           initialValues={{
             categoryName: "",
           }}
           onSubmit={async (values) => {
-            console.log(values);
-            addNewCategory(values.categoryName)
+            createCategoryblog(values.title)
               .then(() => {
                 setSuccess(true);
                 props.handleShowDialog(false);
@@ -41,9 +40,9 @@ export default function DialogAddCategory(props) {
             <DialogContent>
               <Box>
                 <AppTextField
-                  placeholder={"Category Name"}
-                  label={"categoryName"}
-                  name="categoryName"
+                  placeholder={"Title"}
+                  label={"title"}
+                  name="title"
                   variant="outlined"
                   sx={{
                     width: "100%",

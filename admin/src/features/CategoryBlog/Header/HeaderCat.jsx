@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import DialogAddCategory from "../DiablogAdd/DialogAddCategory";
+import DialogAddCategoryBlog from "../DiablogAdd/DialogAddCategoryBlog";
 
 const HeaderCat = (props) => {
   const [age, setAge] = React.useState("");
@@ -84,7 +84,7 @@ const HeaderCat = (props) => {
           </Grid>
         </Grid>
       </Box>
-      <DialogAddCategory
+      <DialogAddCategoryBlog
         showDialog={showDialog}
         handleShowDialog={handleShowDialogAdd}
         reLoadTable={props.reLoadTable}

@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import AppLoader from "../../@crema/core/AppLoader";
-import { getCategoryList } from "./CategoryAPI";
-import CategoryList from "./CategoryList/CategoryList";
-import HeaderCat from "./Header/HeaderCat";
-import classes from "./styles.module.scss";
+import AppLoader from "../../components/AppLoader";
+import { getBlogList, getBlogListPending } from "../Blogs/BlogAPI";
+import ApproveBlogList from "./ApproveBlogList/ApproveBlogList";
 
-const Categories = () => {
-  const [categoryList, setCategoryList] = useState({});
+import s from "./styles.module.scss";
+
+const ApproveBlog = () => {
+  const [blogList, setBlogList] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(true);
@@ -21,12 +21,11 @@ const Categories = () => {
   const reLoadTable = (status) => {
     setReload(status);
   };
-
   useEffect(() => {
-    getCategoryList(page)
+    getBlogListPending(page)
       .then((res) => {
         if (res) {
-          setCategoryList(res);
+          setBlogList(res.data);
         }
       })
       .finally(() => {
@@ -36,9 +35,9 @@ const Categories = () => {
 
   return (
     <>
-      {loading && <AppLoader />}
-      <div className={classes.brandsContainer}>
-        <h1>Category management</h1>
+      {loading === true && <AppLoader />}
+      <div className={s.container}>
+        <h1>Blog management</h1>
         <motion.div
           animate={{
             scale: [0.5, 1],
@@ -56,13 +55,14 @@ const Categories = () => {
                 style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
                 sx={{ p: 2 }}
               >
-                <h3>Category</h3>
-                <HeaderCat reLoadTable={reLoadTable} />
-                <CategoryList
-                  takePage={takePage}
-                  categoryList={categoryList}
-                  reLoadTable={reLoadTable}
-                />
+                <h3>Approve Blog</h3>
+                {blogList && (
+                  <ApproveBlogList
+                    takePage={takePage}
+                    reLoadTable={reLoadTable}
+                    blogList={blogList}
+                  />
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -72,4 +72,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default ApproveBlog;

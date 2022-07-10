@@ -119,10 +119,11 @@ const ListPending = () => {
                         color="#FF3300"
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          setDeleteDialog({
-                            delete: true,
-                            id: item._id,
-                          });
+                          item.paid === false &&
+                            setDeleteDialog({
+                              delete: true,
+                              id: item._id,
+                            });
                         }}
                       />
                     </TableCell>

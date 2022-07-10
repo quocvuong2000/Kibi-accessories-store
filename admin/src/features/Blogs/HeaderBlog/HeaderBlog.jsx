@@ -8,13 +8,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
-import DialogAddCategory from "../DiablogAdd/DialogAddCategory";
+import React, { useEffect, useState } from "react";
+import { getCategoryBlogList } from "../../CategoryBlog/CategoryBlogAPI";
+import DialogAddBlog from "../DialogAdd/DialogAddBlog";
 
-const HeaderCat = (props) => {
+const HeaderBlog = (props) => {
   const [age, setAge] = React.useState("");
   const [age1, setAge1] = React.useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const [cateBlogList, setCateBlogList] = React.useState([]);
+  const [page, setPage] = React.useState(1);
   const handleShowDialogAdd = (isVisible) => {
     setShowDialog(isVisible);
   };
@@ -24,8 +27,10 @@ const HeaderCat = (props) => {
   const handleChange1 = (event) => {
     setAge(event.target.value);
   };
+
+
   return (
-    <>
+    <div>
       <Box sx={{ mb: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={5}>
@@ -79,18 +84,20 @@ const HeaderCat = (props) => {
             display={"flex"}
           >
             <Button variant="contained" onClick={() => setShowDialog(true)}>
-              Add New Category
+              Add New Blog
             </Button>
           </Grid>
         </Grid>
       </Box>
-      <DialogAddCategory
-        showDialog={showDialog}
-        handleShowDialog={handleShowDialogAdd}
-        reLoadTable={props.reLoadTable}
-      />
-    </>
+      {showDialog && (
+        <DialogAddBlog
+          showDialog={showDialog}
+          handleShowDialog={handleShowDialogAdd}
+          reLoadTable={props.reLoadTable}
+        />
+      )}
+    </div>
   );
 };
 
-export default HeaderCat;
+export default HeaderBlog;

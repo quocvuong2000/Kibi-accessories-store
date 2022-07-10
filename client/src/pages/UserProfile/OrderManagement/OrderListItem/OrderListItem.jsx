@@ -149,7 +149,7 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
         >
           <button
             className={`${classes.button_remove} ${
-              orderItem.paid === false && classes.disabled
+              orderItem.paid === true && classes.disabled
             } `}
             onClick={!orderItem.paid === false && showPopconfirm}
           >

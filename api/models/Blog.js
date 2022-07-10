@@ -2,15 +2,17 @@ const mongoose = require("mongoose");
 
 const BlogSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true, unique: true },
+    title: { type: String },
     content: { type: String },
     user: [
       {
         userId: { type: String },
       },
     ],
+    author: { type: String },
     categoryblog: { type: mongoose.Schema.Types.ObjectId, ref: "CategoryBlog" },
-    isBrowse: { type: Boolean },
+    status: { type: String },
+    categoryname: { type: String },
   },
   { timestamps: true }
 );
