@@ -22,6 +22,7 @@ const Staffs = () => {
         setLoading(false);
       });
   }, [page, reload]);
+
   const takePage = (page) => {
     setPage(page);
   };
@@ -33,7 +34,7 @@ const Staffs = () => {
   return (
     <>
       {loading && <AppLoader />}
-      <div className={classes.brandsContainer}>
+      <div >
         <h1>Staff management</h1>
         <motion.div
           animate={{

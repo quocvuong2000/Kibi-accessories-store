@@ -11,13 +11,20 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
+import {
+  UilEdit,
+  UilSetting,
+  UilTimesSquare,
+  UilUserExclamation,
+} from "@iconscout/react-unicons";
 import { StyledMenu } from "../../../theme/styledMenu";
 import userPlaceholder from "../../../assets/user.jpg";
 import { doDeleteStaff } from "../StaffsAPI";
 import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import DialogUpdateStaff from "../DialogUpdateStaff/DialogUpdateStaff";
+import DialogResetPassword from "../DialogResetPassword/DialogResetPassword";
+import { checkTypeItem } from "../../../utils/checkTypeItem";
 const StaffList = ({ staffs, takePage, reLoadTable }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState({
@@ -29,6 +36,7 @@ const StaffList = ({ staffs, takePage, reLoadTable }) => {
   const [failure, setFailure] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [staffSelectedUpdate, setStaffSelectedUpdate] = useState("");
+  const [showModalResetPassword, setShowModalResetPassword] = useState(false);
   const open = Boolean(anchorEl);
 
   const hanldeDeleteStaff = () => {
@@ -61,6 +69,9 @@ const StaffList = ({ staffs, takePage, reLoadTable }) => {
   };
   const hanldeShowUpdateProductModal = (isVisible) => {
     setShowUpdateModal(isVisible);
+  };
+  const hanldeShowResetPasswordModal = (isVisible) => {
+    setShowModalResetPassword(isVisible);
   };
   // console.log("staffs", staffs);
   return (
@@ -144,6 +155,19 @@ const StaffList = ({ staffs, takePage, reLoadTable }) => {
                           Update
                         </Typography>
                       </MenuItem>
+                      <MenuItem
+                        disableRipple
+                        onClick={() => {
+                          setShowModalResetPassword(true);
+                          setStaffSelectedUpdate(staffIdSelected);
+                          setAnchorEl(null);
+                        }}
+                      >
+                        <UilUserExclamation />
+                        <Typography sx={{ marginLeft: "10px" }}>
+                          Reset password
+                        </Typography>
+                      </MenuItem>
                     </StyledMenu>
                   </TableCell>
                   <TableCell align="left">
@@ -154,9 +178,13 @@ const StaffList = ({ staffs, takePage, reLoadTable }) => {
                     />
                   </TableCell>
                   <TableCell>{row.username}</TableCell>
-                  <TableCell align="left">{row.role} management</TableCell>
-                  <TableCell align="left">{row.phone}</TableCell>
-                  <TableCell align="left">{row.gender}</TableCell>
+                  <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {row.role} management
+                  </TableCell>
+                  <TableCell align="left">{checkTypeItem(row.phone)}</TableCell>
+                  <TableCell align="left">
+                    {checkTypeItem(row.gender)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -194,6 +222,14 @@ const StaffList = ({ staffs, takePage, reLoadTable }) => {
         <DialogUpdateStaff
           showDialog={showUpdateModal}
           handleShowDialog={hanldeShowUpdateProductModal}
+          reLoadTable={reLoadTable}
+          staffId={staffSelectedUpdate}
+        />
+      )}
+      {showModalResetPassword && (
+        <DialogResetPassword
+          showDialog={showModalResetPassword}
+          handleShowDialog={hanldeShowResetPasswordModal}
           reLoadTable={reLoadTable}
           staffId={staffSelectedUpdate}
         />

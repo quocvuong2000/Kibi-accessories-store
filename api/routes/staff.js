@@ -99,6 +99,8 @@ router.put("/update/:id",verifyTokenAndAdmin,async(req,res)=> {
   }
 })
 
+
+
 //GET DETAIL STAFF
 router.get("/detail/:id",verifyTokenAndAdmin,async(req,res)=> {
   try {

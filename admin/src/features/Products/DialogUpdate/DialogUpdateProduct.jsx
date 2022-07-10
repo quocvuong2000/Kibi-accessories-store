@@ -174,7 +174,6 @@ export default function DialogUpdateProduct(props) {
   const hanldeDeleteImage = (url) => {
     setCurrentUrls(currentUrls.filter((item) => item !== url));
   };
-  console.log(currentUrls);
   return (
     <>
       {loading ? (
@@ -230,7 +229,6 @@ export default function DialogUpdateProduct(props) {
                 }}
                 onSubmit={async (values) => {
                   setLoading(true);
-                  console.log(values);
 
                   if (urls.length === images.length) {
                     const product = {
@@ -401,6 +399,8 @@ export default function DialogUpdateProduct(props) {
                                 </AppSelectField>
                               </FormControl>
                             </Box>
+                            {/* QUANTITY */}
+
                             <Box sx={{ mb: { xs: 3, xl: 3 } }}>
                               <AppTextField
                                 size="small"
@@ -414,13 +414,17 @@ export default function DialogUpdateProduct(props) {
                               />
                             </Box>
 
-                            {/* Top Sales */}
+                            {/* QUANTITY */}
                             <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <FormControlLabel
-                                value="Top Sales"
-                                control={<Checkbox />}
-                                label="Top Sales"
-                                labelPlacement="start"
+                              <AppTextField
+                                size="small"
+                                placeholder={"Sale%"}
+                                label={"Sale%"}
+                                name="sale"
+                                variant="outlined"
+                                sx={{
+                                  width: "100%",
+                                }}
                               />
                             </Box>
                           </Grid>
@@ -636,7 +640,9 @@ export default function DialogUpdateProduct(props) {
                       )}
                     </Grid>
                     <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button color="secondary" onClick={handleClose}>
+                        Cancel
+                      </Button>
                       <Button
                         // onClick={handleClose}
                         variant="contained"
@@ -650,7 +656,7 @@ export default function DialogUpdateProduct(props) {
                             : false
                         }
                       >
-                        Add
+                        Update Product
                       </Button>
                     </DialogActions>
                   </Form>

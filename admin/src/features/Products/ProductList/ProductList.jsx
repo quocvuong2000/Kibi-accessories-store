@@ -1,14 +1,11 @@
 import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
 import {
   Alert,
-  Avatar,
-  Menu,
-  Snackbar,
+  Avatar, Snackbar,
   TablePagination,
-  Typography,
+  Typography
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { alpha, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,9 +16,9 @@ import * as React from "react";
 import { useState } from "react";
 import productPlaceholder from "../../../assets/images/product-example.png";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { StyledMenu } from "../../../theme/styledMenu";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
 import { doDeleteProduct } from "../ProductAPI";
-import { StyledMenu } from "../../../theme/styledMenu";
 const makeStyle = (status) => {
   if (status === "Approved") {
     return {

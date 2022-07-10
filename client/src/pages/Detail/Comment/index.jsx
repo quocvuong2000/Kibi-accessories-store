@@ -9,7 +9,7 @@ import {
   getCommentByProduct,
 } from "../../../api/Comment";
 import s from "./styles.module.scss";
-
+import avatarPlaceholder from "../../../assets/user_avatar.jpg";
 const Comment = (props) => {
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
@@ -76,7 +76,15 @@ const Comment = (props) => {
       {user.currentUser && (
         <div className={s.box_comment}>
           <div className={s.avatar}>
-            <img src={user.currentUser?.avatar} loading="lazy" alt="" />
+            <img
+              src={
+                user.currentUser?.avatar
+                  ? user.currentUser?.avatar
+                  : avatarPlaceholder
+              }
+              loading="lazy"
+              alt=""
+            />
           </div>
           <div className={s.frame_comment}>
             <InputEmoji
@@ -105,7 +113,7 @@ const Comment = (props) => {
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
-              <img src={item?.avatar} loading="lazy" alt="" />
+              <img src={item?.avatar ?item?.avatar :avatarPlaceholder} loading="lazy" alt="" />
             </div>
             <div className={s.frame_comment}>
               <p className={s.fullname}>{item?.name}</p>
