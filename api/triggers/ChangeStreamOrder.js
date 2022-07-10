@@ -6,7 +6,7 @@ async function monitorOrders(client, timeInMs) {
     {
       $match: {
         operationType: "insert",
-        "fullDocument.totalPrice": { $gt: 5000000 },
+        "fullDocument.totalPrice": { $gte: 5000000 },
       },
     },
   ];

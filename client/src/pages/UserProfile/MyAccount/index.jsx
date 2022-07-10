@@ -56,10 +56,9 @@ const MyAccount = () => {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-  const [url, setUrl] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [update, setUpdate] = useState(0);
-  const [progressUpload, setProgressupload] = React.useState(0);
+
   const user = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const [randomChar, setRandomChar] = useState("");

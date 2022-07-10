@@ -40,12 +40,12 @@ const HeaderProduct = (props) => {
           </Grid>
           <Grid item xs={2}>
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">User type</InputLabel>
+              <InputLabel id="demo-simple-select-label">Brand</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={age}
-                label="User type"
+                label="Brand"
                 size="small"
                 onChange={handleChange}
               >
@@ -57,12 +57,12 @@ const HeaderProduct = (props) => {
           </Grid>
           <Grid item xs={2}>
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">User role</InputLabel>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={age1}
-                label="User role"
+                label="Category"
                 onChange={handleChange1}
               >
                 <MenuItem value={10}>Ten</MenuItem>

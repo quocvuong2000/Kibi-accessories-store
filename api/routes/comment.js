@@ -50,11 +50,14 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
       total += e.rating;
     });
 
-    const product = await Product.findByIdAndUpdate(req.body.productId, {
-      avgRating: (total / comment.length).toFixed(1),
-    });
+    await Product.findByIdAndUpdate(
+      req.body.productId,
+      {
+        avgRating: (total / comment.length).toFixed(1),
+      },
+      { new: true }
+    );
 
-    await product.save();
     // const addCart = await pInfo.save();
     res.status(200).json("Delete success");
   } catch (error) {
@@ -86,7 +89,7 @@ router.get("/get", async (req, res) => {
 
     res.status(200).json({
       comments, // comments trên một page
-      currentPage: page, // page hiện tại
+      currentPage: parseInt(page), // page hiện tại
       totalPages: Math.ceil(count / perPage), // tổng số các page: ;
       totalItems: count,
     });

@@ -39,7 +39,7 @@ const ListDelivery = () => {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage+1);
   };
 
   return (
@@ -79,9 +79,9 @@ const ListDelivery = () => {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={ListDelivery.orders?.totalItems || 1}
+          count={ListDelivery.totalItems || 1}
           rowsPerPage={10}
-          page={(ListDelivery.orders?.currentPage || 1) - 1}
+          page={(ListDelivery.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>

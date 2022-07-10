@@ -91,6 +91,7 @@ router.post("/login", async (req, res) => {
       {
         id: user._id,
         type: user.type,
+        role : user.role ? user.role : "none"
       },
       process.env.VUONG_SEC_PASS,
       { expiresIn: "1d" }

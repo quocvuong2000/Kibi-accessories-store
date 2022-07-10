@@ -39,7 +39,7 @@ const ListCompleted = () => {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage+1);
   };
 
   return (
@@ -79,9 +79,9 @@ const ListCompleted = () => {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={ListCompleted.orders?.totalItems || 1}
+          count={ListCompleted.totalItems || 1}
           rowsPerPage={10}
-          page={(ListCompleted.orders?.currentPage || 1) - 1}
+          page={(ListCompleted.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>

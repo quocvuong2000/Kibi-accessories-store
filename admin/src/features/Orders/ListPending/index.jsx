@@ -51,10 +51,12 @@ const ListPending = () => {
       if (res.status === 200) {
         setOpen(true);
       }
+      setTimeout(() => {
+        setTypeMess("success");
+        setMess("Accept Success");
+        setReload(!reload);
+      }, 500);
     });
-    setTypeMess("success");
-    setMess("Accept Success");
-    setReload(!reload);
   };
   const handleRejectOrder = () => {
     rejectOrder(deleteDialog.id).then((res) => {
@@ -65,14 +67,16 @@ const ListPending = () => {
           id: "",
         });
       }
+      setTimeout(() => {
+        setTypeMess("success");
+        setMess("Reject Success");
+        setReload(!reload);
+      }, 500);
     });
-    setTypeMess("success");
-    setMess("Reject Success");
-    setReload(!reload);
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage+1);
   };
 
   return (
@@ -136,9 +140,9 @@ const ListPending = () => {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={ListPending.orders?.totalItems || 1}
+          count={ListPending.totalItems || 1}
           rowsPerPage={10}
-          page={(ListPending.orders?.currentPage || 1) - 1}
+          page={(ListPending.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />
       </div>

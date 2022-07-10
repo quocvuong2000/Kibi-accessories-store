@@ -1,14 +1,11 @@
 import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
 import {
   Alert,
-  Avatar,
-  Menu,
-  Snackbar,
+  Avatar, Snackbar,
   TablePagination,
-  Typography,
+  Typography
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { alpha, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,9 +16,9 @@ import * as React from "react";
 import { useState } from "react";
 import productPlaceholder from "../../../assets/images/product-example.png";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { StyledMenu } from "../../../theme/styledMenu";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
 import { doDeleteProduct } from "../ProductAPI";
-
 const makeStyle = (status) => {
   if (status === "Approved") {
     return {
@@ -86,47 +83,7 @@ export default function ProductList(props) {
   const handleChangePage = (_event, newPage) => {
     props.takePage(newPage + 1);
   };
-  const StyledMenu = styled((props) => (
-    <Menu
-      elevation={0}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "center",
-        horizontal: "top",
-      }}
-      {...props}
-    />
-  ))(({ theme }) => ({
-    "& .MuiPaper-root": {
-      borderRadius: 6,
-      marginTop: theme.spacing(1),
-      minWidth: 180,
-      color:
-        theme.palette.mode === "light"
-          ? "rgb(55, 65, 81)"
-          : theme.palette.grey[300],
-      boxShadow: " rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-      "& .MuiMenu-list": {
-        padding: "4px 0",
-      },
-      "& .MuiMenuItem-root": {
-        "& .MuiSvgIcon-root": {
-          fontSize: 18,
-          color: theme.palette.text.secondary,
-          marginRight: theme.spacing(1.5),
-        },
-        "&:active": {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            theme.palette.action.selectedOpacity
-          ),
-        },
-      },
-    },
-  }));
+
   // return focus to the button when we transitioned from !open -> open
   return (
     <>

@@ -8,7 +8,6 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.VUONG_SEC_PASS, (err, user) => {
       if (err) res.status(403).json("Token is not valid!");
       req.user = user;
-
       next();
     });
   } else {

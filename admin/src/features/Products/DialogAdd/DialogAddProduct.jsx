@@ -11,7 +11,6 @@ import {
   ImageListItem,
   InputLabel,
   MenuItem,
-  Select,
   Snackbar,
   StepLabel,
 } from "@mui/material";

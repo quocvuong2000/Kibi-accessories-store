@@ -55,6 +55,15 @@ router.put(
   }
 );
 
+//GET DETAIL CUSTOMER
+router.get("/detail/:id",verifyTokenAndAuthorization,async (req,res)=> {
+  try {
+    const customerFound = await User.findById(req.params.id);
+    res.status(200).json(customerFound)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
 //UPDATE PASSWORD - CUSTOMER
 router.patch(
   "/update/password/:id",

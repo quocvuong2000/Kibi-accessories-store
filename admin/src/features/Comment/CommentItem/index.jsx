@@ -12,6 +12,8 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { deleteComment } from "../CommentAPI";
+import productPlaceholder from "../../../assets/images/product-example.png";
+import avatarPlaceholder from "../../../assets/user.jpg";
 const CommentItem = ({
   comment,
   commentItem,
@@ -37,7 +39,7 @@ const CommentItem = ({
     setOpen(false);
   };
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
   const handleDeleteComment = () => {
     deleteComment(deleteDialog.id).then((res) => {
@@ -47,12 +49,13 @@ const CommentItem = ({
           delete: false,
           id: "",
         });
-
-        setTypeMess("success");
-        setMess("Delete Success");
+        setTimeout(() => {
+          setTypeMess("success");
+          setMess("Delete Success");
+          setReload(!reload);
+        }, 500);
       }
     });
-    setReload(!reload);
   };
   return (
     <>
@@ -87,12 +90,22 @@ const CommentItem = ({
                   >
                     <TableCell align="left">
                       <div className={s.avatar}>
-                        <img src={item.avatar} alt="" />
+                        <img
+                          src={item.avatar ? item.avatar : avatarPlaceholder}
+                          alt=""
+                        />
                       </div>
                     </TableCell>
                     <TableCell align="left">
                       <div className={s.pImage}>
-                        <img src={item.productImage} alt="" />
+                        <img
+                          src={
+                            item.productImage
+                              ? item.productImage
+                              : productPlaceholder
+                          }
+                          alt=""
+                        />
                       </div>
                     </TableCell>
                     <TableCell align="center">{item.name}</TableCell>

@@ -7,6 +7,7 @@ import HeaderProduct from "./Header/HeaderProduct";
 import ProductList from "./ProductList/ProductList";
 import classes from "./styles.module.scss";
 import { getProductList } from "./ProductAPI";
+import AppLoader from "../../components/AppLoader";
 
 const Products = () => {
   const [productList, setProductList] = useState({});
@@ -32,39 +33,42 @@ const Products = () => {
       });
   }, [page, reload]);
   return (
-    <div className={classes.brandsContainer}>
-      <h1>Product management</h1>
-      <motion.div
-        animate={{
-          scale: [0.5, 1],
-        }}
-        transition={{
-          duration: 0.5,
-          ease: "easeInOut",
-          times: [0.1, 0.4],
-        }}
-      >
-        <Grid container spacing={5}>
-          <Grid item xs={12} sx={{ pr: 2 }}>
-            <Box
-              component={Paper}
-              style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
-              sx={{ p: 2 }}
-            >
-              <h3>Products</h3>
-              <HeaderProduct reLoadTable={reLoadTable} />
-              {productList && (
-                <ProductList
-                  takePage={takePage}
-                  reLoadTable={reLoadTable}
-                  productList={productList}
-                />
-              )}
-            </Box>
+    <>
+      {loading && <AppLoader />}
+      <div className={classes.brandsContainer}>
+        <h1>Product management</h1>
+        <motion.div
+          animate={{
+            scale: [0.5, 1],
+          }}
+          transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+            times: [0.1, 0.4],
+          }}
+        >
+          <Grid container spacing={5}>
+            <Grid item xs={12} sx={{ pr: 2 }}>
+              <Box
+                component={Paper}
+                style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
+                sx={{ p: 2 }}
+              >
+                <h3>Products</h3>
+                <HeaderProduct reLoadTable={reLoadTable} />
+                {productList && (
+                  <ProductList
+                    takePage={takePage}
+                    reLoadTable={reLoadTable}
+                    productList={productList}
+                  />
+                )}
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </motion.div>
-    </div>
+        </motion.div>
+      </div>
+    </>
   );
 };
 

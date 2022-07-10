@@ -14,12 +14,15 @@ const Staffs = () => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(true);
   useEffect(() => {
-    doGetstaffList(page).then((res) => {
-      setStaffs(res);
-    }).finally(()=> {
-      setLoading(false);
-    });
-  }, [page]);
+    doGetstaffList(page)
+      .then((res) => {
+        setStaffs(res);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [page, reload]);
+
   const takePage = (page) => {
     setPage(page);
   };
@@ -31,7 +34,7 @@ const Staffs = () => {
   return (
     <>
       {loading && <AppLoader />}
-      <div className={classes.brandsContainer}>
+      <div >
         <h1>Staff management</h1>
         <motion.div
           animate={{
