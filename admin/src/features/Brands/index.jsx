@@ -59,7 +59,11 @@ const Brands = () => {
                 <h3>Brand</h3>
                 <HeaderBrand reLoadTable={reLoadTable} />
                 {brandList && (
-                  <BrandList takePage={takePage} brandList={brandList} />
+                  <BrandList
+                    takePage={takePage}
+                    brandList={brandList}
+                    reLoadTable={reLoadTable}
+                  />
                 )}
               </Box>
             </Grid>

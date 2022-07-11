@@ -55,4 +55,20 @@ router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//UPDATE
+router.put("/update/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const updatedBrand = await Brand.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedBrand);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
