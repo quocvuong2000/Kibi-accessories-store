@@ -77,6 +77,11 @@ export const SidebarData = [
     link: "/dashboard/comments",
   },
   {
+    icon: UilArchive,
+    heading: "Branches",
+    link: "/dashboard/branch",
+  },
+  {
     icon: UilChart,
     heading: "Other",
     link: "/dashboard",

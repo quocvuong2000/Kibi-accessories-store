@@ -24,6 +24,7 @@ const stripeRoute = require("./routes/stripe");
 const momoRoute = require("./routes/momo");
 const voucherRoute = require("./routes/voucher");
 const blogRoute = require("./routes/blog");
+const branchRoute = require("./routes/branch");
 
 const monitorOrders = require("./triggers/ChangeStreamOrder");
 const monitorProduct = require("./triggers/ChangeStreamProduct");
@@ -58,6 +59,7 @@ app.use("/api/momo", momoRoute);
 app.use("/api/voucher", voucherRoute);
 app.use("/api/categoryblog", categoryBlogRoute);
 app.use("/api/blog", blogRoute);
+app.use("/api/branch", branchRoute);
 //TRIGGER
 
 const port = process.env.PORT || 5000;

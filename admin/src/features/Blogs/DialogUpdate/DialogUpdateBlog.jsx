@@ -246,10 +246,10 @@ export default function DialogUpdateBlog(props) {
                       <Avatar
                         alt=""
                         src={
-                          props.allDes.thumbnail
-                            ? props.allDes.thumbnail
-                            : thumbnail
+                          thumbnail
                             ? URL.createObjectURL(thumbnail)
+                            : props.allDes.thumbnail
+                            ? props.allDes.thumbnail
                             : thumbnailPlaceholder
                         }
                         sx={{
@@ -264,7 +264,6 @@ export default function DialogUpdateBlog(props) {
                         <Input
                           accept="image/*"
                           id="contained-button-file"
-                          multiple
                           type="file"
                           onChange={(e) => setThumbnail(e.target.files[0])}
                         />
@@ -289,7 +288,7 @@ export default function DialogUpdateBlog(props) {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Add</Button>
+                <Button type="submit">Update</Button>
               </DialogActions>
             </Form>
           )}

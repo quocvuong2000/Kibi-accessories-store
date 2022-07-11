@@ -66,7 +66,7 @@ const EditAddress = (props) => {
           <Formik
             validationSchema={AddressSchema}
             initialValues={{
-              address: data.address,
+              address: data.address || "",
             }}
             onSubmit={async (values) => {
               console.log(values);

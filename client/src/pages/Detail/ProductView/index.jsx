@@ -85,18 +85,32 @@ const ProductView = (props) => {
         <Col span={17} className={styles.frame_info_product} push={5}>
           <Col className={styles.info_product}>
             <p className={styles.title}>{props.data.product.product ?? ""}</p>
-            {props.data.product.odlprice ? (
-              <p className={styles.price_before}>
-                Rp 1.280.000
-                <span className={styles.line}></span>
-              </p>
-            ) : (
-              ""
-            )}
 
+            {props.data.product.sale ? (
+              <>
+                <p className={styles.price_before}>
+                  {numberWithCommas(
+                    (props.data.product.price * 100) /
+                      (100 - props.data.product.sale)
+                  )}
+                  đ<span className={styles.line}></span>
+                </p>
+                <p className={styles.price_after}>
+                  {numberWithCommas(props.data.product.price) ?? ""}đ
+                </p>
+              </>
+            ) : (
+              <p className={styles.price_after}>
+                {numberWithCommas(props.data.product.price) ?? ""}đ
+              </p>
+            )}
+            {/* <p className={styles.price_before}>
+              1.280.000
+              <span className={styles.line}></span>
+            </p>
             <p className={styles.price_after}>
               {numberWithCommas(props.data.product.price) ?? ""}đ
-            </p>
+            </p> */}
             <Col className={styles.model}>
               <p className={styles.title_modle}>Choose Model</p>
               <Row className={styles.frame_model}>

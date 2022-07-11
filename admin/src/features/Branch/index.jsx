@@ -3,16 +3,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import AppLoader from "../../@crema/core/AppLoader";
-import { getBrandList } from "./BrandAPI";
-import BrandList from "./BrandList/BrandList";
-import HeaderBrand from "./Header/HeaderBrand";
-import classes from "./styles.module.scss";
+import AppLoader from "../../components/AppLoader";
+import { getBranches } from "./BranchAPI";
+import BranchList from "./BranchList/BranchList";
+import HeaderBranch from "./HeaderBranch/HeaderBranch";
+import s from "./styles.module.scss";
 
-const Brands = () => {
-  const [brandList, setBrandList] = useState({});
+const Branch = () => {
+  const [branchList, setBranchList] = useState({});
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); //set
   const [reload, setReload] = useState(true);
 
   const takePage = (page) => {
@@ -21,12 +21,12 @@ const Brands = () => {
   const reLoadTable = (status) => {
     setReload(status);
   };
-
   useEffect(() => {
-    getBrandList(page)
+    getBranches(page)
       .then((res) => {
+        console.log("res:", res);
         if (res) {
-          setBrandList(res);
+          setBranchList(res);
         }
       })
       .finally(() => {
@@ -36,9 +36,9 @@ const Brands = () => {
 
   return (
     <>
-      {loading && <AppLoader />}
-      <div className={classes.brandsContainer}>
-        <h1>Brand management</h1>
+      {loading === true && <AppLoader />}
+      <div className={s.container}>
+        <h1>Blog management</h1>
         <motion.div
           animate={{
             scale: [0.5, 1],
@@ -56,15 +56,23 @@ const Brands = () => {
                 style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
                 sx={{ p: 2 }}
               >
-                <h3>Brand</h3>
-                <HeaderBrand reLoadTable={reLoadTable} />
-                {brandList && (
-                  <BrandList
+                <h3>Branch</h3>
+                <HeaderBranch reLoadTable={reLoadTable} />
+                {branchList && (
+                  <BranchList
                     takePage={takePage}
-                    brandList={brandList}
                     reLoadTable={reLoadTable}
+                    branchList={branchList}
                   />
                 )}
+                {/* <HeaderBlog reLoadTable={reLoadTable} />
+                {branchList && (
+                  <BlogList
+                    takePage={takePage}
+                    reLoadTable={reLoadTable}
+                    blogList={blogList}
+                  />
+                )} */}
               </Box>
             </Grid>
           </Grid>
@@ -74,4 +82,4 @@ const Brands = () => {
   );
 };
 
-export default Brands;
+export default Branch;

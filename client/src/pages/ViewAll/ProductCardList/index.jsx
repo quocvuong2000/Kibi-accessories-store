@@ -35,7 +35,9 @@ export const ProductCardList = (props) => {
         <p className={s.box__product__desc}>
           {parse(`${data.description.content}`)}
         </p>
-        <p className={s.box__product__voucher}>20% Off</p>
+        <p className={s.box__product__voucher}>
+          {data.sale && data.sale + "% Offs"}
+        </p>
 
         {data.oldPrice && (
           <div className={s.box__product__oldprice}>

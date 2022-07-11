@@ -1,7 +1,12 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
-import "boxicons";
+import {
+  FacebookLogo,
+  InstagramLogo,
+  TwitterLogo,
+  YoutubeLogo,
+} from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 export const Footer = () => {
   const left = [
@@ -134,13 +139,7 @@ export const Footer = () => {
                 );
               }}
             >
-              <box-icon
-                name="facebook"
-                type="logo"
-                animation="tada"
-                rotate="90"
-                color="#d84727"
-              ></box-icon>
+              <FacebookLogo size={24} weight="bold" color="#d84727" />
             </div>
             <div
               className={styles.instagram}
@@ -150,33 +149,20 @@ export const Footer = () => {
                 );
               }}
             >
-              <box-icon
-                name="instagram"
-                type="logo"
-                animation="spin"
-                rotate="90"
+              <InstagramLogo
+                size={24}
+                weight="bold"
+                clip={"circle"}
                 color="#d84727"
-              ></box-icon>
+              />
             </div>
 
             <div className={styles.twitter}>
-              <box-icon
-                name="twitter"
-                type="logo"
-                animation="fade-up"
-                rotate="90"
-                color="#d84727"
-              ></box-icon>
+              <TwitterLogo size={24} weight="bold" color="#d84727" />
             </div>
 
             <div className={styles.youtube}>
-              <box-icon
-                name="youtube"
-                type="logo"
-                animation="spin"
-                rotate="90"
-                color="#d84727"
-              ></box-icon>
+              <YoutubeLogo size={24} weight="bold" color="#d84727" />
             </div>
           </div>
         </div>

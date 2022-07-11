@@ -7,6 +7,7 @@ import nFormatter from "../../../utils/convertToK";
 import ConvertDate from "../../../utils/convertDate";
 import AppLoader from "../../../components/AppLoader";
 import EmptyPage from "../../../components/Empty";
+import voucher from "../../../assets/voucher.png";
 
 const Voucher = () => {
   const user = useSelector((state) => state.user);
@@ -35,7 +36,14 @@ const Voucher = () => {
           {listVoucher?.voucher?.map((item, index) => {
             return (
               <div className={s.box_voucher} key={index}>
-                <div className={s.left_voucher}>
+                <div className={s.voucher}>
+                  <img src={voucher} alt="" />
+                </div>
+                <p className={s.sale}>Giảm {nFormatter(item.salePrice, 0)}</p>
+                <p className={s.expire}>{ConvertDate(item.expireDay)}</p>
+                <p className={s.sale2}>{nFormatter(item.salePrice, 0)}</p>
+
+                {/* <div className={s.left_voucher}>
                   <img src={img} alt="" />
                 </div>
                 <div className={s.right_voucher}>
@@ -43,7 +51,7 @@ const Voucher = () => {
                     Giảm {nFormatter(item.salePrice, 0)}
                   </p>
                   <p className={s.hsd}>HSD: {ConvertDate(item.expireDay)}</p>
-                </div>
+                </div> */}
               </div>
             );
           })}

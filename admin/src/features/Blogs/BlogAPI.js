@@ -14,7 +14,7 @@ export const createBlog = async (
     categoryblog: categoryblog,
     author: author,
     categoryname: categoryname,
-    thumbnail : thumbnail,
+    thumbnail: thumbnail,
     status: "PENDING",
   });
   if (res && res.status !== 200)
@@ -52,7 +52,7 @@ export const updateBlog = async (
     categoryblog: categoryblog,
     author: author,
     categoryname: categoryname,
-    isAccept: false,
+    status: "PENDING",
   });
   if (res && res.status !== 200) {
     throw Error("Something wrongs with code status" + res.status);

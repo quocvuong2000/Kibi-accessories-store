@@ -1,25 +1,24 @@
-import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
+import styled from "@emotion/styled";
+import { UilSetting, UilEdit, UilTimesSquare } from "@iconscout/react-unicons";
 import {
-  Alert,
-  Avatar,
-  Snackbar,
+  alpha,
+  Menu,
+  MenuItem,
   TablePagination,
   Typography,
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import moment from "moment";
 import * as React from "react";
-import { useState } from "react";
-import productPlaceholder from "../../../assets/images/product-example.png";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { StyledMenu } from "../../../theme/styledMenu";
-import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
-import { deleteWishList, doDeleteProduct } from "../ProductAPI";
+import { deleteBranch } from "../BranchAPI";
+import DialogUpdateBranch from "../DialogUpdateBranch/DialogUpdateBranch";
+
 const makeStyle = (status) => {
   if (status === "Approved") {
     return {
@@ -39,68 +38,89 @@ const makeStyle = (status) => {
   }
 };
 
-export default function ProductList(props) {
+export default function BranchList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const [showUpdateModal, setShowUpdateModal] = React.useState(false);
+  const [branchSelectedUpdate, setBranchSelectedUpdate] = React.useState([]);
+  const [idBranch, setIdBranch] = React.useState("");
   const [deleteDialog, setDeleteDialog] = React.useState({
     delete: false,
     id: "",
   });
-  const [productIdSelected, setProductIdSelected] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
-  const [failure, setFailure] = React.useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [productSelectedUpdate, setProductSelectedUpdate] = useState("");
-  const open = Boolean(anchorEl);
+  const handleChangePage = (_event, newPage) => {
+    props.takePage(newPage + 1);
+  };
 
-  const hanldeShowUpdateProductModal = (isVisible) => {
+  const handleShowUpdateBranchModal = (isVisible) => {
     setShowUpdateModal(isVisible);
-  };
-
-  const hanldeShowDeleteDialog = (visible) => {
-    setDeleteDialog(visible);
-  };
-
-  const hanldeDeleteProduct = () => {
-    doDeleteProduct(deleteDialog.id)
-      .then(() => {
-        setSuccess(true);
-        props.reLoadTable("delete" + Date.now());
-        setDeleteDialog({
-          delete: false,
-          id: "",
-        });
-      })
-      .catch(() => {
-        setFailure(true);
-      });
-    deleteWishList(deleteDialog.id)
-      .then(() => {
-        setSuccess(true);
-        props.reLoadTable("delete" + Date.now());
-        setDeleteDialog({
-          delete: false,
-          id: "",
-        });
-      })
-      .catch(() => {
-        setFailure(true);
-      });
   };
   const handleClick = (event) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
+
+  const handleDeleteBranch = () => {
+    deleteBranch(deleteDialog.id).then((res) => {
+      props.reLoadTable("delete" + Date.now());
+      setDeleteDialog({
+        delete: false,
+        id: "",
+      });
+    });
+  };
+
+  const StyledMenu = styled((props) => (
+    <Menu
+      elevation={0}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "center",
+        horizontal: "top",
+      }}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    "& .MuiPaper-root": {
+      borderRadius: 6,
+      marginTop: theme.spacing(1),
+      minWidth: 180,
+      color:
+        theme.palette.mode === "light"
+          ? "rgb(55, 65, 81)"
+          : theme.palette.grey[300],
+      boxShadow: " rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+      "& .MuiMenu-list": {
+        padding: "4px 0",
+      },
+      "& .MuiMenuItem-root": {
+        "& .MuiSvgIcon-root": {
+          fontSize: 18,
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5),
+        },
+        "&:active": {
+          backgroundColor: alpha(
+            theme.palette.primary.main,
+            theme.palette.action.selectedOpacity
+          ),
+        },
+      },
+    },
+  }));
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleChangePage = (_event, newPage) => {
-    props.takePage(newPage + 1);
+  const hanldeShowDeleteDialog = (visible) => {
+    setDeleteDialog(visible);
   };
-
-  // return focus to the button when we transitioned from !open -> open
   return (
     <>
-      <div style={{ height: "465px" }}>
+      <div>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
             stickyHeader
@@ -110,24 +130,20 @@ export default function ProductList(props) {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Setting</TableCell>
-                <TableCell align="left">Product Image</TableCell>
-                <TableCell>Product ID</TableCell>
-                <TableCell align="left">Product Name</TableCell>
-                <TableCell align="left">Price</TableCell>
-                <TableCell align="left">Quantity</TableCell>
-                <TableCell align="left">Sale (%)</TableCell>
+                <TableCell>Branch ID</TableCell>
+                <TableCell align="left">Address</TableCell>
+                <TableCell align="left">Created At</TableCell>
+                <TableCell align="left">Update At</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
-              {props.productList.products?.map((row) => (
+              {props.branchList.branches?.map((row, index) => (
                 <TableRow
-                  key={row._id}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    maxHeight: 440,
-                  }}
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   onClick={() => {
-                    setProductIdSelected(row._id);
+                    setIdBranch(row._id);
+                    setBranchSelectedUpdate(row);
                   }}
                 >
                   <TableCell
@@ -156,7 +172,7 @@ export default function ProductList(props) {
                         onClick={() => {
                           setDeleteDialog({
                             delete: true,
-                            id: productIdSelected,
+                            id: idBranch,
                           });
                           setAnchorEl(null);
                         }}
@@ -171,7 +187,6 @@ export default function ProductList(props) {
                         disableRipple
                         onClick={() => {
                           setShowUpdateModal(true);
-                          setProductSelectedUpdate(productIdSelected);
                           setAnchorEl(null);
                         }}
                       >
@@ -182,20 +197,14 @@ export default function ProductList(props) {
                       </MenuItem>
                     </StyledMenu>
                   </TableCell>
-                  <TableCell align="left">
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={row.images ? row.images[0] : productPlaceholder}
-                      sx={{ width: 50, height: 50 }}
-                    />
-                  </TableCell>
                   <TableCell>{row._id}</TableCell>
-                  <TableCell align="left">{row.product}</TableCell>
-                  <TableCell align="left">{row.price}</TableCell>
+                  <TableCell align="left">{row.address}</TableCell>
                   <TableCell align="left">
-                    <span style={makeStyle(row.status)}>{row.quantity}</span>
+                    {moment(row.createdAt).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell align="left">{row.sale || "N/A"}</TableCell>
+                  <TableCell align="left">
+                    {moment(row.updatedAt).format("DD-MM-YYYY")}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -204,45 +213,25 @@ export default function ProductList(props) {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={props.productList?.totalItems || 1}
+          count={props.branchList?.totalItems}
           rowsPerPage={10}
-          page={(props.productList?.currentPage || 1) - 1}
+          page={props.branchList?.currentPage - 1}
           onPageChange={handleChangePage}
         />
       </div>
       <ConfirmationDialog
         show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
-        hanldeAgree={hanldeDeleteProduct}
+        hanldeAgree={handleDeleteBranch}
         title={"Delete product"}
         content={"Are you sure to delete"}
       />
-      <Snackbar
-        open={success}
-        autoHideDuration={1000}
-        onClose={() => setSuccess(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          Delete success
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={failure}
-        autoHideDuration={1000}
-        onClose={() => setFailure(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity="error" sx={{ width: "100%" }}>
-          Error
-        </Alert>
-      </Snackbar>
       {showUpdateModal && (
-        <DialogUpdateProduct
+        <DialogUpdateBranch
           showDialog={showUpdateModal}
-          handleShowDialog={hanldeShowUpdateProductModal}
+          handleShowDialog={handleShowUpdateBranchModal}
           reLoadTable={props.reLoadTable}
-          productId={productSelectedUpdate}
+          branchSelectedUpdate={branchSelectedUpdate}
         />
       )}
     </>

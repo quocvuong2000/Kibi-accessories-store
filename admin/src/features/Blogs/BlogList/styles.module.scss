@@ -1,0 +1,17 @@
+.box_endofblog {
+  margin-top: 40px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 7px;
+  &::before {
+    content: "";
+    border-top: thin solid rgba($color: #000000, $alpha: 0.2);
+    width: 100%;
+  }
+  &::after {
+    content: "";
+    border-top: thin solid rgba($color: #000000, $alpha: 0.2);
+    width: 100%;
+  }
+}

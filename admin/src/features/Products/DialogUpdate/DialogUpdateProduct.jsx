@@ -218,6 +218,7 @@ export default function DialogUpdateProduct(props) {
                   brand: productDetail.brand || "",
                   topSales: productDetail.topSales || false,
                   quantity: productDetail.quantity || 0,
+                  sale: productDetail.sale || 0,
                   description: {
                     content: productDetail.description.content || "",
                     detail: productDetail.description.detail || "",

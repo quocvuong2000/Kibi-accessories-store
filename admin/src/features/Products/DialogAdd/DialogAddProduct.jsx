@@ -190,7 +190,7 @@ export default function DialogAddProduct(props) {
             price: "",
             category: "",
             brand: "",
-            topSales: false,
+            sale: 0,
             quantity: "",
             description: {
               content: "",
@@ -202,6 +202,7 @@ export default function DialogAddProduct(props) {
           }}
           onSubmit={async (values) => {
             setLoading(true);
+            values.price = (values.price * (100 - values.sale)) / 100;
             if (urls.length === images.length) {
               const product = {
                 ...values,
@@ -373,6 +374,18 @@ export default function DialogAddProduct(props) {
                           placeholder={"Quantity"}
                           label={"Quantity"}
                           name="quantity"
+                          variant="outlined"
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      </Box>
+                      <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                        <AppTextField
+                          size="small"
+                          placeholder={"Sale"}
+                          label={"Sale"}
+                          name="sale"
                           variant="outlined"
                           sx={{
                             width: "100%",

@@ -32,6 +32,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog/Confirmat
 import { StyledMenu } from "../../../theme/styledMenu";
 import { deleteBlog } from "../BlogAPI";
 import DialogUpdateBlog from "../DialogUpdate/DialogUpdateBlog";
+import s from "./styles.module.scss";
 
 export default function BlogList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -310,6 +311,11 @@ export default function BlogList(props) {
             <span style={{ color: "#d84727" }}> {author}</span>
           </p>
           {parse(content)}
+
+          <div className={s.box_endofblog}>
+            <div className={s.text_endofblog}>Advertising Message </div>
+            <div className={s.text_endofblog}> End Of Advertising Message</div>
+          </div>
         </Box>
       </Modal>
     </>
