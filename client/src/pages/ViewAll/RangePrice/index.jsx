@@ -1,7 +1,4 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
-import { Checkbox } from "antd";
+import { Slider } from "antd";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
 const RangePrice = (props) => {
@@ -16,18 +13,20 @@ const RangePrice = (props) => {
         display: "block",
         width: "100%",
       }}
+      className={s.container}
     >
-      <Typography id="range-slider" gutterBottom>
-        Price
-      </Typography>
-
+      <p>Price</p>
       <p className={s.from_to}>
         {numberWithCommas(props.value[0])} - {numberWithCommas(props.value[1])}
       </p>
       <Slider
-        value={props.value}
-        onChange={rangeSelector}
-        min={1000000}
+        range
+        defaultValue={[100000, 10000000]}
+        onChange={(value) => {
+          props.setValue(value);
+        }}
+        tooltipVisible={false}
+        min={100000}
         max={10000000}
       />
     </div>

@@ -1,3 +1,18 @@
+.container {
+  :global {
+    .ant-slider-handle {
+      border: 2px solid #d84727 !important;
+      background-color: #d84727 !important;
+    }
+    .ant-slider-handle:focus {
+      box-shadow: 0 0 0 5px rgba(255, 170, 24, 0.12);
+    }
+    .ant-slider-track {
+      background-color: #d84727 !important;
+    }
+  }
+}
+
 .from_to {
   margin-top: 7px;
   font-size: 18px;

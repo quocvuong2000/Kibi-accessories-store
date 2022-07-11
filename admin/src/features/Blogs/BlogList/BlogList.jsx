@@ -8,7 +8,10 @@ import {
 } from "@iconscout/react-unicons";
 import {
   Alert,
+  Box,
+  Button,
   Menu,
+  Modal,
   Snackbar,
   TablePagination,
   Typography,
@@ -22,6 +25,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import parse from "html-react-parser";
+import moment from "moment";
 import * as React from "react";
 import { useState } from "react";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
@@ -40,7 +44,13 @@ export default function BlogList(props) {
   const [failure, setFailure] = React.useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [blogSelectedUpdate, setBlogSelectedUpdate] = useState("");
-
+  const [content, setContent] = useState("");
+  const [author, setAuthor] = useState("");
+  const [date, setDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [openModalContent, setOpenModalContent] = React.useState(false);
+  const handleOpenModalContent = () => setOpenModalContent(true);
+  const handleCloseModalContent = () => setOpenModalContent(false);
   const [allDes, setAllDes] = useState({
     title: "",
     content: "",
@@ -105,6 +115,18 @@ export default function BlogList(props) {
     }
   };
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   // return focus to the button when we transitioned from !open -> open
   return (
     <>
@@ -120,7 +142,7 @@ export default function BlogList(props) {
                 <TableCell align="left">Setting</TableCell>
                 <TableCell align="left">Author</TableCell>
                 <TableCell>Title</TableCell>
-                <TableCell align="left">Content</TableCell>
+                <TableCell align="center">Content</TableCell>
                 <TableCell align="left">Category Blog</TableCell>
                 <TableCell align="left">Status</TableCell>
               </TableRow>
@@ -207,7 +229,20 @@ export default function BlogList(props) {
                   </TableCell>
                   <TableCell align="left">{row.author}</TableCell>
                   <TableCell>{row.title}</TableCell>
-                  <TableCell align="left">{parse(row.content)}</TableCell>
+                  <TableCell align="center">
+                    {" "}
+                    <Button
+                      onClick={() => {
+                        setDate(row.createdAt);
+                        setAuthor(row.author);
+                        setTitle(row.title);
+                        setContent(row.content);
+                        handleOpenModalContent();
+                      }}
+                    >
+                      Preview
+                    </Button>
+                  </TableCell>
                   <TableCell align="left">{row.categoryname}</TableCell>
                   <TableCell align="left">
                     {doChooseClass(row.status)}
@@ -262,6 +297,21 @@ export default function BlogList(props) {
           allDes={allDes}
         />
       )}
+      <Modal
+        open={openModalContent}
+        onClose={handleCloseModalContent}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ ...style, height: 400, overflow: "auto" }}>
+          <p style={{ fontSize: "24px", fontWeight: 600 }}>{title}</p>
+          <p style={{ fontSize: "12px" }}>
+            {moment(date).format("MMM DD YY")} |
+            <span style={{ color: "#d84727" }}> {author}</span>
+          </p>
+          {parse(content)}
+        </Box>
+      </Modal>
     </>
   );
 }

@@ -34,8 +34,6 @@ router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
 //UPDATE - ONLY ADMIN AND STAFF
 router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
   try {
-    console.log("req.params.id:", req.params.id);
-    console.log("req.body.category:", req.body.category);
     await Category.findByIdAndUpdate(req.params.id, {
       category: req.body.category,
     });
@@ -76,7 +74,7 @@ router.get("/", async (req, res) => {
 //DELETE
 router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
-    await Product.deleteMany({category : req.params.id});
+    await Product.deleteMany({ category: req.params.id });
     await Category.findByIdAndDelete(req.params.id);
     res.status(200).json("Delete category and all product related success");
   } catch (error) {

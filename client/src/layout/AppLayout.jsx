@@ -90,7 +90,7 @@ const AppLayout = () => {
             }
           />
           <Route
-            path="/viewall/:idBrandPr"
+            path="/viewallbybrand/:idBrandPr"
             element={
               <UnRequireAuth>
                 <ViewAllByBrand />

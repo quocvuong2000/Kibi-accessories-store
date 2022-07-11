@@ -9,7 +9,9 @@ import { updatePhone } from "../../../api/User";
 import { auth } from "../../../firebase/firebase";
 import s from "./styles.module.scss";
 import { otpSchema, phoneSchema } from "./validation";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import startsWith from "lodash.startswith";
 const UpdatePhone = (props) => {
   const [otp, setOtp] = useState(false);
   const [numotp, setNumOtp] = useState(0);
@@ -48,7 +50,7 @@ const UpdatePhone = (props) => {
       let appVerifier = window.recaptchaVerifier;
       setOtp(true);
       setStart(true);
-      console.log("appVerifier:", appVerifier);
+      message.success("Please check your sms");
       signInWithPhoneNumber(auth, phoneIn, appVerifier)
         .then((confimationResult) => {
           console.log("confimationResult:", confimationResult);
@@ -112,13 +114,14 @@ const UpdatePhone = (props) => {
             }}
             onSubmit={(values) => {
               //console.log("values.phone:", values.phone);
-              setPhone(values.phone);
+              // setPhone(values.phone);
               //console.log(phone);
-              handleSendOtp(values.phone);
+              console.log("phone:", phone);
+              handleSendOtp(phone);
               setOtp(true);
             }}
           >
-            {({ errors, touched }) => {
+            {({ setFieldValue, errors, touched }) => {
               return (
                 <Form className={s.form_phone}>
                   <FormAnt.Item
@@ -133,20 +136,18 @@ const UpdatePhone = (props) => {
                   >
                     <Field name="phone">
                       {({ field }) => (
-                        <Input
+                        <PhoneInput
                           {...field}
+                          country={"vn"}
                           placeholder="Field your phone number"
                           className={s.input_phone}
-                          // onChange={(e) => {
-                          //   setPhone(e.target.value);
-                          // }}
-                          prefix={
-                            <Phone
-                              size={20}
-                              weight="thin"
-                              className={s.icon_phone}
-                            />
-                          }
+                          defaultCountry={"vn"}
+                          onChange={(value) => {
+                            console.log("value:", value);
+                            setFieldValue("phone", value);
+                            setPhone("+" + value);
+                          }}
+                          value={phone}
                         />
                       )}
                     </Field>

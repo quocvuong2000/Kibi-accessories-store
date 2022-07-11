@@ -48,7 +48,7 @@ router.post("/register", async (req, res) => {
     ],
   };
   const createAddress = new Address(newAddress);
-  console.log("createAddress:", createAddress);
+  // console.log("createAddress:", createAddress);
   const cartInfo = new Cart({
     username: req.body.email,
   });
@@ -91,7 +91,7 @@ router.post("/login", async (req, res) => {
       {
         id: user._id,
         type: user.type,
-        role : user.role ? user.role : "none"
+        role: user.role ? user.role : "none",
       },
       process.env.VUONG_SEC_PASS,
       { expiresIn: "1d" }
@@ -194,7 +194,7 @@ router.post("/social-account", async (req, res) => {
 
 router.get("/exist/:email", async (req, res) => {
   const userFound = await User.findOne({ email: req.params.email });
-  console.log("userFound:", userFound);
+  // console.log("userFound:", userFound);
   if (userFound) {
     return res.status(201).json("Exists");
   } else {

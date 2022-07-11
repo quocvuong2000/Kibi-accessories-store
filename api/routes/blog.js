@@ -118,7 +118,7 @@ router.get("/:idCateBlog", async (req, res) => {
       categoryblog: req.params.idCateBlog,
       status: "APPROVAL",
     }).count();
-    console.log(blogs);
+    // console.log(blogs);
     res.status(200).json({
       blogs, // sản phẩm trên một page
       currentPage: page, // page hiện tại

@@ -12,7 +12,7 @@ import { ProductCardList } from "../ProductCardList";
 import RangePrice from "../RangePrice";
 import classes from "./styles.module.scss";
 import DotLoading from "../../../components/Verify/DotLoading";
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+import { useRef } from "react";
 
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
@@ -20,6 +20,7 @@ const ListProduct = (props) => {
   const [value, setValue] = useState("");
   const [range, setRange] = useState([1000000, 10000000]);
   const [idBrand, setIdBrand] = useState("");
+  const [visible, setVisible] = useState(false);
 
   const handleGrid = () => {
     setGlActive(false);
@@ -56,15 +57,19 @@ const ListProduct = (props) => {
       </Radio.Group>
       <hr className={classes.line_devide} />
       <p className={classes.title_filter}>Rating</p>
-      <button
+      <Button
         className={classes.submit_filter}
-        onClick={() => props.handleFilter("", idBrand, range[0], range[1], "")}
+        onClick={() => {
+          props.handleFilter("", idBrand, range[0], range[1], "");
+        }}
       >
         Submit
-      </button>
+      </Button>
     </Menu>
   );
-
+  const handleVisibleChange = (flag) => {
+    setVisible(flag);
+  };
   return (
     <>
       <div className={classes.container} id="scrollableDiv">
@@ -88,12 +93,19 @@ const ListProduct = (props) => {
           <div className={classes.short__list__grid}>
             <Dropdown
               overlay={menu}
-              placement="bottomLeft"
+              placement="bottomRight"
               arrow
               trigger={["click"]}
               overlayClassName={classes.filter}
+              // visible={visible}
             >
-              <Funnel size={24} weight="thin" style={{ cursor: "pointer" }} />
+              <Funnel
+                size={24}
+                weight="thin"
+                style={{ cursor: "pointer" }}
+                onVisibleChange={handleVisibleChange}
+                onClick={() => setVisible(!visible)}
+              />
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>
             <ListDashes
