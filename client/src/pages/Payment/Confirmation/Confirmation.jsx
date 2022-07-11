@@ -16,7 +16,7 @@ import { deletedVoucher } from "../../../api/Voucher";
 
 const Confirmation = (props) => {
   const [serviceId, setServiceId] = useState(0);
-  console.log("addressSelected:", props.address[0]);
+
   const currentWard = props.addressSelected
     ? props.addressSelected.ward
     : props.address[0].ward;
@@ -33,22 +33,27 @@ const Confirmation = (props) => {
   const [leadTime, setLeadTime] = useState(0);
 
   useEffect(() => {
-    getInfoService(1450, currentDistrict).then((res) => {
+    getInfoService(props.from, currentDistrict).then((res) => {
       if (res) {
         setServiceId(res.data.data[0].service_id);
       }
     });
   }, []);
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
-    getLeadTime(currentDistrict, currentWard, serviceId).then((res) => {
+    getLeadTime(
+      props.from,
+      props.fromWard,
+      currentDistrict,
+      currentWard,
+      serviceId,
+      props.shopId
+    ).then((res) => {
       if (res) {
         setLeadTime(res.data?.data?.leadtime);
       }
     });
-  }, [serviceId]);
+  }, [props.from, props.fromWard, serviceId, props.shopId]);
 
   // console.log("timeToDate(leadTime);:", timeToDate(leadTime));
 

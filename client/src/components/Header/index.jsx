@@ -161,8 +161,7 @@ const Header = () => {
   const [visible, setVisible] = useState(false);
   const [visibleDropdown, setVisibleDropdown] = useState(false);
   const ref = useClickOutside(() => setVisible(false));
-  const ref2 = useRef(null);
-  useClickOutside(ref2, () => setVisibleDropdown(false));
+  // const ref2 = useClickOutside(() => setVisibleDropdown(false));
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
     menuRef.current.classList.toggle(classes.active);
@@ -175,6 +174,7 @@ const Header = () => {
       }
     });
   }, [cart]);
+
   return (
     <div className={classes.container}>
       <Cart visible={visible} aref={ref} setVisible={setVisible} />
@@ -191,15 +191,15 @@ const Header = () => {
               style={{ width: 500, textAlign: "center" }}
             />
           </Space>
-          <div className={classes.authentication} ref={ref2}>
+          <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
               <Dropdown
                 overlay={menu}
                 placement="bottomLeft"
                 arrow
-                visible={visibleDropdown}
-                trigger={["hover"]}
+                trigger={["click"]}
+                // visible={visibleDropdown}
                 overlayClassName={classes.menu_header}
               >
                 <div

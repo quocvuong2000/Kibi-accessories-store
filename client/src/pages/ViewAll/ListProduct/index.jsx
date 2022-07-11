@@ -1,18 +1,16 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Dropdown, Menu, Radio, Spin } from "antd";
+import { useClickOutside } from "@mantine/hooks";
+import { Button, Dropdown, Menu, Radio } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
-import { DotsNine, ListDashes, Funnel } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import { DotsNine, Funnel, ListDashes } from "phosphor-react";
+import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { getBrand } from "../../../api/Brand";
 import EmptyPage from "../../../components/Empty";
+import DotLoading from "../../../components/Verify/DotLoading";
 import { ProductCardGrid } from "../ProductCardGrid";
 import { ProductCardList } from "../ProductCardList";
 import RangePrice from "../RangePrice";
 import classes from "./styles.module.scss";
-import DotLoading from "../../../components/Verify/DotLoading";
-import { useRef } from "react";
 
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
@@ -20,8 +18,8 @@ const ListProduct = (props) => {
   const [value, setValue] = useState("");
   const [range, setRange] = useState([1000000, 10000000]);
   const [idBrand, setIdBrand] = useState("");
-  const [visible, setVisible] = useState(false);
-
+  const [visibleDropdown2, setVisibleDropdown2] = useState(false);
+  const ref3 = useClickOutside(() => setVisibleDropdown2(false));
   const handleGrid = () => {
     setGlActive(false);
   };
@@ -60,6 +58,7 @@ const ListProduct = (props) => {
       <Button
         className={classes.submit_filter}
         onClick={() => {
+          setVisibleDropdown2(false);
           props.handleFilter("", idBrand, range[0], range[1], "");
         }}
       >
@@ -68,7 +67,7 @@ const ListProduct = (props) => {
     </Menu>
   );
   const handleVisibleChange = (flag) => {
-    setVisible(flag);
+    setVisibleDropdown2(flag);
   };
   return (
     <>
@@ -90,21 +89,21 @@ const ListProduct = (props) => {
             {props.data?.totalItems === undefined ||
               (props.data?.totalItems === 0 && `Showing 0 of 0 result`)}
           </p>
-          <div className={classes.short__list__grid}>
+          <div className={classes.short__list__grid} ref={ref3}>
             <Dropdown
               overlay={menu}
               placement="bottomRight"
               arrow
               trigger={["click"]}
               overlayClassName={classes.filter}
-              // visible={visible}
+              // visible={visibleDropdown2}
             >
               <Funnel
                 size={24}
                 weight="thin"
                 style={{ cursor: "pointer" }}
                 onVisibleChange={handleVisibleChange}
-                onClick={() => setVisible(!visible)}
+                onClick={() => setVisibleDropdown2(!visibleDropdown2)}
               />
             </Dropdown>
             <p className={classes.txtviewon}>View on</p>

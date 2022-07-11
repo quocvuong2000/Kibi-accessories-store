@@ -32,6 +32,7 @@ import {
 import { deleteAllCart } from "../../../redux/cartRedux";
 import { deletedVoucher, getVoucher } from "../../../api/Voucher";
 import ListVoucher from "../ListVoucher";
+import { getBranchById } from "../BranchAPI";
 
 const STRIPE_PK_KEY =
   "pk_test_51K0LBnFjydqiWgwtTtGT2ONJJuo4TAWczmDWero4QwWVw7p6n93JvDHkkDe70u1XVF5cT0kCsJQC59DJmQdBGPys00B3LSLWLk";
@@ -107,14 +108,26 @@ const PaymentDetail = (props) => {
     : props.address[0].city;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
+  const [from, setFrom] = useState(1450);
+  const [shopId, setShopId] = useState(3064791);
 
   useEffect(() => {
-    getInfoService(1450, currentDistrict).then((res) => {
+    getBranchById(props.branchId).then((res) => {
+      setFrom(res.branches.districtId);
+      setShopId(res.branches.shopId);
+      props.handleTakeShopId(res.branches.shopId);
+      props.handleTakeFrom(res.branches.districtId);
+      props.handleTakeFromWard(res.branches.wardId);
+    });
+  }, [props.branchId]);
+
+  useEffect(() => {
+    getInfoService(from, currentDistrict, shopId).then((res) => {
       if (res) {
         setServiceId(res.data.data[0].service_id);
       }
     });
-  }, []);
+  }, [from]);
 
   useEffect(() => {
     getShippingCost(
@@ -123,19 +136,20 @@ const PaymentDetail = (props) => {
       null,
       currentWard,
       currentDistrict,
-      1450,
+      from,
       1000,
       15,
       15,
-      15
+      15,
+      shopId
     ).then((res) => {
       if (res) {
         setShippingCost(res.data.data.total);
         props.setShippingCost(res.data.data.total);
       }
     });
-  }, [serviceId, props.cart.totalPrice, currentWard, currentDistrict]);
-  console.log("shippingCost:", shippingCost);
+  }, [from, serviceId, props.cart.totalPrice, currentWard, currentDistrict]);
+
   useEffect(() => {
     if (token) {
       props.hanldeLoading(true);

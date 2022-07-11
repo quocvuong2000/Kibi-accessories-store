@@ -56,4 +56,16 @@ router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
   }
 });
 
+//GET BY ID
+router.get("/get/:id", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    const branches = await Branch.findById(req.params.id);
+    res.status(200).json({
+      branches, // sản phẩm trên một page
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

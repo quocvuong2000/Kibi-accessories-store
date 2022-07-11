@@ -1,4 +1,29 @@
+.branchList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+  :global {
+    .ant-radio-wrapper {
+      align-items: center;
+    }
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  .address_branch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    column-gap: 10px;
+  }
+}
+
 .addressSelectContainer {
+  margin-top: 50px;
   :global {
     .ant-radio-wrapper {
       box-sizing: border-box;
@@ -19,6 +44,7 @@
       padding: 10px 0;
     }
   }
+
   .addressList {
     height: 335px;
     overflow-y: auto;
@@ -55,6 +81,7 @@
       align-items: center;
 
       button {
+        margin-top: 2px;
         background: #d84727;
         border: none;
         padding: 18px 102px;
@@ -79,12 +106,12 @@
     button {
       background: #d84727;
       border: none;
-      padding: 16px 80px;
+      padding: 18px 102px;
       cursor: pointer;
       font-family: "Taviraj";
       font-style: normal;
       font-weight: 500;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 32px;
       /* identical to box height, or 160% */
       letter-spacing: 0.02em;

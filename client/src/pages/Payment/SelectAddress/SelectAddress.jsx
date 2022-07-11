@@ -1,15 +1,32 @@
 import { Col, message, Modal, Radio, Row, Space } from "antd";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { House } from "phosphor-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "swiper/css";
+import "swiper/css/effect-cards";
 import { createAddress } from "../../../api/Address";
 import addressImg from "../../../assets/checkout/Wavy Buddies - Address.png";
 import UpdateAddress from "../../UserProfile/UpdateAddress";
 import AddressItem from "./AdderssItem/AddressItem";
 import classes from "./styles.module.scss";
-const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
+
+const SelectAddress = ({
+  address,
+  hanldeSelectAddress,
+  reload,
+  setReload,
+  branchList,
+  handleGetShopId,
+}) => {
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)._id : {}
   );
+  const [valueBranch, setValueBranch] = useState(
+    branchList?.branches?.length !== 0
+      ? branchList?.branches?.find((el) => el?.isDefault === true)?._id
+      : {}
+  );
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -17,6 +34,11 @@ const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
   const onChange = (e) => {
     setValue(e.target.value);
   };
+
+  const onChangeBranch = (e) => {
+    setValueBranch(e.target.value);
+  };
+
   const handleCreateAddress = (
     username,
     reciname,
@@ -63,6 +85,22 @@ const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
       >
         <UpdateAddress handle={handleCreateAddress} />
       </Modal>
+      <Radio.Group
+        value={valueBranch}
+        onChange={onChangeBranch}
+        className={classes.branchList}
+      >
+        {branchList?.branches?.map((item, index) => {
+          return (
+            <Radio value={item?._id} key={index}>
+              <div className={classes.address_branch}>
+                <House size={40} weight="fill" color="#d84727" />
+                <p>{item.address}</p>
+              </div>
+            </Radio>
+          );
+        })}
+      </Radio.Group>
       <Row className={classes.addressSelectContainer}>
         <Col span={12}>
           {address.length === 0 ? (
@@ -91,9 +129,13 @@ const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
                   })}
                 </Space>
               </Radio.Group>
+
               <div
                 className={classes.continue}
-                onClick={() => hanldeSelectAddress(value)}
+                onClick={() => {
+                  hanldeSelectAddress(value);
+                  handleGetShopId(valueBranch);
+                }}
               >
                 <button>Continue payment</button>
               </div>

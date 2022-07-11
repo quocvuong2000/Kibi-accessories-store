@@ -24,6 +24,10 @@ const Payment = () => {
   const [shippingCost, setShippingCost] = useState(0);
   const [reload, setReload] = useState(false);
   const [branchList, setBranchList] = useState([]);
+  const [branchId, setBranchId] = useState("");
+  const [shopId, setShopId] = useState(3064791);
+  const [from, setFrom] = useState(1450);
+  const [fromWard, setFromWard] = useState("20804");
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
   useEffect(() => {
@@ -50,9 +54,21 @@ const Payment = () => {
 
   useEffect(() => {
     getAllBranch().then((res) => {
+      console.log("res:", res);
       setBranchList(res);
     });
   }, []);
+
+  const handleTakeShopId = (id) => {
+    setShopId(id);
+  };
+  const handleTakeFrom = (from) => {
+    setFrom(from);
+  };
+
+  const handleTakeFromWard = (fromward) => {
+    setFromWard(fromward);
+  };
 
   const hanldeSelectAddress = (id) => {
     setLoadingPayment(true);
@@ -68,6 +84,10 @@ const Payment = () => {
       .finally(() => {
         setLoadingPayment(false);
       });
+  };
+
+  const handleGetShopId = (shopid) => {
+    setBranchId(shopid);
   };
   //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
@@ -118,6 +138,7 @@ const Payment = () => {
                   reload={reload}
                   setReload={setReload}
                   branchList={branchList}
+                  handleGetShopId={handleGetShopId}
                 />
               )}
               {step === 1 && (
@@ -129,6 +150,10 @@ const Payment = () => {
                   address={address}
                   addressSelected={addressSelected}
                   hanldeLoading={hanldeLoading}
+                  branchId={branchId}
+                  handleTakeShopId={handleTakeShopId}
+                  handleTakeFrom={handleTakeFrom}
+                  handleTakeFromWard={handleTakeFromWard}
                 />
               )}
               {step === 2 && (
@@ -136,6 +161,10 @@ const Payment = () => {
                   address={address}
                   addressSelected={addressSelected}
                   shippingCost={shippingCost}
+                  branchId={branchId}
+                  shopId={shopId}
+                  from={from}
+                  fromWard={fromWard}
                 />
               )}
             </div>

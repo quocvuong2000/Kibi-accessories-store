@@ -44,7 +44,7 @@ export const getWard = async (districtId) => {
   return res;
 };
 
-export const getInfoService = async (from, to) => {
+export const getInfoService = async (from, to, shopid) => {
   const res = await axios.get(
     "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",
     {
@@ -52,7 +52,7 @@ export const getInfoService = async (from, to) => {
         token: token,
       },
       params: {
-        shop_id: process.env.REACT_APP_SHOP_ID,
+        shop_id: shopid,
         from_district: from,
         to_district: to,
       },
@@ -73,14 +73,15 @@ export const getShippingCost = async (
   weight,
   length,
   width,
-  height
+  height,
+  shopid
 ) => {
   const res = await axios.get(
     "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
     {
       headers: {
         token: token,
-        shop_id: process.env.REACT_APP_SHOP_ID,
+        shop_id: shopid,
       },
       params: {
         service_id: service_id,
@@ -101,12 +102,19 @@ export const getShippingCost = async (
   return res;
 };
 
-export const getLeadTime = async (todistrict, toward, serviceid) => {
+export const getLeadTime = async (
+  fromdistrict,
+  fromward,
+  todistrict,
+  toward,
+  serviceid,
+  shopid
+) => {
   var data = {
-    from_district_id: 1450,
+    from_district_id: fromdistrict,
     to_district_id: parseInt(todistrict),
     to_ward_code: `${toward}`,
-    from_ward_code: "20804",
+    from_ward_code: `${fromward}`,
     service_id: serviceid,
   };
   const res = await axios({
@@ -114,7 +122,7 @@ export const getLeadTime = async (todistrict, toward, serviceid) => {
     url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime",
     headers: {
       token: token,
-      shop_id: process.env.REACT_APP_SHOP_ID,
+      shop_id: shopid,
       "Content-Type": "application/json",
     },
     data: data,
