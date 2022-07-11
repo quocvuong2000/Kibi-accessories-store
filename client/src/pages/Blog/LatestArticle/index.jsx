@@ -30,14 +30,14 @@ const LatestArticle = () => {
       <div className={s.list_blog}>
         {blogList.blogs?.map((item, index) => {
           if (index < 2) {
-            return <NormalBlog item={item} />;
+            return <NormalBlog item={item} key={index} />;
           }
         })}
       </div>
       <div className={s.list_small_blog}>
         {blogList.blogs?.map((item, index) => {
           if (index >= 2) {
-            return <SmallBlog item={item} />;
+            return <SmallBlog item={item} key={index} />;
           }
         })}
       </div>

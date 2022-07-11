@@ -9,6 +9,7 @@ const BranchSchema = new mongoose.Schema(
     long: { type: String },
     address: { type: String },
     shopId: { type: Number },
+    isDefault: { type: Boolean },
   },
   { timestamps: true }
 );

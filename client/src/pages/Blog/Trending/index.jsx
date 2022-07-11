@@ -41,6 +41,7 @@ const Trending = () => {
               onClick={() => {
                 navigate(`/viewallbybrand/${item._id}`);
               }}
+              key={index}
             >
               <img src={getSrc(index)} alt="" />
               <div className={s.name_category}>

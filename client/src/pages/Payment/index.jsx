@@ -10,6 +10,7 @@ import PaymentDetail from "./PaymentDetail/PaymentDetail";
 import classes from "./styles.module.scss";
 import AppLoader from "../../components/AppLoader";
 import SelectAddress from "./SelectAddress/SelectAddress";
+import { getAllBranch } from "./BranchAPI";
 
 const Payment = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const Payment = () => {
   const user = useSelector((state) => state.user);
   const [shippingCost, setShippingCost] = useState(0);
   const [reload, setReload] = useState(false);
-
+  const [branchList, setBranchList] = useState([]);
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
   useEffect(() => {
@@ -46,6 +47,12 @@ const Payment = () => {
         setLoading(false);
       });
   }, [user.currentUser.username, navigate, reload]);
+
+  useEffect(() => {
+    getAllBranch().then((res) => {
+      setBranchList(res);
+    });
+  }, []);
 
   const hanldeSelectAddress = (id) => {
     setLoadingPayment(true);
@@ -110,6 +117,7 @@ const Payment = () => {
                   hanldeSelectAddress={hanldeSelectAddress}
                   reload={reload}
                   setReload={setReload}
+                  branchList={branchList}
                 />
               )}
               {step === 1 && (

@@ -45,6 +45,8 @@ export default function CategoryList(props) {
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
   const [categorySelectedUpdate, setCategorySelectedUpdate] =
     React.useState("");
+  const [categorySelectedUpdateTemp, setCategorySelectedUpdateTemp] =
+    React.useState("");
   const [idCateUpdate, setIdCateUpdate] = React.useState("");
   const [deleteDialog, setDeleteDialog] = React.useState({
     delete: false,
@@ -142,6 +144,10 @@ export default function CategoryList(props) {
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  onClick={() => {
+                    setIdCateUpdate(row._id);
+                    setCategorySelectedUpdateTemp(row);
+                  }}
                 >
                   <TableCell
                     align="left"
@@ -169,7 +175,7 @@ export default function CategoryList(props) {
                         onClick={() => {
                           setDeleteDialog({
                             delete: true,
-                            id: row._id,
+                            id: idCateUpdate,
                           });
                           setAnchorEl(null);
                         }}
@@ -183,8 +189,8 @@ export default function CategoryList(props) {
                       <MenuItem
                         disableRipple
                         onClick={() => {
+                          setCategorySelectedUpdate(categorySelectedUpdateTemp);
                           setShowUpdateModal(true);
-                          setCategorySelectedUpdate(row.category);
                           setIdCateUpdate(row._id);
                           setAnchorEl(null);
                         }}
@@ -230,7 +236,7 @@ export default function CategoryList(props) {
           showDialog={showUpdateModal}
           handleShowDialog={hanldeShowUpdateProductModal}
           reLoadTable={props.reLoadTable}
-          categoryName={categorySelectedUpdate}
+          categorySelectedUpdate={categorySelectedUpdate}
           categoryId={idCateUpdate}
         />
       )}

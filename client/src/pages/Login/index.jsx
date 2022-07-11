@@ -16,6 +16,7 @@ import ForgotPassword from "./ForgotPassword";
 import { useLocation, useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import CryptoJS from "crypto-js";
+import "boxicons";
 
 const Login = () => {
   const navigate = useNavigate();

@@ -11,9 +11,9 @@ const SelectAddress = ({ address, hanldeSelectAddress, reload, setReload }) => {
     address.length !== 0 ? address.find((el) => el.isDefault === true)._id : {}
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   const navigate = useNavigate();
-  // const defaultAddressId = address.find((el) => el.isDefault === true)._id;
-  // console.log(value, defaultAddressId);
+
   const onChange = (e) => {
     setValue(e.target.value);
   };

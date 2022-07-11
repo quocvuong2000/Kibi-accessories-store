@@ -19,31 +19,14 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog/Confirmat
 import { deleteBranch } from "../BranchAPI";
 import DialogUpdateBranch from "../DialogUpdateBranch/DialogUpdateBranch";
 
-const makeStyle = (status) => {
-  if (status === "Approved") {
-    return {
-      background: "rgb(145 254 159 / 47%)",
-      color: "green",
-    };
-  } else if (status === "Pending") {
-    return {
-      background: "#ffadad8f",
-      color: "red",
-    };
-  } else {
-    return {
-      background: "#59bfff",
-      color: "white",
-    };
-  }
-};
-
 export default function BranchList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
-  const [branchSelectedUpdate, setBranchSelectedUpdate] = React.useState([]);
+  const [branchSelectedUpdate, setBranchSelectedUpdate] = React.useState({});
+  const [branchSelectedUpdateTemp, setBranchSelectedUpdateTemp] =
+    React.useState({});
   const [idBranch, setIdBranch] = React.useState("");
   const [deleteDialog, setDeleteDialog] = React.useState({
     delete: false,
@@ -120,6 +103,14 @@ export default function BranchList(props) {
   };
   return (
     <>
+      {showUpdateModal && (
+        <DialogUpdateBranch
+          showDialog={showUpdateModal}
+          handleShowDialog={handleShowUpdateBranchModal}
+          reLoadTable={props.reLoadTable}
+          branchSelectedUpdate={branchSelectedUpdate}
+        />
+      )}
       <div>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
@@ -142,8 +133,9 @@ export default function BranchList(props) {
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   onClick={() => {
+                    console.log(row);
                     setIdBranch(row._id);
-                    setBranchSelectedUpdate(row);
+                    setBranchSelectedUpdateTemp(row);
                   }}
                 >
                   <TableCell
@@ -186,6 +178,7 @@ export default function BranchList(props) {
                       <MenuItem
                         disableRipple
                         onClick={() => {
+                          setBranchSelectedUpdate(branchSelectedUpdateTemp);
                           setShowUpdateModal(true);
                           setAnchorEl(null);
                         }}
@@ -219,19 +212,13 @@ export default function BranchList(props) {
           onPageChange={handleChangePage}
         />
       </div>
-      <ConfirmationDialog
-        show={deleteDialog.delete}
-        hanldeShow={hanldeShowDeleteDialog}
-        hanldeAgree={handleDeleteBranch}
-        title={"Delete product"}
-        content={"Are you sure to delete"}
-      />
-      {showUpdateModal && (
-        <DialogUpdateBranch
-          showDialog={showUpdateModal}
-          handleShowDialog={handleShowUpdateBranchModal}
-          reLoadTable={props.reLoadTable}
-          branchSelectedUpdate={branchSelectedUpdate}
+      {deleteDialog.delete && (
+        <ConfirmationDialog
+          show={deleteDialog.delete}
+          hanldeShow={hanldeShowDeleteDialog}
+          hanldeAgree={handleDeleteBranch}
+          title={"Delete product"}
+          content={"Are you sure to delete"}
         />
       )}
     </>

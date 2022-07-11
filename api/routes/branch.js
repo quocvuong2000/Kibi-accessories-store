@@ -1,5 +1,9 @@
 const Branch = require("../models/Branch");
-const { verifyTokenAndStaff, verifyTokenAndAdmin } = require("./verifyToken");
+const {
+  verifyTokenAndStaff,
+  verifyTokenAndAdmin,
+  verifyTokenAndAuthorization,
+} = require("./verifyToken");
 
 const router = require("express").Router();
 
@@ -16,7 +20,7 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 });
 
 //GET
-router.get("/", verifyTokenAndStaff, async (req, res) => {
+router.get("/", verifyTokenAndAuthorization, async (req, res) => {
   const qPage = req.query.page;
   let perPage = 8;
   let page = qPage || 1;

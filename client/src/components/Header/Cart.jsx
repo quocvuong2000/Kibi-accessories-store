@@ -7,6 +7,7 @@ import { deleteCart, downQty, getAllProductCart, upQty } from "../../api/Cart";
 import { getNumber } from "../../redux/cartRedux";
 import numberWithCommas from "../../utils/numberWithCommas";
 import classes from "./styles2.module.scss";
+import { Trash } from "phosphor-react";
 
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
@@ -96,12 +97,7 @@ export const Cart = (props) => {
                               );
                           }}
                         >
-                          <box-icon
-                            name="trash"
-                            color="#d84727"
-                            size="24px"
-                            type="solid"
-                          ></box-icon>
+                          <Trash size={24} weight="bold" color="#d84727" />
                         </button>
                       </div>
                     </div>

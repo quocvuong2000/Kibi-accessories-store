@@ -38,7 +38,7 @@ const Branch = () => {
     <>
       {loading === true && <AppLoader />}
       <div className={s.container}>
-        <h1>Blog management</h1>
+        <h1>Branch management</h1>
         <motion.div
           animate={{
             scale: [0.5, 1],

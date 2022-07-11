@@ -42,10 +42,22 @@ const Header = () => {
     localStorage.removeItem("persist:root");
     navigate2("/login");
   };
+  const handleMenuClick = (e) => {
+    setVisibleDropdown(false);
+  };
+  const handleVisibleChange = (flag) => {
+    setVisible(flag);
+  };
   const menu = (
-    <Menu>
+    <Menu onClick={handleMenuClick}>
       <Menu.Item>
-        <Link to={"/myaccount/1"} className={classes.box_profile}>
+        <div
+          onClick={() => {
+            setVisibleDropdown(false);
+            navigate2(`/myaccount/1`);
+          }}
+          className={classes.box_profile}
+        >
           <div className={classes.avatar_menu}>
             <img
               src={
@@ -61,31 +73,49 @@ const Header = () => {
           <p className={classes.name_avatar}>
             {user.currentUser ? user.currentUser.name : ""}
           </p>
-        </Link>
+        </div>
       </Menu.Item>
       <Menu.Item>
-        <Link to={"/myaccount/1"} className={classes.link_to_profile}>
+        <div
+          onClick={() => {
+            setVisibleDropdown(false);
+            navigate2(`/myaccount/1`);
+          }}
+          className={classes.link_to_profile}
+        >
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
           Your Profile
-        </Link>
+        </div>
       </Menu.Item>
       <Menu.Item>
-        <Link className={classes.wish_list} to={"/myaccount/4"}>
+        <div
+          onClick={() => {
+            setVisibleDropdown(false);
+            navigate2(`/myaccount/4`);
+          }}
+          className={classes.wish_list}
+        >
           <div className={classes.icon}>
             <Heart size={24} className={classes.icon_box} />
           </div>
           Wish List
-        </Link>
+        </div>
       </Menu.Item>
       <Menu.Item>
-        <Link className={classes.wish_list} to={"/myaccount/1?showpass=true"}>
+        <div
+          onClick={() => {
+            setVisibleDropdown(false);
+            navigate2(`/myaccount/1?showpass=true`);
+          }}
+          className={classes.wish_list}
+        >
           <div className={classes.icon}>
             <LockKey size={24} className={classes.icon_box} />
           </div>
           Change Password
-        </Link>
+        </div>
       </Menu.Item>
       <Menu.Item>
         <div className={classes.sign_out} onClick={handleSignOut}>
@@ -129,8 +159,10 @@ const Header = () => {
   const menuRef = useRef(null);
   const headerRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [visibleDropdown, setVisibleDropdown] = useState(false);
   const ref = useClickOutside(() => setVisible(false));
-
+  const ref2 = useRef(null);
+  useClickOutside(ref2, () => setVisibleDropdown(false));
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
     menuRef.current.classList.toggle(classes.active);
@@ -159,17 +191,21 @@ const Header = () => {
               style={{ width: 500, textAlign: "center" }}
             />
           </Space>
-          <div className={classes.authentication}>
+          <div className={classes.authentication} ref={ref2}>
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
               <Dropdown
                 overlay={menu}
                 placement="bottomLeft"
                 arrow
-                trigger={["click"]}
+                visible={visibleDropdown}
+                trigger={["hover"]}
                 overlayClassName={classes.menu_header}
               >
-                <div className={classes.login}>
+                <div
+                  className={classes.login}
+                  onClick={() => setVisibleDropdown(!visibleDropdown)}
+                >
                   <User size={32} color="#000" weight="thin" />
                   <div className={classes.loginText}>
                     {formatName(user.currentUser.name)}

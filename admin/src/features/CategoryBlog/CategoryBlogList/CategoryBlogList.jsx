@@ -46,8 +46,11 @@ export default function CategoryBlogList(props) {
   const open = Boolean(anchorEl);
 
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
-  const [categorySelectedUpdate, setCategorySelectedUpdate] =
-    React.useState("");
+  const [categorySelectedUpdate, setCategorySelectedUpdate] = React.useState(
+    {}
+  );
+  const [categorySelectedUpdateTemp, setCategorySelectedUpdateTemp] =
+    React.useState({});
   const [idCateUpdate, setIdCateUpdate] = React.useState("");
   const [deleteDialog, setDeleteDialog] = React.useState({
     delete: false,
@@ -144,6 +147,10 @@ export default function CategoryBlogList(props) {
                 <TableRow
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  onClick={() => {
+                    setIdCateUpdate(row._id);
+                    setCategorySelectedUpdateTemp(row);
+                  }}
                 >
                   <TableCell
                     align="left"
@@ -171,7 +178,7 @@ export default function CategoryBlogList(props) {
                         onClick={() => {
                           setDeleteDialog({
                             delete: true,
-                            id: row._id,
+                            id: idCateUpdate,
                           });
                           setAnchorEl(null);
                         }}
@@ -185,8 +192,8 @@ export default function CategoryBlogList(props) {
                       <MenuItem
                         disableRipple
                         onClick={() => {
+                          setCategorySelectedUpdate(categorySelectedUpdateTemp);
                           setShowUpdateModal(true);
-                          setCategorySelectedUpdate(row.title);
                           setIdCateUpdate(row._id);
                           setAnchorEl(null);
                         }}
@@ -232,7 +239,7 @@ export default function CategoryBlogList(props) {
           showDialog={showUpdateModal}
           handleShowDialog={hanldeShowUpdateCategoryModal}
           reLoadTable={props.reLoadTable}
-          categoryName={categorySelectedUpdate}
+          categorySelectedUpdate={categorySelectedUpdate}
           categoryId={idCateUpdate}
         />
       )}

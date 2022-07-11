@@ -22,10 +22,10 @@ export default function DialogUpdateCategoryBlog(props) {
         <Formik
           validateOnChange={true}
           initialValues={{
-            title: `${props.categoryName}`,
+            title: `${props.categorySelectedUpdate.title}`,
           }}
           onSubmit={async (values) => {
-            updateCategoryBlog(props.categoryId, values.title)
+            updateCategoryBlog(props.categorySelectedUpdate._id, values.title)
               .then(() => {
                 setSuccess(true);
                 props.handleShowDialog(false);
