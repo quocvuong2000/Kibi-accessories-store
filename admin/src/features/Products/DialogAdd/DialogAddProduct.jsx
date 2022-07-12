@@ -383,6 +383,8 @@ export default function DialogAddProduct(props) {
                           }}
                         />
                       </Box>
+
+                      {/* SALES AND WARRANTY */}
                       <Box
                         sx={{
                           mb: { xs: 3, xl: 3 },
