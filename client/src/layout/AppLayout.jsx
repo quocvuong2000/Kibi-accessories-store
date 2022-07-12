@@ -97,14 +97,14 @@ const AppLayout = () => {
               </UnRequireAuth>
             }
           />
-          <Route
+          {/* <Route
             path="/completeprofile"
             element={
               <UnRequireAuth>
                 <CompleteProfile />
               </UnRequireAuth>
             }
-          />
+          /> */}
           <Route
             path="/myaccount"
             element={

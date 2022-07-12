@@ -30,16 +30,23 @@ const ListProduct = (props) => {
   function handleChange(checkedValues) {
     setValue(checkedValues.target.value);
   }
+
   const menu = (
     <Menu>
-      <RangePrice setValue={setRange} value={range} />
-      <div className={classes.text_range}>
+      <RangePrice setValue={setRange} value={range} key={1} />
+      <div className={classes.text_range} key={2}>
         <p className={classes.min_range_price}>1.000.000vnđ</p>
         <p className={classes.max_range_price}>10.000.000vnđ</p>
       </div>
-      <hr className={classes.line_devide} />
-      <p className={classes.title_filter}>Brand</p>
-      <Radio.Group style={{ width: "100%" }} className={classes.checkbox_group}>
+      <hr className={classes.line_devide} key={3} />
+      <p className={classes.title_filter} key={4}>
+        Brand
+      </p>
+      <Radio.Group
+        style={{ width: "100%" }}
+        className={classes.checkbox_group}
+        key={5}
+      >
         {props.listBrand?.brands?.map((item, index) => {
           return (
             <Radio
@@ -53,9 +60,12 @@ const ListProduct = (props) => {
           );
         })}
       </Radio.Group>
-      <hr className={classes.line_devide} />
-      <p className={classes.title_filter}>Rating</p>
+      <hr className={classes.line_devide} key={6} />
+      <p className={classes.title_filter} key={7}>
+        Rating
+      </p>
       <Button
+        key={8}
         className={classes.submit_filter}
         onClick={() => {
           setVisibleDropdown2(false);
@@ -102,7 +112,6 @@ const ListProduct = (props) => {
                 size={24}
                 weight="thin"
                 style={{ cursor: "pointer" }}
-                onVisibleChange={handleVisibleChange}
                 onClick={() => setVisibleDropdown2(!visibleDropdown2)}
               />
             </Dropdown>

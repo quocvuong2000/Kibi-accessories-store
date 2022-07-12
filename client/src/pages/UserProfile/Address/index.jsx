@@ -1,6 +1,6 @@
 import { Checkbox, message, Modal } from "antd";
 import { Plus, Trash } from "phosphor-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   createAddress,
@@ -103,8 +103,8 @@ const Address = () => {
         {listAddress?.length > 0 ? (
           listAddress[0]?.addressList?.map((item, index) => {
             return (
-              <>
-                <div className={s.box_address} key={index}>
+              <React.Fragment key={index}>
+                <div className={s.box_address}>
                   <div className={s.name_edit}>
                     <div className={s.address_left}>
                       <p className={s.name_user}>
@@ -154,7 +154,7 @@ const Address = () => {
                     </div>
                   </div>
                 </div>
-              </>
+              </React.Fragment>
             );
           })
         ) : (

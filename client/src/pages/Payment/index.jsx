@@ -28,6 +28,7 @@ const Payment = () => {
   const [shopId, setShopId] = useState(3064791);
   const [from, setFrom] = useState(1450);
   const [fromWard, setFromWard] = useState("20804");
+  const [provinceId, setProvinceId] = useState(202);
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
   useEffect(() => {
@@ -41,7 +42,7 @@ const Payment = () => {
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
-        //console.log(res[0].addressList);
+        console.log(res[0].addressList);
         setAdrress(res[0].addressList);
       })
       .catch(() => {
@@ -68,6 +69,10 @@ const Payment = () => {
 
   const handleTakeFromWard = (fromward) => {
     setFromWard(fromward);
+  };
+
+  const handleTakeProvinceId = (provinceid) => {
+    setProvinceId(provinceid);
   };
 
   const hanldeSelectAddress = (id) => {
@@ -154,6 +159,7 @@ const Payment = () => {
                   handleTakeShopId={handleTakeShopId}
                   handleTakeFrom={handleTakeFrom}
                   handleTakeFromWard={handleTakeFromWard}
+                  handleTakeProvinceId={handleTakeProvinceId}
                 />
               )}
               {step === 2 && (
@@ -165,6 +171,7 @@ const Payment = () => {
                   shopId={shopId}
                   from={from}
                   fromWard={fromWard}
+                  provinceId={provinceId}
                 />
               )}
             </div>

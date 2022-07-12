@@ -13,6 +13,7 @@ const ViewAll = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(2);
   const { idCate } = useParams();
+
   useEffect(() => {
     document.title = "KIBI | List";
   }, []);

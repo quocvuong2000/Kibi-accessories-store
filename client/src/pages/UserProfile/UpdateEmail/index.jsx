@@ -50,14 +50,15 @@ const UpdateEmail = (props) => {
                       )}
                     </Field>
                   </FormAnt.Item>
-
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className={s.update_email}
-                  >
-                    Submit
-                  </Button>
+                  <FormAnt.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className={s.update_email}
+                    >
+                      Submit
+                    </Button>
+                  </FormAnt.Item>
                 </Form>
               );
             }}

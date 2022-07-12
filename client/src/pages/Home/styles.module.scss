@@ -7,7 +7,11 @@
 
   .carousel {
     height: 80vh;
+    @include tablet {
+      height: 40vh;
+    }
   }
+
   .categories {
     height: 60vh;
     display: flex;

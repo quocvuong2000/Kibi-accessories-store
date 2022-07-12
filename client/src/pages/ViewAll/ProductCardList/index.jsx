@@ -19,22 +19,28 @@ export const ProductCardList = (props) => {
 
   return (
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
-      <Col span={5} className={s.box__product__image}>
+      <Col span={10} lg={5} sm={7} className={s.box__product__image}>
         <Image
           src={data.images[0] ? data.images[0] : imgError}
           alt=""
           loading="lazy"
         />
       </Col>
-      <Col span={19} className={s.box__product__content} push={1}>
+      <Col
+        span={14}
+        lg={19}
+        sm={17}
+        className={s.box__product__content}
+        push={1}
+      >
         <Popover title={data.title} trigger="hover">
           <Link to={`/detail/${data._id}`}>
             <p className={s.box__product__title}>{data.product}</p>
           </Link>
         </Popover>
-        <p className={s.box__product__desc}>
+        <div className={s.box__product__desc}>
           {parse(`${data.description.content}`)}
-        </p>
+        </div>
         <p className={s.box__product__voucher}>
           {data.sale && data.sale + "% Offs"}
         </p>

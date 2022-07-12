@@ -110,14 +110,17 @@ const PaymentDetail = (props) => {
   const [shippingCost, setShippingCost] = useState(0);
   const [from, setFrom] = useState(1450);
   const [shopId, setShopId] = useState(3064791);
+  const [provinceId, setProvinceId] = useState(202);
 
   useEffect(() => {
     getBranchById(props.branchId).then((res) => {
       setFrom(res.branches.districtId);
       setShopId(res.branches.shopId);
+      setProvinceId(res.branches.cityId);
       props.handleTakeShopId(res.branches.shopId);
       props.handleTakeFrom(res.branches.districtId);
       props.handleTakeFromWard(res.branches.wardId);
+      props.handleTakeProvinceId(res.branches.cityId);
     });
   }, [props.branchId]);
 
@@ -130,25 +133,37 @@ const PaymentDetail = (props) => {
   }, [from]);
 
   useEffect(() => {
-    getShippingCost(
-      serviceId,
-      props.cart.totalPrice,
-      null,
-      currentWard,
-      currentDistrict,
-      from,
-      1000,
-      15,
-      15,
-      15,
-      shopId
-    ).then((res) => {
-      if (res) {
-        setShippingCost(res.data.data.total);
-        props.setShippingCost(res.data.data.total);
-      }
-    });
-  }, [from, serviceId, props.cart.totalPrice, currentWard, currentDistrict]);
+    if (parseInt(props.addressSelected.city) !== provinceId) {
+      setShippingCost(35000);
+      props.setShippingCost(35000);
+    } else {
+      getShippingCost(
+        serviceId,
+        props.cart.totalPrice,
+        null,
+        currentWard,
+        currentDistrict,
+        from,
+        1000,
+        15,
+        15,
+        15,
+        shopId
+      ).then((res) => {
+        if (res) {
+          setShippingCost(res.data.data.total);
+          props.setShippingCost(res.data.data.total);
+        }
+      });
+    }
+  }, [
+    from,
+    serviceId,
+    props.cart.totalPrice,
+    currentWard,
+    currentDistrict,
+    props.addressSelected,
+  ]);
 
   useEffect(() => {
     if (token) {
@@ -164,6 +179,7 @@ const PaymentDetail = (props) => {
         address: props.address[0].address,
         recipientName: props.address[0].recipientName,
         recipientPhone: props.address[0].recipientPhone,
+        shippingPrice: shippingCost,
       };
       doCheckoutByCard(data)
         .then((res) => {
@@ -193,13 +209,14 @@ const PaymentDetail = (props) => {
   };
   const hanldeCheckoutCOD = () => {
     props.hanldeLoading(true);
-
+    console.log("shippingCost:", shippingCost);
     const data = {
       username: props.user.currentUser.username,
       email: props.user.currentUser.email,
       address: currentAddressName,
       recipientName: currentRecipientName,
       recipientPhone: currentRecipientPhone,
+      shippingPrice: shippingCost,
     };
     doCheckoutByCod(data)
       .then((res) => {
@@ -251,7 +268,6 @@ const PaymentDetail = (props) => {
         transId
       )
         .then((res) => {
-          console.log("res:", res);
           if (res.statusCode === 200) {
             if (res.data === signature) {
               const datasecond = {
@@ -264,6 +280,7 @@ const PaymentDetail = (props) => {
                 address: props.address[0].address,
                 recipientName: props.address[0].recipientName,
                 recipientPhone: props.address[0].recipientPhone,
+                shippingPrice: shippingCost,
               };
               updateOrder(datasecond)
                 .then((res) => {
