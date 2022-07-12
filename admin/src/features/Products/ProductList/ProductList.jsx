@@ -16,28 +16,12 @@ import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import { useState } from "react";
 import productPlaceholder from "../../../assets/images/product-example.png";
+import AppLoader from "../../../components/AppLoader";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { StyledMenu } from "../../../theme/styledMenu";
+import numberWithCommas from "../../../utils/numberWithCommas";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
-import { deleteWishList, doDeleteProduct } from "../ProductAPI";
-const makeStyle = (status) => {
-  if (status === "Approved") {
-    return {
-      background: "rgb(145 254 159 / 47%)",
-      color: "green",
-    };
-  } else if (status === "Pending") {
-    return {
-      background: "#ffadad8f",
-      color: "red",
-    };
-  } else {
-    return {
-      background: "#59bfff",
-      color: "white",
-    };
-  }
-};
+import { doDeleteProduct } from "../ProductAPI";
 
 export default function ProductList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,6 +34,7 @@ export default function ProductList(props) {
   const [failure, setFailure] = React.useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [productSelectedUpdate, setProductSelectedUpdate] = useState("");
+  const [loading, setLoading] = useState(false);
   const open = Boolean(anchorEl);
 
   const hanldeShowUpdateProductModal = (isVisible) => {
@@ -61,29 +46,23 @@ export default function ProductList(props) {
   };
 
   const hanldeDeleteProduct = () => {
+    setLoading(true);
     doDeleteProduct(deleteDialog.id)
       .then(() => {
         setSuccess(true);
-        props.reLoadTable("delete" + Date.now());
-        setDeleteDialog({
-          delete: false,
-          id: "",
-        });
+        setTimeout(() => {
+          props.reLoadTable("delete" + Date.now());
+          setDeleteDialog({
+            delete: false,
+            id: "",
+          });
+        }, 500);
       })
       .catch(() => {
         setFailure(true);
-      });
-    deleteWishList(deleteDialog.id)
-      .then(() => {
-        setSuccess(true);
-        props.reLoadTable("delete" + Date.now());
-        setDeleteDialog({
-          delete: false,
-          id: "",
-        });
       })
-      .catch(() => {
-        setFailure(true);
+      .finally(() => {
+        setLoading(false);
       });
   };
   const handleClick = (event) => {
@@ -100,6 +79,7 @@ export default function ProductList(props) {
   // return focus to the button when we transitioned from !open -> open
   return (
     <>
+      {loading && <AppLoader />}
       <div style={{ height: "465px" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
@@ -191,9 +171,11 @@ export default function ProductList(props) {
                   </TableCell>
                   <TableCell>{row._id}</TableCell>
                   <TableCell align="left">{row.product}</TableCell>
-                  <TableCell align="left">{row.price}</TableCell>
                   <TableCell align="left">
-                    <span style={makeStyle(row.status)}>{row.quantity}</span>
+                    {numberWithCommas(row.price)} VND
+                  </TableCell>
+                  <TableCell align="left">
+                    <span>{row.quantity}</span>
                   </TableCell>
                   <TableCell align="left">{row.sale || "N/A"}</TableCell>
                 </TableRow>

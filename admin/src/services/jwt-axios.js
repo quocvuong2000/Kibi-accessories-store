@@ -50,12 +50,15 @@ callAPIWithToken.interceptors.response.use(
   (err) => {
     if (err.response && err.response.status === 401) {
       Cookies.remove("token");
-      <Navigate replace to="/login" />;
+      // <Navigate replace to="/login" />;
+      window.location.href = "/login";
       // redirect to login
     }
 
     if (err.response && err.response.status === 403) {
-      <Navigate replace to="/403" />;
+      // console.log("first");
+      // <Navigate to="/403" />;
+      window.location.href = "/403";
     }
     return Promise.reject(err);
   }
@@ -72,4 +75,3 @@ export const setAuthToken = (token) => {
 };
 
 export { callAPIWithToken, jwtAxios };
-

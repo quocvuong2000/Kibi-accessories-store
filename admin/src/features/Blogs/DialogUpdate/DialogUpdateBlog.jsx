@@ -31,6 +31,7 @@ import { app } from "../../../firebase/firebase";
 import { getCategoryBlogList } from "../../CategoryBlog/CategoryBlogAPI";
 import { updateBlog } from "../BlogAPI";
 import styled from "@emotion/styled";
+import AppLoader from "../../../components/AppLoader";
 const Input = styled("input")({
   display: "none",
 });
@@ -58,6 +59,7 @@ export default function DialogUpdateBlog(props) {
 
   return (
     <>
+      {loading && <AppLoader />}
       <Dialog open={props.showDialog} onClose={handleClose}>
         <DialogTitle>UPDATE BLOG</DialogTitle>
         <Formik
@@ -90,6 +92,7 @@ export default function DialogUpdateBlog(props) {
                   await getDownloadURL(uploadTask.snapshot.ref).then(
                     (downloadURL) => {
                       updateBlog(
+                        props.blogId,
                         values.title,
                         values.content,
                         values.categoryBlog,
@@ -116,6 +119,7 @@ export default function DialogUpdateBlog(props) {
               );
             } else {
               updateBlog(
+                props.blogId,
                 values.title,
                 values.content,
                 values.categoryBlog,

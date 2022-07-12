@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
 import AppLoader from "../../../components/AppLoader";
 import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
-import { doUpdateStaff } from "../StaffsAPI";
+import { doResetPassword } from "../StaffsAPI";
 import { ResetPasswordSchema } from "./validation";
 const DialogResetPassword = (props) => {
   const [success, setSuccess] = useState(false);
@@ -34,7 +34,7 @@ const DialogResetPassword = (props) => {
           }}
           onSubmit={async (values) => {
             setLoading(true);
-            doUpdateStaff(props.staffId, { password: values.password })
+            doResetPassword(props.staffId, { password: values.password })
               .then(() => {
                 setSuccess(true);
                 setTimeout(() => {

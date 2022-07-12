@@ -13,6 +13,14 @@ const AddProductSchema = () => {
       .string()
       .required("You must enter the quantity")
       .matches(/^-?\d*$/, "Quantity is not valid"),
+    sale: yup
+      .string()
+      .required("You must enter the quantity")
+      .matches(/^-?\d*$/, "Quantity is not valid"),
+    warranty: yup
+      .string()
+      .required("You must enter the quantity")
+      .matches(/^-?\d*$/, "Quantity is not valid"),
   });
 };
 

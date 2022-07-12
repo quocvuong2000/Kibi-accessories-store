@@ -44,7 +44,8 @@ export const updateBlog = async (
   content,
   categoryblog,
   author,
-  categoryname
+  categoryname,
+  thumbnail
 ) => {
   const res = await callAPIWithToken.put(`/api/blog/update/${id}`, {
     title: title,
@@ -53,6 +54,7 @@ export const updateBlog = async (
     author: author,
     categoryname: categoryname,
     status: "PENDING",
+    thumbnail : thumbnail
   });
   if (res && res.status !== 200) {
     throw Error("Something wrongs with code status" + res.status);

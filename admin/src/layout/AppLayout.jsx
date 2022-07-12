@@ -5,6 +5,7 @@ import ApproveBlog from "../features/ApproveBlog";
 import Branch from "../features/Branch";
 
 import Comments from "../features/Comment";
+import Error403 from "../features/ErrorPages/Error403";
 import {
   Brands,
   Categories,
@@ -61,6 +62,7 @@ const AppLayout = () => {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/404" element={<Error404 />} />
+        <Route path="/403" element={<Error403 />} />
         <Route path="/*" element={<Navigate to="/404" />} />
       </Routes>
     </AppSuspense>

@@ -11,10 +11,13 @@ const RequireAuth = ({ children }) => {
     return <Navigate to="/login" state={{ form: location }} replace />;
   }
   const deCodeToken = jwt_decode(Cookies.get("token"));
-  // console.log(deCodeToken);
 
-  if (deCodeToken.exp < Date.now() / 1000) {
+  if (
+    deCodeToken.exp < Date.now() / 1000 ||
+    (deCodeToken.type !== "admin" && deCodeToken.type !== "staff")
+  ) {
     Cookies.remove("token");
+    return <Navigate to="/login" state={{ form: location }} replace />;
   }
   return <>{children}</>;
 };

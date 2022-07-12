@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
     totalRating: { type: Number },
     quantity: { type: Number },
     inStock: { type: Boolean },
+    warranty : {type : Number},
     description: {
       content: { type: String },
       detail: { type: String },
