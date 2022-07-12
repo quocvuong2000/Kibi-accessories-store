@@ -10,10 +10,19 @@
   .box__product__image {
     height: 287px;
 
+    @include tablet {
+      height: unset;
+    }
+
     img {
       height: 287px;
       @include img();
       object-fit: cover;
+
+      @include tablet {
+        padding: 20px;
+        height: unset;
+      }
     }
   }
 

@@ -20,7 +20,6 @@ export const ProductCardGrid = (props) => {
   useEffect(() => {
     user.currentUser &&
       checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
-        //console.log(res);
         res === 200 && setExist(false);
         res === 201 && setExist(true);
       });
@@ -106,13 +105,6 @@ export const ProductCardGrid = (props) => {
             + Add to cart
           </p>
         )}
-
-        {/* <div className={s.btn}>
-          <Popover title="Add to wishlist" trigger="hover">
-            <Heart color="#a94242" weight="thin" />
-          </Popover>
-          <button className={s.btnCart}>Add to cart</button>
-        </div> */}
       </div>
     </div>
   );

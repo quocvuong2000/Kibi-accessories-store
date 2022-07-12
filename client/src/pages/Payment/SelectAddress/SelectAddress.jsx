@@ -19,7 +19,7 @@ const SelectAddress = ({
   handleGetShopId,
 }) => {
   const [value, setValue] = useState(
-    address.length !== 0 ? address.find((el) => el.isDefault === true)._id : {}
+    address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
@@ -118,10 +118,10 @@ const SelectAddress = ({
                   {address.map((item, index) => {
                     return (
                       <Radio
-                        value={item._id}
-                        ward={item.ward}
-                        district={item.district}
-                        city={item.city}
+                        value={item?._id}
+                        ward={item?.ward}
+                        district={item?.district}
+                        city={item?.city}
                       >
                         <AddressItem item={item} key={index} />
                       </Radio>

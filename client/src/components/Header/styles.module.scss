@@ -92,6 +92,9 @@
     z-index: 999;
     position: fixed;
     background: #f7f6f4;
+    @include tablet {
+      max-width: 100vw;
+    }
     &::before {
       content: " ";
       height: 120px;

@@ -51,8 +51,8 @@ const ProductView = (props) => {
           {props.data.product.product ?? ""}{" "}
         </span>
       </p>
-      <Row className={styles.frame_product}>
-        <Col span={7} className={styles.preview_product}>
+      <div className={styles.frame_product}>
+        <Col span={7} lg={7} sm={24} className={styles.preview_product}>
           <div
             className={`${styles.img_main} ${show === true ? styles.show : ""}`}
             onAnimationEnd={handleAnimation}
@@ -82,7 +82,13 @@ const ProductView = (props) => {
           </div>
         </Col>
 
-        <Col span={17} className={styles.frame_info_product} push={5}>
+        <Col
+          span={17}
+          lg={17}
+          sm={24}
+          className={styles.frame_info_product}
+          push={5}
+        >
           <Col className={styles.info_product}>
             <p className={styles.title}>{props.data.product.product ?? ""}</p>
 
@@ -159,7 +165,7 @@ const ProductView = (props) => {
             </Row>
           </Col>
         </Col>
-      </Row>
+      </div>
     </Col>
   );
 };

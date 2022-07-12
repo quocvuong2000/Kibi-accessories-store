@@ -49,6 +49,10 @@
           height: 467px;
           object-fit: cover;
         }
+        @include tablet {
+          width: 250px;
+          height: 300px;
+        }
       }
       .right {
         padding-left: 80px;

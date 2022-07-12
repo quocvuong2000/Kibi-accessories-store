@@ -13,6 +13,7 @@ import AppLoader from "../../../components/AppLoader";
 import { getInfoService, getLeadTime } from "../../../api/Shipping";
 import timeToDate from "../../../utils/timeToDate";
 import { deletedVoucher } from "../../../api/Voucher";
+import moment from "moment";
 
 const Confirmation = (props) => {
   const [serviceId, setServiceId] = useState(0);
@@ -24,8 +25,8 @@ const Confirmation = (props) => {
     ? props.addressSelected.district
     : props.address[0].district;
   const currentCity = props.addressSelected
-    ? props.addressSelected.city
-    : props.address[0].city;
+    ? props.addressSelected?.city
+    : props.address[0]?.city;
   const location = useLocation();
   //console.log(location.pathname.split("/")[2]);
   const [orderDetail, setOrderDetail] = useState();
@@ -41,18 +42,25 @@ const Confirmation = (props) => {
   }, []);
 
   useEffect(() => {
-    getLeadTime(
-      props.from,
-      props.fromWard,
-      currentDistrict,
-      currentWard,
-      serviceId,
-      props.shopId
-    ).then((res) => {
-      if (res) {
-        setLeadTime(res.data?.data?.leadtime);
-      }
-    });
+    if (parseInt(props.addressSelected?.city) !== props.provinceId) {
+      var result = new Date(Date.now());
+      result.setDate(result.getDate() + 10);
+      console.log("result:", result);
+      setLeadTime(Date.parse(result));
+    } else {
+      getLeadTime(
+        props.from,
+        props.fromWard,
+        currentDistrict,
+        currentWard,
+        serviceId,
+        props.shopId
+      ).then((res) => {
+        if (res) {
+          setLeadTime(res.data?.data?.leadtime);
+        }
+      });
+    }
   }, [props.from, props.fromWard, serviceId, props.shopId]);
 
   // console.log("timeToDate(leadTime);:", timeToDate(leadTime));
@@ -61,7 +69,7 @@ const Confirmation = (props) => {
     doGetDetailOrder(id)
       .then((res) => {
         var idVoucher = localStorage.getItem("idVauchoemxiuanhnhe");
-        if (idVoucher !== "") {
+        if (idVoucher !== "" && idVoucher) {
           deletedVoucher(idVoucher).then(() => {});
           localStorage.removeItem("idVauchoemxiuanhnhe");
         }
@@ -71,7 +79,7 @@ const Confirmation = (props) => {
         message.error("Loading order detail fail");
       });
   }, [id]);
-
+  console.log(orderDetail?.shippingPrice);
   return (
     <>
       {orderDetail ? (
@@ -92,7 +100,7 @@ const Confirmation = (props) => {
             <div className={classes.delivery}>
               <div className={classes.deliveryItem}>
                 <Clock weight="light" />
-                {timeToDate(leadTime)}
+                {moment(leadTime).format("dddd DD, MMM, YYYY")}
               </div>
               <div className={classes.deliveryItem}>
                 <Truck weight="light" />
@@ -144,7 +152,7 @@ const Confirmation = (props) => {
             <div className={classes.contentItem}>
               <div className={classes.display}>Shipping Cost</div>
               <div className={classes.price}>
-                {numberWithCommas(props.shippingCost)} VND
+                {numberWithCommas(orderDetail.shippingPrice)} VND
               </div>
             </div>
             {/* <div className={classes.contentItem}>
@@ -156,7 +164,9 @@ const Confirmation = (props) => {
             <div className={classes.total}>
               <div className={classes.display}>Grand Total</div>
               <div className={classes.price}>
-                {numberWithCommas(orderDetail.totalPrice + props.shippingCost)}{" "}
+                {numberWithCommas(
+                  orderDetail.totalPrice + orderDetail.shippingPrice
+                )}{" "}
                 VND
               </div>
             </div>

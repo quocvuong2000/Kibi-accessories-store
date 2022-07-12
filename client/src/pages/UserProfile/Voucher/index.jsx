@@ -42,16 +42,6 @@ const Voucher = () => {
                 <p className={s.sale}>Giảm {nFormatter(item.salePrice, 0)}</p>
                 <p className={s.expire}>{ConvertDate(item.expireDay)}</p>
                 <p className={s.sale2}>{nFormatter(item.salePrice, 0)}</p>
-
-                {/* <div className={s.left_voucher}>
-                  <img src={img} alt="" />
-                </div>
-                <div className={s.right_voucher}>
-                  <p className={s.name_voucher}>
-                    Giảm {nFormatter(item.salePrice, 0)}
-                  </p>
-                  <p className={s.hsd}>HSD: {ConvertDate(item.expireDay)}</p>
-                </div> */}
               </div>
             );
           })}

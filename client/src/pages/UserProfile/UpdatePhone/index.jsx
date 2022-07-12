@@ -97,14 +97,6 @@ const UpdatePhone = (props) => {
       <div className={s.form}>
         <div id="recaptcha-container"></div>
         <p className={s.title}>Your phone</p>
-        {/* <Formik
-          validationSchema={phoneSchema}
-          initialValues={{
-            phone: "",
-            otp: "",
-          }}
-          onSubmit={handleSendOtp}
-        > */}
 
         {otp === false ? (
           <Formik
@@ -197,14 +189,16 @@ const UpdatePhone = (props) => {
                       )}
                     </Field>
                   </FormAnt.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className={s.update_phone}
-                    onClick={verifyOtp}
-                  >
-                    Submit
-                  </Button>
+                  <FormAnt.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className={s.update_phone}
+                      onClick={verifyOtp}
+                    >
+                      Submit
+                    </Button>
+                  </FormAnt.Item>
 
                   <small className={s.small_text}>
                     Cannot receive your code ?{" "}

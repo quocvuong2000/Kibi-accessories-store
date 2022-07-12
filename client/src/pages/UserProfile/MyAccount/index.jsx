@@ -102,7 +102,6 @@ const MyAccount = () => {
   }, []);
 
   useEffect(() => {
-    console.log("showpassword:", showpassword);
     if (showpassword === "true") {
       setUpdate(2);
       showModal();
@@ -190,10 +189,10 @@ const MyAccount = () => {
       <Formik
         // validationSchema={loginSchema}
         initialValues={{
-          name: user.currentUser !== null ? user.currentUser?.name : "",
-          username: user.currentUser !== null ? user.currentUser?.username : "",
-          dob: user.currentUser !== null ? user.currentUser?.dob : "",
-          gender: user.currentUser !== null ? user.currentUser?.gender : "",
+          name: user.currentUser ? user.currentUser?.name : "",
+          username: user.currentUser ? user.currentUser?.username : "",
+          dob: user.currentUser ? user.currentUser?.dob : "",
+          gender: user.currentUser ? user.currentUser?.gender : "",
         }}
         onSubmit={async (values) => {
           // {imageUrl ? : }
@@ -325,42 +324,37 @@ const MyAccount = () => {
                         }
                         initialValue={moment(user.currentUser?.dob, dateFormat)}
                       >
-                        <DatePicker
-                          format={dateFormat}
-                          onChange={(value, dateString) =>
-                            setFieldValue("dob", dateString)
-                          }
-                          defaultValue={
-                            user.currentUser?.dob
-                              ? moment(user.currentUser?.dob, dateFormat)
-                              : undefined
-                          }
-                        />
+                        <Field name="dob">
+                          {({ field }) => (
+                            <DatePicker
+                              format={dateFormat}
+                              onChange={(value, dateString) =>
+                                setFieldValue("dob", dateString)
+                              }
+                              defaultValue={
+                                user.currentUser?.dob
+                                  ? moment(user.currentUser?.dob, dateFormat)
+                                  : undefined
+                              }
+                            />
+                          )}
+                        </Field>
                       </FormAnt.Item>
-                      <FormAnt.Item
-                        name="gender"
-                        validateStatus={
-                          Boolean(touched?.gender && errors?.gender)
-                            ? "error"
-                            : "success"
-                        }
-                        help={
-                          Boolean(touched?.gender && errors?.gender) &&
-                          errors?.gender
-                        }
-                        className={s.gender}
-                        initialValue={user.currentUser?.gender}
-                      >
-                        <Select
-                          placeholder="select your gender"
-                          defaultValue={user.currentUser?.gender}
-                          onChange={(value) => setFieldValue("gender", value)}
-                        >
-                          <Option value="male">Male</Option>
-                          <Option value="female">Female</Option>
-                          <Option value="other">Other</Option>
-                        </Select>
-                      </FormAnt.Item>
+
+                      <Field name="gender">
+                        {({ field }) => (
+                          <Select
+                            placeholder="select your gender"
+                            defaultValue={user.currentUser?.gender}
+                            onChange={(value) => setFieldValue("gender", value)}
+                          >
+                            <Option value="male">Male</Option>
+                            <Option value="female">Female</Option>
+                            <Option value="other">Other</Option>
+                          </Select>
+                        )}
+                      </Field>
+
                       <FormAnt.Item
                         labelCol={{
                           span: 7,

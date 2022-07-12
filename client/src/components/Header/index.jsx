@@ -50,7 +50,7 @@ const Header = () => {
   };
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item>
+      <Menu.Item key={1}>
         <div
           onClick={() => {
             setVisibleDropdown(false);
@@ -75,7 +75,7 @@ const Header = () => {
           </p>
         </div>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key={2}>
         <div
           onClick={() => {
             setVisibleDropdown(false);
@@ -89,7 +89,7 @@ const Header = () => {
           Your Profile
         </div>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key={3}>
         <div
           onClick={() => {
             setVisibleDropdown(false);
@@ -103,7 +103,7 @@ const Header = () => {
           Wish List
         </div>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key={4}>
         <div
           onClick={() => {
             setVisibleDropdown(false);
@@ -117,7 +117,7 @@ const Header = () => {
           Change Password
         </div>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key={5}>
         <div className={classes.sign_out} onClick={handleSignOut}>
           <div className={classes.icon}>
             <SignOut size={24} className={classes.icon_box} />
@@ -127,15 +127,6 @@ const Header = () => {
       </Menu.Item>
     </Menu>
   );
-  if (user.currentUser) {
-    if (
-      user.currentUser.accessToken !== "" &&
-      user.currentUser.accessToken != null
-    ) {
-      setAuthToken(user.currentUser.accessToken);
-      getAllProductCart(user.currentUser.username);
-    }
-  }
 
   const openNotificationWithIcon = (type) => {
     notification[type]({
