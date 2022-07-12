@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .container {
   display: flex;
   justify-content: center;
@@ -46,6 +47,9 @@
     row-gap: 10px;
 
     width: 400px;
+    @include mobile {
+      width: unset;
+    }
 
     .form_phone {
       display: flex;

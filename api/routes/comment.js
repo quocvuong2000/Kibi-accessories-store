@@ -26,8 +26,10 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
   });
 
   const product = await Product.findByIdAndUpdate(req.body.productId, {
-    avgRating: (total / comment.length).toFixed(1),
+    avgRating: (total / (comment.length + 1)).toFixed(1),
   });
+
+  console.log("product:", product);
   try {
     const savedData = await newCommentSaved.save();
     await product.save();

@@ -141,5 +141,11 @@
   }
   .addressName {
     margin-left: 10px;
+    @include mobile {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 300px;
+      overflow: hidden;
+    }
   }
 }

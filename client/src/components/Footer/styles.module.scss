@@ -20,16 +20,32 @@
     flex-direction: row;
     display: flex;
     width: calc(1440px + 32px);
-
-    @include tablet {
-      flex-wrap: wrap;
+    @include mobile {
+      padding-top: 20px !important;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 20px;
+      padding-bottom: 20px !important;
       padding: 0;
+    }
+    @include tablet {
+      padding-top: 20px !important;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 20px;
+      padding-bottom: 20px !important;
     }
 
     &__address {
       display: flex;
       flex-direction: column;
       flex-basis: 25%;
+      @include tablet {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      }
+
       &__logo {
         margin-bottom: 11px;
         @include flex(center, flex-start);

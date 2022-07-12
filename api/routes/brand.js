@@ -65,6 +65,7 @@ router.get("/limit/:count", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 //UPDATE
 router.put("/update/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
@@ -80,5 +81,6 @@ router.put("/update/:id", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 module.exports = router;

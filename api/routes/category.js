@@ -22,14 +22,14 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 });
 
 //DELETE - ONLY ADMIN AND STAFF
-router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
-  try {
-    await Category.findByIdAndDelete(req.params.id);
-    res.status(200).json("Category has been deleted...");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
+//   try {
+//     await Category.findByIdAndDelete(req.params.id);
+//     res.status(200).json("Category has been deleted...");
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 //UPDATE - ONLY ADMIN AND STAFF
 router.patch("/:id", verifyTokenAndStaff, async (req, res) => {

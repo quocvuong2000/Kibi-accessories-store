@@ -8,8 +8,18 @@ const Comment = new mongoose.Schema(
     rating: { type: Number },
     name: { type: String },
     avatar: { type: String },
-    productImage : {type : String},
-    productName : {type : String}
+    productImage: { type: String },
+    productName: { type: String },
+    commentReply: [
+      {
+        username: { type: String, required: true },
+        productId: { type: String, required: true },
+        name: { type: String },
+        avatar: { type: String },
+        productImage: { type: String },
+        productName: { type: String },
+      },
+    ],
   },
   { timestamps: true }
 );

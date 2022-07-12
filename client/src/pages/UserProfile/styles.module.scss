@@ -21,7 +21,7 @@
       min-height: 500px;
       @include tablet {
         min-height: 60px;
-        padding: 0 20px;
+        padding: 0 0 0 20px;
       }
     }
 
@@ -39,10 +39,9 @@
       color: #d84727;
     }
   }
-
-  .tab {
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-  }
+}
+.tab {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 }

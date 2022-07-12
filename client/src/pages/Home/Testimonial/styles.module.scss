@@ -15,6 +15,9 @@
     margin-bottom: 80px;
     position: relative;
     top: -50px;
+    @include mobile {
+      margin-top: 20px;
+    }
 
     &::before {
       content: " ";

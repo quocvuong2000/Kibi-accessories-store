@@ -57,9 +57,29 @@ callAPIWithToken.interceptors.response.use(
       localStorage.removeItem("persist:root");
       Cookies.remove("tokenClient");
     }
+
+    if (err.response && err.response.status === 500) {
+      window.location.href = "/500";
+    }
     return Promise.reject(err);
   }
 );
+
+jwtAxios.interceptors.response.use(
+  (res) => {
+    if (res && res.data) {
+      return res;
+    }
+    return res;
+  },
+  (err) => {
+    if (err.response && err.response.status === 500) {
+      window.location.href = "/500";
+    }
+    return Promise.reject(err);
+  }
+);
+
 export const setAuthToken = (token) => {
   if (token) {
     jwtAxios.defaults.headers.common.Authorization = `Bearer ${token}`;

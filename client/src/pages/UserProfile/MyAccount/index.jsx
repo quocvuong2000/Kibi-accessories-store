@@ -226,12 +226,13 @@ const MyAccount = () => {
                     </h3>
                   </div>
                   <Row className={s.form_info}>
-                    <Col span={24} lg={12} sm={24}>
+                    <Col span={24} xl={12} lg={24} sm={24}>
                       <p className={s.text_info}>Personal Information</p>
                       <Row className={s.avatar_name}>
                         <Col
                           span={24}
-                          lg={8}
+                          lg={12}
+                          xl={8}
                           sm={12}
                           style={{
                             display: "flex",
@@ -262,7 +263,7 @@ const MyAccount = () => {
                             {uploadButton}
                           </Upload>
                         </Col>
-                        <Col span={24} lg={16} sm={12}>
+                        <Col span={24} xl={16} lg={12} sm={12}>
                           <FormAnt.Item
                             validateStatus={
                               Boolean(touched?.name && errors?.name)

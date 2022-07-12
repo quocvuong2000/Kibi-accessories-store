@@ -47,6 +47,17 @@ export const doUpdateStaff = async (id,data) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 }
+//RESET PASSWORD
+export const doResetPassword = async (id,data) => {
+  const res = await callAPIWithToken({
+    url: `/api/staff/password/${id}`,
+    method : "PUT",
+    data : data
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+}
 
 //GET STAFF DETAIL
 export const doGetDetailStaff = async (id) => {

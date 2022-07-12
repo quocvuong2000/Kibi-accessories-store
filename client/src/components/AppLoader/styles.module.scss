@@ -1,5 +1,5 @@
 .appLoader {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex: 1;
   align-items: center;
@@ -11,7 +11,7 @@
   right: 0;
   bottom: 0;
   z-index: 999999999999999999;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
 }
 

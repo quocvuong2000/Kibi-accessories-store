@@ -105,6 +105,7 @@ const OrderManagement = () => {
               imageStyle={{
                 height: 60,
               }}
+              style={{ paddingBottom: "40px" }}
               description={"No Data"}
             />
           </div>

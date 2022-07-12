@@ -16,6 +16,7 @@ import {
   DetailBlog,
   ViewAllBlog,
   Client,
+  Page500,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -97,6 +98,7 @@ const AppLayout = () => {
               </UnRequireAuth>
             }
           />
+          <Route path="/500" element={<Page500 />} />
           {/* <Route
             path="/completeprofile"
             element={

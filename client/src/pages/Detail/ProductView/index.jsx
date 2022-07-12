@@ -1,20 +1,20 @@
-import { Col, message, Row } from "antd";
+import { Col, message, Rate, Row } from "antd";
 import { motion } from "framer-motion";
-import { ShoppingCartSimple } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import { ShoppingCartSimple, Timer } from "phosphor-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleAddToCart, handleAddToCartOverride } from "../../../api/Cart";
-import model1 from "../../../assets/detail/model1.png";
-import model2 from "../../../assets/detail/model2.png";
+import { handleAddToCart } from "../../../api/Cart";
+import imgError from "../../../assets/imgDefault.webp";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import styles from "./styles.module.scss";
-import imgError from "../../../assets/imgDefault.webp";
+import { useWindowSize } from "../../../customHook/useWindowSize";
+
 const ProductView = (props) => {
   const [src, setSrc] = useState(props.data.product.images[0]);
   const [srcMain, setSrcMain] = useState(props.data.product.images[0]);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
-
+  const [width, height] = useWindowSize();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -110,23 +110,19 @@ const ProductView = (props) => {
                 {numberWithCommas(props.data.product.price) ?? ""}đ
               </p>
             )}
-            {/* <p className={styles.price_before}>
-              1.280.000
-              <span className={styles.line}></span>
-            </p>
-            <p className={styles.price_after}>
-              {numberWithCommas(props.data.product.price) ?? ""}đ
-            </p> */}
-            <Col className={styles.model}>
-              <p className={styles.title_modle}>Choose Model</p>
-              <Row className={styles.frame_model}>
-                <div className={styles.item_model}>
-                  <img src={model1} alt="" className={styles.bo} />
-                </div>
-                <div className={styles.item_model}>
-                  <img src={model2} alt="" className={styles.bo} />
-                </div>
-              </Row>
+
+            <Col
+              style={
+                width <= 1024
+                  ? {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }
+                  : ""
+              }
+            >
+              <Rate disabled value={props.data.product.avgRating} />
             </Col>
             <Row className={styles.function}>
               <Row className={styles.qty}>
@@ -143,25 +139,34 @@ const ProductView = (props) => {
                 </div>
               </Row>
               {/* onClick={handleAddToCart} */}
-              <button
-                className={styles.add_to_cart}
-                onClick={() => {
-                  if (user.currentUser) {
-                    handleAddToCart(
-                      dispatch,
-                      user.currentUser.username,
-                      props.data.product._id,
-                      qty
-                    );
-                  } else {
-                    message.error("Please sign in");
-                  }
-                }}
-              >
-                <ShoppingCartSimple size={20} /> Add to cart
-              </button>
+              {props.data?.product && props.data?.product.quantity > 0 ? (
+                <button
+                  className={styles.add_to_cart}
+                  onClick={() => {
+                    if (user.currentUser) {
+                      handleAddToCart(
+                        dispatch,
+                        user.currentUser.username,
+                        props.data.product._id,
+                        qty
+                      );
+                    } else {
+                      message.error("Please sign in");
+                    }
+                  }}
+                >
+                  <ShoppingCartSimple size={20} /> Add to cart
+                </button>
+              ) : (
+                <button
+                  className={styles.add_to_cart}
+                  style={{ cursor: "auto" }}
+                >
+                  <Timer size={20} /> Coming soon
+                </button>
+              )}
 
-              <button className={styles.buy_now}>Buy now</button>
+              <button className={styles.buy_now}>Watch more</button>
             </Row>
           </Col>
         </Col>

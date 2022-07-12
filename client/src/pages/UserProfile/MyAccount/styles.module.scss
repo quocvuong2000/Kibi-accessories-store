@@ -2,9 +2,15 @@
 
 .wrapInformation {
   top: 35% !important;
+
   :global {
     .ant-modal-content {
       width: fit-content;
+    }
+    .ant-modal {
+      @include mobile {
+        max-width: calc(100vw - 200px);
+      }
     }
   }
 }

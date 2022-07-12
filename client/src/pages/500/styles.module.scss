@@ -1,0 +1,64 @@
+@use "../../sass/mixins" as *;
+
+.container {
+  background: white;
+  justify-content: center;
+  position: relative;
+  @include flex();
+
+  p {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    font-feature-settings: "salt" on, "liga" off;
+    color: #18191f;
+    @include font(normal, 400, 18px, 32px);
+  }
+
+  .img_error {
+    max-width: 100vw;
+    max-height: 100vh;
+    img {
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+  }
+
+  .box_text {
+    display: flex;
+    flex-direction: column;
+    column-gap: 22px;
+    margin-left: 50px;
+    .oops {
+      font-family: "Inter";
+      font-feature-settings: "salt" on, "liga" off;
+      color: #18191f;
+      @include font(normal, 800, 45px, 65px);
+    }
+
+    .notfound {
+      font-family: "Inter";
+      font-feature-settings: "salt" on, "liga" off;
+      color: #18191f;
+      @include font(normal, 500, 45px, 65px);
+      word-wrap: none;
+    }
+
+    .goback {
+      margin-top: 17px;
+      box-sizing: border-box;
+      border: none;
+      flex-direction: row;
+      @include flex();
+      padding: 10px 16px;
+      max-width: 230px;
+      height: 65px;
+      background: #d84727;
+      border-radius: 8px;
+      @include font(normal, 500, 16px, 21px);
+
+      font-family: "DM Sans";
+      color: #fff !important;
+    }
+  }
+}

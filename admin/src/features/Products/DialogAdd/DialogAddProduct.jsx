@@ -46,6 +46,8 @@ import unknownUser from "../../../assets/images/product.png";
 import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
 import AppLoader from "../../../components/AppLoader";
 import { AddProductSchema } from "./validation";
+import { NumberFormatCustom } from "../../../@crema/core/AppFormComponents/NumberFormatCustom";
+
 export default function DialogAddProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -192,6 +194,7 @@ export default function DialogAddProduct(props) {
             brand: "",
             sale: 0,
             quantity: "",
+            warranty: 6,
             description: {
               content: "",
               detail: "",
@@ -380,26 +383,38 @@ export default function DialogAddProduct(props) {
                           }}
                         />
                       </Box>
-                      <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                      <Box
+                        sx={{
+                          mb: { xs: 3, xl: 3 },
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <AppTextField
                           size="small"
-                          placeholder={"Sale"}
-                          label={"Sale"}
+                          placeholder={"Sale%"}
+                          label={"Sale%"}
                           name="sale"
                           variant="outlined"
+                          InputProps={{
+                            inputComponent: NumberFormatCustom,
+                          }}
                           sx={{
-                            width: "100%",
+                            width: "40%",
                           }}
                         />
-                      </Box>
-
-                      {/* Top Sales */}
-                      <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                        <FormControlLabel
-                          value="Top Sales"
-                          control={<Checkbox />}
-                          label="Top Sales"
-                          labelPlacement="start"
+                        <AppTextField
+                          size="small"
+                          placeholder={"Warranty (Month)"}
+                          label={"Warranty (Month)"}
+                          name="warranty"
+                          variant="outlined"
+                          InputProps={{
+                            inputComponent: NumberFormatCustom,
+                          }}
+                          sx={{
+                            width: "40%",
+                          }}
                         />
                       </Box>
                     </Grid>

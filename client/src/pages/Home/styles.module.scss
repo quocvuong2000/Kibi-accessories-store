@@ -69,22 +69,32 @@
     overflow: hidden;
   }
   @include mobile {
-    .carousel,
-    .categories,
-    .monthlyDeal,
-    .recentsNew,
-    .featured,
-    .testimonial,
-    .instagram,
+    .carousel {
+      min-height: 60vh;
+    }
+    .categories {
+      min-height: 60vh;
+    }
+
+    .videoBlog {
+      max-height: 70vh;
+    }
+
     .monthlyDeal {
-      min-height: 100vh;
+      min-height: 230vh;
     }
     .recentsNew {
-      margin-top: 50px;
-      min-height: 100vh;
+      margin: 0;
+      min-height: 80vh;
     }
-    .featured {
-      margin-top: 10rem;
+
+    .testimonial {
+      margin-top: 50px;
+      margin-bottom: 0;
+    }
+    .instagram {
+      min-height: 45vh;
+      height: 0;
     }
   }
 }

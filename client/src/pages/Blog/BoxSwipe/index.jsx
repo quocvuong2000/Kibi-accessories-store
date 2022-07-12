@@ -29,8 +29,8 @@ const BoxSwipe = () => {
       }}
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       modules={[EffectCube, Pagination, Autoplay]}
+      loopedSlides
       className={s.swiper}
-      loop={true}
     >
       {blogList?.map((item, index) => {
         return (

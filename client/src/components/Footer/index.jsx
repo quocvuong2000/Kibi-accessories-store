@@ -7,7 +7,8 @@ import {
   TwitterLogo,
   YoutubeLogo,
 } from "phosphor-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useWindowSize } from "../../customHook/useWindowSize";
 export const Footer = () => {
   const left = [
     {
@@ -83,6 +84,7 @@ export const Footer = () => {
   ];
 
   let navigate = useNavigate();
+  const [width, height] = useWindowSize();
 
   return (
     <div className={styles.container}>
@@ -107,28 +109,35 @@ export const Footer = () => {
             );
           })}
         </div>
+
         <div className={styles.footer__getintouch}>
-          <div className={styles.top__all}>
-            <p className={styles.footer__getintouch__title}>Get in touch</p>
-            <hr className={styles.line} />
-          </div>
-          {getInTouch.map((item, id) => {
-            return (
-              <div
-                className={`${styles.footer__getintouch__phone} ${
-                  id === 0 ? styles.mt27 : ""
-                }`}
-                key={id}
-              >
-                <p className={styles.footer__getintouch__phone__title}>
-                  {item.title}
-                </p>
-                <p className={styles.footer__getintouch__phone__desc}>
-                  {item.desc}
-                </p>
+          {width > 1024 ? (
+            <>
+              <div className={styles.top__all}>
+                <p className={styles.footer__getintouch__title}>Get in touch</p>
+                <hr className={styles.line} />
               </div>
-            );
-          })}
+              {getInTouch.map((item, id) => {
+                return (
+                  <div
+                    className={`${styles.footer__getintouch__phone} ${
+                      id === 0 ? styles.mt27 : ""
+                    }`}
+                    key={id}
+                  >
+                    <p className={styles.footer__getintouch__phone__title}>
+                      {item.title}
+                    </p>
+                    <p className={styles.footer__getintouch__phone__desc}>
+                      {item.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            ""
+          )}
 
           <div className={styles.footer__getintouch__icon}>
             <div
@@ -167,36 +176,50 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className={styles.footer__useful}>
-          <div className={styles.top__all}>
-            <p className={styles.footer__useful__title}>Useful Link</p>
-            <hr className={styles.line} />
-          </div>
-          <div className={styles.footer__useful__link}>
-            {useful.map((item, id) => {
-              return (
-                <p className={styles.footer__useful__link__item} key={id}>
-                  {item.name}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-        <div className={styles.footer__campaign}>
-          <div className={styles.top__all}>
-            <p className={styles.footer__campaign__title}>Campaign</p>
-            <hr className={styles.line} />
-          </div>
-          <div className={styles.footer__campaign__link}>
-            {campaign.map((item, id) => {
-              return (
-                <p className={styles.footer__campaign__link__item} key={id}>
-                  {item.name}
-                </p>
-              );
-            })}
-          </div>
-        </div>
+        {width > 1024 ? (
+          <>
+            <div className={styles.footer__useful}>
+              <div className={styles.top__all}>
+                <p className={styles.footer__useful__title}>Useful Link</p>
+                <hr className={styles.line} />
+              </div>
+              <div className={styles.footer__useful__link}>
+                {useful.map((item, id) => {
+                  return (
+                    <Link
+                      to={"#"}
+                      className={styles.footer__useful__link__item}
+                      key={id}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={styles.footer__campaign}>
+              <div className={styles.top__all}>
+                <p className={styles.footer__campaign__title}>Campaign</p>
+                <hr className={styles.line} />
+              </div>
+              <div className={styles.footer__campaign__link}>
+                {campaign.map((item, id) => {
+                  return (
+                    <Link
+                      to={"#"}
+                      className={styles.footer__campaign__link__item}
+                      key={id}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

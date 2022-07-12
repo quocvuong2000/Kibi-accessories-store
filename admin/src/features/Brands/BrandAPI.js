@@ -21,5 +21,35 @@ export const getBrandList = async (page) => {
 };
 
 //UPDATE BRAND
+export const doUpdateBrand = async (id,data) => {
+  const res = await callAPIWithToken({
+    url: `/api/brand/update/${id}`,
+    method: "PUT",
+    data : data
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};
 
 //DELETE BRAND
+export const doDeleteBrand = async (id) => {
+  const res = await callAPIWithToken({
+    url: `/api/brand/delete/${id}`,
+    method: "DELETE",
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};
+
+//GET RELATED PRODUCT
+export const doGetRelatedProduct = async (id) => {
+  const res = await callAPIWithToken({
+    url: `/api/product/brand/${id}`,
+    method: "GET",
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

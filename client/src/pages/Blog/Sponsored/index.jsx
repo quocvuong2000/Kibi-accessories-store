@@ -44,6 +44,20 @@ const Sponsored = () => {
         }}
         modules={[EffectCoverflow, Pagination]}
         className={s.swipe_spon}
+        breakpoints={{
+          640: {
+            width: 640,
+            slidesPerView: 1,
+          },
+          768: {
+            width: 768,
+            slidesPerView: 1,
+          },
+          1088: {
+            width: 1088,
+            slidesPerView: 2,
+          },
+        }}
       >
         <SwiperSlide>
           <NormalBlog />

@@ -13,6 +13,7 @@ import CategoryBlog from "../features/CategoryBlog";
 
 const Dashboard = React.lazy(() => import("../features/Dashboard"));
 const Error404 = React.lazy(() => import("../features/ErrorPages/Error404"));
+const Error403 = React.lazy(() => import ("../features/ErrorPages/Error403"));
 const Login = React.lazy(() => import("../features/Login"));
 
 //LOGIN PAGE

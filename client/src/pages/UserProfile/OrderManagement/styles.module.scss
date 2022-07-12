@@ -1,11 +1,6 @@
 @use "../../../sass/mixins" as *;
 .stepContainer {
   :global {
-    .ant-steps-vertical {
-      display: flex;
-      flex-direction: column;
-      row-gap: 20px;
-    }
     .ant-steps-item-icon {
       position: absolute;
       top: 12%;
@@ -22,6 +17,7 @@
     .ant-steps-item-content {
       background-color: #f8eee3;
       padding: 5px 110px 5px 40px;
+
       border-radius: 20px;
       .ant-steps-item-title {
         font-size: 20px;
@@ -81,6 +77,9 @@
         }
       }
       .ant-steps-item-content {
+        @include mobile {
+          padding: 5px 110px 5px 60px;
+        }
         background-color: #d84727;
         padding: 5px 110px 5px 40px;
         border-radius: 20px;
@@ -92,6 +91,18 @@
           }
         }
       }
+    }
+  }
+}
+
+:global {
+  .ant-steps-vertical {
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      row-gap: 30px;
+      padding-bottom: 30px;
+      margin-top: 30px;
     }
   }
 }

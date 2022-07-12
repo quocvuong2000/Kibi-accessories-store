@@ -9,6 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../Login/LoginSlice";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+
 const Sidebar = () => {
   const [selected, setSelected] = useState(0);
   const [expanded, setExpaned] = useState(true);
@@ -27,6 +29,7 @@ const Sidebar = () => {
       left: "-60%",
     },
   };
+  const deCodeToken = jwt_decode(Cookies.get("token"));
   return (
     <>
       <div
@@ -48,7 +51,20 @@ const Sidebar = () => {
             K<span>i</span>Bi
           </span>
         </div>
-
+        <div className={classes.accountInfo}>
+          <div className={classes.type}>
+            Hello,{" "}
+            <span>{deCodeToken.type === "admin" ? "Admin" : "Staff"}</span>
+          </div>
+          <div className={classes.role}>
+            Your current role
+            <span>
+              {deCodeToken.role === "none"
+                ? "none"
+                : `${deCodeToken.role} management`}
+            </span>
+          </div>
+        </div>
         <div className={classes.menu}>
           {SidebarData.map((item, index) => {
             return (

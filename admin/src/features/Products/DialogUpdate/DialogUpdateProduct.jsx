@@ -1,18 +1,16 @@
+import { UilTimesCircle } from "@iconscout/react-unicons";
 import {
   Alert,
   Avatar,
   Box,
-  Checkbox,
   DialogActions,
   Divider,
   FormControl,
-  FormControlLabel,
   Grid,
   ImageList,
   ImageListItem,
   InputLabel,
   MenuItem,
-  Select,
   Snackbar,
   StepLabel,
   Typography,
@@ -32,28 +30,24 @@ import {
 } from "firebase/storage";
 import { Form, Formik } from "formik";
 import * as React from "react";
+import { useState } from "react";
 import AppSelectField from "../../../@crema/core/AppFormComponents/AppSelectField";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
+import unknownUser from "../../../assets/images/product.png";
+import Apploader from "../../../components/AppLoader";
 import CHKditor from "../../../components/CHKditor/CHKditor";
+import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
+import { app } from "../../../firebase/firebase";
 import {
   ColorlibConnector,
   ColorlibStepIcon,
   descriptionSteps,
   steps,
 } from "../../../utils/addProductData";
-import { app } from "../../../firebase/firebase";
 import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
-import {
-  addNewProduct,
-  doGetDetailProduct,
-  doUpdateProduct,
-} from "../ProductAPI";
-import unknownUser from "../../../assets/images/product.png";
-import { UilTimesCircle } from "@iconscout/react-unicons";
-import Apploader from "../../../components/AppLoader";
-import { useState } from "react";
-import LinearProgressUpload from "../../../components/ProgressImageList/LinearProgress";
+import { doGetDetailProduct, doUpdateProduct } from "../ProductAPI";
+import NumberFormat from "react-number-format";
 export default function DialogUpdateProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -423,6 +417,11 @@ export default function DialogUpdateProduct(props) {
                                 label={"Sale%"}
                                 name="sale"
                                 variant="outlined"
+                                InputProps={{
+                                  inputProps: {
+                                    component: NumberFormat,
+                                  },
+                                }}
                                 sx={{
                                   width: "100%",
                                 }}

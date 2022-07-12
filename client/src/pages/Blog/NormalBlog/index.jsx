@@ -10,7 +10,7 @@ const NormalBlog = ({ item }) => {
     <div
       className={s.container}
       onClick={() => {
-        navigate(`/detailblog/${item._id}`);
+        navigate(`/detailblog/${item?._id}`);
       }}
     >
       <div className={s.image_blog}>

@@ -15,30 +15,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import moment from "moment";
 import * as React from "react";
+import { useState } from "react";
+import AppLoader from "../../../components/AppLoader";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { deleteCategory } from "../CategoryAPI";
+import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
+import { StyledMenu } from "../../../theme/styledMenu";
+import { deleteCategory, doGetProductRelatedCat } from "../CategoryAPI";
 import DialogUpdateCategory from "../DialogUpdate.jsx/DialogUpdateCategory";
 
-const makeStyle = (status) => {
-  if (status === "Approved") {
-    return {
-      background: "rgb(145 254 159 / 47%)",
-      color: "green",
-    };
-  } else if (status === "Pending") {
-    return {
-      background: "#ffadad8f",
-      color: "red",
-    };
-  } else {
-    return {
-      background: "#59bfff",
-      color: "white",
-    };
-  }
-};
-
 export default function CategoryList(props) {
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -52,6 +40,7 @@ export default function CategoryList(props) {
     delete: false,
     id: "",
   });
+  const [productRelated, setProductRelated] = useState(0);
   const handleChangePage = (_event, newPage) => {
     props.takePage(newPage + 1);
   };
@@ -65,56 +54,22 @@ export default function CategoryList(props) {
   };
 
   const handleDeleteCategory = () => {
-    deleteCategory(deleteDialog.id).then((res) => {
-      props.reLoadTable("delete" + Date.now());
-      setDeleteDialog({
-        delete: false,
-        id: "",
+    deleteCategory(deleteDialog.id)
+      .then(() => {
+        setSuccess(true);
+        setTimeout(() => {
+          props.reLoadTable("delete" + Date.now());
+          setDeleteDialog({
+            delete: false,
+            id: "",
+          });
+        }, 500);
+      })
+      .catch(() => {
+        setFailure(true);
       });
-    });
   };
 
-  const StyledMenu = styled((props) => (
-    <Menu
-      elevation={0}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "center",
-        horizontal: "top",
-      }}
-      {...props}
-    />
-  ))(({ theme }) => ({
-    "& .MuiPaper-root": {
-      borderRadius: 6,
-      marginTop: theme.spacing(1),
-      minWidth: 180,
-      color:
-        theme.palette.mode === "light"
-          ? "rgb(55, 65, 81)"
-          : theme.palette.grey[300],
-      boxShadow: " rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-      "& .MuiMenu-list": {
-        padding: "4px 0",
-      },
-      "& .MuiMenuItem-root": {
-        "& .MuiSvgIcon-root": {
-          fontSize: 18,
-          color: theme.palette.text.secondary,
-          marginRight: theme.spacing(1.5),
-        },
-        "&:active": {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            theme.palette.action.selectedOpacity
-          ),
-        },
-      },
-    },
-  }));
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -123,6 +78,7 @@ export default function CategoryList(props) {
   };
   return (
     <>
+      {loading && <AppLoader />}
       <div>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
@@ -136,7 +92,6 @@ export default function CategoryList(props) {
                 <TableCell>Category ID</TableCell>
                 <TableCell align="left">Category Name</TableCell>
                 <TableCell align="left">Update At</TableCell>
-                <TableCell align="left">Product Related</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
@@ -173,10 +128,20 @@ export default function CategoryList(props) {
                     >
                       <MenuItem
                         onClick={() => {
-                          setDeleteDialog({
-                            delete: true,
-                            id: idCateUpdate,
+                          setLoading(true);
+                          doGetProductRelatedCat(idCateUpdate).then((res) => {
+                            setProductRelated(res);
+
+                            setTimeout(() => {
+                              setDeleteDialog({
+                                delete: true,
+                                id: idCateUpdate,
+                              });
+                              setAnchorEl(null);
+                              setLoading(false);
+                            }, 500);
                           });
+
                           setAnchorEl(null);
                         }}
                         disableRipple
@@ -207,9 +172,6 @@ export default function CategoryList(props) {
                   <TableCell align="left">
                     {moment(row.updatedAt).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell align="left">
-                    <span style={makeStyle(row.status)}>N/A</span>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -228,8 +190,8 @@ export default function CategoryList(props) {
         show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
         hanldeAgree={handleDeleteCategory}
-        title={"Delete product"}
-        content={"Are you sure to delete"}
+        title={`This category has ${productRelated} product Related, Are you sure to delete?`}
+        content={`This will delete all the product related`}
       />
       {showUpdateModal && (
         <DialogUpdateCategory
@@ -240,6 +202,18 @@ export default function CategoryList(props) {
           categoryId={idCateUpdate}
         />
       )}
+      <SnackBarCustom
+        open={success}
+        setStateWhenClose={setSuccess}
+        label={"Delete category and all product related success"}
+        status={"success"}
+      />
+      <SnackBarCustom
+        open={failure}
+        setStateWhenClose={setFailure}
+        label={"Fail, please try again"}
+        status={"error"}
+      />
     </>
   );
 }

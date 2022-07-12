@@ -34,7 +34,7 @@ const UserProfile = () => {
         Home / <span className={s.url_main}>My Account</span>
       </p>
       <Tabs
-        tabPosition={width >= 1024 ? "left" : "top"}
+        tabPosition={width > 1024 ? "left" : "top"}
         defaultActiveKey={`${isActive}`}
         ac
       >

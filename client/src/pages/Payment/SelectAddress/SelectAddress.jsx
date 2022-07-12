@@ -27,9 +27,6 @@ const SelectAddress = ({
       : ""
   );
 
-  console.log("branchList:", branchList);
-  console.log("valueBranch:", valueBranch);
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -125,6 +122,7 @@ const SelectAddress = ({
                         ward={item?.ward}
                         district={item?.district}
                         city={item?.city}
+                        key={index}
                       >
                         <AddressItem item={item} key={index} />
                       </Radio>

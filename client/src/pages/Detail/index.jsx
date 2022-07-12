@@ -53,7 +53,6 @@ const Detail = () => {
         ) : (
           <p>Không có gì</p>
         )}
-        <Brand />
       </div>
     </>
   );

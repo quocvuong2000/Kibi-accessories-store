@@ -5,6 +5,7 @@ import classes from "./styles.module.scss";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { cancelOrder } from "../../../../api/Order";
+import { useWindowSize } from "../../../../customHook/useWindowSize";
 const OrderListItem = ({ orderItem, setReload, reload }) => {
   const statusCondition = () => {
     switch (orderItem && orderItem.status) {
@@ -26,6 +27,7 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
   };
 
   const [visible, setVisible] = useState(false);
+  const [width, height] = useWindowSize();
 
   const showPopconfirm = () => {
     setVisible(true);
@@ -53,7 +55,9 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
       >
         <Row className={classes.orderInfor}>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
               justifyContent: "flex-start",
@@ -71,11 +75,14 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
             </div>
           </Col>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: width >= 768 ? "flex-end" : "flex-start",
               alignItems: "center",
+              marginTop: width >= 768 ? "0" : "5px",
             }}
           >
             <div className={classes.code}>#{checkTypeItem(orderItem._id)}</div>
@@ -83,7 +90,9 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
         </Row>
         <Row className={classes.price}>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
               justifyContent: "flex-start",
@@ -98,11 +107,14 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
             </div>
           </Col>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: width >= 768 ? "flex-end" : "flex-start",
               alignItems: "center",
+              marginTop: width >= 768 ? "0" : "5px",
             }}
           >
             <div className={classes.code}>
@@ -112,7 +124,9 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
         </Row>
         <Row className={classes.price}>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
               justifyContent: "flex-start",
@@ -126,11 +140,14 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
             </div>
           </Col>
           <Col
-            span={12}
+            span={24}
+            lg={12}
+            sm={12}
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: width >= 768 ? "flex-end" : "flex-start",
               alignItems: "center",
+              marginTop: width >= 768 ? "0" : "5px",
             }}
           >
             <div className={classes.code}>

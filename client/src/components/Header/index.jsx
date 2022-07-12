@@ -37,6 +37,7 @@ const Header = () => {
   let navigate2 = useNavigate();
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
+  const [isLoading, setIsLoading] = useState(true);
   const handleSignOut = () => {
     Cookies.remove("tokenClient");
     localStorage.removeItem("persist:root");
@@ -168,7 +169,13 @@ const Header = () => {
 
   return (
     <div className={classes.container}>
-      <Cart visible={visible} aref={ref} setVisible={setVisible} />
+      <Cart
+        visible={visible}
+        aref={ref}
+        setVisible={setVisible}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.top}>
           <Link to={"/"} className={classes.logo}>

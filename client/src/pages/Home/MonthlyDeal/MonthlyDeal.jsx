@@ -17,7 +17,12 @@ const MonthlyDeal = () => {
       <div className={classes.title}>Monthly Deals</div>
       <div className={classes.listItem}>
         {product.products?.map((item, index) => {
-          return <ProductCardGrid data={item} key={index} />;
+          return (
+            <div className={classes.one_product} key={index}>
+              <ProductCardGrid data={item} />
+              &nbsp;
+            </div>
+          );
         })}
       </div>
     </div>

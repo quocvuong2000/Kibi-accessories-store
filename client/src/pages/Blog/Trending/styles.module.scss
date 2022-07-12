@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .container {
   margin-top: 100px;
   display: flex;
@@ -8,6 +9,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    @include tablet {
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      row-gap: 30px;
+    }
     .one_category {
       display: flex;
       position: relative;

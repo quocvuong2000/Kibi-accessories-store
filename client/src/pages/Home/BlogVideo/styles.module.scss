@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .contanier {
   display: flex;
   align-items: center;
@@ -6,11 +7,19 @@
   margin-top: 100px;
 
   .title {
+    padding: 0;
+    margin: 0;
     font-size: 60px;
     text-transform: uppercase;
+    @include mobile {
+      font-size: 35px;
+    }
   }
 
   video {
     transform: scale(0.8);
+    @include mobile {
+      transform: scale(0.3);
+    }
   }
 }
