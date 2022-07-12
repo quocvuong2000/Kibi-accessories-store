@@ -1,6 +1,9 @@
+@use "../../../sass/mixins" as *;
 .title {
   text-align: center;
-
+  @include tablet {
+    display: none;
+  }
   .tde {
     font-size: 18px;
     line-height: 20px;
@@ -88,16 +91,38 @@
     column-gap: 60px;
     align-items: flex-start;
 
+    @include tablet {
+      margin-top: 30px;
+      margin-left: 30px;
+    }
+    @include mobile {
+      margin-left: 10px;
+      margin-top: 10px;
+      column-gap: 20px;
+    }
+
     .image {
       max-width: 200px;
       max-height: 250px;
       min-width: 200px;
       min-height: 250px;
+      @include tablet {
+        max-width: 130px;
+        max-height: 150px;
+        min-width: 130px;
+        min-height: 150px;
+      }
       img {
         max-width: 200px;
         max-height: 250px;
         min-width: 200px;
         min-height: 250px;
+        @include tablet {
+          max-width: 130px;
+          max-height: 150px;
+          min-width: 130px;
+          min-height: 150px;
+        }
       }
     }
 

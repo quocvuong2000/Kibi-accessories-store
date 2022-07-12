@@ -1,6 +1,9 @@
+@use "../../../sass/mixins" as *;
 .title {
   text-align: center;
-
+  @include tablet {
+    display: none;
+  }
   .tde {
     font-size: 18px;
     line-height: 20px;
@@ -68,5 +71,8 @@
     column-gap: 30px;
     flex-wrap: wrap;
     row-gap: 30px;
+    @include tablet {
+      justify-content: space-evenly;
+    }
   }
 }

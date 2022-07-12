@@ -38,6 +38,21 @@ body {
   width: 100% !important;
 }
 
+:global {
+  .ant-radio-checked:after {
+    border: 1px solid #d84727 !important;
+  }
+  .ant-radio-inner {
+    border-color: #d84727 !important;
+  }
+  .ant-radio .ant-radio-checked {
+    color: #d84727 !important;
+  }
+  .ant-radio-inner:after {
+    background-color: #d84727 !important;
+  }
+}
+
 a {
   color: #333333;
 }

@@ -3,6 +3,7 @@
 .box__product {
   max-width: 1110px;
   height: 100%;
+
   p {
     margin: 0;
     padding: 0;
@@ -38,6 +39,11 @@
       font-size: 20px;
       line-height: 32px;
       color: #333333;
+    }
+    .box__product__desc {
+      max-height: 90px;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .box__product__voucher {
       margin-top: 2px;
@@ -76,7 +82,9 @@
       gap: 0 5px;
       margin-top: 10px;
       flex-direction: row-reverse;
-
+      @include mobile {
+        gap: 0 10px;
+      }
       svg {
         cursor: pointer;
         border: 1px solid #d84727;
@@ -91,6 +99,9 @@
         padding: 9px 60px;
         border: none;
         @include font(normal, 400, 16px, 24px, 0.02em);
+        @include mobile {
+          padding: 9px 30px;
+        }
       }
     }
   }

@@ -242,6 +242,9 @@
   }
   .ant-modal-content {
     width: 1110px;
+    @include tablet {
+      width: 100vw - 10vw;
+    }
   }
   .ant-modal-close {
     display: none;

@@ -9,7 +9,7 @@ const { TabPane } = Tabs;
 const AllInfo = (props) => {
   return (
     <div className={styles.container}>
-      <Tabs defaultActiveKey="1" centered>
+      <Tabs defaultActiveKey="1" centered tabPosition="top">
         <TabPane tab="Detail" key="1">
           <hr className={styles.line} />
 

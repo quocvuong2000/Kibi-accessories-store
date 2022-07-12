@@ -35,14 +35,13 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
     cancelOrder(id).then((res) => {
       if (res.status === 200) {
         setReload(!reload);
-        message.success("Delete success");
+        message.success("Cancel success");
       }
     });
     setVisible(false);
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 

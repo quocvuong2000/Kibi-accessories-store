@@ -1,5 +1,11 @@
+@use "../../../sass/mixins" as *;
 .stepContainer {
   :global {
+    .ant-steps-vertical {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
     .ant-steps-item-icon {
       position: absolute;
       top: 12%;
@@ -98,6 +104,10 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  @include tablet {
+    margin-left: 20px;
+    margin-top: 20px;
+  }
 
   &:hover {
     text-decoration: underline;

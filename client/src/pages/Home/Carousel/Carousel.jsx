@@ -9,6 +9,9 @@ import {
 } from "phosphor-react";
 import WaveAnimation from "../../../components/WaveAnimation";
 import { getThreeProduct } from "../HomeApi";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddToCart } from "../../../api/Cart";
+import { message } from "antd";
 const carouselData = [
   {
     display: "WAY KAMBAS MINI EBONY",
@@ -32,6 +35,9 @@ const carouselData = [
 
 const Carousel = () => {
   const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     getThreeProduct().then((res) => {
       setProductList(res.products);
@@ -77,7 +83,20 @@ const Carousel = () => {
                     eius et voluptatum officia, illum adipisci.
                   </div>
                   <div className={classes.btn}>
-                    <button className={classes.addToCart}>
+                    <button
+                      className={classes.addToCart}
+                      onClick={() => {
+                        if (user.currentUser) {
+                          handleAddToCart(
+                            dispatch,
+                            user.currentUser.username,
+                            item._id
+                          );
+                        } else {
+                          message.error("Please sign in");
+                        }
+                      }}
+                    >
                       <ShoppingCart size={20} weight="light" />
                       Add to cart
                     </button>

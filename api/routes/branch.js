@@ -9,8 +9,31 @@ const router = require("express").Router();
 
 //CREATE
 router.post("/", verifyTokenAndStaff, async (req, res) => {
-  const newBranch = new Branch(req.body);
-
+  const count = await Branch.find().count();
+  let newBranch;
+  if (count === 0) {
+    newBranch = new Branch({
+      districtId: req.body.districtId,
+      wardId: req.body.wardId,
+      cityId: req.body.cityId,
+      lat: req.body.lat,
+      long: req.body.long,
+      address: req.body.address,
+      shopId: req.body.shopId,
+      isDefault: true,
+    });
+  } else {
+    newBranch = new Branch({
+      districtId: req.body.districtId,
+      wardId: req.body.wardId,
+      cityId: req.body.cityId,
+      lat: req.body.lat,
+      long: req.body.long,
+      address: req.body.address,
+      shopId: req.body.shopId,
+      isDefault: false,
+    });
+  }
   try {
     const savedBranch = await newBranch.save();
     res.status(200).json(savedBranch);

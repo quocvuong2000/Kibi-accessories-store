@@ -50,12 +50,12 @@ callAPIWithToken.interceptors.response.use(
   (err) => {
     if (err.response && err.response.status === 401) {
       Cookies.remove("tokenClient");
-      <Navigate replace to="/login" />;
-      // redirect to login
+      window.location.href = "/login";
     }
 
     if (err.response && err.response.status === 403) {
-      <Navigate replace to="/403" />;
+      localStorage.removeItem("persist:root");
+      Cookies.remove("tokenClient");
     }
     return Promise.reject(err);
   }

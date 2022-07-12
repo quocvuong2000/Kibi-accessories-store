@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import AppLoader from '../../../components/AppLoader'
-import SnackBarCustom from '../../../components/SnackbarCustom/SnackBarCustom'
+import React, { useState } from "react";
+import AppLoader from "../../../components/AppLoader";
+import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,28 +8,26 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Form, Formik } from "formik";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
-import { Box } from '@mui/system';
+import { Box } from "@mui/system";
 const DialogUpdateBrand = (props) => {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const handleClose = (props) => {
+  const [loading, setLoading] = useState(false);
+  const handleClose = () => {
     props.handleShowDialog(false);
   };
 
   return (
     <>
       {loading && <AppLoader />}
-<Dialog open={props.showDialog} onClose={handleClose}>
+      <Dialog open={props.showDialog} onClose={handleClose}>
         <DialogTitle>ADD NEW BRAND</DialogTitle>
         <Formik
           validateOnChange={true}
           initialValues={{
             brandName: props.brandName || "",
           }}
-          onSubmit={async (values) => {
-
-          }}
+          onSubmit={async (values) => {}}
         >
           <Form noValidate autoComplete="off">
             <DialogContent>
@@ -54,7 +52,7 @@ const DialogUpdateBrand = (props) => {
           </Form>
         </Formik>
       </Dialog>
-     <SnackBarCustom
+      <SnackBarCustom
         open={success}
         setStateWhenClose={setSuccess}
         label={"Update Staff Success"}
@@ -67,7 +65,7 @@ const DialogUpdateBrand = (props) => {
         status={"error"}
       />
     </>
-  )
-}
+  );
+};
 
-export default DialogUpdateBrand
+export default DialogUpdateBrand;

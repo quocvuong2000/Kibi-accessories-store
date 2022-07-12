@@ -148,6 +148,9 @@
       padding: 0 20px;
       justify-content: space-evenly;
     }
+    @include mobile {
+      row-gap: 100px !important;
+    }
   }
 
   @include mobile {

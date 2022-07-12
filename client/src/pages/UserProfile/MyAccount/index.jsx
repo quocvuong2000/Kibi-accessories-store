@@ -226,11 +226,13 @@ const MyAccount = () => {
                     </h3>
                   </div>
                   <Row className={s.form_info}>
-                    <Col span={12}>
+                    <Col span={24} lg={12} sm={24}>
                       <p className={s.text_info}>Personal Information</p>
                       <Row className={s.avatar_name}>
                         <Col
-                          span={8}
+                          span={24}
+                          lg={8}
+                          sm={12}
                           style={{
                             display: "flex",
                             flexDirection: "column",
@@ -242,23 +244,11 @@ const MyAccount = () => {
                               <img
                                 src={user.currentUser?.avatar}
                                 alt="avatar"
-                                style={{
-                                  width: "120px",
-                                  height: "120px",
-                                  objectFit: "cover",
-                                }}
                               />
                             </div>
                           ) : (
                             <div>
-                              <img
-                                src={userPlaceholder}
-                                alt=""
-                                style={{
-                                  width: "120px",
-                                  height: "120px",
-                                }}
-                              />
+                              <img src={userPlaceholder} alt="" />
                             </div>
                           )}
                           <Upload
@@ -272,7 +262,7 @@ const MyAccount = () => {
                             {uploadButton}
                           </Upload>
                         </Col>
-                        <Col span={16}>
+                        <Col span={24} lg={16} sm={12}>
                           <FormAnt.Item
                             validateStatus={
                               Boolean(touched?.name && errors?.name)
@@ -313,48 +303,61 @@ const MyAccount = () => {
                           </FormAnt.Item>
                         </Col>
                       </Row>
-                      <FormAnt.Item
-                        validateStatus={
-                          Boolean(touched?.dob && errors?.dob)
-                            ? "error"
-                            : "success"
-                        }
-                        help={
-                          Boolean(touched?.dob && errors?.dob) && errors?.dob
-                        }
-                        initialValue={moment(user.currentUser?.dob, dateFormat)}
-                      >
-                        <Field name="dob">
+                      <div className={s.dob_gender}>
+                        <FormAnt.Item
+                          validateStatus={
+                            Boolean(touched?.dob && errors?.dob)
+                              ? "error"
+                              : "success"
+                          }
+                          help={
+                            Boolean(touched?.dob && errors?.dob) && errors?.dob
+                          }
+                          initialValue={moment(
+                            user.currentUser?.dob,
+                            dateFormat
+                          )}
+                        >
+                          <Field name="dob">
+                            {({ field }) => (
+                              <DatePicker
+                                format={dateFormat}
+                                onChange={(value, dateString) =>
+                                  setFieldValue("dob", dateString)
+                                }
+                                defaultValue={
+                                  user.currentUser?.dob
+                                    ? moment(user.currentUser?.dob, dateFormat)
+                                    : undefined
+                                }
+                              />
+                            )}
+                          </Field>
+                        </FormAnt.Item>
+
+                        <Field name="gender">
                           {({ field }) => (
-                            <DatePicker
-                              format={dateFormat}
-                              onChange={(value, dateString) =>
-                                setFieldValue("dob", dateString)
+                            <Select
+                              placeholder="select your gender"
+                              defaultValue={user.currentUser?.gender}
+                              onChange={(value) =>
+                                setFieldValue("gender", value)
                               }
-                              defaultValue={
-                                user.currentUser?.dob
-                                  ? moment(user.currentUser?.dob, dateFormat)
-                                  : undefined
-                              }
-                            />
+                            >
+                              <Option value="male">Male</Option>
+                              <Option value="female">Female</Option>
+                              <Option value="other">Other</Option>
+                            </Select>
                           )}
                         </Field>
-                      </FormAnt.Item>
-
-                      <Field name="gender">
-                        {({ field }) => (
-                          <Select
-                            placeholder="select your gender"
-                            defaultValue={user.currentUser?.gender}
-                            onChange={(value) => setFieldValue("gender", value)}
-                          >
-                            <Option value="male">Male</Option>
-                            <Option value="female">Female</Option>
-                            <Option value="other">Other</Option>
-                          </Select>
-                        )}
-                      </Field>
-
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          className={s.button_saveinfo_tablet}
+                        >
+                          Submit
+                        </Button>
+                      </div>
                       <FormAnt.Item
                         labelCol={{
                           span: 7,
@@ -371,7 +374,7 @@ const MyAccount = () => {
                       </FormAnt.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col span={24} lg={12} sm={24}>
                       <div className={s.full_content_right}>
                         <p className={s.text_info}>Phone and Email</p>
                         <div className={s.phone}>

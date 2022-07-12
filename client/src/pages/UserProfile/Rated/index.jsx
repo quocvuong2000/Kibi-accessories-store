@@ -37,7 +37,7 @@ const Rated = () => {
         setIsLoading(false);
       });
   }, []);
-  console.log("listComment:", listComment);
+
   return (
     <>
       {isLoading === true && <AppLoader />}

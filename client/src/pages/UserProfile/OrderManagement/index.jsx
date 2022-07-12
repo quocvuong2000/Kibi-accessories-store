@@ -4,6 +4,7 @@ import { CreditCard, FastForward, HandGrabbing, Truck } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AppLoader from "../../../components/AppLoader";
+import { useWindowSize } from "../../../customHook/useWindowSize";
 import OrderListItem from "./OrderListItem/OrderListItem";
 import { doGetListOrderByCustomer } from "./OrderManagementAPI";
 import classes from "./styles.module.scss";
@@ -48,7 +49,7 @@ const OrderManagement = () => {
         setLoading(false);
       });
   }, [user.currentUser.username, currentStatus, reload]);
-
+  const [width, height] = useWindowSize();
   const fetchNext = () => {
     setPage(page + 1);
     doGetListOrderByCustomer(page + 1, currentStatus, user.currentUser.username)
@@ -65,7 +66,11 @@ const OrderManagement = () => {
   };
   return (
     <div>
-      <Steps current={current} onChange={onChange}>
+      <Steps
+        direction={width >= 768 ? "horizontal" : "vertical"}
+        current={current}
+        onChange={onChange}
+      >
         <Step
           className={`${classes.stepContainer} ${
             current === 0 && classes.active

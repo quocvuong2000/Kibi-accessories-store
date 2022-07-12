@@ -52,7 +52,7 @@ const ProductView = (props) => {
         </span>
       </p>
       <div className={styles.frame_product}>
-        <Col span={7} lg={7} sm={24} className={styles.preview_product}>
+        <Col span={24} lg={7} sm={24} className={styles.preview_product}>
           <div
             className={`${styles.img_main} ${show === true ? styles.show : ""}`}
             onAnimationEnd={handleAnimation}
@@ -83,7 +83,7 @@ const ProductView = (props) => {
         </Col>
 
         <Col
-          span={17}
+          span={24}
           lg={17}
           sm={24}
           className={styles.frame_info_product}

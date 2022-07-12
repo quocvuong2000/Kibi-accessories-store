@@ -5,6 +5,7 @@
   padding: 0 165px;
   max-width: 1440px;
   margin: 0 auto;
+
   :global {
     .ant-tabs {
       width: fit-content;
@@ -54,6 +55,9 @@
     }
     .ant-tabs-tabpane {
       width: 1110px;
+      @include mobile {
+        max-width: 100vw;
+      }
     }
   }
 }
@@ -75,6 +79,10 @@ p {
   flex-direction: column;
   row-gap: 8px;
   padding: 0 30px;
+
+  @include mobile {
+    align-items: center;
+  }
 }
 
 .title {
@@ -96,7 +104,7 @@ p {
 @include tablet {
   .container {
     margin-top: 76px !important;
-    padding: 0 20px;
+    padding: 0;
     max-width: 100vw !important;
   }
   .info {
@@ -111,5 +119,11 @@ p {
     .ant-tabs {
       width: unset;
     }
+  }
+}
+
+@include mobile {
+  .container {
+    padding: 0;
   }
 }

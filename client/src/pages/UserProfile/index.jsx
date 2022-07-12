@@ -10,6 +10,8 @@ import {
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useWindowSize } from "../../customHook/useWindowSize";
+
 import Address from "./Address";
 import MyAccount from "./MyAccount";
 import OrderManagement from "./OrderManagement";
@@ -21,7 +23,7 @@ import Wistlist from "./Wishlist";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
-
+  const [width, height] = useWindowSize();
   const [isActive, setIsActive] = useState(active);
   useEffect(() => {
     setIsActive(active);
@@ -31,7 +33,11 @@ const UserProfile = () => {
       <p className={s.url}>
         Home / <span className={s.url_main}>My Account</span>
       </p>
-      <Tabs tabPosition="left" defaultActiveKey={`${isActive}`} ac>
+      <Tabs
+        tabPosition={width >= 1024 ? "left" : "top"}
+        defaultActiveKey={`${isActive}`}
+        ac
+      >
         <TabPane
           tab={
             <div className={s.tab}>

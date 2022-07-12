@@ -111,8 +111,8 @@ export default function BrandList(props) {
                       <MenuItem
                         disableRipple
                         onClick={() => {
-                          setShowUpdateModal(true);
                           setBrandName(brandNameTemp);
+                          setShowUpdateModal(true);
                           setAnchorEl(null);
                         }}
                       >

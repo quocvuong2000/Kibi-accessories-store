@@ -1,9 +1,13 @@
+@use "../../../sass/mixins" as *;
 .tde {
   font-size: 18px;
   line-height: 20px;
   text-transform: uppercase;
   display: flex;
   margin-left: 70px;
+  @include tablet {
+    display: none;
+  }
 
   span {
     width: 270px;
@@ -50,6 +54,10 @@
   align-items: center;
   padding-bottom: 50px;
   margin-top: 70px;
+
+  @include tablet {
+    margin-top: 0;
+  }
 
   .box_voucher {
     display: flex;

@@ -1,8 +1,14 @@
+@use "../../../../sass/mixins" as *;
 .container {
   display: flex;
   flex-direction: row;
   column-gap: 20px;
   align-items: center;
+  @include tablet {
+    flex-direction: column;
+    padding: 10px;
+  }
+
   .button_remove {
     background-color: #d84727;
     color: #fff;

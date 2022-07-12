@@ -14,6 +14,9 @@
     margin-bottom: 20px;
 
     .title {
+      @include tablet {
+        display: none;
+      }
       text-align: center;
 
       .tde {
@@ -75,6 +78,12 @@
         text-align: unset;
       }
 
+      .ant-picker {
+        @include tablet {
+          width: 100%;
+        }
+      }
+
       .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
       .ant-input-affix-wrapper-focused,
       .ant-picker-focused,
@@ -100,17 +109,34 @@
 
     .form_info {
       background: #fff;
-      padding: 20px;
+      padding: 40px;
       border-radius: 10px;
 
       .text_info {
         margin-top: 20px;
         font-size: 20px;
+        @include tablet {
+          margin-top: 0;
+        }
       }
 
       .avatar_name {
+        @include tablet {
+          margin-top: 30px;
+        }
         display: flex;
         align-items: center;
+
+        img {
+          width: 120px;
+          height: 120px;
+
+          @include tablet {
+            width: 180px;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
       }
 
       .input_name {
@@ -131,6 +157,9 @@
 
       .full_content_right {
         margin-left: 50px;
+        @include tablet {
+          margin-left: 0;
+        }
       }
 
       .phone,
@@ -191,6 +220,32 @@
   cursor: pointer;
 }
 
+.button_saveinfo_tablet,
+.button_saveinfo_tablet:hover,
+.button_saveinfo_tablet:focus {
+  display: none;
+  @include tablet {
+    display: block;
+    @include flex();
+
+    background-color: #d84727;
+    border: 1px solid #d84727;
+    border-radius: 7px;
+  }
+  @include mobile {
+    margin-top: 10px;
+  }
+}
+
+.dob_gender {
+  display: flex;
+  flex-direction: column;
+
+  @include tablet {
+    row-gap: 10px;
+  }
+}
+
 .button_saveinfo,
 .button_saveinfo:hover,
 .button_saveinfo:focus {
@@ -199,6 +254,9 @@
   background-color: #d84727;
   border: 1px solid #d84727;
   border-radius: 7px;
+  @include tablet {
+    display: none;
+  }
 }
 
 .button_saveinfo span {
