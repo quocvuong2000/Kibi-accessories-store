@@ -197,3 +197,8 @@
   cursor: pointer;
   font-weight: 700;
 }
+
+.rating_box {
+  display: flex !important;
+  flex-direction: column !important;
+}

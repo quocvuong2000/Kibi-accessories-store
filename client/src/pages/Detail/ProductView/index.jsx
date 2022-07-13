@@ -8,6 +8,7 @@ import imgError from "../../../assets/imgDefault.webp";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import styles from "./styles.module.scss";
 import { useWindowSize } from "../../../customHook/useWindowSize";
+import { Link } from "react-router-dom";
 
 const ProductView = (props) => {
   const [src, setSrc] = useState(props.data.product.images[0]);
@@ -166,7 +167,12 @@ const ProductView = (props) => {
                 </button>
               )}
 
-              <button className={styles.buy_now}>Watch more</button>
+              <Link
+                to={`/viewall/${props.data.product.category}`}
+                className={styles.buy_now}
+              >
+                Watch more
+              </Link>
             </Row>
           </Col>
         </Col>

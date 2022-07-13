@@ -319,7 +319,19 @@
       top: 120px;
     }
     .navListContainer {
+      @include mobile {
+        height: 100%;
+
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+      }
       .navList {
+        @include mobile {
+          justify-content: space-evenly;
+          height: 100%;
+          padding-top: 0;
+        }
         display: flex;
         align-items: center;
         flex-direction: column;

@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .container {
   :global {
     .ant-modal {
@@ -13,6 +14,9 @@
   align-items: center;
   justify-content: flex-start;
   row-gap: 30px;
+  @include tablet {
+    width: 100%;
+  }
 
   .title {
     font-family: "Taviraj";
@@ -24,11 +28,21 @@
     letter-spacing: 0.02em;
     color: #333333;
     margin-bottom: 20px;
+
+    @include mobile {
+      font-size: 25px;
+    }
   }
   .information {
     display: flex;
     justify-content: center;
     column-gap: 30px;
+    @include tablet {
+      width: 100%;
+      align-items: center;
+      flex-direction: column;
+      row-gap: 70px;
+    }
     .left {
       display: flex;
       flex-direction: column;
@@ -36,6 +50,10 @@
       height: 600px;
       width: 540px;
       row-gap: 30px;
+      @include mobile {
+        width: 100vw;
+        padding: 0 20px;
+      }
       .detailOrder {
         height: 308px;
         background: #fff;
@@ -52,6 +70,9 @@
             /* or 250% */
             letter-spacing: 0.03em;
             color: #333333;
+            @include mobile {
+              font-size: 16px;
+            }
           }
           .select_voucher {
             color: #d84727;
@@ -82,6 +103,9 @@
               /* or 250% */
               letter-spacing: 0.03em;
               color: #333333;
+              @include mobile {
+                font-size: 16px;
+              }
             }
             .price {
               font-family: "Taviraj";
@@ -92,6 +116,9 @@
               /* identical to box height, or 167% */
               letter-spacing: 0.03em;
               color: #333333;
+              @include mobile {
+                font-size: 20px;
+              }
             }
           }
         }
@@ -167,6 +194,10 @@
       display: flex;
       flex-direction: column;
       row-gap: 30px;
+      @include mobile {
+        width: 100vw;
+        padding: 0 20px;
+      }
 
       .orderDetail {
         .orderContent {
@@ -182,6 +213,9 @@
             /* identical to box height, or 160% */
             letter-spacing: 0.02em;
             color: #333333;
+            @include mobile {
+              font-size: 16px;
+            }
             .OrderNumber {
               display: flex;
               flex-direction: column;
@@ -237,6 +271,9 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
+    @include mobile {
+      max-width: 100vw;
+    }
     .btn {
       display: flex;
       justify-content: center;
@@ -256,6 +293,10 @@
         letter-spacing: 0.03em;
         color: #ffffff;
         padding: 10px 20px;
+        @include mobile {
+          font-size: 16px;
+          padding: 10px 10px;
+        }
       }
     }
   }

@@ -209,7 +209,11 @@ const Header = () => {
           <Link to={"/"} className={classes.logo}>
             <img src={logo} alt="" />
           </Link>
-          <Space direction="vertical" align="center" className={classes.searchContainer}>
+          <Space
+            direction="vertical"
+            align="center"
+            className={classes.searchContainer}
+          >
             <Search
               placeholder="Search products, accessory, etc..."
               required={true}

@@ -7,9 +7,6 @@
 
   .carousel {
     height: 80vh;
-    @include tablet {
-      height: 40vh;
-    }
   }
 
   .categories {
@@ -20,6 +17,7 @@
   }
 
   .videoBlog {
+    margin-top: 10rem;
     height: 140vh;
     display: flex;
     justify-content: center;
@@ -66,7 +64,7 @@
     }
 
     .monthlyDeal {
-      min-height: unset;
+      min-height: 110vh;
     }
     .recentsNew {
       margin: 0;
@@ -80,7 +78,7 @@
       height: unset;
     }
     .instagram {
-      min-height: 22vh;
+      min-height: 50vh;
       height: 0;
       margin-top: 100px;
     }
@@ -95,18 +93,19 @@
 
     .videoBlog {
       max-height: 70vh;
+      margin-top: 20rem;
     }
 
     .monthlyDeal {
       min-height: 230vh;
     }
     .recentsNew {
-      margin: 0;
+      margin-top: 3rem;
       min-height: 80vh;
     }
 
     .testimonial {
-      margin-top: 50px;
+      margin-top: 20rem;
       margin-bottom: 0;
     }
     .instagram {

@@ -10,9 +10,9 @@
     min-height: 350px;
     cursor: pointer;
     @include mobile {
-      max-width: 344px;
+      max-width: 300px;
       max-height: 200px;
-      min-width: 344px;
+      min-width: 300px;
       min-height: 200px;
     }
     img {
@@ -22,9 +22,9 @@
       min-height: 350px;
       object-fit: cover;
       @include mobile {
-        max-width: 344px;
+        max-width: 300px;
         max-height: 200px;
-        min-width: 344px;
+        min-width: 300px;
         min-height: 200px;
       }
     }

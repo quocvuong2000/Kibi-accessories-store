@@ -17,9 +17,9 @@
       min-height: 235px;
       object-fit: cover;
       @include mobile {
-        max-width: 355px;
+        max-width: 320px;
         max-height: 235px;
-        min-width: 355px;
+        min-width: 320px;
         min-height: 235px;
       }
     }

@@ -39,7 +39,7 @@ const Confirmation = (props) => {
         setServiceId(res.data.data[0].service_id);
       }
     });
-  }, []);
+  }, [props.from]);
 
   useEffect(() => {
     if (parseInt(props.addressSelected?.city) !== props.provinceId) {

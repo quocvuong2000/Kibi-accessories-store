@@ -40,14 +40,16 @@
         position: relative;
         width: 30%;
         height: 100%;
-        animation: watch 2s infinite linear alternate;
+        animation: 2s watch 5s infinite linear alternate;
+
         img {
           position: absolute;
-          left: 0;
+          left: 70px;
           top: 25%;
-          width: 325px;
+          width: 350px;
           height: 467px;
           object-fit: cover;
+          transform: rotate(5deg);
         }
         @include tablet {
           width: 250px;
@@ -179,19 +181,19 @@
 
 @keyframes watch {
   0% {
-    transform: rotate(5deg);
+    transform: rotate(6deg);
   }
   5% {
-    transform: rotate(-10deg);
-  }
-  7% {
-    transform: rotate(-20deg);
+    transform: rotate(3deg);
   }
   10% {
-    transform: rotate(-10deg);
+    transform: rotate(6deg);
   }
-  50%,
+  45% {
+    transform: rotate(5deg);
+  }
+
   100% {
-    transform: rotate(-10deg);
+    transform: rotate(5deg);
   }
 }

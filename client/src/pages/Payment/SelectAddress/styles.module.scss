@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .branchList {
   display: flex;
   flex-direction: row;
@@ -24,6 +25,10 @@
 
 .addressSelectContainer {
   margin-top: 50px;
+  @include tablet {
+    display: flex;
+    flex-direction: column;
+  }
   :global {
     .ant-radio-wrapper {
       box-sizing: border-box;
@@ -49,6 +54,12 @@
     height: 335px;
     overflow-y: auto;
     overflow-x: hidden;
+    @include tablet {
+      height: unset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .right {
     display: flex;
@@ -94,6 +105,9 @@
         /* identical to box height, or 160% */
         letter-spacing: 0.02em;
         color: #ffffff;
+        @include mobile {
+          padding: 14px 80px;
+        }
       }
     }
   }
@@ -102,7 +116,9 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-
+    @include tablet {
+      padding-bottom: 50px;
+    }
     button {
       background: #d84727;
       border: none;
@@ -116,6 +132,9 @@
       /* identical to box height, or 160% */
       letter-spacing: 0.02em;
       color: #ffffff;
+      @include mobile {
+        padding: 14px 80px;
+      }
     }
   }
 }

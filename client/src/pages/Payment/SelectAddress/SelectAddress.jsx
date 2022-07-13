@@ -108,7 +108,7 @@ const SelectAddress = ({
         </Radio.Group>
       )}
       <Row className={classes.addressSelectContainer}>
-        <Col span={12}>
+        <Col span={24} lg={12} md={24}>
           {address.length === 0 ? (
             <div className={classes.continue} onClick={() => showModal()}>
               <button>Create address</button>
@@ -150,7 +150,9 @@ const SelectAddress = ({
           )}
         </Col>
         <Col
-          span={12}
+          span={24}
+          lg={12}
+          md={24}
           style={{
             display: "flex",
             flexDirection: "column",

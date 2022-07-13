@@ -1,5 +1,5 @@
 import { useClickOutside } from "@mantine/hooks";
-import { Button, Dropdown, Menu, Radio } from "antd";
+import { Button, Dropdown, Menu, Radio, Rate } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
 import { DotsNine, Funnel, ListDashes } from "phosphor-react";
@@ -20,6 +20,7 @@ const ListProduct = (props) => {
   const [idBrand, setIdBrand] = useState("");
   const [visibleDropdown2, setVisibleDropdown2] = useState(false);
   const ref3 = useClickOutside(() => setVisibleDropdown2(false));
+  const [rating, setRating] = useState(0);
   const handleGrid = () => {
     setGlActive(false);
   };
@@ -30,6 +31,29 @@ const ListProduct = (props) => {
   function handleChange(checkedValues) {
     setValue(checkedValues.target.value);
   }
+
+  function handleChangeRating(e) {
+    setRating(e.target.value);
+    console.log("rating:", rating);
+  }
+
+  const fakeRating = [
+    {
+      id: "1",
+    },
+    {
+      id: "2",
+    },
+    {
+      id: "3",
+    },
+    {
+      id: "4",
+    },
+    {
+      id: "5",
+    },
+  ];
 
   const menu = (
     <Menu>
@@ -64,12 +88,30 @@ const ListProduct = (props) => {
       <p className={classes.title_filter} key={7}>
         Rating
       </p>
+      <Radio.Group
+        style={{ width: "100%" }}
+        className={classes.rating_box}
+        key={9}
+      >
+        {fakeRating.map((item, index) => {
+          return (
+            <Radio
+              key={index + 1}
+              checked={index + 1 === rating}
+              value={index + 1}
+              onChange={handleChangeRating}
+            >
+              {item.id} <Rate value={index + 1} />
+            </Radio>
+          );
+        })}
+      </Radio.Group>
       <Button
         key={8}
         className={classes.submit_filter}
         onClick={() => {
           setVisibleDropdown2(false);
-          props.handleFilter("", idBrand, range[0], range[1], "");
+          props.handleFilter("", idBrand, range[0], range[1], rating);
         }}
       >
         Submit

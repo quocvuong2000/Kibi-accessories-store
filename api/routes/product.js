@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   try {
@@ -112,7 +112,7 @@ router.get("/:idCate", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ category: req.params.idCate } };
@@ -162,7 +162,7 @@ router.get("/brand/:idBrand", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ brand: req.params.idBrand } };
