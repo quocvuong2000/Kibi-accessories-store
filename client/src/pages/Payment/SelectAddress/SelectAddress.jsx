@@ -16,7 +16,7 @@ const SelectAddress = ({
   reload,
   setReload,
   branchList,
-  handleGetShopId,
+  handleGetBranchId,
 }) => {
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
@@ -27,6 +27,12 @@ const SelectAddress = ({
     branchList?.branches?.length !== 0
       ? branchList?.branches?.find((el) => el.isDefault === true)?._id
       : {}
+  );
+
+  const [branchName, setBranchName] = useState(
+    branchList?.branches?.length !== 0
+      ? branchList?.branches?.find((el) => el.isDefault === true)?.address
+      : ""
   );
 
   console.log("valueBranch:", valueBranch);
@@ -41,6 +47,7 @@ const SelectAddress = ({
 
   const onChangeBranch = (e) => {
     setValueBranch(e.target.value);
+    setBranchName(e.target.name);
   };
 
   const handleCreateAddress = (
@@ -97,7 +104,7 @@ const SelectAddress = ({
         >
           {branchList?.branches?.map((item, index) => {
             return (
-              <Radio value={item?._id} key={index}>
+              <Radio value={item?._id} key={index} name={item?.address}>
                 <div className={classes.address_branch}>
                   <House size={40} weight="fill" color="#d84727" />
                   <p>{item.address}</p>
@@ -141,7 +148,7 @@ const SelectAddress = ({
                 className={classes.continue}
                 onClick={() => {
                   hanldeSelectAddress(value);
-                  handleGetShopId(valueBranch);
+                  handleGetBranchId(valueBranch, branchName);
                 }}
               >
                 <button>Continue payment</button>

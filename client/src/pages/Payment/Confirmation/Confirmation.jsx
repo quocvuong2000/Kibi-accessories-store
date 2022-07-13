@@ -146,7 +146,10 @@ const Confirmation = (props) => {
             <div className={classes.contentItem}>
               <div className={classes.display}>SubTotal</div>
               <div className={classes.price}>
-                {numberWithCommas(orderDetail.totalPrice)} VND
+                {numberWithCommas(
+                  orderDetail.totalPrice - orderDetail.shippingPrice
+                )}{" "}
+                VND
               </div>
             </div>
             <div className={classes.contentItem}>
@@ -164,10 +167,7 @@ const Confirmation = (props) => {
             <div className={classes.total}>
               <div className={classes.display}>Grand Total</div>
               <div className={classes.price}>
-                {numberWithCommas(
-                  orderDetail.totalPrice + orderDetail.shippingPrice
-                )}{" "}
-                VND
+                {numberWithCommas(orderDetail.totalPrice)} VND
               </div>
             </div>
             {/* <div className={classes.contentAddress}>

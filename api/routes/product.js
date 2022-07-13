@@ -209,6 +209,18 @@ router.get("/search/:kw", async (req, res) => {
   }
 });
 
+//GET ALL
+router.get("/getall/all", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json({
+      products,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET PRODUCT BY ID -> DETAIL
 router.get("/get/:id", async (req, res) => {
   const product = await Product.findById(req.params.id);

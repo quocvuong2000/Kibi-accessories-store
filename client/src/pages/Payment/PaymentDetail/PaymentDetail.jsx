@@ -170,7 +170,8 @@ const PaymentDetail = (props) => {
       props.hanldeLoading(true);
       const data = {
         tokenId: token.id,
-        amount:
+        amount: props.cart.numberCart,
+        totalPrice:
           props.cart.totalPrice + shippingCost - salePrice > 0
             ? props.cart.totalPrice + shippingCost - salePrice
             : 0,
@@ -180,6 +181,8 @@ const PaymentDetail = (props) => {
         recipientName: props.address[0].recipientName,
         recipientPhone: props.address[0].recipientPhone,
         shippingPrice: shippingCost,
+        branchId: props.branchId,
+        branchName: props.branchName,
       };
       doCheckoutByCard(data)
         .then((res) => {
@@ -217,6 +220,13 @@ const PaymentDetail = (props) => {
       recipientName: currentRecipientName,
       recipientPhone: currentRecipientPhone,
       shippingPrice: shippingCost,
+      branchId: props.branchId,
+      branchName: props.branchName,
+      amount: props.cart.numberCart,
+      totalPrice:
+        props.cart.totalPrice + shippingCost - salePrice > 0
+          ? props.cart.totalPrice + shippingCost - salePrice
+          : 0,
     };
     doCheckoutByCod(data)
       .then((res) => {
@@ -271,7 +281,8 @@ const PaymentDetail = (props) => {
           if (res.statusCode === 200) {
             if (res.data === signature) {
               const datasecond = {
-                amount:
+                amount: props.cart.numberCart,
+                totalPrice:
                   props.cart.totalPrice + shippingCost - salePrice > 0
                     ? props.cart.totalPrice + shippingCost - salePrice
                     : 0,
@@ -281,6 +292,8 @@ const PaymentDetail = (props) => {
                 recipientName: props.address[0].recipientName,
                 recipientPhone: props.address[0].recipientPhone,
                 shippingPrice: shippingCost,
+                branchId: props.branchId,
+                branchName: props.branchName,
               };
               updateOrder(datasecond)
                 .then((res) => {

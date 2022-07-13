@@ -178,7 +178,7 @@ const Login = () => {
                       callback={responseFacebook}
                       render={(renderProps) => (
                         <Link
-                          to="#"
+                          to={"#"}
                           className={styles.social}
                           onClick={renderProps.onClick}
                         >

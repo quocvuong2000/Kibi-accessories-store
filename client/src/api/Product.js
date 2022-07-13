@@ -59,3 +59,10 @@ export const getLimitProduct = async (count) => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const getAllProductNoPage = async () => {
+  const res = await jwtAxios.get(`/api/product/getall/all`);
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

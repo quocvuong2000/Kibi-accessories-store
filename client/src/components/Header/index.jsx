@@ -22,33 +22,53 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllProductCart } from "../../api/Cart";
 import { getAllCategory } from "../../api/Category";
+import { getAllProductNoPage } from "../../api/Product";
 import logo from "../../assets/header/image 5.svg";
-import { setAuthToken } from "../../services/jwt-axios";
+import placeholderAvatar from "../../assets/user_avatar.jpg";
 import formatName from "../../utils/formatName";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
-import placeholderAvatar from "../../assets/user_avatar.jpg";
+import { AutoComplete } from "antd";
 const { Search } = Input;
+const { Option } = AutoComplete;
+const token =
+  typeof Cookies.get("tokenClient") !== "undefined"
+    ? Cookies.get("tokenClient")
+    : "";
 
 const Header = () => {
   let navigate2 = useNavigate();
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(true);
+  const [allProduct, setAllProduct] = useState([]);
+  const [allProductTemp, setAllProductTemp] = useState([]);
   const handleSignOut = () => {
     Cookies.remove("tokenClient");
     localStorage.removeItem("persist:root");
     navigate2("/login");
   };
+
+  if (token && token === "") {
+    localStorage.removeItem("persist:root");
+  }
+
+  useEffect(() => {
+    getAllProductNoPage().then((res) => {
+      setAllProduct(res.products);
+      setAllProductTemp(res.products);
+    });
+  }, []);
+
   const handleMenuClick = (e) => {
     setVisibleDropdown(false);
   };
   const handleVisibleChange = (flag) => {
     setVisible(flag);
   };
+
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key={1}>
@@ -137,6 +157,7 @@ const Header = () => {
   };
 
   let navigate = useNavigate();
+
   const onSearch = (value) => {
     var regex = /^[a-zA-Z]+$/;
     if (value && regex.test(value)) {
@@ -153,6 +174,15 @@ const Header = () => {
   const [visible, setVisible] = useState(false);
   const [visibleDropdown, setVisibleDropdown] = useState(false);
   const ref = useClickOutside(() => setVisible(false));
+  const options = allProductTemp.map((item, index) => {
+    return (
+      <Option key={item.product} value={item.product}>
+        {item.product}
+      </Option>
+    );
+  });
+
+  console.log("options:", options);
   // const ref2 = useClickOutside(() => setVisibleDropdown(false));
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -213,13 +243,31 @@ const Header = () => {
             direction="vertical"
             align="center"
             className={classes.searchContainer}
+            style={{ position: "relative" }}
           >
-            <Search
-              placeholder="Search products, accessory, etc..."
+            <AutoComplete
               required={true}
               onSearch={onSearch}
-              className={classes.search}
-            />
+              dataSource={options}
+              onChange={(value) => {
+                if (value !== "") {
+                  let res = [];
+                  allProduct?.forEach((element) => {
+                    element?.product
+                      .toLowerCase()
+                      .includes(value?.toLowerCase()) && res.push(element);
+                  });
+                  setAllProductTemp(res);
+                } else {
+                  setAllProductTemp(allProduct);
+                }
+              }}
+            >
+              <Search
+                className={classes.search}
+                placeholder="Search products, accessory, etc..."
+              ></Search>
+            </AutoComplete>
           </Space>
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
