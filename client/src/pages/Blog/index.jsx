@@ -14,6 +14,7 @@ const Blog = () => {
   const [width, height] = useWindowSize();
   useEffect(() => {
     document.title = "KIBI | Blog";
+    window.scrollTo(0, 0);
   }, []);
   return (
     <div className={s.blog}>

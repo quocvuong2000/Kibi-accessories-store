@@ -1,5 +1,10 @@
+@use "../../../sass/mixins" as *;
 .swiper {
   width: 355px;
   height: 355px;
   margin-top: 150px;
+  @include tablet {
+    max-width: calc(100vw - 100px);
+    width: unset;
+  }
 }

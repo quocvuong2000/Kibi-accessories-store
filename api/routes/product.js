@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   try {
@@ -112,7 +112,7 @@ router.get("/:idCate", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ category: req.params.idCate } };
@@ -162,7 +162,7 @@ router.get("/brand/:idBrand", async (req, res) => {
     query = { ...query, ...{ brand: qBrand } };
   }
   if (qRating) {
-    query = { ...query, ...{ totalRating: parseInt(qRating) } };
+    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ brand: req.params.idBrand } };
@@ -206,6 +206,18 @@ router.get("/search/:kw", async (req, res) => {
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+
+//GET ALL
+router.get("/getall/all", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json({
+      products,
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

@@ -5,6 +5,9 @@
   max-width: 1100px;
   margin: 0 auto;
   padding-bottom: 50px;
+  @include mobile {
+    overflow-x: hidden;
+  }
   &_img_main {
     margin-top: 50px;
     @include flex();

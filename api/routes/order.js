@@ -19,13 +19,16 @@ router.post("/create", async (req, res) => {
     email: req.body.email,
     products: cartByUser.products,
     totalProduct: req.body.totalProduct,
-    totalPrice: cartByUser.totalPrice,
+    totalPrice: req.body.totalPrice,
     address: req.body.address,
     recipientName: req.body.recipientName,
     recipientPhone: req.body.recipientPhone,
     shippingPrice: req.body.shippingPrice,
     status: "PENDING",
     paid: false,
+    branchId: req.body.branchId,
+    branchName: req.body.branchName,
+    amount: req.body.amount,
   });
 
   try {

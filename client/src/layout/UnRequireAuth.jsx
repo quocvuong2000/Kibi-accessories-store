@@ -26,6 +26,7 @@ const UnRequireAuth = ({ children }) => {
   return (
     <>
       <Header />
+
       {width > 1280 && <DotRing />}
       <div>{children}</div>
       <Brand />

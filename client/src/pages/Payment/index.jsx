@@ -25,6 +25,7 @@ const Payment = () => {
   const [reload, setReload] = useState(false);
   const [branchList, setBranchList] = useState([]);
   const [branchId, setBranchId] = useState("");
+  const [branchName, setBranchName] = useState("");
   const [shopId, setShopId] = useState(3064791);
   const [from, setFrom] = useState(1450);
   const [fromWard, setFromWard] = useState("20804");
@@ -47,16 +48,22 @@ const Payment = () => {
       })
       .catch(() => {
         message.error("Loading address fail, you must create one to continue");
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, [user.currentUser.username, navigate, reload]);
 
   useEffect(() => {
-    getAllBranch().then((res) => {
-      setBranchList(res);
-    });
+    getAllBranch()
+      .then((res) => {
+        setBranchList(res);
+      })
+      .catch(() => {
+        message.error(
+          "Loading branchlist fail, you must create one to continue"
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const handleTakeShopId = (id) => {
@@ -90,9 +97,11 @@ const Payment = () => {
       });
   };
 
-  const handleGetShopId = (shopid) => {
-    setBranchId(shopid);
+  const handleGetBranchId = (branchid, name) => {
+    setBranchId(branchid);
+    setBranchName(name);
   };
+
   //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
@@ -142,7 +151,7 @@ const Payment = () => {
                   reload={reload}
                   setReload={setReload}
                   branchList={branchList}
-                  handleGetShopId={handleGetShopId}
+                  handleGetBranchId={handleGetBranchId}
                 />
               )}
               {step === 1 && (
@@ -159,6 +168,7 @@ const Payment = () => {
                   handleTakeFrom={handleTakeFrom}
                   handleTakeFromWard={handleTakeFromWard}
                   handleTakeProvinceId={handleTakeProvinceId}
+                  branchName={branchName}
                 />
               )}
               {step === 2 && (
@@ -171,6 +181,7 @@ const Payment = () => {
                   from={from}
                   fromWard={fromWard}
                   provinceId={provinceId}
+                  branchName={branchName}
                 />
               )}
             </div>

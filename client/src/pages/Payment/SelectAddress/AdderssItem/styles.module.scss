@@ -8,6 +8,13 @@
   padding: 10px;
   border-radius: 8px;
   min-width: 480px;
+  @include tablet {
+    max-width: 300px;
+  }
+
+  @include mobile {
+    min-width: calc(100vw - 50px);
+  }
 }
 
 .name_user {

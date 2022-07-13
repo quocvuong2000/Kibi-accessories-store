@@ -28,7 +28,7 @@ const callAPIWithToken = axios.create({
 
 callAPIWithToken.interceptors.request.use(
   async (config) => {
-    const tok = await Cookies.get("tokenClient");
+    const tok = Cookies.get("tokenClient");
     config.headers = {
       Authorization: `Bearer ${tok}`,
       Accept: "application/json",

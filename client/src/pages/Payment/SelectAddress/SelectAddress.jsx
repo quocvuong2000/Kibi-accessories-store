@@ -16,16 +16,23 @@ const SelectAddress = ({
   reload,
   setReload,
   branchList,
-  handleGetShopId,
+  handleGetBranchId,
 }) => {
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
-  console.log("branchList:", branchList);
+  console.log("address:", address);
+  console.log("branchList:", branchList?.branches);
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
       ? branchList?.branches?.find((el) => el.isDefault === true)?._id
       : {}
+  );
+
+  const [branchName, setBranchName] = useState(
+    branchList?.branches?.length !== 0
+      ? branchList?.branches?.find((el) => el.isDefault === true)?.address
+      : ""
   );
 
   console.log("valueBranch:", valueBranch);
@@ -40,6 +47,7 @@ const SelectAddress = ({
 
   const onChangeBranch = (e) => {
     setValueBranch(e.target.value);
+    setBranchName(e.target.name);
   };
 
   const handleCreateAddress = (
@@ -88,24 +96,26 @@ const SelectAddress = ({
       >
         <UpdateAddress handle={handleCreateAddress} />
       </Modal>
-      <Radio.Group
-        value={valueBranch}
-        onChange={onChangeBranch}
-        className={classes.branchList}
-      >
-        {branchList?.branches?.map((item, index) => {
-          return (
-            <Radio value={item?._id} key={index}>
-              <div className={classes.address_branch}>
-                <House size={40} weight="fill" color="#d84727" />
-                <p>{item.address}</p>
-              </div>
-            </Radio>
-          );
-        })}
-      </Radio.Group>
+      {branchList?.branches?.length !== 0 && (
+        <Radio.Group
+          onChange={onChangeBranch}
+          value={valueBranch}
+          className={classes.branchList}
+        >
+          {branchList?.branches?.map((item, index) => {
+            return (
+              <Radio value={item?._id} key={index} name={item?.address}>
+                <div className={classes.address_branch}>
+                  <House size={40} weight="fill" color="#d84727" />
+                  <p>{item.address}</p>
+                </div>
+              </Radio>
+            );
+          })}
+        </Radio.Group>
+      )}
       <Row className={classes.addressSelectContainer}>
-        <Col span={12}>
+        <Col span={24} lg={12} md={24}>
           {address.length === 0 ? (
             <div className={classes.continue} onClick={() => showModal()}>
               <button>Create address</button>
@@ -138,7 +148,7 @@ const SelectAddress = ({
                 className={classes.continue}
                 onClick={() => {
                   hanldeSelectAddress(value);
-                  handleGetShopId(valueBranch);
+                  handleGetBranchId(valueBranch, branchName);
                 }}
               >
                 <button>Continue payment</button>
@@ -147,7 +157,9 @@ const SelectAddress = ({
           )}
         </Col>
         <Col
-          span={12}
+          span={24}
+          lg={12}
+          md={24}
           style={{
             display: "flex",
             flexDirection: "column",

@@ -17,12 +17,24 @@
       max-height: 130px;
       min-width: 130px;
       min-height: 130px;
+      @include mobile {
+        max-width: 80px;
+        max-height: 80px;
+        min-width: 80px;
+        min-height: 80px;
+      }
       @include flex();
       img {
         max-width: 130px;
         max-height: 130px;
         min-width: 130px;
         min-height: 130px;
+        @include mobile {
+          max-width: 80px;
+          max-height: 80px;
+          min-width: 80px;
+          min-height: 80px;
+        }
       }
     }
     &__info {
@@ -32,6 +44,9 @@
       .title {
         @include font(normal, 400, 20px, 24px, 0.02em);
         color: #333333;
+        @include mobile {
+          @include font(normal, 400, 16px, 24px, 0.02em);
+        }
       }
       .voucher {
         color: #777777;
@@ -50,6 +65,9 @@
       .price {
         color: #333333;
         @include font(normal, 600, 24px, 32px, 0.02em);
+        @include mobile {
+          @include font(normal, 600, 20px, 32px, 0.02em);
+        }
       }
       .detail {
         color: #555555;
@@ -61,6 +79,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @include mobile {
+      margin-left: 30px;
+    }
     &__select {
       color: #333333;
       @include font(normal, 500, 16px, 24px, 0.03em);
@@ -74,6 +95,7 @@
       padding: 9px 50px 9px 16px;
       color: #999999;
       @include font(normal, 500, 16px, 24px, 0.03em);
+
       &__item {
         padding: 9px 16px;
         color: #999999;
@@ -156,6 +178,9 @@
       .result {
         color: #333333;
         @include font(normal, 600, 24px, 32px, 0.02em);
+        @include mobile {
+          @include font(normal, 600, 20px, 32px, 0.02em);
+        }
       }
       .delete {
         cursor: pointer;
@@ -230,6 +255,9 @@
   margin: 40px 0;
   border: 0.3px solid #e5e5e5;
   border-top: none;
+  @include mobile {
+    margin: 20px 0;
+  }
 }
 
 :global {

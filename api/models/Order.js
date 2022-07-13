@@ -23,6 +23,8 @@ const OrderSchema = new mongoose.Schema(
     recipientName: { type: String },
     recipientPhone: { type: Number, required: true },
     paid: { type: Boolean },
+    branchId: { type: String },
+    branchName: { type: String },
   },
   { timestamps: true }
 );
