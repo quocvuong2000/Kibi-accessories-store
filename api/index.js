@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const http = require("http");
 const server = http.createServer(app);
+const subscriptionHandler = require("./services/subscriptionHandler");
 
 const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
@@ -61,6 +62,11 @@ app.use("/api/categoryblog", categoryBlogRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/branch", branchRoute);
 //TRIGGER
+app.post(
+  "/subscription",
+  subscriptionHandler.handlePushNotificationSubscription
+);
+app.get("/subscription/:id", subscriptionHandler.sendPushNotification);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

@@ -9,7 +9,7 @@ import {
   User,
 } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
 
 import Address from "./Address";
@@ -25,8 +25,10 @@ const UserProfile = () => {
   const { active } = useParams();
   const [width, height] = useWindowSize();
   const [isActive, setIsActive] = useState(active);
+  const location = useLocation();
   useEffect(() => {
     setIsActive(active);
+    window.scrollTo(0, 0);
   }, [active]);
   return (
     <div className={s.container}>

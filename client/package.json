@@ -37,6 +37,7 @@
     "react-image": "^4.0.3",
     "react-infinite-scroll-component": "^6.1.0",
     "react-input-emoji": "^4.1.0",
+    "react-intl": "^6.0.5",
     "react-otp-input": "^2.4.0",
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^8.0.1",

@@ -47,16 +47,22 @@ const Payment = () => {
       })
       .catch(() => {
         message.error("Loading address fail, you must create one to continue");
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, [user.currentUser.username, navigate, reload]);
 
   useEffect(() => {
-    getAllBranch().then((res) => {
-      setBranchList(res);
-    });
+    getAllBranch()
+      .then((res) => {
+        setBranchList(res);
+      })
+      .catch(() => {
+        message.error(
+          "Loading branchlist fail, you must create one to continue"
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const handleTakeShopId = (id) => {

@@ -46,7 +46,7 @@ export const getWard = async (districtId) => {
   return res;
 };
 
-const apiKey = "AIzaSyD9t0HiQP5aHm-gHIyFb1xHBIwrrg8jchw";
+const apiKey = "  ";
 export const getLatLong = async (address) => {
   const res = await axios.get(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`

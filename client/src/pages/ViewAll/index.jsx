@@ -33,6 +33,7 @@ const ViewAll = () => {
       .finally(() => {
         setLoading(false);
       });
+    window.scrollTo(0, 0);
   }, [idCate]);
 
   useEffect(() => {

@@ -16,6 +16,7 @@ const DetailBlog = () => {
   const [detail, setDetail] = useState([]);
   useEffect(() => {
     document.title = "KIBI | Detail Blog";
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {

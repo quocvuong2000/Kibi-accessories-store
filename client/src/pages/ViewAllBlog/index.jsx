@@ -21,6 +21,7 @@ const ViewAllBlog = () => {
       .catch(() => {
         message.error("Loading list blog fail");
       });
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const ViewAllBlog = () => {
       .catch(() => {
         message.error("Loading list blog fail");
       });
+    window.scrollTo(0, 0);
   }, []);
   console.log("blogList:", blogList);
   return (

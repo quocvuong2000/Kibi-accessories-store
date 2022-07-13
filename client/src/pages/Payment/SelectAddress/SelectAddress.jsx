@@ -21,7 +21,8 @@ const SelectAddress = ({
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
-  console.log("branchList:", branchList);
+  console.log("address:", address);
+  console.log("branchList:", branchList?.branches);
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
       ? branchList?.branches?.find((el) => el.isDefault === true)?._id
@@ -88,22 +89,24 @@ const SelectAddress = ({
       >
         <UpdateAddress handle={handleCreateAddress} />
       </Modal>
-      <Radio.Group
-        value={valueBranch}
-        onChange={onChangeBranch}
-        className={classes.branchList}
-      >
-        {branchList?.branches?.map((item, index) => {
-          return (
-            <Radio value={item?._id} key={index}>
-              <div className={classes.address_branch}>
-                <House size={40} weight="fill" color="#d84727" />
-                <p>{item.address}</p>
-              </div>
-            </Radio>
-          );
-        })}
-      </Radio.Group>
+      {branchList?.branches?.length !== 0 && (
+        <Radio.Group
+          onChange={onChangeBranch}
+          value={valueBranch}
+          className={classes.branchList}
+        >
+          {branchList?.branches?.map((item, index) => {
+            return (
+              <Radio value={item?._id} key={index}>
+                <div className={classes.address_branch}>
+                  <House size={40} weight="fill" color="#d84727" />
+                  <p>{item.address}</p>
+                </div>
+              </Radio>
+            );
+          })}
+        </Radio.Group>
+      )}
       <Row className={classes.addressSelectContainer}>
         <Col span={12}>
           {address.length === 0 ? (

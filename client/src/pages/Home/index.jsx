@@ -12,6 +12,7 @@ import Testimonial from "./Testimonial/Testimonial";
 const Home = () => {
   useEffect(() => {
     document.title = "KIBI | Home";
+    window.scrollTo(0, 0);
   }, []);
   return (
     <div className={classes.home}>
