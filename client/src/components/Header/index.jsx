@@ -162,6 +162,8 @@ const Header = () => {
     var regex = /^[a-zA-Z]+$/;
     if (value && regex.test(value)) {
       navigate(`/search/${value}`);
+    } else if (value === "") {
+      return;
     } else {
       openNotificationWithIcon("warning");
     }

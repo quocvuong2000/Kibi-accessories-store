@@ -11,7 +11,7 @@ export default function useMousePosition() {
     document.addEventListener("mousemove", mouseMoveHandler);
 
     return () => {
-      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mousemove", mouseMoveHandler, false);
     };
   }, []);
 

@@ -63,6 +63,7 @@
       padding: 13px 5px;
       background: #f8eee3;
       border-radius: 3px;
+      // position: fixed;
     }
     .ant-dropdown-arrow {
       background: #f8eee3;
@@ -72,7 +73,15 @@
     }
   }
 }
-
+:global {
+  .ant-select-dropdown {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    max-width: 468px !important;
+    min-width: unset !important;
+    position: fixed;
+  }
+}
 .container {
   overflow: hidden;
   display: flex;
@@ -162,6 +171,7 @@
       .search {
         width: 500px;
         text-align: center;
+        z-index: 1001;
       }
     }
     .bottom {
