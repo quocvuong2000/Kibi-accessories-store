@@ -139,6 +139,7 @@
       justify-content: space-between;
       align-items: center;
       .menu {
+        display: none;
         button {
           display: flex;
           align-items: center;
@@ -157,6 +158,10 @@
       }
       .authentication {
         display: flex;
+      }
+      .search {
+        width: 500px;
+        text-align: center;
       }
     }
     .bottom {
@@ -217,106 +222,81 @@
         background: white;
         padding: 10px;
         border-radius: 30px;
+        position: relative;
         cursor: pointer;
       }
     }
-    .tablet {
-      display: none;
-      width: 100vw;
-      padding: 0 10px;
+  }
+  @include tablet {
+    .headerContainer {
+      padding-left: 20px;
+      padding-right: 20px;
+      height: 120px;
+      &.shrink {
+        height: 120px;
+      }
+      .search {
+        width: 300px;
+      }
+    }
+  }
+  @include mobile {
+    .headerContainer {
       .top {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+
         .menu {
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          position: relative;
           button {
             display: flex;
             align-items: center;
             justify-content: center;
           }
         }
-        .logo {
-          width: 178px;
-          height: 22px;
-          display: block;
-          img {
+        .searchContainer {
+          display: flex;
+          justify-self: center;
+          width: 100%;
+          margin-top: 25px;
+          :global {
+            .ant-space-item {
+              width: 100%;
+              display: flex;
+              justify-self: center;
+              .ant-input-group {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .ant-input-group-addon {
+                  left: -12px;
+                  width: auto;
+                }
+              }
+            }
+          }
+          .search {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
           }
         }
+
         .authentication {
-          display: flex;
+          position: absolute;
+          right: 0;
+          top: 0px;
         }
-      }
-      .bottom {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-        .navListContainer {
-          display: flex;
-        }
-      }
-    }
-    .mobile {
-      display: none;
-      width: 100vw;
-      padding: 0 15px;
-      .top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         .logo {
-          width: 178px;
-          height: 22px;
-          display: block;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-        .authentication {
-          display: flex;
+          display: none;
         }
       }
       .bottom {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-      }
-    }
-    @include tablet {
-      .top,
-      .bottom {
         display: none;
-      }
-      .tablet {
-        opacity: 1;
-        visibility: visible;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-      }
-    }
-    @include mobile {
-      .tablet {
-        display: none;
-      }
-      .mobile {
-        display: flex;
-        flex-direction: column;
-      }
-    }
-  }
-  @include tablet {
-    .headerContainer {
-      height: 120px;
-      &.shrink {
-        height: 120px;
       }
     }
   }
@@ -421,3 +401,95 @@
     color: #d84727;
   }
 }
+
+// .tablet {
+//   display: none;
+//   width: 100vw;
+//   padding: 0 10px;
+//   .top {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     .menu {
+//       button {
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//       }
+//     }
+//     .logo {
+//       width: 178px;
+//       height: 22px;
+//       display: block;
+//       img {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+//     }
+//     .authentication {
+//       display: flex;
+//     }
+//   }
+//   .bottom {
+//     width: 100%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     margin-top: 20px;
+//     .navListContainer {
+//       display: flex;
+//     }
+//   }
+// }
+// .mobile {
+//   display: none;
+//   width: 100vw;
+//   padding: 0 15px;
+//   .top {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     .logo {
+//       width: 178px;
+//       height: 22px;
+//       display: block;
+//       img {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+//     }
+//     .authentication {
+//       display: flex;
+//     }
+//   }
+//   .bottom {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     margin-top: 20px;
+//   }
+// }
+// @include tablet {
+//   .top,
+//   .bottom {
+//     display: none;
+//   }
+//   .tablet {
+//     opacity: 1;
+//     visibility: visible;
+//     z-index: 2;
+//     display: flex;
+//     flex-direction: column;
+//   }
+// }
+// @include mobile {
+//   .tablet {
+//     display: none;
+//   }
+//   .mobile {
+//     display: flex;
+//     flex-direction: column;
+//   }
+// }

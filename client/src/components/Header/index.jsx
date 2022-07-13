@@ -178,15 +178,43 @@ const Header = () => {
       />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.top}>
+          <div className={classes.menu}>
+            <Button
+              onClick={toggleCollapsed}
+              danger
+              style={{
+                background: "#D84727",
+                border: "none",
+                borderRadius: "5px",
+                outline: "none",
+              }}
+            >
+              {collapsed ? (
+                <MenuUnfoldOutlined
+                  style={{
+                    color: "#fff",
+                    fontSize: "18px",
+                  }}
+                />
+              ) : (
+                <MenuFoldOutlined
+                  style={{
+                    color: "#fff",
+                    fontSize: "18px",
+                  }}
+                />
+              )}
+            </Button>
+          </div>
           <Link to={"/"} className={classes.logo}>
             <img src={logo} alt="" />
           </Link>
-          <Space direction="vertical" align="start">
+          <Space direction="vertical" align="center" className={classes.searchContainer}>
             <Search
               placeholder="Search products, accessory, etc..."
               required={true}
               onSearch={onSearch}
-              style={{ width: 500, textAlign: "center" }}
+              className={classes.search}
             />
           </Space>
           <div className={classes.authentication}>
@@ -257,104 +285,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-        {/* TABLET */}
-        <div className={classes.tablet}>
-          <div className={classes.top}>
-            <div className={classes.logo}>
-              <img src={logo} alt="" />
-            </div>
-            <Space direction="vertical" align="start">
-              <Search
-                placeholder="Search products, accessory, etc..."
-                onSearch={onSearch}
-                style={{ width: 400, textAlign: "center" }}
-              />
-            </Space>
-            <div className={classes.authentication}>
-              <div className={classes.login}>
-                <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>
-                  {user.currentUser ? user.currentUser.name : "Log In"}
-                </div>
-              </div>
-              <div
-                className={classes.shopingCart}
-                onClick={() => setVisible(true)}
-              >
-                <Handbag size={25} color="#000" weight="thin" />
-              </div>
-            </div>
-          </div>
-          <div className={classes.bottom}>
-            <div className={classes.navListContainer}>
-              <div className={classes.navList}>
-                {category.categories?.map((item, index) => {
-                  return (
-                    <Link
-                      to={`/viewall/${item._id}`}
-                      key={index}
-                      className={classes.navItem}
-                    >
-                      {item.category}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* ------ */}
-        {/* MOBILE */}
-        <div className={classes.mobile}>
-          <div className={classes.top}>
-            <div className={classes.menu}>
-              <Button
-                onClick={toggleCollapsed}
-                danger
-                style={{
-                  background: "#D84727",
-                  border: "none",
-                  borderRadius: "5px",
-                  outline: "none",
-                }}
-              >
-                {collapsed ? (
-                  <MenuUnfoldOutlined
-                    style={{
-                      color: "#fff",
-                      fontSize: "18px",
-                    }}
-                  />
-                ) : (
-                  <MenuFoldOutlined
-                    style={{
-                      color: "#fff",
-                      fontSize: "18px",
-                    }}
-                  />
-                )}
-              </Button>
-            </div>
-            <div className={classes.logo}>
-              <img src={logo} alt="" />
-            </div>
-            <div className={classes.authentication}>
-              <div className={classes.shopingCart}>
-                <Handbag size={25} color="#000" weight="thin" />
-              </div>
-            </div>
-          </div>
-          <div className={classes.bottom}>
-            <Space direction="vertical" align="start">
-              <Search
-                placeholder="Search products, accessory, etc..."
-                onSearch={onSearch}
-                style={{ width: 300, marginBottom: "10px" }}
-              />
-            </Space>
-          </div>
-        </div>
-        {/* ------ */}
       </div>
 
       {/* TOGGLE MENU MOBILE */}
@@ -372,6 +302,9 @@ const Header = () => {
                 </Link>
               );
             })}
+            <Link to={`/blog`} className={classes.navItem}>
+              Blog
+            </Link>
           </div>
         </div>
       </div>
@@ -381,3 +314,113 @@ const Header = () => {
 };
 
 export default Header;
+
+{
+  /* TABLET */
+}
+//   <div className={classes.tablet}>
+//   <div className={classes.top}>
+//     <div className={classes.logo}>
+//       <img src={logo} alt="" />
+//     </div>
+//     <Space direction="vertical" align="start">
+//       <Search
+//         placeholder="Search products, accessory, etc..."
+//         onSearch={onSearch}
+//         style={{ width: 400, textAlign: "center" }}
+//       />
+//     </Space>
+//     <div className={classes.authentication}>
+//       <div className={classes.login}>
+//         <User size={32} color="#000" weight="thin" />
+//         <div className={classes.loginText}>
+//           {user.currentUser ? user.currentUser.name : "Log In"}
+//         </div>
+//       </div>
+//       <div
+//         className={classes.shopingCart}
+//         onClick={() => setVisible(true)}
+//       >
+//         <Handbag size={25} color="#000" weight="thin" />
+//       </div>
+//     </div>
+//   </div>
+//   <div className={classes.bottom}>
+//     <div className={classes.navListContainer}>
+//       <div className={classes.navList}>
+//         {category.categories?.map((item, index) => {
+//           return (
+//             <Link
+//               to={`/viewall/${item._id}`}
+//               key={index}
+//               className={classes.navItem}
+//             >
+//               {item.category}
+//             </Link>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   </div>
+// </div>
+
+{
+  /* ------ */
+}
+{
+  /* MOBILE */
+}
+{
+  /* <div className={classes.mobile}>
+  <div className={classes.top}>
+    <div className={classes.menu}>
+      <Button
+        onClick={toggleCollapsed}
+        danger
+        style={{
+          background: "#D84727",
+          border: "none",
+          borderRadius: "5px",
+          outline: "none",
+        }}
+      >
+        {collapsed ? (
+          <MenuUnfoldOutlined
+            style={{
+              color: "#fff",
+              fontSize: "18px",
+            }}
+          />
+        ) : (
+          <MenuFoldOutlined
+            style={{
+              color: "#fff",
+              fontSize: "18px",
+            }}
+          />
+        )}
+      </Button>
+    </div>
+    <div className={classes.logo}>
+      <img src={logo} alt="" />
+    </div>
+    <div className={classes.authentication}>
+      <div className={classes.shopingCart}>
+        <Handbag size={25} color="#000" weight="thin" />
+      </div>
+    </div>
+  </div>
+  <div className={classes.bottom}>
+    <Space direction="vertical" align="start">
+      <Search
+        placeholder="Search products, accessory, etc..."
+        onSearch={onSearch}
+        style={{ width: 300, marginBottom: "10px" }}
+      />
+    </Space>
+  </div>
+</div> */
+}
+{
+  /* ------ */
+}
