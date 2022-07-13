@@ -22,7 +22,6 @@ router.post("/", verifyTokenAndAuthorization, async (req, res) => {
   const productFound = wishList.find((el) => el._id === req.body.productId);
   let wishListTemp = [];
   let newUpdate;
-  console.log(productFound);
   if (productFound !== undefined) {
     try {
       return res.status(201).json("Product already exist");
