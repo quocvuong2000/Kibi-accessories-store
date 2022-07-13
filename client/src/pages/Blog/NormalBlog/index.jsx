@@ -1,9 +1,7 @@
-import React from "react";
-import s from "./styles.module.scss";
-import img1 from "../../../assets/blogproduct1.jpg";
-import DetailAuthorOther from "../DetailAuthor/detailauthor";
 import { useNavigate } from "react-router-dom";
-
+import placeholder from "../../../assets/placeholder.jpg";
+import DetailAuthorOther from "../DetailAuthor/detailauthor";
+import s from "./styles.module.scss";
 const NormalBlog = ({ item }) => {
   const navigate = useNavigate();
   return (
@@ -14,7 +12,7 @@ const NormalBlog = ({ item }) => {
       }}
     >
       <div className={s.image_blog}>
-        <img src={img1} alt="" />
+        <img src={item?.thumbnail ? item?.thumbnail : placeholder} alt="" />
       </div>
       <div className={s.title}>{item?.title}</div>
       <div className={s.author}>

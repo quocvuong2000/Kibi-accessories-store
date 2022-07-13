@@ -51,11 +51,11 @@ const Login = () => {
           emailjs
             .send(
               "service_3fco6q6",
-              "template_t9ihe46",
+              "template_vv6fnlq",
               {
                 to_name: email,
                 from_name: "bin01012000@gmail.com",
-                message: ` <p> New password is: ${ps} </p>`,
+                password: `${ps}`,
               },
               "v3GcHX1OV7AjPKEdx"
             )

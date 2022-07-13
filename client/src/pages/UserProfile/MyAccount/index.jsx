@@ -13,6 +13,12 @@ import {
   Upload,
 } from "antd";
 import CryptoJS from "crypto-js";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { Field, Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -20,20 +26,16 @@ import { EnvelopeSimple, Key, Phone } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
+import { object } from "yup";
 import { checkExist, updateEmail } from "../../../api/User";
 import userPlaceholder from "../../../assets/user_avatar.jpg";
+import { app } from "../../../firebase/firebase";
 import { updateProfile } from "../../../redux/apiCalls";
 import { updateSuccess } from "../../../redux/userRedux";
 import UpdateEmail from "../UpdateEmail";
 import UpdatePassword from "../UpdatePassword";
 import UpdatePhone from "../UpdatePhone";
 import s from "./styles.module.scss";
-
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
 
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -55,10 +57,9 @@ const dateFormat = "YYYY/MM/DD";
 const MyAccount = () => {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [update, setUpdate] = useState(0);
-
+  const [avatar, setAvatar] = useState();
   const user = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const [randomChar, setRandomChar] = useState("");
@@ -170,10 +171,8 @@ const MyAccount = () => {
 
   const handleChange = (info) => {
     // Get this url from response in real world.
-    getBase64(info.file.originFileObj, (url) => {
-      setLoading(false);
-      setImageUrl(url);
-    });
+    // console.log(info.file.originFileObj);
+    setAvatar(info.file.originFileObj);
   };
 
   const uploadButton = (
@@ -196,23 +195,64 @@ const MyAccount = () => {
         }}
         onSubmit={async (values) => {
           // {imageUrl ? : }
-          updateProfile(
-            dispatch,
-            user.currentUser?._id,
-            values.name,
-            values.dob,
-            values.gender,
-            imageUrl
-          ).then((res) => {
-            if (res) {
-              const obj = {
-                user: res,
-                accessToken: token,
-              };
-              message.success("Update success");
-              dispatch(updateSuccess(obj));
-            }
-          });
+          if (avatar) {
+            const fileName = new Date().getTime() + avatar.name;
+            const storage = getStorage(app);
+            const storageRef = ref(storage, fileName);
+            const uploadTask = uploadBytesResumable(storageRef, avatar);
+
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const progress = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+              },
+              (error) => {
+                console.log(error);
+              },
+              async () => {
+                await getDownloadURL(uploadTask.snapshot.ref).then(
+                  (downloadURL) => {
+                    updateProfile(
+                      dispatch,
+                      user.currentUser?._id,
+                      values.name,
+                      values.dob,
+                      values.gender,
+                      downloadURL
+                    ).then((res) => {
+                      if (res) {
+                        const obj = {
+                          user: res,
+                          accessToken: token,
+                        };
+                        message.success("Update success");
+                        dispatch(updateSuccess(obj));
+                      }
+                    });
+                  }
+                );
+              }
+            );
+          } else {
+            updateProfile(
+              dispatch,
+              user.currentUser?._id,
+              values.name,
+              values.dob,
+              values.gender
+            ).then((res) => {
+              if (res) {
+                const obj = {
+                  user: res,
+                  accessToken: token,
+                };
+                message.success("Update success");
+                dispatch(updateSuccess(obj));
+              }
+            });
+          }
         }}
       >
         {({ errors, touched, setFieldValue }) => {
@@ -240,16 +280,21 @@ const MyAccount = () => {
                             alignItems: "center",
                           }}
                         >
-                          {user.currentUser?.avatar ? (
+                          {avatar ? (
                             <div>
                               <img
-                                src={user.currentUser?.avatar}
+                                src={URL.createObjectURL(avatar)}
                                 alt="avatar"
                               />
                             </div>
                           ) : (
                             <div>
-                              <img src={userPlaceholder} alt="" />
+                              <img
+                                src={
+                                  user.currentUser?.avatar || userPlaceholder
+                                }
+                                alt=""
+                              />
                             </div>
                           )}
                           <Upload
@@ -327,9 +372,8 @@ const MyAccount = () => {
                                   setFieldValue("dob", dateString)
                                 }
                                 defaultValue={
-                                  user.currentUser?.dob
-                                    ? moment(user.currentUser?.dob, dateFormat)
-                                    : undefined
+                                  user.currentUser?.dob &&
+                                  moment(user.currentUser?.dob, dateFormat)
                                 }
                               />
                             )}

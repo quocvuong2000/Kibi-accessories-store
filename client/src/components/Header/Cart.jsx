@@ -18,7 +18,7 @@ export const Cart = (props) => {
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    if (user.currentUser != null) {
+    if (user.currentUser !== null && user.currentUser !== undefined) {
       getAllProductCart(user.currentUser.username)
         .then((res) => {
           if (res) {

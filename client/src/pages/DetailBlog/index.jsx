@@ -9,7 +9,9 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailBlog } from "../../api/Blog";
 import parse from "html-react-parser";
+import { useWindowSize } from "../../customHook/useWindowSize";
 const DetailBlog = () => {
+  const [width, height] = useWindowSize();
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
   useEffect(() => {
@@ -18,12 +20,10 @@ const DetailBlog = () => {
 
   useEffect(() => {
     getDetailBlog(id).then((res) => {
-      console.log("res:", res);
-
       setDetail(res);
     });
   }, []);
-  console.log("detail:", detail);
+
   return (
     <div className={s.container}>
       <div className={s.left_detailblog}>
@@ -35,17 +35,19 @@ const DetailBlog = () => {
           <div className={s.text_endofblog}> End Of Advertising Message</div>
         </div>
       </div>
-      <div className={s.right_detailblog}>
-        <div className={s.content_right}>
-          <Title title="POPULAR" />
-          <br />
-          <SmallBlog />
-          <br />
-          <Title title="POPULAR" />
-          <br />
-          <SmallBlog />
+      {width > 768 && (
+        <div className={s.right_detailblog}>
+          <div className={s.content_right}>
+            <Title title="POPULAR" />
+            <br />
+            <SmallBlog />
+            <br />
+            <Title title="POPULAR" />
+            <br />
+            <SmallBlog />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

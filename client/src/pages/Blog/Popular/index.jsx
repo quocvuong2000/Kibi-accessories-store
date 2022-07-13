@@ -41,6 +41,10 @@ const Popular = () => {
             slidesPerView: 3,
             spaceBetween: 10,
           },
+          820: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
           1024: {
             slidesPerView: 3,
             spaceBetween: 50,

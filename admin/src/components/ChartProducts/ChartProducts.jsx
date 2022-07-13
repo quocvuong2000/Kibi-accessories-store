@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { doGetChartData } from "../../features/Dashboard/dashboardAPI";
 
 const ChartProducts = () => {
+  const [series, setSeries] = useState([]);
   const [dataChart, setDataChart] = useState({
     options: {
       grid: {
@@ -26,7 +28,7 @@ const ChartProducts = () => {
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
       },
       xaxis: {
         categories: ["Mon", "Tue", "Web", "Thu", "Fri", "Sat", "Sun"],
@@ -35,7 +37,7 @@ const ChartProducts = () => {
         show: false,
       },
       title: {
-        text: "Last 7 days",
+        text: "Order last 7 days",
         style: {
           fontSize: "14px",
           fontWeight: "400",
@@ -65,13 +67,54 @@ const ChartProducts = () => {
       },
     ],
   });
+  useEffect(() => {
+    let cancel = false;
+
+    doGetChartData().then((res) => {
+      if (cancel) return;
+      const data = res;
+      const xData = [];
+      let total = 0;
+      const seriesData = [
+        {
+          name: "reservation",
+          data: [],
+        },
+      ];
+      if (data.length > 0) {
+        data.forEach((item) => {
+          // console.log(new Date(item.date).toDateString().split(" ")[0]);
+          xData.unshift(new Date(item._id).toDateString().split(" ")[0]);
+          seriesData[0].data.unshift(item.count);
+        });
+        total = data.reduce((total, current) => (total += current.count), 0);
+      }
+      setSeries(seriesData);
+      setDataChart((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          xaxis: { ...prev.options.xaxis, categories: xData },
+        },
+      }));
+      setDataChart((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          subtitle: {
+            ...prev.options.subtitle,
+            text: `${total} - Total`,
+          },
+        },
+      }));
+    });
+    return () => {
+      cancel = true;
+    };
+  }, []);
   return (
     <div className="ChartProducts">
-      <Chart
-        options={dataChart.options}
-        series={dataChart.series}
-        type="area"
-      />
+      <Chart options={dataChart.options} series={series} type="area" />
     </div>
   );
 };

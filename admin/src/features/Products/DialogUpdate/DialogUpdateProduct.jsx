@@ -48,6 +48,7 @@ import { getBrandList } from "../../Brands/BrandAPI";
 import { getCategoryList } from "../../Categories/CategoryAPI";
 import { doGetDetailProduct, doUpdateProduct } from "../ProductAPI";
 import NumberFormat from "react-number-format";
+import { NumberFormatCustom } from "../../../@crema/core/AppFormComponents/NumberFormatCustom";
 export default function DialogUpdateProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -213,6 +214,8 @@ export default function DialogUpdateProduct(props) {
                   topSales: productDetail.topSales || false,
                   quantity: productDetail.quantity || 0,
                   sale: productDetail.sale || 0,
+                  warranty: productDetail.warranty || 0,
+
                   description: {
                     content: productDetail.description.content || "",
                     detail: productDetail.description.detail || "",
@@ -410,7 +413,13 @@ export default function DialogUpdateProduct(props) {
                             </Box>
 
                             {/* Sale */}
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <Box
+                              sx={{
+                                mb: { xs: 3, xl: 3 },
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
                               <AppTextField
                                 size="small"
                                 placeholder={"Sale%"}
@@ -418,12 +427,23 @@ export default function DialogUpdateProduct(props) {
                                 name="sale"
                                 variant="outlined"
                                 InputProps={{
-                                  inputProps: {
-                                    component: NumberFormat,
-                                  },
+                                  inputComponent: NumberFormatCustom,
                                 }}
                                 sx={{
-                                  width: "100%",
+                                  width: "40%",
+                                }}
+                              />
+                              <AppTextField
+                                size="small"
+                                placeholder={"Warranty (Month)"}
+                                label={"Warranty (Month)"}
+                                name="warranty"
+                                variant="outlined"
+                                InputProps={{
+                                  inputComponent: NumberFormatCustom,
+                                }}
+                                sx={{
+                                  width: "40%",
                                 }}
                               />
                             </Box>

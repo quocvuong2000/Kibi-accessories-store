@@ -21,11 +21,14 @@ const SelectAddress = ({
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
+  console.log("branchList:", branchList);
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
-      ? branchList?.branches?.find((el) => el?.isDefault === true)?._id
-      : ""
+      ? branchList?.branches?.find((el) => el.isDefault === true)?._id
+      : {}
   );
+
+  console.log("valueBranch:", valueBranch);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 

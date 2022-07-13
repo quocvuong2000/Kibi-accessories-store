@@ -38,7 +38,7 @@ const ViewAllBlog = () => {
       <Title title={catBlog.cate?.title} />
       <div className={s.list_blog}>
         {blogList.blogs?.map((item, index) => {
-          return <SmallBlog item={item} />;
+          return <SmallBlog item={item} key={index} />;
         })}
         {/*
         <SmallBlog />

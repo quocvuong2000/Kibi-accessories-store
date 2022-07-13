@@ -13,7 +13,8 @@
   }
 
   .categories {
-    height: 60vh;
+    min-height: unset !important;
+    height: 40vh;
     display: flex;
     justify-content: center;
   }
@@ -53,20 +54,36 @@
   }
 
   @include tablet {
-    .carousel,
-    .categories,
-    .monthlyDeal,
-    .recentsNew,
-    .featured,
-    .testimonial,
-    .instagram,
-    .monthlyDeal {
-      min-height: 100vh;
-      margin-bottom: 5rem;
+    .carousel {
+      min-height: 60vh;
     }
-    max-width: 1024px;
-    padding: 0 15px;
-    overflow: hidden;
+    .categories {
+      min-height: 60vh;
+    }
+
+    .videoBlog {
+      max-height: 70vh;
+    }
+
+    .monthlyDeal {
+      min-height: unset;
+    }
+    .recentsNew {
+      margin: 0;
+      min-height: 30vh;
+      height: unset;
+    }
+
+    .testimonial {
+      margin-top: 300px;
+      min-height: 30vh;
+      height: unset;
+    }
+    .instagram {
+      min-height: 22vh;
+      height: 0;
+      margin-top: 100px;
+    }
   }
   @include mobile {
     .carousel {

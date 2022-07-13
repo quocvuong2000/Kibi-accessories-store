@@ -59,11 +59,11 @@ const Register = () => {
             {
               to_name: email,
               from_name: "kibiaccessories@gmail.com",
-              message: ` <a href='https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${
+              link: `https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${
                 name.includes(" ") ? name.replaceAll(" ", "+") : name
               }&cityid=${provinceId}&wardid=${wardId}&districtid=${districtId}&address=${
                 address.includes(" ") ? address.replaceAll(" ", "+") : address
-              }&phone=${phone}&password=${password}' target='_blank'> Google </a>`,
+              }&phone=${phone}&password=${password}`,
             },
             "v3GcHX1OV7AjPKEdx"
           )

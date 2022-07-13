@@ -6,6 +6,10 @@
   align-items: center;
   justify-content: space-between;
 
+  @include tablet {
+    max-width: 100vw;
+    flex-direction: column;
+  }
   .categoryItem {
     border-radius: 20px;
     background: #f8eee3;

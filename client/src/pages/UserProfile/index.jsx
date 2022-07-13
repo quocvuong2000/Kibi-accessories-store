@@ -35,8 +35,7 @@ const UserProfile = () => {
       </p>
       <Tabs
         tabPosition={width > 1024 ? "left" : "top"}
-        defaultActiveKey={`${isActive}`}
-        ac
+        defaultActiveKey={isActive.toString()}
       >
         <TabPane
           tab={

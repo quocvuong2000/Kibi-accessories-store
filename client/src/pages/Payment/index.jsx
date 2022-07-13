@@ -55,7 +55,6 @@ const Payment = () => {
 
   useEffect(() => {
     getAllBranch().then((res) => {
-      console.log("res:", res);
       setBranchList(res);
     });
   }, []);

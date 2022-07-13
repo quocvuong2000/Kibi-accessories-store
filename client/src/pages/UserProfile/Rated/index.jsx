@@ -7,6 +7,7 @@ import { getProduct } from "../../../api/Product";
 import s from "./styles.module.scss";
 import AppLoader from "../../../components/AppLoader";
 import EmptyPage from "../../../components/Empty";
+import placeholder from "../../../assets/imgDefault.webp";
 
 const Rated = () => {
   const [listComment, setListComment] = useState([]);
@@ -53,7 +54,10 @@ const Rated = () => {
               <div className={s.one_content} key={index}>
                 <div className={s.image}>
                   <Link to={`/detail/${item.productId}`}>
-                    <img src={item.productImage} alt="" />
+                    <img
+                      src={item.productImage ? item.productImage : placeholder}
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className={s.box_comment}>

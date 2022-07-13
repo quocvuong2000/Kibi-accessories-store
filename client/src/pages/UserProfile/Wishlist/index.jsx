@@ -16,14 +16,16 @@ const Wistlist = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAllWishlist(user.currentUser.username)
-      .then((res) => {
-        //console.log(res[0].products);
-        setProduct(res[0].products);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (user.currentUser) {
+      getAllWishlist(user.currentUser.username)
+        .then((res) => {
+          //console.log(res[0].products);
+          setProduct(res[0].products);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, [reload, user.currentUser.username]);
 
   const handleDelete = (username, id) => {

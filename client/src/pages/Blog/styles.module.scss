@@ -16,6 +16,10 @@
       @include tablet {
         max-width: 100vw;
       }
+      @include mobile {
+        max-width: 100vw;
+        height: 300px;
+      }
     }
 
     .blog_general {
@@ -47,6 +51,9 @@
         .linkToBlog {
           font-size: 30px;
           color: #fff !important;
+          @include mobile {
+            font-size: 22px;
+          }
         }
       }
     }

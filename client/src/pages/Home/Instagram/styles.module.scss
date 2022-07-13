@@ -10,11 +10,16 @@
     font-weight: 500;
     font-size: 36px;
     line-height: 40px;
-    /* identical to box height, or 111% */
+
     letter-spacing: 0.02em;
     color: #333333;
     margin-bottom: 80px;
     position: relative;
+
+    @include tablet {
+      font-size: 32px;
+      margin-left: 20px;
+    }
 
     &::before {
       content: " ";
@@ -40,6 +45,21 @@
   }
 }
 
+@include tablet {
+  .instagramContainer {
+    width: 100vw;
+    .instagramList {
+      flex-wrap: wrap;
+      .instagramItem {
+        img {
+          width: 150px;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
 @include mobile {
   .instagramContainer {
     width: 100vw;

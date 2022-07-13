@@ -8,5 +8,8 @@
       max-width: 100vw;
       width: 500px;
     }
+    @include mobile {
+      width: 350px;
+    }
   }
 }

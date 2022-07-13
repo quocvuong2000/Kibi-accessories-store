@@ -1,3 +1,4 @@
+@use "../../../sass/mixins" as *;
 .container {
   display: flex;
   flex-direction: column;
@@ -8,13 +9,24 @@
     min-width: 544px;
     min-height: 350px;
     cursor: pointer;
-
+    @include mobile {
+      max-width: 344px;
+      max-height: 200px;
+      min-width: 344px;
+      min-height: 200px;
+    }
     img {
       max-width: 544px;
       max-height: 350px;
       min-width: 544px;
       min-height: 350px;
       object-fit: cover;
+      @include mobile {
+        max-width: 344px;
+        max-height: 200px;
+        min-width: 344px;
+        min-height: 200px;
+      }
     }
   }
   .title {

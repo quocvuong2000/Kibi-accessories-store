@@ -1,9 +1,7 @@
-import React from "react";
-import s from "./styles.module.scss";
-import img1 from "../../../assets/blogproduct1.jpg";
-import DetailAuthorOther from "../DetailAuthor/detailauthor";
 import { useNavigate } from "react-router-dom";
 import placeholder from "../../../assets/placeholder.jpg";
+import DetailAuthorOther from "../DetailAuthor/detailauthor";
+import s from "./styles.module.scss";
 const SmallBlog = ({ item }) => {
   const navigate = useNavigate();
   return (

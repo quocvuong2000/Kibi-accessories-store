@@ -10,6 +10,7 @@ import { Brand } from "../components/Brand";
 const UnRequireAuth = ({ children }) => {
   const [width, height] = useWindowSize();
   const isLoggedIn = Boolean(Cookies.get("tokenClient"));
+
   if (isLoggedIn) {
     const deCodeToken = jwt_decode(Cookies.get("tokenClient"));
     // console.log(deCodeToken.exp < Date.now() / 1000);

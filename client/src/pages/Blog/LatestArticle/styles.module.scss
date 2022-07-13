@@ -1,6 +1,12 @@
+@use "../../../sass/mixins" as *;
 .container {
   margin-top: 200px;
-
+  @include mobile {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;
+  }
   .list_blog {
     margin-top: 20px;
     display: flex;

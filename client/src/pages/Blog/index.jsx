@@ -9,8 +9,9 @@ import Sponsored from "./Sponsored";
 import s from "./styles.module.scss";
 import Title from "./Title";
 import Trending from "./Trending";
-
+import { useWindowSize } from "../../customHook/useWindowSize";
 const Blog = () => {
+  const [width, height] = useWindowSize();
   useEffect(() => {
     document.title = "KIBI | Blog";
   }, []);
@@ -33,7 +34,7 @@ const Blog = () => {
       </div>
       <BoxSwipe />
       <LatestArticle />
-      <Sponsored />
+      {width > 1024 && <Sponsored />}
       <Trending />
       <Popular />
     </div>

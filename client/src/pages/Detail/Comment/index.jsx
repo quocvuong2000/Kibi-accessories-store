@@ -113,11 +113,15 @@ const Comment = (props) => {
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
-              <img src={item?.avatar ?item?.avatar :avatarPlaceholder} loading="lazy" alt="" />
+              <img
+                src={item?.avatar ? item?.avatar : avatarPlaceholder}
+                loading="lazy"
+                alt=""
+              />
             </div>
             <div className={s.frame_comment}>
               <p className={s.fullname}>{item?.name}</p>
-              <Rate defaultValue={item?.rating} allowHalf />
+              <Rate value={item?.rating} allowHalf />
               <p className={s.comment}>{item?.comment}</p>
               {item?.username === user.currentUser?.username ? (
                 <p

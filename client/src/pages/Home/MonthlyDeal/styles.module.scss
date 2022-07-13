@@ -34,6 +34,13 @@
     display: flex;
     justify-content: flex-start;
     column-gap: 30px;
+
+    @include tablet {
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
     @include mobile {
       align-items: center;
       justify-content: center;
