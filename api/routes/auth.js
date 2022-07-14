@@ -68,6 +68,7 @@ router.post("/register", async (req, res) => {
     await viewedInfo.save();
     res.status(200).json(register);
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json(error);
   }
 });

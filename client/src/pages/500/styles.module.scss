@@ -5,7 +5,10 @@
   justify-content: center;
   position: relative;
   @include flex();
-
+  @include tablet {
+    display: flex;
+    flex-direction: column-reverse;
+  }
   p {
     margin: 0;
     padding: 0;

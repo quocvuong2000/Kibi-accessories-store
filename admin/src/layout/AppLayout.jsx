@@ -6,6 +6,7 @@ import Branch from "../features/Branch";
 
 import Comments from "../features/Comment";
 import Error403 from "../features/ErrorPages/Error403";
+import Storage from "../features/Storage";
 import {
   Brands,
   Categories,
@@ -49,6 +50,7 @@ const AppLayout = () => {
           <Route path="categoryblog" element={<CategoryBlog />} />
           <Route path="approveblog" element={<ApproveBlog />} />
           <Route path="branch" element={<Branch />} />
+          <Route path="storage" element={<Storage />} />
         </Route>
         <Route
           path="/"

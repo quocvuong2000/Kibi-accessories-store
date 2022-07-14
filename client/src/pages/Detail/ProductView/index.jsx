@@ -98,18 +98,27 @@ const ProductView = (props) => {
               <>
                 <p className={styles.price_before}>
                   {numberWithCommas(
-                    (props.data.product.price * 100) /
-                      (100 - props.data.product.sale)
+                    Math.round(
+                      ((props.data.product.price * 100) /
+                        (100 - props.data.product.sale)) *
+                        100
+                    ) / 100
                   )}
                   đ<span className={styles.line}></span>
                 </p>
                 <p className={styles.price_after}>
-                  {numberWithCommas(props.data.product.price) ?? ""}đ
+                  {numberWithCommas(
+                    Math.round(props.data.product.price * 100) / 100
+                  ) ?? ""}
+                  đ
                 </p>
               </>
             ) : (
               <p className={styles.price_after}>
-                {numberWithCommas(props.data.product.price) ?? ""}đ
+                {numberWithCommas(
+                  Math.round(props.data.product.price * 100) / 100
+                ) ?? ""}
+                đ
               </p>
             )}
 
@@ -124,7 +133,7 @@ const ProductView = (props) => {
                   : ""
               }
             >
-              <Rate disabled value={props.data.product.avgRating} />
+              <Rate allowHalf disabled value={props.data.product.avgRating} />
             </Col>
             <Row className={styles.function}>
               <Row className={styles.qty}>

@@ -100,7 +100,8 @@
         border: none;
         @include font(normal, 400, 16px, 24px, 0.02em);
         @include mobile {
-          padding: 9px 30px;
+          padding: 9px 20px;
+          @include font(normal, 400, 13px, 24px, 0.02em);
         }
       }
     }

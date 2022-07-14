@@ -70,10 +70,7 @@ router.get("/", async (req, res) => {
     query = { ...query, ...{ brand: { $in: qBrand.split(",") } } };
   }
   if (qRating) {
-    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
-  }
-  if (qBrand) {
-    query = { ...query, ...{ branch: qBranch } };
+    query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
   }
   try {
     let products;
@@ -100,7 +97,7 @@ router.get("/:idCate", async (req, res) => {
   const qFromPrice = req.query.fromPrice;
   const qToPrice = req.query.toPrice;
   const qRating = req.query.rating;
-  let perPage = 3; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
 
@@ -112,15 +109,14 @@ router.get("/:idCate", async (req, res) => {
     };
   }
   if (qBrand) {
-    query = { ...query, ...{ brand: qBrand } };
+    query = { ...query, ...{ brand: { $in: qBrand.split(",") } } };
   }
   if (qRating) {
-    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
+    query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ category: req.params.idCate } };
-  // console.log("qFromPrice:", qFromPrice);
-  // console.log("query:", query);
+
   try {
     let products;
     if (qPage) {
@@ -162,10 +158,10 @@ router.get("/brand/:idBrand", async (req, res) => {
     };
   }
   if (qBrand) {
-    query = { ...query, ...{ brand: qBrand } };
+    query = { ...query, ...{ brand: { $in: qBrand.split(",") } } };
   }
   if (qRating) {
-    query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
+    query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
   }
 
   query = { ...query, ...{ brand: req.params.idBrand } };

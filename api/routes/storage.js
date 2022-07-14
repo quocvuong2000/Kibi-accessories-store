@@ -18,10 +18,10 @@ router.get("/", verifyTokenAndStaff, async (req, res) => {
       count = await Storage.find({ status: "import" }).count();
     }
     if (qStatus === "export") {
-      branches = await Storage.find({ status: "export" })
+      branches = await Storage.find({ status: "Export" })
         .skip(perPage * page - perPage)
         .limit(perPage);
-      count = await Storage.find({ status: "export" }).count();
+      count = await Storage.find({ status: "Export" }).count();
     }
     res.status(200).json({
       branches, // sản phẩm trên một page

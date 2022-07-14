@@ -55,6 +55,7 @@ router.post("/updateorder", async (req, res) => {
       address: req.body.address,
       recipientName: req.body.recipientName,
       recipientPhone: req.body.recipientPhone,
+      shippingPrice: req.body.shippingPrice,
       status: "PENDING",
       paid: true,
     });

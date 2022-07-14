@@ -104,8 +104,8 @@ const PaymentDetail = (props) => {
     ? props.addressSelected.district
     : props.address[0].district;
   const currentCity = props.addressSelected
-    ? props.addressSelected.city
-    : props.address[0].city;
+    ? props.addressSelected?.city
+    : props.address[0]?.city;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
   const [from, setFrom] = useState(1450);
@@ -133,7 +133,7 @@ const PaymentDetail = (props) => {
   }, [from]);
 
   useEffect(() => {
-    if (parseInt(props.addressSelected.city) !== provinceId) {
+    if (parseInt(props.addressSelected?.city) !== provinceId) {
       setShippingCost(35000);
       props.setShippingCost(35000);
     } else {
@@ -280,6 +280,8 @@ const PaymentDetail = (props) => {
         .then((res) => {
           if (res.statusCode === 200) {
             if (res.data === signature) {
+              const shipping = localStorage.getItem("shippingCost");
+              localStorage.removeItem("shippingCost");
               const datasecond = {
                 amount: props.cart.numberCart,
                 totalPrice:
@@ -291,7 +293,7 @@ const PaymentDetail = (props) => {
                 address: props.address[0].address,
                 recipientName: props.address[0].recipientName,
                 recipientPhone: props.address[0].recipientPhone,
-                shippingPrice: shippingCost,
+                shippingPrice: shipping,
                 branchId: props.branchId,
                 branchName: props.branchName,
               };
@@ -322,6 +324,8 @@ const PaymentDetail = (props) => {
 
   const handleMomo = (amount) => {
     localStorage.setItem("idVauchoemxiuanhnhe", idVoucher);
+    localStorage.setItem("shippingCost", shippingCost);
+
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
         var win = window.open(res.data.payUrl);

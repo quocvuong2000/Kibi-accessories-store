@@ -51,6 +51,23 @@ body {
   .ant-radio-inner:after {
     background-color: #d84727 !important;
   }
+  .ant-checkbox-checked:after {
+    border: 1px solid #d84727 !important;
+  }
+  .ant-checkbox-inner {
+    border-color: #d84727 !important;
+    // background: #d84727 !important;
+  }
+  .ant-checkbox .ant-checkbox-checked {
+    color: #d84727 !important;
+    background: #d84727 !important;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background: #d84727 !important;
+  }
+  .ant-radio-inner:after {
+    background-color: #d84727 !important;
+  }
 }
 
 a {

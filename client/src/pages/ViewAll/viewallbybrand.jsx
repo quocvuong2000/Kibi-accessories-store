@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 const ViewAllByBrand = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
+  const [listProduct, setListProduct] = useState([]);
   const [listBrand, setListBrand] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
@@ -22,6 +23,7 @@ const ViewAllByBrand = () => {
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
+          setListProduct(res.products);
           setProduct(res);
           setTotalPages(res.totalPages);
         }
@@ -32,6 +34,7 @@ const ViewAllByBrand = () => {
       .finally(() => {
         setLoading(false);
       });
+    window.scrollTo(0, 0);
   }, [idBrandPr]);
 
   useEffect(() => {
@@ -43,14 +46,13 @@ const ViewAllByBrand = () => {
     });
   }, []);
 
-  const fetchMore = () => {
+  const fetchMore = (page) => {
     // while (page !== totalPages) {
     getAllProductByBrand(idBrandPr, page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
-        if (res) {
-          setProduct((product) => [...product, ...res]);
-        }
+        setListBrand(listProduct.push(...res.products));
+        setListProduct((listProduct) => [...listProduct, ...res.products]);
       })
       .catch(() => {
         message.error("Loading list failure");
@@ -58,7 +60,6 @@ const ViewAllByBrand = () => {
       .finally(() => {
         setLoading(false);
       });
-    setPage(page + 1);
     // }
   };
 
@@ -77,6 +78,7 @@ const ViewAllByBrand = () => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
           setProduct(res);
+          setListProduct(res.products);
           setTotalPages(res.totalPages);
         }
       })
@@ -97,6 +99,9 @@ const ViewAllByBrand = () => {
           totalPages={totalPages}
           listBrand={listBrand}
           handleFilter={handleFilter}
+          setPage={setPage}
+          listProduct={listProduct}
+          page={page}
         />
       </div>
     </>

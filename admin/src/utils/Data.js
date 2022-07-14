@@ -1,18 +1,20 @@
 // Sidebar imports
 import {
-  UilEstate,
-  UilClipboardAlt,
-  UilUsersAlt,
-  UilPackage,
-  UilChart,
-  UilSignOutAlt,
   UilArchive,
+  UilChart,
+  UilClipboardAlt,
+  UilEstate,
   UilLabelAlt,
+  UilNewspaper,
+  UilPackage,
+  UilUsersAlt,
+  UilCommentAlt,
+  UilBloggerAlt,
+  UilCloudCheck,
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
-import { UilUsdSquare, UilMoneyWithdrawal } from "@iconscout/react-unicons";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
+import { UilMoneyWithdrawal, UilUsdSquare } from "@iconscout/react-unicons";
 
 // Recent Card Imports
 import img1 from "../assets/images/Avatar/img1.png";
@@ -62,24 +64,29 @@ export const SidebarData = [
     link: "/dashboard/categoryblog",
   },
   {
-    icon: UilArchive,
+    icon: UilBloggerAlt,
     heading: "Blog",
     link: "/dashboard/blogs",
   },
   {
-    icon: UilArchive,
+    icon: UilCloudCheck,
     heading: "Approve Blog",
     link: "/dashboard/approveblog",
   },
   {
-    icon: UilArchive,
+    icon: UilCommentAlt,
     heading: "Comment",
     link: "/dashboard/comments",
   },
   {
-    icon: UilArchive,
+    icon: UilEstate,
     heading: "Branches",
     link: "/dashboard/branch",
+  },
+  {
+    icon: UilNewspaper,
+    heading: "Storage",
+    link: "/dashboard/storage",
   },
   {
     icon: UilChart,

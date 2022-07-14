@@ -55,6 +55,7 @@
     padding: 0;
     margin: 0;
   }
+
   :global {
     .ant-dropdown-menu {
       display: flex;
@@ -63,8 +64,8 @@
       padding: 13px 5px;
       background: #f8eee3;
       border-radius: 3px;
-      position: fixed;
     }
+
     .ant-dropdown-arrow {
       background: #f8eee3;
       &::before {
@@ -103,6 +104,9 @@
     background: #f7f6f4;
     @include tablet {
       max-width: 100vw;
+    }
+    @include mobile {
+      height: unset;
     }
     &::before {
       content: " ";
@@ -252,6 +256,7 @@
   }
   @include mobile {
     .headerContainer {
+      height: unset;
       .top {
         display: flex;
         flex-direction: column;
@@ -328,6 +333,12 @@
       visibility: visible;
       z-index: 99999999;
       top: 120px;
+    }
+    &.none {
+      opacity: 0;
+      visibility: hidden;
+      z-index: 99999999;
+      top: -120px;
     }
     .navListContainer {
       @include mobile {
@@ -422,6 +433,14 @@
   }
   &:focus {
     color: #d84727;
+  }
+}
+
+:global {
+  .ant-space-item {
+    @include mobile {
+      justify-content: center;
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import { Empty, Radio } from "antd";
 import ConvertDate from "../../../utils/convertDate";
 import nFormatter from "../../../utils/convertToK";
 import s from "./styles.module.scss";
-
+import voucher from "../../../assets/voucher.png";
 const ListVoucher = (props) => {
   const onChange = (id, salePrice, nameVoucher) => {
     props.setIdVoucher(id);
@@ -22,25 +22,23 @@ const ListVoucher = (props) => {
               );
             }}
           >
-            {props.listVoucher.voucher.map((item, index) => {
+            {props.listVoucher?.voucher?.map((item, index) => {
               return (
                 <Radio
                   value={item._id}
                   salePrice={item.salePrice}
                   nameVoucher={item.voucherName}
+                  key={index}
                 >
-                  <div className={s.box_voucher} key={index}>
-                    <div className={s.left_voucher}>
-                      {/* <img src={img} alt="" /> */}
+                  <div className={s.box_voucher}>
+                    <div className={s.voucher}>
+                      <img src={voucher} alt="" />
                     </div>
-                    <div className={s.right_voucher}>
-                      <p className={s.name_voucher}>
-                        Giảm {nFormatter(item.salePrice, 0)}
-                      </p>
-                      <p className={s.hsd}>
-                        HSD: {ConvertDate(item.expireDay)}
-                      </p>
-                    </div>
+                    <p className={s.sale}>
+                      Giảm {nFormatter(item.salePrice, 0)}
+                    </p>
+                    <p className={s.expire}>{ConvertDate(item.expireDay)}</p>
+                    <p className={s.sale2}>{nFormatter(item.salePrice, 0)}</p>
                   </div>
                 </Radio>
               );

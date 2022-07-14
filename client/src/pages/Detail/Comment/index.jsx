@@ -121,7 +121,7 @@ const Comment = (props) => {
             </div>
             <div className={s.frame_comment}>
               <p className={s.fullname}>{item?.name}</p>
-              <Rate value={item?.rating} allowHalf />
+              <Rate value={item?.rating} allowHalf disabled />
               <p className={s.comment}>{item?.comment}</p>
               {item?.username === user.currentUser?.username ? (
                 <p

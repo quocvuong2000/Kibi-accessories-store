@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import s from "./styles.module.scss";
-import img from "../../../assets/home/image 6.png";
 import { useSelector } from "react-redux";
 import { getVoucher } from "../../../api/Voucher";
 import nFormatter from "../../../utils/convertToK";

@@ -1,5 +1,5 @@
 import { useClickOutside } from "@mantine/hooks";
-import { Button, Dropdown, Menu, Radio, Rate } from "antd";
+import { Button, Checkbox, Dropdown, Menu, Radio, Rate } from "antd";
 import "antd/dist/antd.css";
 import { motion } from "framer-motion";
 import { DotsNine, Funnel, ListDashes } from "phosphor-react";
@@ -17,7 +17,7 @@ const ListProduct = (props) => {
 
   const [value, setValue] = useState("");
   const [range, setRange] = useState([1000000, 10000000]);
-  const [idBrand, setIdBrand] = useState("");
+  const [idBrand, setIdBrand] = useState([]);
   const [visibleDropdown2, setVisibleDropdown2] = useState(false);
   const ref3 = useClickOutside(() => setVisibleDropdown2(false));
   const [rating, setRating] = useState(0);
@@ -35,7 +35,9 @@ const ListProduct = (props) => {
   function handleChangeRating(e) {
     setRating(e.target.value);
   }
-
+  const onChange = (checkedValues) => {
+    setIdBrand(checkedValues);
+  };
   const fakeRating = [
     {
       id: "1",
@@ -68,24 +70,25 @@ const ListProduct = (props) => {
           <p className={classes.title_filter} key={4}>
             Brand
           </p>
-          <Radio.Group
+          <Checkbox.Group
             style={{ width: "100%" }}
             className={classes.checkbox_group}
             key={5}
+            onChange={onChange}
           >
             {props.listBrand?.brands?.map((item, index) => {
               return (
-                <Radio
+                <Checkbox
                   key={index}
                   checked={item._id === value}
                   value={item._id}
                   onChange={() => setIdBrand(item._id)}
                 >
                   {item.brand}
-                </Radio>
+                </Checkbox>
               );
             })}
-          </Radio.Group>
+          </Checkbox.Group>
           <hr className={classes.line_devide} key={6} />
           <p className={classes.title_filter} key={7}>
             Rating
