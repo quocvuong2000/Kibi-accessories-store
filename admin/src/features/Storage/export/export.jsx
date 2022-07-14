@@ -6,8 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import moment from "moment";
-import { useState } from "react";
 import AppLoader from "../../../components/AppLoader";
+import { checkTypeItem } from "../../../utils/checkTypeItem";
 
 const ListExport = (props) => {
   const handleChangePage = (_event, newPage) => {
@@ -48,13 +48,13 @@ const ListExport = (props) => {
                       {item.branchName || "N/A"}
                     </TableCell>
                     <TableCell align="left">
-                      {item.ProductName || "N/A"}
+                      {item.productName || "N/A"}
                     </TableCell>
                     <TableCell align="left">
-                      {item.oldQuantity || "N/A"}
+                      {checkTypeItem(item.oldQuantity)}
                     </TableCell>
                     <TableCell align="left">
-                      {item.newQuantity || "N/A"}
+                      {checkTypeItem(item.newQuantity)}
                     </TableCell>
                     <TableCell align="left">
                       {moment(item.createdAt).format("DD/MM/YYYY") || "N/A"}
