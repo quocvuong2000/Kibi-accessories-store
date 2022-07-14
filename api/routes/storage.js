@@ -12,10 +12,10 @@ router.get("/", verifyTokenAndStaff, async (req, res) => {
   try {
     let branches;
     if (qStatus === "import") {
-      branches = await Storage.find({ status: "import" })
+      branches = await Storage.find({ status: "Import" })
         .skip(perPage * page - perPage)
         .limit(perPage);
-      count = await Storage.find({ status: "import" }).count();
+      count = await Storage.find({ status: "Import" }).count();
     }
     if (qStatus === "export") {
       branches = await Storage.find({ status: "Export" })

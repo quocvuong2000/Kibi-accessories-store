@@ -28,7 +28,7 @@ async function monitorStorageExport(client, timeInMs) {
             newQuantity: newQuantity,
             oldQuantity: oldQuantity.quantity,
             branchName: orderFound.branchName || "NA",
-            ProductName: el.productName,
+            productName: el.product,
             status: "Export",
           };
           try {
