@@ -66,18 +66,20 @@ const Confirmation = (props) => {
   // console.log("timeToDate(leadTime);:", timeToDate(leadTime));
 
   useEffect(() => {
-    doGetDetailOrder(id)
-      .then((res) => {
-        var idVoucher = localStorage.getItem("idVauchoemxiuanhnhe");
-        if (idVoucher !== "" && idVoucher) {
-          deletedVoucher(idVoucher).then(() => {});
-          localStorage.removeItem("idVauchoemxiuanhnhe");
-        }
-        setOrderDetail(res);
-      })
-      .catch(() => {
-        message.error("Loading order detail fail");
-      });
+    if (id && id !== null && id !== undefined) {
+      doGetDetailOrder(id)
+        .then((res) => {
+          var idVoucher = localStorage.getItem("idVauchoemxiuanhnhe");
+          if (idVoucher !== "" && idVoucher) {
+            deletedVoucher(idVoucher).then(() => {});
+            localStorage.removeItem("idVauchoemxiuanhnhe");
+          }
+          setOrderDetail(res);
+        })
+        .catch(() => {
+          message.error("Loading order detail fail");
+        });
+    }
   }, [id]);
   console.log(orderDetail?.shippingPrice);
   return (
@@ -147,7 +149,8 @@ const Confirmation = (props) => {
               <div className={classes.display}>SubTotal</div>
               <div className={classes.price}>
                 {numberWithCommas(
-                  orderDetail.totalPrice - orderDetail.shippingPrice
+                  parseInt(orderDetail.totalPrice) -
+                    parseInt(orderDetail.shippingPrice)
                 )}{" "}
                 VND
               </div>

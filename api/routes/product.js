@@ -97,7 +97,7 @@ router.get("/:idCate", async (req, res) => {
   const qFromPrice = req.query.fromPrice;
   const qToPrice = req.query.toPrice;
   const qRating = req.query.rating;
-  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 3; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
   let count = 0;
 

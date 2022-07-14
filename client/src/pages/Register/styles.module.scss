@@ -1,3 +1,4 @@
+@use "../../sass/mixins" as *;
 @import "https://fonts.googleapis.com/css?family=Montserrat:400,800";
 @keyframes show {
   0%,
@@ -28,6 +29,10 @@
   height: 44px;
   border: 1px solid #ffffff;
   // margin: 20px 0px;
+  @include mobile {
+    width: 150px;
+    height: 30px;
+  }
   input {
     background: #fcf7fe;
   }
@@ -186,6 +191,11 @@
       height: 44px;
       display: flex;
       align-items: center;
+
+      @include mobile {
+        height: 30px;
+        width: 150px;
+      }
     }
   }
 }

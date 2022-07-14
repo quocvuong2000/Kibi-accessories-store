@@ -14,7 +14,7 @@ import classes from "./styles.module.scss";
 
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
-  const [page, setPage] = useState(1);
+
   const [value, setValue] = useState("");
   const [range, setRange] = useState([1000000, 10000000]);
   const [idBrand, setIdBrand] = useState("");
@@ -34,7 +34,6 @@ const ListProduct = (props) => {
 
   function handleChangeRating(e) {
     setRating(e.target.value);
-    console.log("rating:", rating);
   }
 
   const fakeRating = [
@@ -57,70 +56,78 @@ const ListProduct = (props) => {
 
   const menu = (
     <Menu>
-      <RangePrice setValue={setRange} value={range} key={1} />
-      <div className={classes.text_range} key={2}>
-        <p className={classes.min_range_price}>1.000.000vnđ</p>
-        <p className={classes.max_range_price}>10.000.000vnđ</p>
-      </div>
-      <hr className={classes.line_devide} key={3} />
-      <p className={classes.title_filter} key={4}>
-        Brand
-      </p>
-      <Radio.Group
-        style={{ width: "100%" }}
-        className={classes.checkbox_group}
-        key={5}
-      >
-        {props.listBrand?.brands?.map((item, index) => {
-          return (
-            <Radio
-              key={index}
-              checked={item._id === value}
-              value={item._id}
-              onChange={() => setIdBrand(item._id)}
-            >
-              {item.brand}
-            </Radio>
-          );
-        })}
-      </Radio.Group>
-      <hr className={classes.line_devide} key={6} />
-      <p className={classes.title_filter} key={7}>
-        Rating
-      </p>
-      <Radio.Group
-        style={{ width: "100%" }}
-        className={classes.rating_box}
-        key={9}
-      >
-        {fakeRating.map((item, index) => {
-          return (
-            <Radio
-              key={index + 1}
-              checked={index + 1 === rating}
-              value={index + 1}
-              onChange={handleChangeRating}
-            >
-              {item.id} <Rate value={index + 1} />
-            </Radio>
-          );
-        })}
-      </Radio.Group>
-      <Button
-        key={8}
-        className={classes.submit_filter}
-        onClick={() => {
-          setVisibleDropdown2(false);
-          props.handleFilter("", idBrand, range[0], range[1], rating);
-        }}
-      >
-        Submit
-      </Button>
+      <Menu.Item disabled style={{ cursor: "auto", color: "unset" }} key={20}>
+        <>
+          <RangePrice setValue={setRange} value={range} key={1} />
+
+          <div className={classes.text_range} key={2}>
+            <p className={classes.min_range_price}>1.000.000vnđ</p>
+            <p className={classes.max_range_price}>10.000.000vnđ</p>
+          </div>
+          <hr className={classes.line_devide} key={3} />
+          <p className={classes.title_filter} key={4}>
+            Brand
+          </p>
+          <Radio.Group
+            style={{ width: "100%" }}
+            className={classes.checkbox_group}
+            key={5}
+          >
+            {props.listBrand?.brands?.map((item, index) => {
+              return (
+                <Radio
+                  key={index}
+                  checked={item._id === value}
+                  value={item._id}
+                  onChange={() => setIdBrand(item._id)}
+                >
+                  {item.brand}
+                </Radio>
+              );
+            })}
+          </Radio.Group>
+          <hr className={classes.line_devide} key={6} />
+          <p className={classes.title_filter} key={7}>
+            Rating
+          </p>
+          <Radio.Group
+            style={{ width: "100%" }}
+            className={classes.rating_box}
+            key={9}
+          >
+            {fakeRating.map((item, index) => {
+              return (
+                <Radio
+                  key={index + 1}
+                  checked={index + 1 === rating}
+                  value={index + 1}
+                  onChange={handleChangeRating}
+                >
+                  {item.id} <Rate value={index + 1} />
+                </Radio>
+              );
+            })}
+          </Radio.Group>
+        </>
+      </Menu.Item>
+      <Menu.Item key={21}>
+        <Button
+          key={8}
+          className={classes.submit_filter}
+          onClick={() => {
+            setVisibleDropdown2(false);
+            props.handleFilter("", idBrand, range[0], range[1], rating);
+          }}
+        >
+          Submit
+        </Button>
+      </Menu.Item>
     </Menu>
   );
   const handleVisibleChange = (flag) => {
     setVisibleDropdown2(flag);
   };
+
   return (
     <>
       <div className={classes.container} id="scrollableDiv">
@@ -174,14 +181,16 @@ const ListProduct = (props) => {
           <div className={classes.spin}>
             <DotLoading />
           </div>
-        ) : props.data.products?.length > 0 ? (
+        ) : props.listProduct?.length > 0 ? (
           <div>
             <InfiniteScroll
-              dataLength={props.data.products.length}
+              containerHeight={200}
+              dataLength={props.listProduct?.length}
               next={() => {
-                alert("asdsadjh");
+                props.fetchMore(props.page + 1);
+                props.setPage(props.page + 1);
               }}
-              hasMore={true}
+              hasMore={props.page !== props.totalPages ? true : false}
               loader={
                 <div
                   style={{
@@ -203,7 +212,7 @@ const ListProduct = (props) => {
               <div
                 className={`${classes.listItem} ${glActive ? classes.row : ""}`}
               >
-                {props.data.products?.map((item, index) => {
+                {props.listProduct?.map((item, index) => {
                   return (
                     <React.Fragment key={index}>
                       {glActive ? (
