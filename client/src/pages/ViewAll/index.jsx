@@ -9,6 +9,8 @@ import styles from "./styles.module.scss";
 const ViewAll = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
+  const [listProduct, setListProduct] = useState([]);
+
   const [listBrand, setListBrand] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(2);
@@ -19,10 +21,12 @@ const ViewAll = () => {
   }, []);
   useEffect(() => {
     setLoading(true);
+    setPage(1);
     getAllProduct(idCate, 1)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
+          setListProduct(res.products);
           setProduct(res);
           setTotalPages(res.totalPages);
         }
@@ -38,21 +42,18 @@ const ViewAll = () => {
 
   useEffect(() => {
     getBrand().then((res) => {
-      console.log("res:", res);
       if (res.status === 200) {
         setListBrand(res.data);
       }
     });
   }, []);
 
-  const fetchMore = () => {
-    // while (page !== totalPages) {
+  const fetchMore = (page) => {
     getAllProduct(idCate, page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
-        if (res) {
-          setProduct((product) => [...product, ...res]);
-        }
+        console.log(res);
+        setListBrand(listProduct.push(...res.products));
       })
       .catch(() => {
         message.error("Loading list failure");
@@ -60,8 +61,6 @@ const ViewAll = () => {
       .finally(() => {
         setLoading(false);
       });
-    setPage(page + 1);
-    // }
   };
 
   const handleFilter = (name, idBrand, fromPrice, toPrice, rating) => {
@@ -90,7 +89,10 @@ const ViewAll = () => {
           fetchMore={fetchMore}
           totalPages={totalPages}
           listBrand={listBrand}
+          page={page}
           handleFilter={handleFilter}
+          setPage={setPage}
+          listProduct={listProduct}
         />
       </div>
     </>

@@ -75,6 +75,7 @@ const ProductView = (props) => {
                     scaleX: [1.5, 1],
                     scaleY: [1.5, 1],
                   }}
+                  key={id}
                 >
                   <img src={item} alt="" onClick={handleClickSrcImagePreview} />
                 </motion.div>
