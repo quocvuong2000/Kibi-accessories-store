@@ -11,6 +11,7 @@ const Search = React.lazy(() => import("../pages/Search/index"));
 const Blog = React.lazy(() => import("../pages/Blog/index"));
 const DetailBlog = React.lazy(() => import("../pages/DetailBlog/index"));
 const ViewAllBlog = React.lazy(() => import("../pages/ViewAllBlog/index"));
+const AboutUs = React.lazy(() => import("../pages/AboutUs/index"));
 const ViewAllProductByBrand = React.lazy(() =>
   import("../pages/ViewAll/viewallbybrand")
 );
@@ -28,4 +29,5 @@ export {
   ViewAllBlog,
   ViewAllProductByBrand,
   Page500,
+  AboutUs,
 };

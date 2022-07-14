@@ -8,6 +8,7 @@ const userSlice = createSlice({
     currentUser: null,
     isFetching: false,
     accessToken: "",
+    language: "vi",
   },
 
   reducers: {
@@ -31,9 +32,17 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.currentUser = action.payload.user;
     },
+    updateLanguage: (state, action) => {
+      state.language = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, updateStart, updateSuccess } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  updateStart,
+  updateSuccess,
+  updateLanguage,
+} = userSlice.actions;
 export default userSlice.reducer;

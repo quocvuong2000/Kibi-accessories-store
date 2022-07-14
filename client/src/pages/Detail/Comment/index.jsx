@@ -40,7 +40,6 @@ const Comment = (props) => {
       //console.log(listComment);
       setListComment(res.data.comments);
     });
-    console.log("props.data.product:", props.data.product);
   }, [reload, props.data.product._id]);
 
   const handleComment = () => {

@@ -29,7 +29,7 @@ const RequireAuth = ({ children }) => {
       <Header />
       {width > 1280 && <DotRing />}
       <div>{children}</div>
-      <Brand />
+      {width > 1280 && <Brand />}
       <Footer />
     </>
   );
