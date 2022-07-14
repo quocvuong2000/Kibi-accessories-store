@@ -49,6 +49,8 @@ import { getCategoryList } from "../../Categories/CategoryAPI";
 import { doGetDetailProduct, doUpdateProduct } from "../ProductAPI";
 import NumberFormat from "react-number-format";
 import { NumberFormatCustom } from "../../../@crema/core/AppFormComponents/NumberFormatCustom";
+import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
+import AppLoader from "../../../components/AppLoader";
 export default function DialogUpdateProduct(props) {
   const [success, setSuccess] = React.useState(false);
   const [failure, setFailure] = React.useState(false);
@@ -70,7 +72,7 @@ export default function DialogUpdateProduct(props) {
     howToAdjust: "",
     warrantyDetail: "",
   });
-  const [productDetail, setProductDetail] = useState({});
+  const [productDetail, setProductDetail] = useState();
   const [progressUpload, setProgressupload] = React.useState(0);
   const hanldeDataCkeditor = (type, data) => {
     switch (type) {
@@ -139,6 +141,8 @@ export default function DialogUpdateProduct(props) {
     getCategoryList().then((res) => {
       setCatList(res.categories);
     });
+  }, [props.productId]);
+  React.useEffect(() => {
     doGetDetailProduct(props.productId)
       .then((res) => {
         if (res) {
@@ -157,6 +161,7 @@ export default function DialogUpdateProduct(props) {
         setLoading(false);
       });
   }, [props.productId]);
+
   const Input = styled("input")({
     display: "none",
   });
@@ -171,541 +176,527 @@ export default function DialogUpdateProduct(props) {
   };
   return (
     <>
-      {loading ? (
-        <Apploader />
-      ) : (
-        <>
-          <Dialog
-            open={props.showDialog}
-            onClose={handleClose}
-            fullWidth={true}
-            maxWidth={"lg"}
-          >
-            <DialogTitle>UPDATE PRODUCT</DialogTitle>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Stepper
-                nonLinear
-                activeStep={activeStep}
-                sx={{ width: "400px" }}
-                connector={<ColorlibConnector />}
-              >
-                {steps.map((label, index) => (
-                  <Step
-                    key={label}
-                    completed={completed[index]}
-                    sx={{ cursor: "pointer" }}
-                    onClick={handleStep(index)}
-                  >
-                    <StepLabel StepIconComponent={ColorlibStepIcon}>
-                      {label}
-                    </StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
-            {productDetail && (
-              <Formik
-                validateOnChange={true}
-                initialValues={{
-                  product: productDetail.product || "",
-                  price: productDetail.price || 0,
-                  category: productDetail.category || "",
-                  brand: productDetail.brand || "",
-                  topSales: productDetail.topSales || false,
-                  quantity: productDetail.quantity || 0,
-                  sale: productDetail.sale || 0,
-                  warranty: productDetail.warranty || 0,
+      <>
+        {loading && <AppLoader />}
+        <Dialog
+          open={props.showDialog}
+          onClose={handleClose}
+          fullWidth={true}
+          maxWidth={"lg"}
+        >
+          <DialogTitle>UPDATE PRODUCT</DialogTitle>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Stepper
+              nonLinear
+              activeStep={activeStep}
+              sx={{ width: "400px" }}
+              connector={<ColorlibConnector />}
+            >
+              {steps.map((label, index) => (
+                <Step
+                  key={label}
+                  completed={completed[index]}
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleStep(index)}
+                >
+                  <StepLabel StepIconComponent={ColorlibStepIcon}>
+                    {label}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
+          {productDetail && (
+            <Formik
+              validateOnChange={true}
+              initialValues={{
+                product: productDetail.product || "",
+                price: productDetail.price || 0,
+                category: productDetail.category || "",
+                brand: productDetail.brand || "",
+                topSales: productDetail.topSales || false,
+                quantity: productDetail.quantity || 0,
+                sale: productDetail.sale || 0,
+                warranty: productDetail.warranty || 0,
 
-                  description: {
-                    content: productDetail.description.content || "",
-                    detail: productDetail.description.detail || "",
-                    howToCare: productDetail.description.howToCare || "",
-                    howToAdjust: productDetail.description.howToAdjust || "",
-                    warrantyDetail:
-                      productDetail.description.warrantyDetail || "",
-                  },
-                }}
-                onSubmit={async (values) => {
-                  setLoading(true);
+                description: {
+                  content: productDetail.description?.content || "",
+                  detail: productDetail.description?.detail || "",
+                  howToCare: productDetail.description?.howToCare || "",
+                  howToAdjust: productDetail.description?.howToAdjust || "",
+                  warrantyDetail:
+                    productDetail.description?.warrantyDetail || "",
+                },
+              }}
+              onSubmit={async (values) => {
+                setLoading(true);
 
-                  if (urls.length === images.length) {
-                    const product = {
-                      ...values,
-                      images: [...urls, ...currentUrls],
-                    };
+                if (urls.length === images.length) {
+                  const product = {
+                    ...values,
+                    images: [...urls, ...currentUrls],
+                  };
 
-                    product &&
-                      doUpdateProduct(props.productId, product)
-                        .then(() => {
-                          setSuccess(true);
-                          props.handleShowDialog(false);
-                          props.reLoadTable("sucess" + Date.now());
-                        })
-                        .catch(() => {
-                          setFailure(true);
-                        })
-                        .finally(() => {
-                          setImages([]);
-                          setUrls([]);
-                          setLoading(false);
-                        });
-                  } else {
-                    const product = {
-                      ...values,
-                      images: currentUrls,
-                    };
+                  product &&
                     doUpdateProduct(props.productId, product)
                       .then(() => {
                         setSuccess(true);
-                        props.handleShowDialog(false);
-                        props.reLoadTable("sucess" + Date.now());
+
+                        setTimeout(() => {
+                          props.handleShowDialog(false);
+                          props.reLoadTable("sucess" + Date.now());
+                        }, 1000);
                       })
                       .catch(() => {
                         setFailure(true);
                       })
                       .finally(() => {
+                        setImages([]);
+                        setUrls([]);
                         setLoading(false);
                       });
-                  }
-                }}
-              >
-                {({ setFieldValue, errors, touched }) => (
-                  <Form
-                    noValidate
-                    autoComplete="off"
-                    style={{ minHeight: "500px" }}
-                  >
-                    <Grid container spacing={5} sx={{ p: 2 }}>
-                      {activeStep === 0 && (
-                        <>
-                          <Grid
-                            item
-                            xs={12}
-                            md={6}
-                            sx={{
-                              width: "100%",
-                              height: "100%",
-                              textAlign: "center",
-                            }}
-                          >
-                            {/* PRODUCT */}
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <AppTextField
-                                size="small"
-                                placeholder={"Product"}
-                                label={"Product"}
-                                name="product"
-                                variant="outlined"
-                                sx={{
-                                  width: "100%",
-                                }}
-                              />
-                            </Box>
-                            {/* PRICE */}
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <AppTextField
-                                size="small"
-                                placeholder={"Price"}
-                                label={"Price"}
-                                name="price"
-                                variant="outlined"
-                                sx={{
-                                  width: "100%",
-                                }}
-                              />
-                            </Box>
-                            {/* CATEGORY ID */}
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <FormControl
-                                size="small"
-                                sx={{
-                                  width: "100%",
-                                }}
-                              >
-                                <InputLabel
-                                  id="label-user-type"
-                                  sx={{
-                                    background: "#fff",
-                                    color: (theme) =>
-                                      errors.userType && touched.userType
-                                        ? "#f44336"
-                                        : "currentcolor",
-                                  }}
-                                >
-                                  Category
-                                </InputLabel>
-                                <AppSelectField
-                                  labelId="label-user-type"
-                                  size="small"
-                                  label={"Category"}
-                                  name="category"
-                                  onChange={(event) =>
-                                    setFieldValue(
-                                      "category",
-                                      event.target.value
-                                    )
-                                  }
-                                >
-                                  {catList.map((item, index) => {
-                                    return (
-                                      <MenuItem value={item._id} key={index}>
-                                        {item.category}
-                                      </MenuItem>
-                                    );
-                                  })}
-                                </AppSelectField>
-                              </FormControl>
-                            </Box>
-                            {/* BRAND ID */}
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <FormControl
-                                size="small"
-                                sx={{
-                                  width: "100%",
-                                }}
-                              >
-                                <InputLabel
-                                  id="label-brand"
-                                  sx={{
-                                    background: "#fff",
-                                    color: (theme) =>
-                                      errors.userType && touched.userType
-                                        ? "#f44336"
-                                        : "currentcolor",
-                                  }}
-                                >
-                                  Brand
-                                </InputLabel>
-                                <AppSelectField
-                                  labelId="label-brand"
-                                  label="Brand"
-                                  name="brand"
-                                  sx={{
-                                    width: "100%",
-                                  }}
-                                  onChange={(event) =>
-                                    setFieldValue("brand", event.target.value)
-                                  }
-                                >
-                                  {brandList.map((item, index) => {
-                                    return (
-                                      <MenuItem value={item._id} key={index}>
-                                        {item.brand}
-                                      </MenuItem>
-                                    );
-                                  })}
-                                </AppSelectField>
-                              </FormControl>
-                            </Box>
-                            {/* QUANTITY */}
+                } else {
+                  const product = {
+                    ...values,
+                    images: currentUrls,
+                  };
+                  doUpdateProduct(props.productId, product)
+                    .then(() => {
+                      setSuccess(true);
 
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <AppTextField
-                                size="small"
-                                placeholder={"Quantity"}
-                                label={"Quantity"}
-                                name="quantity"
-                                variant="outlined"
-                                sx={{
-                                  width: "100%",
-                                }}
-                              />
-                            </Box>
-
-                            {/* Sale */}
-                            <Box
-                              sx={{
-                                mb: { xs: 3, xl: 3 },
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <AppTextField
-                                size="small"
-                                placeholder={"Sale%"}
-                                label={"Sale%"}
-                                name="sale"
-                                variant="outlined"
-                                InputProps={{
-                                  inputComponent: NumberFormatCustom,
-                                }}
-                                sx={{
-                                  width: "40%",
-                                }}
-                              />
-                              <AppTextField
-                                size="small"
-                                placeholder={"Warranty (Month)"}
-                                label={"Warranty (Month)"}
-                                name="warranty"
-                                variant="outlined"
-                                InputProps={{
-                                  inputComponent: NumberFormatCustom,
-                                }}
-                                sx={{
-                                  width: "40%",
-                                }}
-                              />
-                            </Box>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            md={6}
-                            sx={{
-                              textAlign: "center",
-                              display: "flex",
-                              justifyContent: "center",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 500,
-                                height: 450,
-                                overflowY: "auto",
-                              }}
-                            >
-                              <Typography variant="body2_medium">
-                                Current Image
-                              </Typography>
-                              {currentUrls.length === 0 ? (
-                                <Avatar
-                                  alt="Remy Sharp"
-                                  src={unknownUser}
-                                  sx={{
-                                    width: 150,
-                                    height: 150,
-                                    mb: 2,
-                                    borderRadius: "0",
-                                  }}
-                                />
-                              ) : (
-                                <ImageList cols={3} rowHeight={164}>
-                                  {currentUrls.map((url, i) => (
-                                    <ImageListItem
-                                      key={i}
-                                      sx={{ position: "relative" }}
-                                    >
-                                      <Box
-                                        sx={{
-                                          position: "absolute",
-                                          right: "0px",
-                                          top: "0px",
-                                          backgroundColor: "#000",
-                                          borderRadius: "20px",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() => hanldeDeleteImage(url)}
-                                      >
-                                        <UilTimesCircle fill={"#fff"} />
-                                      </Box>
-                                      <img
-                                        style={{ height: "150px" }}
-                                        src={url}
-                                        // srcSet={`${URL.createObjectURL(url)}`}
-                                        alt={i}
-                                        loading="lazy"
-                                      />
-                                    </ImageListItem>
-                                  ))}
-                                </ImageList>
-                              )}
-                              <Divider />
-                              <Typography variant="body2_medium">
-                                New Image
-                              </Typography>
-                              {images.length === 0 ? (
-                                <Avatar
-                                  alt="Remy Sharp"
-                                  src={unknownUser}
-                                  sx={{
-                                    width: 150,
-                                    height: 150,
-                                    mb: 2,
-                                    borderRadius: "0",
-                                  }}
-                                />
-                              ) : (
-                                <ImageList cols={3} rowHeight={164}>
-                                  {images.map((url, i) => (
-                                    <ImageListItem
-                                      key={i}
-                                      sx={{ position: "relative" }}
-                                    >
-                                      <img
-                                        // src={url}
-                                        srcSet={`${URL.createObjectURL(url)}`}
-                                        alt={i}
-                                        loading="lazy"
-                                      />
-                                      <LinearProgressUpload
-                                        progress={progressUpload}
-                                      />
-                                    </ImageListItem>
-                                  ))}
-                                </ImageList>
-                              )}
-                            </Box>
-                            <label htmlFor="contained-button-file">
-                              <Input
-                                accept="image/*"
-                                id="contained-button-file"
-                                multiple
-                                type="file"
-                                onChange={handleChangeImage}
-                              />
-                              <Button variant="contained" component="span">
-                                {images.length > 0
-                                  ? urls.length !== images.length
-                                    ? "Loading..."
-                                    : "Update"
-                                  : "Update"}
-                              </Button>
-                            </label>
-                          </Grid>
-                        </>
-                      )}
-                      {activeStep === 1 && (
+                      setTimeout(() => {
+                        props.reLoadTable("sucess" + Date.now());
+                        props.handleShowDialog(false);
+                      }, 1000);
+                    })
+                    .catch(() => {
+                      setFailure(true);
+                    })
+                    .finally(() => {
+                      setLoading(false);
+                    });
+                }
+              }}
+            >
+              {({ setFieldValue, errors, touched }) => (
+                <Form
+                  noValidate
+                  autoComplete="off"
+                  style={{ minHeight: "500px" }}
+                >
+                  <Grid container spacing={5} sx={{ p: 2 }}>
+                    {activeStep === 0 && (
+                      <>
                         <Grid
                           item
                           xs={12}
-                          md={12}
+                          md={6}
                           sx={{
                             width: "100%",
-                            minheight: "414px",
+                            height: "100%",
                             textAlign: "center",
                           }}
                         >
-                          <Box
-                            sx={{ display: "flex", justifyContent: "center" }}
-                          >
-                            <Stepper
-                              nonLinear
-                              activeStep={activeStepDes}
-                              sx={{ width: "800px", mb: 2 }}
-                            >
-                              {descriptionSteps.map((label, index) => (
-                                <Step
-                                  key={label}
-                                  completed={completedDes[index]}
-                                >
-                                  <StepButton
-                                    color="inherit"
-                                    onClick={handleStepDes(index)}
-                                  >
-                                    {label}
-                                  </StepButton>
-                                </Step>
-                              ))}
-                            </Stepper>
+                          {/* PRODUCT */}
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <AppTextField
+                              size="small"
+                              placeholder={"Product"}
+                              label={"Product"}
+                              name="product"
+                              variant="outlined"
+                              sx={{
+                                width: "100%",
+                              }}
+                            />
                           </Box>
-                          {activeStepDes === 0 && (
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <CHKditor
-                                setValue={setFieldValue}
-                                field={"description.content"}
-                                data={description.content}
-                                updateData={hanldeDataCkeditor}
-                                type={"content"}
-                              />
-                            </Box>
-                          )}
-                          {activeStepDes === 1 && (
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <CHKditor
-                                setValue={setFieldValue}
-                                field={"description.detail"}
-                                data={description.detail}
-                                updateData={hanldeDataCkeditor}
-                                type={"detail"}
-                              />
-                            </Box>
-                          )}
-                          {activeStepDes === 2 && (
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <CHKditor
-                                setValue={setFieldValue}
-                                field={"description.howToCare"}
-                                data={description.howToCare}
-                                updateData={hanldeDataCkeditor}
-                                type={"howToCare"}
-                              />
-                            </Box>
-                          )}
-                          {activeStepDes === 3 && (
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <CHKditor
-                                setValue={setFieldValue}
-                                field={"description.howToAdjust"}
-                                data={description.howToAdjust}
-                                updateData={hanldeDataCkeditor}
-                                type={"howToAdjust"}
-                              />
-                            </Box>
-                          )}
-                          {activeStepDes === 4 && (
-                            <Box sx={{ mb: { xs: 3, xl: 3 } }}>
-                              <CHKditor
-                                setValue={setFieldValue}
-                                field={"description.warrantyDetail"}
-                                data={description.warrantyDetail}
-                                updateData={hanldeDataCkeditor}
-                                type={"warrantyDetail"}
-                              />
-                            </Box>
-                          )}
+                          {/* PRICE */}
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <AppTextField
+                              size="small"
+                              placeholder={"Price"}
+                              label={"Price"}
+                              name="price"
+                              variant="outlined"
+                              sx={{
+                                width: "100%",
+                              }}
+                            />
+                          </Box>
+                          {/* CATEGORY ID */}
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <FormControl
+                              size="small"
+                              sx={{
+                                width: "100%",
+                              }}
+                            >
+                              <InputLabel
+                                id="label-user-type"
+                                sx={{
+                                  background: "#fff",
+                                  color: (theme) =>
+                                    errors.userType && touched.userType
+                                      ? "#f44336"
+                                      : "currentcolor",
+                                }}
+                              >
+                                Category
+                              </InputLabel>
+                              <AppSelectField
+                                labelId="label-user-type"
+                                size="small"
+                                label={"Category"}
+                                name="category"
+                                onChange={(event) =>
+                                  setFieldValue("category", event.target.value)
+                                }
+                              >
+                                {catList.map((item, index) => {
+                                  return (
+                                    <MenuItem value={item._id} key={index}>
+                                      {item.category}
+                                    </MenuItem>
+                                  );
+                                })}
+                              </AppSelectField>
+                            </FormControl>
+                          </Box>
+                          {/* BRAND ID */}
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <FormControl
+                              size="small"
+                              sx={{
+                                width: "100%",
+                              }}
+                            >
+                              <InputLabel
+                                id="label-brand"
+                                sx={{
+                                  background: "#fff",
+                                  color: (theme) =>
+                                    errors.userType && touched.userType
+                                      ? "#f44336"
+                                      : "currentcolor",
+                                }}
+                              >
+                                Brand
+                              </InputLabel>
+                              <AppSelectField
+                                labelId="label-brand"
+                                label="Brand"
+                                name="brand"
+                                sx={{
+                                  width: "100%",
+                                }}
+                                onChange={(event) =>
+                                  setFieldValue("brand", event.target.value)
+                                }
+                              >
+                                {brandList.map((item, index) => {
+                                  return (
+                                    <MenuItem value={item._id} key={index}>
+                                      {item.brand}
+                                    </MenuItem>
+                                  );
+                                })}
+                              </AppSelectField>
+                            </FormControl>
+                          </Box>
+                          {/* QUANTITY */}
+
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <AppTextField
+                              size="small"
+                              placeholder={"Quantity"}
+                              label={"Quantity"}
+                              name="quantity"
+                              variant="outlined"
+                              sx={{
+                                width: "100%",
+                              }}
+                            />
+                          </Box>
+
+                          {/* Sale */}
+                          <Box
+                            sx={{
+                              mb: { xs: 3, xl: 3 },
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <AppTextField
+                              size="small"
+                              placeholder={"Sale%"}
+                              label={"Sale%"}
+                              name="sale"
+                              variant="outlined"
+                              InputProps={{
+                                inputComponent: NumberFormatCustom,
+                              }}
+                              sx={{
+                                width: "40%",
+                              }}
+                            />
+                            <AppTextField
+                              size="small"
+                              placeholder={"Warranty (Month)"}
+                              label={"Warranty (Month)"}
+                              name="warranty"
+                              variant="outlined"
+                              InputProps={{
+                                inputComponent: NumberFormatCustom,
+                              }}
+                              sx={{
+                                width: "40%",
+                              }}
+                            />
+                          </Box>
                         </Grid>
-                      )}
-                    </Grid>
-                    <DialogActions>
-                      <Button color="secondary" onClick={handleClose}>
-                        Cancel
-                      </Button>
-                      <Button
-                        // onClick={handleClose}
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        disabled={
-                          images.length > 0
-                            ? urls.length !== images.length
-                              ? true
-                              : false
-                            : false
-                        }
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              width: 500,
+                              height: 450,
+                              overflowY: "auto",
+                            }}
+                          >
+                            <Typography variant="body2_medium">
+                              Current Image
+                            </Typography>
+                            {currentUrls.length === 0 ? (
+                              <Avatar
+                                alt="Remy Sharp"
+                                src={unknownUser}
+                                sx={{
+                                  width: 150,
+                                  height: 150,
+                                  mb: 2,
+                                  borderRadius: "0",
+                                }}
+                              />
+                            ) : (
+                              <ImageList cols={3} rowHeight={164}>
+                                {currentUrls.map((url, i) => (
+                                  <ImageListItem
+                                    key={i}
+                                    sx={{ position: "relative" }}
+                                  >
+                                    <Box
+                                      sx={{
+                                        position: "absolute",
+                                        right: "0px",
+                                        top: "0px",
+                                        backgroundColor: "#000",
+                                        borderRadius: "20px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() => hanldeDeleteImage(url)}
+                                    >
+                                      <UilTimesCircle fill={"#fff"} />
+                                    </Box>
+                                    <img
+                                      style={{ height: "150px" }}
+                                      src={url}
+                                      // srcSet={`${URL.createObjectURL(url)}`}
+                                      alt={i}
+                                      loading="lazy"
+                                    />
+                                  </ImageListItem>
+                                ))}
+                              </ImageList>
+                            )}
+                            <Divider />
+                            <Typography variant="body2_medium">
+                              New Image
+                            </Typography>
+                            {images.length === 0 ? (
+                              <Avatar
+                                alt="Remy Sharp"
+                                src={unknownUser}
+                                sx={{
+                                  width: 150,
+                                  height: 150,
+                                  mb: 2,
+                                  borderRadius: "0",
+                                }}
+                              />
+                            ) : (
+                              <ImageList cols={3} rowHeight={164}>
+                                {images.map((url, i) => (
+                                  <ImageListItem
+                                    key={i}
+                                    sx={{ position: "relative" }}
+                                  >
+                                    <img
+                                      // src={url}
+                                      srcSet={`${URL.createObjectURL(url)}`}
+                                      alt={i}
+                                      loading="lazy"
+                                    />
+                                    <LinearProgressUpload
+                                      progress={progressUpload}
+                                    />
+                                  </ImageListItem>
+                                ))}
+                              </ImageList>
+                            )}
+                          </Box>
+                          <label htmlFor="contained-button-file">
+                            <Input
+                              accept="image/*"
+                              id="contained-button-file"
+                              multiple
+                              type="file"
+                              onChange={handleChangeImage}
+                            />
+                            <Button variant="contained" component="span">
+                              {images.length > 0
+                                ? urls.length !== images.length
+                                  ? "Loading..."
+                                  : "Update"
+                                : "Update"}
+                            </Button>
+                          </label>
+                        </Grid>
+                      </>
+                    )}
+                    {activeStep === 1 && (
+                      <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        sx={{
+                          width: "100%",
+                          minheight: "414px",
+                          textAlign: "center",
+                        }}
                       >
-                        Update Product
-                      </Button>
-                    </DialogActions>
-                  </Form>
-                )}
-              </Formik>
-            )}
-          </Dialog>
-          <Snackbar
-            open={success}
-            autoHideDuration={1000}
-            onClose={() => setSuccess(false)}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          >
-            <Alert severity="success" sx={{ width: "100%" }}>
-              Add success
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={failure}
-            autoHideDuration={1000}
-            onClose={() => setFailure(false)}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          >
-            <Alert severity="error" sx={{ width: "100%" }}>
-              Error
-            </Alert>
-          </Snackbar>
-        </>
-      )}
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                          <Stepper
+                            nonLinear
+                            activeStep={activeStepDes}
+                            sx={{ width: "800px", mb: 2 }}
+                          >
+                            {descriptionSteps.map((label, index) => (
+                              <Step key={label} completed={completedDes[index]}>
+                                <StepButton
+                                  color="inherit"
+                                  onClick={handleStepDes(index)}
+                                >
+                                  {label}
+                                </StepButton>
+                              </Step>
+                            ))}
+                          </Stepper>
+                        </Box>
+                        {activeStepDes === 0 && (
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <CHKditor
+                              setValue={setFieldValue}
+                              field={"description.content"}
+                              data={description.content}
+                              updateData={hanldeDataCkeditor}
+                              type={"content"}
+                            />
+                          </Box>
+                        )}
+                        {activeStepDes === 1 && (
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <CHKditor
+                              setValue={setFieldValue}
+                              field={"description.detail"}
+                              data={description.detail}
+                              updateData={hanldeDataCkeditor}
+                              type={"detail"}
+                            />
+                          </Box>
+                        )}
+                        {activeStepDes === 2 && (
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <CHKditor
+                              setValue={setFieldValue}
+                              field={"description.howToCare"}
+                              data={description.howToCare}
+                              updateData={hanldeDataCkeditor}
+                              type={"howToCare"}
+                            />
+                          </Box>
+                        )}
+                        {activeStepDes === 3 && (
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <CHKditor
+                              setValue={setFieldValue}
+                              field={"description.howToAdjust"}
+                              data={description.howToAdjust}
+                              updateData={hanldeDataCkeditor}
+                              type={"howToAdjust"}
+                            />
+                          </Box>
+                        )}
+                        {activeStepDes === 4 && (
+                          <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                            <CHKditor
+                              setValue={setFieldValue}
+                              field={"description.warrantyDetail"}
+                              data={description.warrantyDetail}
+                              updateData={hanldeDataCkeditor}
+                              type={"warrantyDetail"}
+                            />
+                          </Box>
+                        )}
+                      </Grid>
+                    )}
+                  </Grid>
+                  <DialogActions>
+                    <Button color="secondary" onClick={handleClose}>
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={
+                        images.length > 0
+                          ? urls.length !== images.length
+                            ? true
+                            : false
+                          : false
+                      }
+                    >
+                      Update Product
+                    </Button>
+                  </DialogActions>
+                </Form>
+              )}
+            </Formik>
+          )}
+        </Dialog>
+        <SnackBarCustom
+          open={success}
+          setStateWhenClose={setSuccess}
+          label={"Update Product Success"}
+          status={"success"}
+        />
+        <SnackBarCustom
+          open={failure}
+          setStateWhenClose={setFailure}
+          label={"update Product Failure"}
+          status={"error"}
+        />
+      </>
     </>
   );
 }

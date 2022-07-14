@@ -160,7 +160,8 @@ const Header = () => {
 
   const onSearch = (value) => {
     var regex = /^[a-zA-Z]+$/;
-    if (value && regex.test(value)) {
+    console.log(value);
+    if (value) {
       navigate(`/search/${value}`);
     } else if (value === "") {
       return;

@@ -189,7 +189,7 @@ export default function DialogAddProduct(props) {
           validateOnChange={true}
           initialValues={{
             product: "",
-            price: "",
+            price: 0,
             category: "",
             brand: "",
             sale: 0,

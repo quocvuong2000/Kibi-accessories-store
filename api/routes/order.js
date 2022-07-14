@@ -272,7 +272,7 @@ router.get("/chart", async (req, res) => {
       { $match: { createdAt: { $gt: d } } },
       {
         $group: {
-          _id: { $dateToString: { format: "%d-%m-%Y", date: "$createdAt" } },
+          _id: { $dateToString: { format: "%m-%d-%Y", date: "$createdAt" } },
           count: { $sum: 1 },
         },
       },

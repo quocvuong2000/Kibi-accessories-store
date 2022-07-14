@@ -18,10 +18,10 @@ async function monitorStorageImport(client, timeInMs) {
   changeStream.on("change", async (next) => {
     // console.log(next.documentKey._id);
     // const orderFound = await Order.findById(next.documentKey._id);
-    if (next.documentKey._id) {
-      console.log("next.documentKey._id", next.documentKey._id);
+    if (next.operationType === "insert") {
+      console.log("insert", next.documentKey._id);
     } else {
-      console.log("next.fullDocument._id", next.fullDocument._id);
+      console.log("update", next.documentKey._id);
     }
   });
 

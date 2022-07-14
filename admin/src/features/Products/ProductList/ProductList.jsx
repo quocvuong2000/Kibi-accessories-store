@@ -19,6 +19,7 @@ import productPlaceholder from "../../../assets/images/product-example.png";
 import AppLoader from "../../../components/AppLoader";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { StyledMenu } from "../../../theme/styledMenu";
+import { checkTypeItem } from "../../../utils/checkTypeItem";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
 import { doDeleteProduct } from "../ProductAPI";
@@ -177,7 +178,7 @@ export default function ProductList(props) {
                   <TableCell align="left">
                     <span>{row.quantity}</span>
                   </TableCell>
-                  <TableCell align="left">{row.sale || "N/A"}</TableCell>
+                  <TableCell align="left">{checkTypeItem(row.sale)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
