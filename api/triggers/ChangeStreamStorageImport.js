@@ -28,7 +28,7 @@ async function monitorStorageImport(client, timeInMs) {
         newQuantity: next.fullDocument.quantity,
         oldQuantity: 0,
         branchName: next.fullDocument.branchName || "NA",
-        ProductName: next.fullDocument.productName,
+        productName: next.fullDocument.product,
         status: "Import",
       };
       try {
