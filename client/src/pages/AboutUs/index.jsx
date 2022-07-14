@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./styles.module.scss";
 import about from "../../assets/aboutus/about.jpg";
 import TitleAbout from "./Title";
 
 const AboutUs = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={s.container}>
       <div className={s.image_feature}>

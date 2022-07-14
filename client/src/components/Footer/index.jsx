@@ -38,24 +38,31 @@ export const Footer = () => {
 
   const useful = [
     {
+      link: "",
       name: "Warranty & Complaints",
     },
     {
+      link: "",
       name: "Order & Shipping",
     },
     {
+      link: "",
       name: "Tracking Order",
     },
     {
+      link: "/about-us",
       name: "About Us",
     },
     {
-      name: "Repair",
+      link: "/legal-page",
+      name: "Legal",
     },
     {
+      link: "",
       name: "Terms",
     },
     {
+      link: "",
       name: "FAQ",
     },
   ];
@@ -187,7 +194,7 @@ export const Footer = () => {
                 {useful.map((item, id) => {
                   return (
                     <Link
-                      to={"#"}
+                      to={item.link}
                       className={styles.footer__useful__link__item}
                       key={id}
                     >

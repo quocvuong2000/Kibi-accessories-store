@@ -18,6 +18,7 @@ import {
   Client,
   Page500,
   AboutUs,
+  Legal,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -163,6 +164,14 @@ const AppLayout = () => {
             element={
               <UnRequireAuth>
                 <AboutUs />
+              </UnRequireAuth>
+            }
+          ></Route>
+          <Route
+            path="/legal-page"
+            element={
+              <UnRequireAuth>
+                <Legal />
               </UnRequireAuth>
             }
           ></Route>
