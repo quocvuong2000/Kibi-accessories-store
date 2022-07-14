@@ -50,7 +50,7 @@ async function monitorStorageImport(client, timeInMs) {
           oldQuantity: 0,
           branchName: oldQuantity.branchName || "NA",
           ProductName: oldQuantity.productName,
-          status: newQuantity > oldQuantity ? "Import" : "Export",
+          status: "Import",
         };
         try {
           const savedStorage = new Storage(newExport);

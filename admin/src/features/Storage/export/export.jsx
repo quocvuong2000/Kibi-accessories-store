@@ -26,7 +26,7 @@ const ListExport = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Id</TableCell>
-                <TableCell align="left">Address</TableCell>
+                <TableCell align="left">Branch</TableCell>
                 <TableCell align="left">Product Name</TableCell>
                 <TableCell align="left">Old Quantity</TableCell>
                 <TableCell align="left">New Quantity</TableCell>
@@ -57,7 +57,7 @@ const ListExport = (props) => {
                       {item.newQuantity || "N/A"}
                     </TableCell>
                     <TableCell align="left">
-                      {moment(item.createdAt).format("MMM DD, YY") || "N/A"}
+                      {moment(item.createdAt).format("DD/MM/YYYY") || "N/A"}
                     </TableCell>
                   </TableRow>
                 );
