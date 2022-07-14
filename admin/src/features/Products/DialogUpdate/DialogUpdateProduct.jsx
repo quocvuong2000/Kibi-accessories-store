@@ -235,6 +235,8 @@ export default function DialogUpdateProduct(props) {
                   const product = {
                     ...values,
                     images: [...urls, ...currentUrls],
+                    branchId: props.branchSelected._id,
+                    branchName: props.branchSelected.address,
                   };
 
                   product &&
@@ -259,6 +261,8 @@ export default function DialogUpdateProduct(props) {
                   const product = {
                     ...values,
                     images: currentUrls,
+                    branchId: props.branchSelected._id,
+                    branchName: props.branchSelected.address,
                   };
                   doUpdateProduct(props.productId, product)
                     .then(() => {

@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { async } from "@firebase/util";
 import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -15,10 +14,8 @@ import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
 import {
   addNewBranch,
   addNewBranchToGhn,
-  getDistrict,
-  getLatLong,
-  getProvince,
-  getWard,
+  getDistrict, getProvince,
+  getWard
 } from "../BranchAPI";
 import { AddBranchSchema } from "./validate";
 export default function DialogAddBranch(props) {
