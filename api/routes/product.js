@@ -46,7 +46,7 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-//GET - PAGINATION
+//GET FILTER VIP - PAGINATION
 router.get("/", async (req, res) => {
   const qPage = req.query.page;
   const qName = req.query.name;
@@ -54,6 +54,7 @@ router.get("/", async (req, res) => {
   const qFromPrice = req.query.fromPrice;
   const qToPrice = req.query.toPrice;
   const qRating = req.query.rating;
+  const qBranch = req.query.branch;
   let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
   let page = qPage || 1;
 
@@ -66,12 +67,14 @@ router.get("/", async (req, res) => {
     };
   }
   if (qBrand) {
-    query = { ...query, ...{ brand: qBrand } };
+    query = { ...query, ...{ brand: { $in: qBrand.split(",") } } };
   }
   if (qRating) {
     query = { ...query, ...{ avgRating: { $gt: parseInt(qRating) } } };
   }
-
+  if (qBrand) {
+    query = { ...query, ...{ branch: qBranch } };
+  }
   try {
     let products;
     products = await Product.find(query)

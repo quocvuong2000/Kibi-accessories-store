@@ -6,6 +6,8 @@ const ProductSchema = new mongoose.Schema(
     price: { type: Number },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand" },
+    branch : {type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
+    branchName : {type: String},
     voucher: { type: Number },
     topSales: { type: Boolean },
     totalRating: { type: Number },

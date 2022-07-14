@@ -12,8 +12,9 @@ import React, { useState } from "react";
 import DialogAddProduct from "../DialogAdd/DialogAddProduct";
 
 const HeaderProduct = (props) => {
-  const [age, setAge] = React.useState("");
-  const [age1, setAge1] = React.useState("");
+  const [age, setAge] = useState("");
+  const [age1, setAge1] = useState("");
+  const [filterBranch,setFilterBranch] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const handleShowDialogAdd = (isVisible) => {
     setShowDialog(isVisible);
@@ -24,6 +25,9 @@ const HeaderProduct = (props) => {
   const handleChange1 = (event) => {
     setAge(event.target.value);
   };
+  const hanldeFilterProductByBranch= (e) => {
+    setFilterBranch(e.target.value);
+  }
   return (
     <div>
       <Box sx={{ mb: 5 }}>
@@ -64,6 +68,22 @@ const HeaderProduct = (props) => {
                 value={age1}
                 label="Category"
                 onChange={handleChange1}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-simple-select-label">Branches</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={filterBranch}
+                label="Branches"
+                onChange={hanldeFilterProductByBranch}
               >
                 <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
