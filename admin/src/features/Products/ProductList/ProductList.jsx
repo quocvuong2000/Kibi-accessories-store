@@ -226,6 +226,7 @@ export default function ProductList(props) {
           handleShowDialog={hanldeShowUpdateProductModal}
           reLoadTable={props.reLoadTable}
           productId={productSelectedUpdate}
+          branchSelected={props.branchSelected}
         />
       )}
     </>

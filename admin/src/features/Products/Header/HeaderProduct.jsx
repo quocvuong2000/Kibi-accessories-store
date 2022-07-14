@@ -14,7 +14,7 @@ import DialogAddProduct from "../DialogAdd/DialogAddProduct";
 const HeaderProduct = (props) => {
   const [age, setAge] = useState("");
   const [age1, setAge1] = useState("");
-  const [filterBranch,setFilterBranch] = useState("");
+  const [filterBranch, setFilterBranch] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const handleShowDialogAdd = (isVisible) => {
     setShowDialog(isVisible);
@@ -25,14 +25,14 @@ const HeaderProduct = (props) => {
   const handleChange1 = (event) => {
     setAge(event.target.value);
   };
-  const hanldeFilterProductByBranch= (e) => {
+  const hanldeFilterProductByBranch = (e) => {
     setFilterBranch(e.target.value);
-  }
+  };
   return (
     <div>
       <Box sx={{ mb: 5 }}>
         <Grid container spacing={3}>
-          <Grid item xs={5}>
+          <Grid item xs={3}>
             <TextField
               fullWidth
               size="small"
@@ -81,13 +81,21 @@ const HeaderProduct = (props) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={filterBranch}
+                value={props.branchSelected._id}
                 label="Branches"
-                onChange={hanldeFilterProductByBranch}
+                size="small"
+                onChange={() => {
+                  props.hanldeChooseBranches();
+                  props.reLoadTable("choose" + Date.now());
+                }}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {props.branchList.map((el, i) => {
+                  return (
+                    <MenuItem value={el._id} key={i}>
+                      {el.address}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </Grid>
@@ -109,6 +117,7 @@ const HeaderProduct = (props) => {
           showDialog={showDialog}
           handleShowDialog={handleShowDialogAdd}
           reLoadTable={props.reLoadTable}
+          branchSelected={props.branchSelected}
         />
       )}
     </div>

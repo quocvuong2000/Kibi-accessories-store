@@ -210,8 +210,10 @@ export default function DialogAddProduct(props) {
               const product = {
                 ...values,
                 images: urls,
+                branchId : props.branchSelected._id,
+                branchName : props.branchSelected.address,
               };
-
+console.log(product)
               product &&
                 addNewProduct(product)
                   .then(() => {

@@ -1,3 +1,5 @@
+const Product = require("../models/Product");
+const Storage = require("../models/Storage");
 async function monitorStorageImport(client, timeInMs) {
   const collection = client.db("kibi").collection("products");
   const pipeline = [
@@ -19,9 +21,44 @@ async function monitorStorageImport(client, timeInMs) {
     // console.log(next.documentKey._id);
     // const orderFound = await Order.findById(next.documentKey._id);
     if (next.operationType === "insert") {
-      console.log("insert", next.documentKey._id);
+      // console.log("insert", next.documentKey._id);
+      const newExport = {
+        branchId: next.fullDocument.branchId || "NA",
+        productId: next.documentKey._id,
+        newQuantity: next.fullDocument.quantity,
+        oldQuantity: 0,
+        branchName: next.fullDocument.branchName || "NA",
+        ProductName: next.fullDocument.productName,
+        status: "Import",
+      };
+      try {
+        const savedStorage = new Storage(newExport);
+        await savedStorage.save();
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      console.log("update", next.documentKey._id);
+      // console.log("update", next);
+      const oldQuantity = await Product.findById(next.documentKey._id);
+
+      if (oldQuantity && oldQuantity.quantity > 0) {
+        const newQuantity = next.updateDescription.updatedFields.quantity;
+        const newExport = {
+          branchId: oldQuantity.branchId || "NA",
+          productId: next.documentKey._id,
+          newQuantity: newQuantity,
+          oldQuantity: 0,
+          branchName: oldQuantity.branchName || "NA",
+          ProductName: oldQuantity.productName,
+          status: newQuantity > oldQuantity ? "Import" : "Export",
+        };
+        try {
+          const savedStorage = new Storage(newExport);
+          await savedStorage.save();
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   });
 
