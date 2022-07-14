@@ -52,7 +52,7 @@ const ViewAll = () => {
     getAllProduct(idCate, page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
-        console.log(res);
+        // console.log(res);
         setListBrand(listProduct.push(...res.products));
       })
       .catch(() => {
@@ -69,6 +69,7 @@ const ViewAll = () => {
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
+          console.log("res", res);
           setProduct(res);
           setTotalPages(res.totalPages);
         }

@@ -40,7 +40,7 @@ export const getAllProductByBrand = async (
 };
 
 export const searchProduct = async (kw) => {
-  const res = await jwtAxios.get(`/api/product/search/${kw}`);
+  const res = await jwtAxios.get(`/api/product/?name=${kw}`);
   if (res && res.status !== 200)
     throw Error("Something wrongs with code status" + res.status);
   return res.data;

@@ -158,18 +158,6 @@ const Header = () => {
 
   let navigate = useNavigate();
 
-  const onSearch = (value) => {
-    var regex = /^[a-zA-Z]+$/;
-    console.log(value);
-    if (value) {
-      navigate(`/search/${value}`);
-    } else if (value === "") {
-      return;
-    } else {
-      openNotificationWithIcon("warning");
-    }
-  };
-
   const [category, setCategory] = useState({});
   const [collapsed, setCollapsed] = useState(false);
   const menuRef = useRef(null);
@@ -204,6 +192,18 @@ const Header = () => {
     });
   }, [cart]);
 
+  const onSearch = (value) => {
+    var regex = /^[a-zA-Z]+$/;
+    // console.log(value);
+    if (value) {
+      console.log("value", value);
+      navigate(`/search/${value}`);
+    } else if (value === "") {
+      return;
+    } else {
+      openNotificationWithIcon("warning");
+    }
+  };
   return (
     <div className={classes.container}>
       <Cart
@@ -254,7 +254,7 @@ const Header = () => {
           >
             <AutoComplete
               required={true}
-              onSearch={onSearch}
+              // onSearch={onSearch}
               options={options}
               onSelect={() => {}}
               onChange={(value) => {
@@ -272,6 +272,7 @@ const Header = () => {
               }}
             >
               <Search
+                onSearch={onSearch}
                 className={classes.search}
                 placeholder="Search products, accessory, etc..."
               ></Search>

@@ -11,12 +11,14 @@ const Search = () => {
   const timeout = useRef(null);
   const { kw } = useParams();
   useEffect(() => {
+    console.log("kw", kw);
     clearTimeout(timeout.current);
     timeout.current = setTimeout(() => {
       searchProduct(kw)
         .then((res) => {
           if (res) {
-            setProduct(res);
+            // console.log("res", res);
+            setProduct(res.products);
           }
         })
         .finally(() => {

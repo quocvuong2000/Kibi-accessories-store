@@ -198,10 +198,13 @@ router.get("/limit/:countlimit", async (req, res) => {
 });
 
 //SEARCH
-router.get("/search/:kw", async (req, res) => {
+router.get("/search", async (req, res) => {
+  const qName = req.query.name;
+  console.log(qKw);
   const products = await Product.find({
-    product: { $regex: req.params.kw, $options: "i" },
+    product: qKw,
   });
+  // console.log(products);
   try {
     res.status(200).json({ products });
   } catch (error) {

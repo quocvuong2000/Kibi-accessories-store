@@ -59,7 +59,7 @@ callAPIWithToken.interceptors.response.use(
     }
 
     if (err.response && err.response.status === 500) {
-      window.location.href = "/500";
+      // window.location.href = "/500";
     }
     return Promise.reject(err);
   }
@@ -74,7 +74,7 @@ jwtAxios.interceptors.response.use(
   },
   (err) => {
     if (err.response && err.response.status === 500) {
-      window.location.href = "/500";
+      // window.location.href = "/500";
     }
     return Promise.reject(err);
   }
