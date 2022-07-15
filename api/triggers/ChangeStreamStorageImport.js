@@ -22,17 +22,17 @@ async function monitorStorageImport(client, timeInMs) {
     // const orderFound = await Order.findById(next.documentKey._id);
     if (next.operationType === "insert") {
       // console.log("insert", next.documentKey._id);
-      const newExport = {
+      const newImport = {
         branchId: next.fullDocument.branchId || "NA",
         productId: next.documentKey._id,
         newQuantity: next.fullDocument.quantity,
         oldQuantity: 0,
         branchName: next.fullDocument.branchName || "NA",
-        ProductName: next.fullDocument.productName,
+        productName: next.fullDocument.product,
         status: "Import",
       };
       try {
-        const savedStorage = new Storage(newExport);
+        const savedStorage = new Storage(newImport);
         await savedStorage.save();
       } catch (error) {
         console.log(error);
@@ -43,7 +43,7 @@ async function monitorStorageImport(client, timeInMs) {
 
       if (oldQuantity && oldQuantity.quantity > 0) {
         const newQuantity = next.updateDescription.updatedFields.quantity;
-        const newExport = {
+        const newImport = {
           branchId: oldQuantity.branchId || "NA",
           productId: next.documentKey._id,
           newQuantity: newQuantity,
@@ -53,7 +53,7 @@ async function monitorStorageImport(client, timeInMs) {
           status: "Import",
         };
         try {
-          const savedStorage = new Storage(newExport);
+          const savedStorage = new Storage(newImport);
           await savedStorage.save();
         } catch (error) {
           console.log(error);
