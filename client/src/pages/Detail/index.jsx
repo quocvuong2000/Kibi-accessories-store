@@ -10,6 +10,7 @@ import AppLoader from "../../components/AppLoader";
 import Comment from "./Comment";
 import { addViewed } from "../../api/Viewed";
 import { useSelector } from "react-redux";
+import { Empty } from "antd";
 
 const Detail = () => {
   const { id } = useParams();
@@ -52,7 +53,7 @@ const Detail = () => {
             <RelateProduct data={product} />
           </>
         ) : (
-          <p>Không có gì</p>
+          <Empty />
         )}
       </div>
     </>

@@ -12,6 +12,7 @@ import { checkTypeItem } from "../../../utils/checkTypeItem";
 const ListImport = (props) => {
   const handleChangePage = (_event, newPage) => {
     props.takePageImport(newPage + 1);
+    props.setLoading(true);
   };
   return (
     <>

@@ -133,7 +133,7 @@ const ListProduct = (props) => {
 
   return (
     <>
-      <div className={classes.container} id="scrollableDiv">
+      <div className={classes.container}>
         <div className={classes.image__wrap}>
           <img
             src="https://matoa-indonesia.com/wp-content/uploads/2022/05/Req-10-01-1-scaled.jpg"

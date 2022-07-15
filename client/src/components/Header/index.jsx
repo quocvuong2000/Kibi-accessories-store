@@ -8,11 +8,13 @@ import {
   Menu,
   message,
   notification,
+  Popover,
   Space,
 } from "antd";
 import "antd/dist/antd.min.css";
 import Cookies from "js-cookie";
 import {
+  Globe,
   Handbag,
   Heart,
   LockKey,
@@ -22,7 +24,7 @@ import {
   UserCircle,
 } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllCategory } from "../../api/Category";
 import { getAllProductNoPage } from "../../api/Product";
@@ -33,6 +35,10 @@ import formatName from "../../utils/formatName";
 import { Cart } from "./Cart";
 import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
+import { LANGUAGES } from "../../utils/constant";
+import { updateLanguage } from "../../redux/userRedux";
+import { FormattedMessage } from "react-intl";
+import { useWindowSize } from "../../customHook/useWindowSize";
 const { Search } = Input;
 
 const token =
@@ -42,17 +48,25 @@ const token =
 
 const Header = () => {
   let navigate2 = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(true);
   const [allProduct, setAllProduct] = useState([]);
   const [allProductTemp, setAllProductTemp] = useState([]);
+  const [width, height] = useWindowSize();
+
+  const changeLanguage = (language) => {
+    dispatch(updateLanguage(language));
+  };
+
   const handleSignOut = () => {
     Cookies.remove("tokenClient");
     localStorage.removeItem("persist:root");
     navigate2("/login");
   };
 
+  //-----------CHECK TOKEN NULL REMOVE LOCAL
   useEffect(() => {
     if (!token || token === "") {
       localStorage.removeItem("persist:root");
@@ -62,6 +76,7 @@ const Header = () => {
     }
   }, []);
 
+  //-----------GET ALL SHOW PREVIEW SEARCH
   useEffect(() => {
     getAllProductNoPage().then((res) => {
       setAllProduct(res.products);
@@ -75,7 +90,24 @@ const Header = () => {
   const handleVisibleChange = (flag) => {
     setVisible(flag);
   };
-
+  const content = (
+    <Menu defaultChecked={2}>
+      <Menu.Item
+        style={{ borderRight: "none" }}
+        onClick={() => changeLanguage(LANGUAGES.VI)}
+        key={1}
+      >
+        VI
+      </Menu.Item>
+      <Menu.Item
+        key={2}
+        style={{ borderRight: "none" }}
+        onClick={() => changeLanguage(LANGUAGES.EN)}
+      >
+        EN
+      </Menu.Item>
+    </Menu>
+  );
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key={1}>
@@ -114,7 +146,7 @@ const Header = () => {
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
-          Your Profile
+          <FormattedMessage id="common.yourprofile" />
         </div>
       </Menu.Item>
       <Menu.Item key={3}>
@@ -128,7 +160,7 @@ const Header = () => {
           <div className={classes.icon}>
             <Heart size={24} className={classes.icon_box} />
           </div>
-          Wish List
+          <FormattedMessage id="common.wishlist" />
         </div>
       </Menu.Item>
       <Menu.Item key={4}>
@@ -142,7 +174,7 @@ const Header = () => {
           <div className={classes.icon}>
             <LockKey size={24} className={classes.icon_box} />
           </div>
-          Change Password
+          <FormattedMessage id="common.changepassword" />
         </div>
       </Menu.Item>
       <Menu.Item key={5}>
@@ -156,15 +188,29 @@ const Header = () => {
           <div className={classes.icon}>
             <Ticket size={24} className={classes.icon_box} />
           </div>
-          Your Voucher
+          <FormattedMessage id="common.yourvoucher" />
         </div>
       </Menu.Item>
-      <Menu.Item key={6}>
+      <Menu.Item key={6} disabled style={{ cursor: "pointer", color: "#000" }}>
+        <Popover
+          placement={width >= 768 ? "left" : "right"}
+          content={content}
+          className={classes.sign_out}
+          arrow={false}
+          trigger="click"
+        >
+          <div className={classes.icon}>
+            <Globe size={24} className={classes.icon_box} />
+          </div>
+          <FormattedMessage id="common.changelanguage" />
+        </Popover>
+      </Menu.Item>
+      <Menu.Item key={7}>
         <div className={classes.sign_out} onClick={handleSignOut}>
           <div className={classes.icon}>
             <SignOut size={24} className={classes.icon_box} />
           </div>
-          Sign Out
+          <FormattedMessage id="common.signout" />
         </div>
       </Menu.Item>
     </Menu>
@@ -304,6 +350,7 @@ const Header = () => {
               ></Search>
             </AutoComplete>
           </Space>
+
           <div className={classes.authentication}>
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
@@ -332,7 +379,9 @@ const Header = () => {
                 onClick={() => navigate2("/login")}
               >
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>Log In</div>
+                <div className={classes.loginText}>
+                  <FormattedMessage id="common.login" />
+                </div>
               </div>
             )}
 

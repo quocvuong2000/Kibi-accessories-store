@@ -12,7 +12,7 @@ import CryptoJS from "crypto-js";
 import { async } from "@firebase/util";
 import { checkExist } from "../../api/User";
 const { Option } = Select;
-const Register = () => {
+const Register = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = useLocation().search;
   const [success, setSuccess] = useState(false);
@@ -76,7 +76,10 @@ const Register = () => {
             (error) => {
               //console.log(error.text);
             }
-          );
+          )
+          .finally(() => {
+            props.setShowVerifyPage(true);
+          });
       } else if (res.status === 201) {
         message.error("Email already exists");
       }

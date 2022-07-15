@@ -93,7 +93,7 @@
     }
 
     .videoBlog {
-      max-height: 60vh;
+      max-height: 120vh;
       margin-top: 15rem;
     }
 
@@ -117,7 +117,11 @@
   }
 }
 
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 400px) and (max-width: 600px) {
+  .videoBlog {
+    max-height: 60vh;
+    margin-top: 15rem;
+  }
   .monthlyDeal {
     min-height: 233vh !important;
   }

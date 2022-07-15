@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { getLimitProduct } from "../../../api/Product";
 import { ProductCardGrid } from "../../ViewAll/ProductCardGrid";
 import classes from "./styles.module.scss";
@@ -14,7 +15,9 @@ const MonthlyDeal = () => {
   }, []);
   return (
     <div className={classes.mothlyDealContainer}>
-      <div className={classes.title}>Monthly Deals</div>
+      <div className={classes.title}>
+        <FormattedMessage id="home.monthly" />
+      </div>
       <div className={classes.listItem}>
         {product.products?.map((item, index) => {
           return (

@@ -92,25 +92,6 @@ const Orders = () => {
                   <ListCancelled />
                 </TabPanel>
               </Box>
-              {/* <Tabs value={1}>
-                <Tab label="PENDING" value={1} />
-                <Tab label="DELIVERY" value="2" />
-                <Tab label="COMPLETED" value="3" />
-                <Tab label="CANCELLED" value="4" />
-
-                <TabPanel value="1">
-                  <ListPending />
-                </TabPanel>
-                <TabPanel value="2">
-                  <ListDelivery />
-                </TabPanel>
-                <TabPanel value="3">
-                  <ListCompleted />
-                </TabPanel>
-                <TabPanel value="4">
-                  <ListCancelled />
-                </TabPanel>
-              </Tabs> */}
             </Box>
           </Grid>
         </Grid>

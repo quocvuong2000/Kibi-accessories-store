@@ -9,6 +9,7 @@ import {
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
+import { FormattedMessage } from "react-intl";
 export const Footer = () => {
   const left = [
     {
@@ -38,24 +39,31 @@ export const Footer = () => {
 
   const useful = [
     {
+      link: "",
       name: "Warranty & Complaints",
     },
     {
+      link: "",
       name: "Order & Shipping",
     },
     {
+      link: "",
       name: "Tracking Order",
     },
     {
+      link: "/about-us",
       name: "About Us",
     },
     {
-      name: "Repair",
+      link: "/legal-page",
+      name: "Legal",
     },
     {
+      link: "",
       name: "Terms",
     },
     {
+      link: "",
       name: "FAQ",
     },
   ];
@@ -85,7 +93,9 @@ export const Footer = () => {
 
   let navigate = useNavigate();
   const [width, height] = useWindowSize();
-
+  const getTrans = (title) => {
+    return <FormattedMessage id={`footer.${title}`} />;
+  };
   return (
     <div className={styles.container}>
       <div className={styles.footer}>
@@ -96,7 +106,9 @@ export const Footer = () => {
           {left.map((item, id) => {
             return (
               <React.Fragment key={id}>
-                <p className={styles.footer__address__title}>{item.title}</p>
+                <p className={styles.footer__address__title}>
+                  {getTrans(item.title)}
+                </p>
                 <p
                   className={styles.footer__address__desc}
                   style={
@@ -114,7 +126,9 @@ export const Footer = () => {
           {width > 1024 ? (
             <>
               <div className={styles.top__all}>
-                <p className={styles.footer__getintouch__title}>Get in touch</p>
+                <p className={styles.footer__getintouch__title}>
+                  <FormattedMessage id="footer.getintouch" />
+                </p>
                 <hr className={styles.line} />
               </div>
               {getInTouch.map((item, id) => {
@@ -126,7 +140,7 @@ export const Footer = () => {
                     key={id}
                   >
                     <p className={styles.footer__getintouch__phone__title}>
-                      {item.title}
+                      {getTrans(item.title)}
                     </p>
                     <p className={styles.footer__getintouch__phone__desc}>
                       {item.desc}
@@ -180,18 +194,20 @@ export const Footer = () => {
           <>
             <div className={styles.footer__useful}>
               <div className={styles.top__all}>
-                <p className={styles.footer__useful__title}>Useful Link</p>
+                <p className={styles.footer__useful__title}>
+                  <FormattedMessage id="footer.usefullink" />
+                </p>
                 <hr className={styles.line} />
               </div>
               <div className={styles.footer__useful__link}>
                 {useful.map((item, id) => {
                   return (
                     <Link
-                      to={"#"}
+                      to={item.link}
                       className={styles.footer__useful__link__item}
                       key={id}
                     >
-                      {item.name}
+                      {getTrans(item.name)}
                     </Link>
                   );
                 })}
@@ -199,7 +215,9 @@ export const Footer = () => {
             </div>
             <div className={styles.footer__campaign}>
               <div className={styles.top__all}>
-                <p className={styles.footer__campaign__title}>Campaign</p>
+                <p className={styles.footer__campaign__title}>
+                  <FormattedMessage id="footer.campaign" />
+                </p>
                 <hr className={styles.line} />
               </div>
               <div className={styles.footer__campaign__link}>
@@ -210,7 +228,7 @@ export const Footer = () => {
                       className={styles.footer__campaign__link__item}
                       key={id}
                     >
-                      {item.name}
+                      {getTrans(item.name)}
                     </Link>
                   );
                 })}

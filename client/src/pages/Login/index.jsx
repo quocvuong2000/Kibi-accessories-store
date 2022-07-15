@@ -17,6 +17,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import CryptoJS from "crypto-js";
 import "boxicons";
+import VerifyingPage from "../VerifyingPage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Login = () => {
   const [wrongCredentials, setWrongCredential] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [verify, setVerify] = React.useState(false);
+  const [showVerifyPage, setShowVerifyPage] = React.useState(false);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const email = new URLSearchParams(search).get("email");
@@ -74,6 +76,10 @@ const Login = () => {
     }
     setSearchParams("");
   }, []);
+
+  const handleChangeShowVerifyPage = (value) => {
+    setShowVerifyPage(value);
+  };
 
   const dispatch = useDispatch();
 
@@ -128,163 +134,178 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.backgroundContainer}>
-      <Modal
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className={styles.form_forgot}
-      >
-        <ForgotPassword verify={verify} setVerify={setVerify} />
-      </Modal>
-      <div
-        className={`${styles.container} ${
-          active === true ? styles.right_panel_active : ""
-        }`}
-        id={styles.container}
-      >
-        <div className={`${styles.form_container} ${styles.sign_up_container}`}>
-          <Register />
-        </div>
-        <div className={`${styles.form_container} ${styles.sign_in_container}`}>
-          <Formik
-            validationSchema={loginSchema}
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            onSubmit={async (values) => {
-              login(dispatch, values)
-                .then((res) => {
-                  setWrongCredential(false);
-                  message.success("Login success");
-                  dispatch(loginSuccess(res));
-                  navigate("/");
-                  console.log(res);
-                })
-                .catch(() => {
-                  setWrongCredential(true);
-                });
-            }}
+    <>
+      {showVerifyPage === true ? (
+        <VerifyingPage setShowVerifyPage={setShowVerifyPage} />
+      ) : (
+        <div className={styles.backgroundContainer}>
+          <Modal
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            className={styles.form_forgot}
           >
-            {({ errors, touched }) => {
-              return (
-                <Form>
-                  <h1>Sign in</h1>
-                  <div className={styles.social_container}>
-                    <FacebookLogin
-                      appId="753923969369724"
-                      fields="name,email,picture"
-                      callback={responseFacebook}
-                      render={(renderProps) => (
-                        <Link
-                          to={"#"}
-                          className={styles.social}
-                          onClick={renderProps.onClick}
-                        >
-                          <box-icon type="logo" name="facebook"></box-icon>
-                        </Link>
-                      )}
-                    />
-
-                    <Link to="#" className={styles.social}>
-                      <box-icon
-                        name="google"
-                        type="logo"
-                        onClick={() => handleLoginGoogle()}
-                      ></box-icon>
-                    </Link>
-                  </div>
-                  <span>or use your account</span>
-                  {wrongCredentials && (
-                    <span style={{ color: "red" }}>
-                      The email or password is incorrect
-                    </span>
-                  )}
-                  <FormAnt.Item
-                    validateStatus={
-                      Boolean(touched?.email && errors?.email)
-                        ? "error"
-                        : "success"
-                    }
-                    help={
-                      Boolean(touched?.email && errors?.email) && errors?.email
-                    }
-                  >
-                    <Field name="email">
-                      {({ field }) => (
-                        <Input
-                          {...field}
-                          className={classes.inputLogin}
-                          placeholder="Email"
-                        />
-                      )}
-                    </Field>
-                  </FormAnt.Item>
-                  <FormAnt.Item
-                    validateStatus={
-                      Boolean(touched?.password && errors?.password)
-                        ? "error"
-                        : "success"
-                    }
-                    help={
-                      Boolean(touched?.password && errors?.password) &&
-                      errors?.password
-                    }
-                  >
-                    <Field name="password">
-                      {({ field }) => (
-                        <Input.Password
-                          {...field}
-                          className={classes.inputLogin}
-                          placeholder="Password"
-                        />
-                      )}
-                    </Field>
-                  </FormAnt.Item>
-
-                  <Link
-                    to="#"
-                    onClick={() => {
-                      setIsModalVisible(true);
-                    }}
-                  >
-                    Forgot your password?
-                  </Link>
-                  <button type="submit">Sign In</button>
-                </Form>
-              );
-            }}
-          </Formik>
-        </div>
-        <div className={styles.overlay_container}>
-          <div className={styles.overlay}>
-            <div className={`${styles.overlay_panel} ${styles.overlay_left}`}>
-              <h1>Welcome Back</h1>
-              <p>KIBI welcomes you back anytime, anywhere</p>
-              <button
-                className={styles.ghost}
-                id="signIn"
-                onClick={handleClickSI}
-              >
-                Sign In
-              </button>
+            <ForgotPassword verify={verify} setVerify={setVerify} />
+          </Modal>
+          <div
+            className={`${styles.container} ${
+              active === true ? styles.right_panel_active : ""
+            }`}
+            id={styles.container}
+          >
+            <div
+              className={`${styles.form_container} ${styles.sign_up_container}`}
+            >
+              <Register setShowVerifyPage={setShowVerifyPage} />
             </div>
-            <div className={`${styles.overlay_panel} ${styles.overlay_right}`}>
-              <h1>Welcome to KIBI</h1>
-              <p>Let us revamp your beauty</p>
-              <button
-                className={styles.ghost}
-                id="signUp"
-                onClick={handleClickSU}
+            <div
+              className={`${styles.form_container} ${styles.sign_in_container}`}
+            >
+              <Formik
+                validationSchema={loginSchema}
+                initialValues={{
+                  email: "",
+                  password: "",
+                }}
+                onSubmit={async (values) => {
+                  login(dispatch, values)
+                    .then((res) => {
+                      setWrongCredential(false);
+                      message.success("Login success");
+                      dispatch(loginSuccess(res));
+                      navigate("/");
+                      console.log(res);
+                    })
+                    .catch(() => {
+                      setWrongCredential(true);
+                    });
+                }}
               >
-                Sign Up
-              </button>
+                {({ errors, touched }) => {
+                  return (
+                    <Form>
+                      <h1>Sign in</h1>
+                      <div className={styles.social_container}>
+                        <FacebookLogin
+                          appId="753923969369724"
+                          fields="name,email,picture"
+                          callback={responseFacebook}
+                          render={(renderProps) => (
+                            <Link
+                              to={"#"}
+                              className={styles.social}
+                              onClick={renderProps.onClick}
+                            >
+                              <box-icon type="logo" name="facebook"></box-icon>
+                            </Link>
+                          )}
+                        />
+
+                        <Link to="#" className={styles.social}>
+                          <box-icon
+                            name="google"
+                            type="logo"
+                            onClick={() => handleLoginGoogle()}
+                          ></box-icon>
+                        </Link>
+                      </div>
+                      <span>or use your account</span>
+                      {wrongCredentials && (
+                        <span style={{ color: "red" }}>
+                          The email or password is incorrect
+                        </span>
+                      )}
+                      <FormAnt.Item
+                        validateStatus={
+                          Boolean(touched?.email && errors?.email)
+                            ? "error"
+                            : "success"
+                        }
+                        help={
+                          Boolean(touched?.email && errors?.email) &&
+                          errors?.email
+                        }
+                      >
+                        <Field name="email">
+                          {({ field }) => (
+                            <Input
+                              {...field}
+                              className={classes.inputLogin}
+                              placeholder="Email"
+                            />
+                          )}
+                        </Field>
+                      </FormAnt.Item>
+                      <FormAnt.Item
+                        validateStatus={
+                          Boolean(touched?.password && errors?.password)
+                            ? "error"
+                            : "success"
+                        }
+                        help={
+                          Boolean(touched?.password && errors?.password) &&
+                          errors?.password
+                        }
+                      >
+                        <Field name="password">
+                          {({ field }) => (
+                            <Input.Password
+                              {...field}
+                              className={classes.inputLogin}
+                              placeholder="Password"
+                            />
+                          )}
+                        </Field>
+                      </FormAnt.Item>
+
+                      <Link
+                        to="#"
+                        onClick={() => {
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        Forgot your password?
+                      </Link>
+                      <button type="submit">Sign In</button>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </div>
+            <div className={styles.overlay_container}>
+              <div className={styles.overlay}>
+                <div
+                  className={`${styles.overlay_panel} ${styles.overlay_left}`}
+                >
+                  <h1>Welcome Back</h1>
+                  <p>KIBI welcomes you back anytime, anywhere</p>
+                  <button
+                    className={styles.ghost}
+                    id="signIn"
+                    onClick={handleClickSI}
+                  >
+                    Sign In
+                  </button>
+                </div>
+                <div
+                  className={`${styles.overlay_panel} ${styles.overlay_right}`}
+                >
+                  <h1>Welcome to KIBI</h1>
+                  <p>Let us revamp your beauty</p>
+                  <button
+                    className={styles.ghost}
+                    id="signUp"
+                    onClick={handleClickSU}
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

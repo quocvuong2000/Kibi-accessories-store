@@ -21,7 +21,7 @@ function IntlProviderWrapper(props) {
   return (
     <>
       <IntlProvider
-        locale={user?.language}
+        locale={user.language}
         messages={messages[user?.language]}
         defaultLocale="en"
       >

@@ -8,7 +8,7 @@ const userSlice = createSlice({
     currentUser: null,
     isFetching: false,
     accessToken: "",
-    language: "vi",
+    language: "en",
   },
 
   reducers: {

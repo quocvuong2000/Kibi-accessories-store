@@ -1,4 +1,55 @@
 {
-  "home": {},
-  "detailproduct": {}
+  "home": {
+    "welcome": "CHÀO MỪNG ĐẾN VỚI KIBI",
+    "monthly": "Giao dịch hàng tháng",
+    "recentnews": "Tin Tức Gần Đây",
+    "wheretotravel": "Nên Đi Đâu",
+    "matoawheretotravel": "Matoa Nên Đi Đâu? Thành phố Hồ Chí Minh",
+    "discover": "Khám phá",
+    "testimonials": "Phản hồi",
+    "desctesti": "Yêu chiếc đồng hồ KAILI mới của tôi từ @kibi, thương hiệu đồng hồ Việt Nam đầu tiên sử dụng gỗ làm vật liệu chính. Giống như bất kỳ sản phẩm nào khác của Kibi, KAILI lấy cảm hứng từ di sản Việt Nam.",
+    "creator": "Người tạo nội dung / Người ảnh hưởng"
+  },
+  "detailproduct": {},
+  "footer": {
+    "Address": "Địa chỉ",
+    "Office Hour": "Giờ làm việc",
+    "hourwork": "Thứ 2 - Thứ 7 09.00 AM - 18.00 PM",
+    "getintouch": "Liên lạc",
+    "Phone": "Sđt",
+    "Service Center": "Trung tâm dịch vụ",
+    "Customer Service": "Dịch vụ khách hàng",
+    "usefullink": "Liên kết hữu ích",
+    "Warranty & Complaints": "Bảo hành & Khiếu nại",
+    "Order & Shipping": "Đặt hàng & Giao hàng",
+    "Tracking Order": "Theo dõi đơn hàng",
+    "About Us": "Về chúng tôi",
+    "Legal": "Hợp pháp",
+    "Terms": "Điều kiện",
+    "campaign": "Chiến dịch",
+    "Tell Your Difference": "Sự khác biệt",
+    "Rebrand": "Đổi thương hiệu",
+    "Gallery": "Phòng trưng bày",
+    "FAQ": "FAQ",
+    "Mengenal Arti Cukup": "Mengenal Arti Cukup",
+    "Waykambas": "Waykambas",
+    "Singo": "Singo",
+    "Rakai": "Rakai"
+  },
+  "common": {
+    "searchplaceholder": "Search products, accessory, etc...",
+    "comingsoon": "Coming soon",
+    "watchmore": "Watch more",
+    "addtocart": "Add to cart",
+    "comments": "Comments",
+    "seemorecomments": "See more comments",
+    "relateproduct": "Related Products",
+    "yourprofile": "Your Profile",
+    "wishlist": "Wish List",
+    "changepassword": "Change Password",
+    "yourvoucher": "Your Voucher",
+    "changelanguage": "Change Language",
+    "signout": "Sign Out",
+    "login": "Log in"
+  }
 }

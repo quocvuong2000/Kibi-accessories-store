@@ -1,0 +1,40 @@
+@use "../../sass/mixins" as *;
+.container {
+  margin-top: 200px !important;
+  max-width: 1110px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+  @include tablet {
+    margin-top: 150px !important;
+    max-width: 100vw;
+    padding: 0 50px;
+    min-height: 50vh;
+    padding-bottom: 50px !important;
+  }
+  p {
+    font-size: 15px;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  :global {
+    .ant-collapse {
+      background: none;
+      border: none;
+    }
+    .ant-collapse > .ant-collapse-item {
+      border-top: 2px solid #d84727 !important;
+      border-bottom: none;
+    }
+    .ant-collapse > .ant-collapse-item:last-child {
+      border-bottom: 2px solid #d84727;
+    }
+
+    .ant-collapse-content {
+      border-top: none;
+    }
+  }
+}
