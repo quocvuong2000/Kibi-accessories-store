@@ -117,7 +117,7 @@
   }
 }
 
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 400px) and (max-width: 600px) {
   .monthlyDeal {
     min-height: 233vh !important;
   }

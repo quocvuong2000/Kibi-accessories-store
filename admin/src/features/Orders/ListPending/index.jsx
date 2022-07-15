@@ -76,7 +76,8 @@ const ListPending = () => {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage+1);
+    setPage(newPage + 1);
+    setIsLoading(true);
   };
 
   return (
@@ -107,7 +108,10 @@ const ListPending = () => {
                     key={index}
                   >
                     <TableCell align="left">
-                      <OrderListItem orderItem={item} />
+                      <OrderListItem
+                        orderItem={item}
+                        setIsLoading={setIsLoading}
+                      />
                     </TableCell>
                     <TableCell align="center">
                       <UilCheckCircle

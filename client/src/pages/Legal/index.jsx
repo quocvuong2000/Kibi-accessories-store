@@ -3,9 +3,7 @@ import s from "./styles.module.scss";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 const Legal = () => {
-  const onChange = (key) => {
-    console.log(key);
-  };
+  const onChange = (key) => {};
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

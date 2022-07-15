@@ -39,7 +39,8 @@ const ListCancelled = () => {
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage+1);
+    setPage(newPage + 1);
+    setIsLoading(true);
   };
 
   return (
@@ -68,7 +69,10 @@ const ListCancelled = () => {
                     key={index}
                   >
                     <TableCell align="left">
-                      <OrderListItem orderItem={item} />
+                      <OrderListItem
+                        orderItem={item}
+                        setIsLoading={setIsLoading}
+                      />
                     </TableCell>
                   </TableRow>
                 );

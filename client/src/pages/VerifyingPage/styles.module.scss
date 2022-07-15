@@ -1,0 +1,59 @@
+@use "../../sass/mixins" as *;
+@keyframes big {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 80px;
+    height: 80px;
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  .circle_big {
+    border-radius: 50%;
+    background: rgba($color: #d84727, $alpha: 0.1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    animation: 2s big 5s infinite linear alternate;
+
+    .circle_small {
+      border-radius: 50%;
+      background: rgba($color: #d84727, $alpha: 0.3);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+    }
+  }
+  .check {
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .back {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    font-size: 16px;
+    color: #d84727;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}

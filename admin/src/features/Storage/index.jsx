@@ -47,13 +47,12 @@ const Storage = () => {
   useEffect(() => {
     doGetStorageList("import", pageImport)
       .then((res) => {
-        // console.log("res:", res);
         setImportList(res);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     doGetStorageList("export", page)
@@ -116,6 +115,7 @@ const Storage = () => {
                     takePageImport={takePageImport}
                     importList={importList}
                     loading={loading}
+                    setLoading={setLoading}
                   />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
@@ -123,6 +123,7 @@ const Storage = () => {
                     loading={loading}
                     takePage={takePage}
                     exportList={exportList}
+                    setLoading={setLoading}
                   />
                 </TabPanel>
               </Box>
