@@ -16,6 +16,7 @@ async function monitorStorageExport(client, timeInMs) {
 
   changeStream.on("change", async (next) => {
     const orderFound = await Order.findById(next.documentKey._id);
+
     orderFound.products.forEach(async (el) => {
       if (mongoose.Types.ObjectId.isValid(el.productId)) {
         const oldQuantity = await Product.findById(el.productId);
@@ -28,12 +29,15 @@ async function monitorStorageExport(client, timeInMs) {
             newQuantity: newQuantity,
             oldQuantity: oldQuantity.quantity,
             branchName: orderFound.branchName || "NA",
-            productName: el.product,
+            productName: el.productName,
             status: "Export",
           };
           try {
             const savedStorage = new Storage(newExport);
             await savedStorage.save();
+            await Product.findByIdAndUpdate(el.productId, {
+              quantity: newQuantity,
+            });
           } catch (error) {
             console.log(error);
           }

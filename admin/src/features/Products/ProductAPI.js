@@ -7,10 +7,10 @@ export const addNewProduct = async (productInfo) => {
   return res.data;
 };
 
-export const getProductList = async (page) => {
+export const getProductList = async (page, branch) => {
   const res = await callAPIWithToken({
     url: `/api/product/`,
-    params: { page: page },
+    params: { page, branch },
     method: "GET",
   });
   if (res && res.status !== 200)

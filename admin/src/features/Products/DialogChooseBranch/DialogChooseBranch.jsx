@@ -34,11 +34,22 @@ export default function DialogChooseBranch(props) {
               value={props.branchSelected}
               label="Branches"
               size="small"
-              onChange={props.hanldeChooseBranches}
+              // onChange={(e) => }
             >
               {props.branchList.map((el, i) => {
                 return (
-                  <MenuItem value={el._id} key={i}>
+                  <MenuItem
+                    value={el._id}
+                    key={i}
+                    onClick={() =>
+                      {props.hanldeChooseBranches({
+                        value: el._id,
+                        name: el.address,
+                      })
+                    
+                    }
+                    }
+                  >
                     {el.address}
                   </MenuItem>
                 );

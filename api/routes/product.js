@@ -72,6 +72,9 @@ router.get("/", async (req, res) => {
     if (qRating) {
       query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
     }
+    if (qBranch) {
+      query = { ...query, ...{ branch: qBranch } };
+    }
     let products;
     products = await Product.find(query)
       .skip(perPage * page - perPage)

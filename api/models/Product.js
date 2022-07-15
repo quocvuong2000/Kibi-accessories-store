@@ -12,6 +12,7 @@ const ProductSchema = new mongoose.Schema(
     topSales: { type: Boolean },
     totalRating: { type: Number },
     quantity: { type: Number },
+    oldQuantity : {type : Number},
     inStock: { type: Boolean },
     warranty: { type: Number },
     description: {
