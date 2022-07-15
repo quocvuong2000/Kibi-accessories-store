@@ -106,7 +106,7 @@ const ListProduct = (props) => {
                   value={index + 1}
                   onChange={handleChangeRating}
                 >
-                  {item.id} <Rate value={index + 1} />
+                  {item.id} <Rate disabled value={index + 1} />
                 </Radio>
               );
             })}

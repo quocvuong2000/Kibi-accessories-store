@@ -29,8 +29,6 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
     const product = await Product.findByIdAndUpdate(req.body.productId, {
       avgRating: (total / (comment.length + 1)).toFixed(1),
     });
-
-    console.log("product:", product);
     const savedData = await newCommentSaved.save();
     await product.save();
     res.status(200).json(savedData);
@@ -176,17 +174,54 @@ router.get("/product/:productId", async (req, res) => {
   }
 });
 
-//REPLY COMMENT
-router.post("/like/:id", async (req, res) => {
+//CHECK LIKED
+router.get("/liked", async (req, res) => {
   try {
-    const oldCount = Comment.findById(req.params.id);
-    console.log("oldCount:", oldCount);
-    await Comment.findByIdAndUpdate(req.params.id, {
-      count: oldCount + 1,
+    const commentFound = await Comment.findById(req.query.id);
+    const temp = commentFound.userLiked.some((value) => {
+      return value.username === req.query.username;
     });
-    res.status(200).json("Like success");
+    temp === true && res.status(201).json("Liked");
+    temp === false && res.status(200).json("not yet");
   } catch (error) {
-    res.status(500).json(err);
+    res.status(500).json(error);
+  }
+});
+
+//LIKE COMMENT
+router.post("/likecomment", async (req, res) => {
+  const commentFound = await Comment.findById(req.query.id);
+  try {
+    let temp = [];
+    if (!commentFound.userLiked) {
+      temp = [
+        {
+          username: req.query.username,
+        },
+      ];
+    } else {
+      if (
+        commentFound.userLiked.some((el) => el.username === req.query.username)
+      ) {
+        temp = commentFound.userLiked.filter(
+          (el) => el.username !== req.query.username
+        );
+      } else {
+        temp = commentFound.userLiked;
+        temp.push({ username: req.query.username });
+      }
+    }
+
+    const a = await Comment.findByIdAndUpdate(
+      req.query.id,
+      {
+        userLiked: temp,
+      },
+      { new: true }
+    );
+    res.status(200).json(a);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

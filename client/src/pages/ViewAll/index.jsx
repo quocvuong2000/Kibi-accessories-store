@@ -52,8 +52,6 @@ const ViewAll = () => {
     getAllProduct(idCate, page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
-        // console.log(res);
-        // setListProduct(listProduct.push(...res.products));
         setListProduct((listProduct) => [...listProduct, ...res.products]);
       })
       .catch(() => {

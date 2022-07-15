@@ -12,7 +12,8 @@
   bottom: 0;
   z-index: 999999999999999999;
   width: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
 }
 
 .loaderSpin {
