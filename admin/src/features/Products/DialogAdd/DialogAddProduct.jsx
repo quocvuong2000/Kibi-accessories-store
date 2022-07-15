@@ -210,16 +210,18 @@ export default function DialogAddProduct(props) {
               const product = {
                 ...values,
                 images: urls,
-                branchId : props.branchSelected._id,
-                branchName : props.branchSelected.address,
+                branchId: props.branchSelected._id,
+                branchName: props.branchSelected.address,
               };
-console.log(product)
               product &&
                 addNewProduct(product)
                   .then(() => {
                     setSuccess(true);
-                    props.handleShowDialog(false);
-                    props.reLoadTable("sucess" + Date.now());
+
+                    setTimeout(() => {
+                      props.handleShowDialog(false);
+                      props.reLoadTable("sucess" + Date.now());
+                    }, 500);
                   })
                   .catch(() => {
                     setFailure(true);
@@ -240,8 +242,10 @@ console.log(product)
               addNewProduct(values)
                 .then(() => {
                   setSuccess(true);
-                  props.handleShowDialog(false);
-                  props.reLoadTable("sucess" + Date.now());
+                  setTimeout(() => {
+                    props.handleShowDialog(false);
+                    props.reLoadTable("sucess" + Date.now());
+                  }, 500);
                 })
                 .catch(() => {
                   setFailure(true);

@@ -48,7 +48,7 @@ const ListImport = (props) => {
                       {item.branchName || "N/A"}
                     </TableCell>
                     <TableCell align="left">
-                      {item.ProductName || "N/A"}
+                      {item.productName || "N/A"}
                     </TableCell>
                     <TableCell align="left">
                       {checkTypeItem(item.oldQuantity)}

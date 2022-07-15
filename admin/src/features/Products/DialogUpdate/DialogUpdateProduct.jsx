@@ -237,6 +237,8 @@ export default function DialogUpdateProduct(props) {
                     images: [...urls, ...currentUrls],
                     branchId: props.branchSelected._id,
                     branchName: props.branchSelected.address,
+                    oldQuantity: productDetail.quantity || 0,
+                    quantity: parseInt(values.quantity),
                   };
 
                   product &&
@@ -263,6 +265,8 @@ export default function DialogUpdateProduct(props) {
                     images: currentUrls,
                     branchId: props.branchSelected._id,
                     branchName: props.branchSelected.address,
+                    oldQuantity: productDetail.quantity || 0,
+                    quantity: parseInt(values.quantity),
                   };
                   doUpdateProduct(props.productId, product)
                     .then(() => {

@@ -53,7 +53,7 @@ const Storage = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [pageImport]);
 
   useEffect(() => {
     doGetStorageList("export", page)

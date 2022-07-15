@@ -29,13 +29,17 @@ const Products = () => {
     }
   }
   const hanldeChooseBranches = (value) => {
-    setBranchSelected(value);
+    console.log(value);
+    setBranchSelected({
+      _id: value.value,
+      address: value.name,
+    });
   };
   const reLoadTable = (status) => {
     setReload(status);
   };
   useEffect(() => {
-    getProductList(page)
+    getProductList(page,branchSelected._id)
       .then((res) => {
         if (res) {
           setProductList(res);
@@ -44,7 +48,7 @@ const Products = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [page, reload]);
+  }, [page, reload, branchSelected]);
   useEffect(() => {
     getBranches(1).then((res) => {
       if (res.branches.length > 0) {

@@ -84,14 +84,21 @@ const HeaderProduct = (props) => {
                 value={props.branchSelected._id}
                 label="Branches"
                 size="small"
-                onChange={() => {
-                  props.hanldeChooseBranches();
-                  props.reLoadTable("choose" + Date.now());
-                }}
               >
                 {props.branchList.map((el, i) => {
                   return (
-                    <MenuItem value={el._id} key={i}>
+                    <MenuItem
+                      value={el._id}
+                      id={el.address}
+                      key={i}
+                      onClick={() => {
+                        props.hanldeChooseBranches({
+                          value: el._id,
+                          name: el.address,
+                        });
+                        props.reLoadTable("choose" + Date.now());
+                      }}
+                    >
                       {el.address}
                     </MenuItem>
                   );

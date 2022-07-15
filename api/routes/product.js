@@ -72,6 +72,7 @@ router.get("/", async (req, res) => {
   if (qRating) {
     query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
   }
+  
   try {
     let products;
     products = await Product.find(query)
