@@ -1,5 +1,6 @@
 import DotRing from "../components/DotRing";
 import Cookies from "js-cookie";
+import React from "react";
 
 import { Footer } from "../components/Footer";
 import Header from "../components/Header";
@@ -24,14 +25,13 @@ const UnRequireAuth = ({ children }) => {
   }
 
   return (
-    <>
+    <div id="scrollableDiv">
       <Header />
-
       {width > 1280 && <DotRing />}
       <div>{children}</div>
       {width > 1280 && <Brand />}
       <Footer />
-    </>
+    </div>
   );
 };
 

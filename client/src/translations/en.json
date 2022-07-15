@@ -1,4 +1,55 @@
 {
-  "home": {},
-  "detailproduct": {}
+  "home": {
+    "welcome": "WELCOME TO KIBI",
+    "monthly": "Monthly Deals",
+    "recentnews": "Recent News",
+    "wheretotravel": "Where To Travel",
+    "matoawheretotravel": "Matoa Where To Travel? Ho Chi Minh City",
+    "discover": "Discover",
+    "testimonials": "Testimonials",
+    "desctesti": "Loving my new KAILI watch from @matoa_id, the first ever Vietnamese watch local brand that uses wood as their main material. Like any other Matoa products, KAILI is inspired by Vietnamese heritage.",
+    "creator": "Content Creator/Influencer"
+  },
+  "detailproduct": {},
+  "footer": {
+    "Address": "Address",
+    "Office Hour": "Office Hour",
+    "hourwork": "Monday - Saturday 09.00 AM - 18.00 PM",
+    "getintouch": "Get in touch",
+    "Phone": "Phone",
+    "Service Center": "Service Center",
+    "Customer Service": "Customer Service",
+    "usefullink": "Useful Link",
+    "Warranty & Complaints": "Warranty & Complaints",
+    "Order & Shipping": "Order & Shipping",
+    "Tracking Order": "Tracking Order",
+    "About Us": "About Us",
+    "Legal": "Legal",
+    "Terms": "Terms",
+    "campaign": "Campaign",
+    "Tell Your Difference": "Tell Your Difference",
+    "Rebrand": "Rebrand",
+    "Gallery": "Gallery",
+    "FAQ": "FAQ",
+    "Mengenal Arti Cukup": "Mengenal Arti Cukup",
+    "Waykambas": "Waykambas",
+    "Singo": "Singo",
+    "Rakai": "Rakai"
+  },
+  "common": {
+    "searchplaceholder": "Search products, accessory, etc...",
+    "comingsoon": "Coming soon",
+    "watchmore": "Watch more",
+    "addtocart": "Add to cart",
+    "comments": "Comments",
+    "seemorecomments": "See more comments",
+    "relateproduct": "Related Products",
+    "yourprofile": "Your Profile",
+    "wishlist": "Wish List",
+    "changepassword": "Change Password",
+    "yourvoucher": "Your Voucher",
+    "changelanguage": "Change Language",
+    "signout": "Sign Out",
+    "login": "Log in"
+  }
 }

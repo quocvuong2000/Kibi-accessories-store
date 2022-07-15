@@ -20,7 +20,9 @@
     color: #333333;
     margin-bottom: 100px;
     position: relative;
-
+    @include mobile {
+      font-size: 28px;
+    }
     &::before {
       content: " ";
       height: 2px;

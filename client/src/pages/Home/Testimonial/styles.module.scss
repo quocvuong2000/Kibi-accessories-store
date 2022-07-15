@@ -21,6 +21,7 @@
     top: -50px;
     @include mobile {
       margin-top: 20px;
+      font-size: 28px;
     }
 
     &::before {

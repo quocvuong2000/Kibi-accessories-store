@@ -25,13 +25,13 @@ const RequireAuth = ({ children }) => {
     localStorage.removeItem("persist:root");
   }
   return (
-    <>
+    <div id="scrollableDiv">
       <Header />
       {width > 1280 && <DotRing />}
       <div>{children}</div>
       {width > 1280 && <Brand />}
       <Footer />
-    </>
+    </div>
   );
 };
 export default RequireAuth;

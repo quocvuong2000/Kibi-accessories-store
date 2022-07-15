@@ -19,6 +19,9 @@
     color: #333333;
     margin-bottom: 20px;
     position: relative;
+    @include mobile {
+      font-size: 28px;
+    }
     &::after {
       content: " ";
       height: 2px;

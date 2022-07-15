@@ -5,7 +5,7 @@ import vawe1 from "../../../assets/home/Vector 12.png";
 import vawe2 from "../../../assets/home/Vector 13.png";
 import vawe3 from "../../../assets/home/Vector 14.png";
 import { Image } from "antd";
-
+import { FormattedMessage } from "react-intl";
 const Testimonial = () => {
   return (
     <div className={classes.testimonialContainer}>
@@ -14,17 +14,18 @@ const Testimonial = () => {
           <Image src={watch} />
         </div>
         <div className={classes.right}>
-          <div className={classes.mainTitle}>Testimonials</div>
+          <div className={classes.mainTitle}>
+            <FormattedMessage id="home.testimonials" />
+          </div>
 
           <div className={classes.content}>
             <div className={classes.desc}>
-              Loving my new KAILI watch from @matoa_id, the first ever
-              Vietnamese watch local brand that uses wood as their main
-              material. Like any other Matoa products, KAILI is inspired by
-              Vietnamese heritage.
+              <FormattedMessage id="home.desctesti" />
             </div>
             <div className={classes.author}>Gita Savitri</div>
-            <div className={classes.position}>Content Creator/Influencer</div>
+            <div className={classes.position}>
+              <FormattedMessage id="home.creator" />
+            </div>
           </div>
         </div>
         <div className={classes.square}></div>

@@ -6,7 +6,7 @@ import nFormatter from "../../../utils/convertToK";
 import ConvertDate from "../../../utils/convertDate";
 import AppLoader from "../../../components/AppLoader";
 import EmptyPage from "../../../components/Empty";
-import voucher from "../../../assets/voucher.svg";
+import voucher from "../../../assets/voucher.png";
 
 const Voucher = () => {
   const user = useSelector((state) => state.user);

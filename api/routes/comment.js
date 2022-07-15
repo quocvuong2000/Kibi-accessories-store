@@ -6,31 +6,31 @@ const { verifyTokenAndAuthorization } = require("./verifyToken");
 
 //CREATE COMMENT
 router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
-  const newCommentSaved = new Comment({
-    username: req.body.username,
-    productId: req.body.productId,
-    comment: req.body.comment,
-    rating: req.body.rating,
-    name: req.body.name,
-    avatar: req.body.avatar,
-    productImage: req.body.productImage,
-  });
-
-  const comment = await Comment.find({
-    productId: req.body.productId,
-  });
-
-  let total = req.body.rating;
-  comment.forEach((e) => {
-    total += e.rating;
-  });
-
-  const product = await Product.findByIdAndUpdate(req.body.productId, {
-    avgRating: (total / (comment.length + 1)).toFixed(1),
-  });
-
-  console.log("product:", product);
   try {
+    const newCommentSaved = new Comment({
+      username: req.body.username,
+      productId: req.body.productId,
+      comment: req.body.comment,
+      rating: req.body.rating,
+      name: req.body.name,
+      avatar: req.body.avatar,
+      productImage: req.body.productImage,
+    });
+
+    const comment = await Comment.find({
+      productId: req.body.productId,
+    });
+
+    let total = req.body.rating;
+    comment.forEach((e) => {
+      total += e.rating;
+    });
+
+    const product = await Product.findByIdAndUpdate(req.body.productId, {
+      avgRating: (total / (comment.length + 1)).toFixed(1),
+    });
+
+    console.log("product:", product);
     const savedData = await newCommentSaved.save();
     await product.save();
     res.status(200).json(savedData);
@@ -70,13 +70,12 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
 
 //GET ALL COMMENTS PER PAGE
 router.get("/get", async (req, res) => {
-  const qPage = req.query.page;
-
-  let perPage = 5; // số lượng comment xuất hiện trên 1 page
-  let page = qPage || 1;
-  let count = 0;
-
   try {
+    const qPage = req.query.page;
+
+    let perPage = 5; // số lượng comment xuất hiện trên 1 page
+    let page = qPage || 1;
+    let count = 0;
     let comments;
     if (qPage) {
       comments = await Comment.find()
@@ -102,13 +101,12 @@ router.get("/get", async (req, res) => {
 
 //GET COMMENT BY USERNAME
 router.get("/user/:username", async (req, res) => {
-  const qPage = req.query.page;
-
-  let perPage = 5; // số lượng comment xuất hiện trên 1 page
-  let page = qPage || 1;
-  let count = 0;
-
   try {
+    const qPage = req.query.page;
+
+    let perPage = 5; // số lượng comment xuất hiện trên 1 page
+    let page = qPage || 1;
+    let count = 0;
     let comments;
     if (qPage) {
       comments = await Comment.find({
@@ -140,12 +138,12 @@ router.get("/user/:username", async (req, res) => {
 
 //GET COMMENT BY PRODUCT
 router.get("/product/:productId", async (req, res) => {
-  const qPage = req.query.page;
-
-  let perPage = 5; // số lượng comment xuất hiện trên 1 page
-  let page = qPage || 1;
-  let count = 0;
   try {
+    const qPage = req.query.page;
+
+    let perPage = 5; // số lượng comment xuất hiện trên 1 page
+    let page = qPage || 1;
+    let count = 0;
     let comments;
     if (qPage) {
       comments = await Comment.find({
@@ -174,6 +172,20 @@ router.get("/product/:productId", async (req, res) => {
       totalItems: count,
     });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//REPLY COMMENT
+router.post("/like/:id", async (req, res) => {
+  try {
+    const oldCount = Comment.findById(req.params.id);
+    console.log("oldCount:", oldCount);
+    await Comment.findByIdAndUpdate(req.params.id, {
+      count: oldCount + 1,
+    });
+    res.status(200).json("Like success");
+  } catch (error) {
     res.status(500).json(err);
   }
 });

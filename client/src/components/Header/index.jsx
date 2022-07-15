@@ -37,8 +37,10 @@ import NumItem from "./NumItemCard";
 import classes from "./styles.module.scss";
 import { LANGUAGES } from "../../utils/constant";
 import { updateLanguage } from "../../redux/userRedux";
+import { FormattedMessage } from "react-intl";
+import { useWindowSize } from "../../customHook/useWindowSize";
 const { Search } = Input;
-const { SubMenu } = Menu;
+
 const token =
   typeof Cookies.get("tokenClient") !== "undefined"
     ? Cookies.get("tokenClient")
@@ -52,6 +54,7 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [allProduct, setAllProduct] = useState([]);
   const [allProductTemp, setAllProductTemp] = useState([]);
+  const [width, height] = useWindowSize();
 
   const changeLanguage = (language) => {
     dispatch(updateLanguage(language));
@@ -88,9 +91,21 @@ const Header = () => {
     setVisible(flag);
   };
   const content = (
-    <Menu>
-      <Menu.Item style={{ borderRight: "none" }}>VI</Menu.Item>
-      <Menu.Item style={{ borderRight: "none" }}>EN</Menu.Item>
+    <Menu defaultChecked={2}>
+      <Menu.Item
+        style={{ borderRight: "none" }}
+        onClick={() => changeLanguage(LANGUAGES.VI)}
+        key={1}
+      >
+        VI
+      </Menu.Item>
+      <Menu.Item
+        key={2}
+        style={{ borderRight: "none" }}
+        onClick={() => changeLanguage(LANGUAGES.EN)}
+      >
+        EN
+      </Menu.Item>
     </Menu>
   );
   const menu = (
@@ -131,7 +146,7 @@ const Header = () => {
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
-          Your Profile
+          <FormattedMessage id="common.yourprofile" />
         </div>
       </Menu.Item>
       <Menu.Item key={3}>
@@ -145,7 +160,7 @@ const Header = () => {
           <div className={classes.icon}>
             <Heart size={24} className={classes.icon_box} />
           </div>
-          Wish List
+          <FormattedMessage id="common.wishlist" />
         </div>
       </Menu.Item>
       <Menu.Item key={4}>
@@ -159,7 +174,7 @@ const Header = () => {
           <div className={classes.icon}>
             <LockKey size={24} className={classes.icon_box} />
           </div>
-          Change Password
+          <FormattedMessage id="common.changepassword" />
         </div>
       </Menu.Item>
       <Menu.Item key={5}>
@@ -173,12 +188,12 @@ const Header = () => {
           <div className={classes.icon}>
             <Ticket size={24} className={classes.icon_box} />
           </div>
-          Your Voucher
+          <FormattedMessage id="common.yourvoucher" />
         </div>
       </Menu.Item>
       <Menu.Item key={6} disabled style={{ cursor: "pointer", color: "#000" }}>
         <Popover
-          placement="right"
+          placement={width >= 768 ? "left" : "right"}
           content={content}
           className={classes.sign_out}
           arrow={false}
@@ -187,7 +202,7 @@ const Header = () => {
           <div className={classes.icon}>
             <Globe size={24} className={classes.icon_box} />
           </div>
-          Change Language
+          <FormattedMessage id="common.changelanguage" />
         </Popover>
       </Menu.Item>
       <Menu.Item key={7}>
@@ -195,7 +210,7 @@ const Header = () => {
           <div className={classes.icon}>
             <SignOut size={24} className={classes.icon_box} />
           </div>
-          Sign Out
+          <FormattedMessage id="common.signout" />
         </div>
       </Menu.Item>
     </Menu>
@@ -364,7 +379,9 @@ const Header = () => {
                 onClick={() => navigate2("/login")}
               >
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>Log In</div>
+                <div className={classes.loginText}>
+                  <FormattedMessage id="common.login" />
+                </div>
               </div>
             )}
 

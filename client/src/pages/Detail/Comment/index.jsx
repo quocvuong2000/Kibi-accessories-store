@@ -10,6 +10,7 @@ import {
 } from "../../../api/Comment";
 import s from "./styles.module.scss";
 import avatarPlaceholder from "../../../assets/user_avatar.jpg";
+import { ThumbsUp } from "phosphor-react";
 const Comment = (props) => {
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
@@ -122,18 +123,21 @@ const Comment = (props) => {
               <p className={s.fullname}>{item?.name}</p>
               <Rate value={item?.rating} allowHalf disabled />
               <p className={s.comment}>{item?.comment}</p>
-              {item?.username === user.currentUser?.username ? (
-                <p
-                  className={s.delete}
-                  onClick={() =>
-                    handleDeleteComment(item._id, props.data.product._id)
-                  }
-                >
-                  Delete
-                </p>
-              ) : (
-                ""
-              )}
+              <div className={s.like_delete}>
+                <ThumbsUp size={20} weight="thin" />
+                {item?.username === user.currentUser?.username ? (
+                  <p
+                    className={s.delete}
+                    onClick={() =>
+                      handleDeleteComment(item._id, props.data.product._id)
+                    }
+                  >
+                    Delete
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         );
