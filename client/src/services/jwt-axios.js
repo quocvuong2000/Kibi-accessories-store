@@ -59,7 +59,11 @@ callAPIWithToken.interceptors.response.use(
     }
 
     if (err.response && err.response.status === 500) {
-      // window.location.href = "/500";
+      window.location.href = "/500";
+    }
+
+    if (err.response && err.response.status === 504) {
+      window.location.href = "https://www.google.com/";
     }
     return Promise.reject(err);
   }
@@ -73,8 +77,8 @@ jwtAxios.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response && err.response.status === 500) {
-      // window.location.href = "/500";
+    if (err.response && err.response.status === 504) {
+      window.location.href = "https://www.google.com/";
     }
     return Promise.reject(err);
   }

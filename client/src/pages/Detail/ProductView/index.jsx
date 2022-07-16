@@ -1,6 +1,6 @@
 import { Col, message, Rate, Row } from "antd";
 import { motion } from "framer-motion";
-import { ShoppingCartSimple, Timer } from "phosphor-react";
+import { BookmarkSimple, ShoppingCartSimple, Timer } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddToCart } from "../../../api/Cart";
@@ -43,6 +43,8 @@ const ProductView = (props) => {
       setQty(qty + 1);
     }
   };
+
+  console.log("props.data:", props.data);
 
   return (
     <Col className={`${styles.container}`}>
@@ -135,6 +137,37 @@ const ProductView = (props) => {
             >
               <Rate allowHalf disabled value={props.data.product.avgRating} />
             </Col>
+            <Col
+              style={
+                width <= 1024
+                  ? {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }
+                  : ""
+              }
+            >
+              {props.data.product?.branches?.map((item, index) => {
+                return (
+                  <>
+                    {item.quantity > 0 ? (
+                      <p className={styles.one_line_exists}>
+                        <BookmarkSimple
+                          size={24}
+                          weight="thin"
+                          color="#d84727"
+                        />{" "}
+                        {item.quantity} products left at the branch{" "}
+                        {item.branchName}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                );
+              })}
+            </Col>
             <Row className={styles.function}>
               <Row className={styles.qty}>
                 <div
@@ -173,7 +206,7 @@ const ProductView = (props) => {
                   className={styles.add_to_cart}
                   style={{ cursor: "auto" }}
                 >
-                  <Timer size={20} /> Coming soon
+                  <Timer size={20} /> Out of stock
                 </button>
               )}
 

@@ -1,6 +1,6 @@
 import { Col, message, Modal, Radio, Row, Space } from "antd";
 import { House } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/effect-cards";
@@ -17,15 +17,22 @@ const SelectAddress = ({
   setReload,
   branchList,
   handleGetBranchId,
+  cart,
 }) => {
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
 
+  useEffect(() => {
+    if (address.length !== 0) {
+      setValue(address.find((el) => el.isDefault === true)?._id);
+    }
+  }, [address]);
+
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
       ? branchList?.branches?.find((el) => el.isDefault === true)?._id
-      : {}
+      : ""
   );
 
   const [branchName, setBranchName] = useState(
@@ -100,21 +107,48 @@ const SelectAddress = ({
           className={classes.branchList}
         >
           {branchList?.branches?.map((item, index) => {
+            let temp = [];
+            let temp2 = [];
+            cart._products?.some((el) => {
+              el.branches?.forEach((value) => {
+                if (value.quantity < el.quantity) {
+                  temp.push(value.branchId);
+                  if (valueBranch === value.branchId) {
+                    setValueBranch("");
+                    setBranchName("");
+                  }
+                }
+                if (value.branchId === item._id) {
+                  temp2.push(value.branchId);
+                }
+              });
+            });
+
             return (
-              <Radio value={item?._id} key={index} name={item?.address}>
+              <Radio
+                value={
+                  temp.includes(item?._id) || !temp2.includes(item?._id)
+                    ? null
+                    : item?._id
+                }
+                key={index}
+                disabled={
+                  temp.includes(item?._id) || !temp2.includes(item?._id)
+                    ? true
+                    : false
+                }
+                name={item?.address}
+              >
                 <div className={classes.address_branch}>
                   <House size={40} weight="fill" color="#d84727" />
-                  <p>{item.address}</p>
+                  <p>
+                    {item.address}{" "}
+                    {temp.includes(item?._id) ? "(Hết hàng)" : ""}
+                  </p>
                 </div>
               </Radio>
             );
           })}
-          <Radio value={99} key={99} name={"all"}>
-            <div className={classes.address_branch}>
-              <House size={40} weight="fill" color="#d84727" />
-              <p>All branch</p>
-            </div>
-          </Radio>
         </Radio.Group>
       )}
       <Row className={classes.addressSelectContainer}>
@@ -150,8 +184,21 @@ const SelectAddress = ({
               <div
                 className={classes.continue}
                 onClick={() => {
-                  hanldeSelectAddress(value);
-                  handleGetBranchId(valueBranch, branchName);
+                  console.log("valueBranch:", valueBranch);
+                  console.log("branchName:", branchName);
+                  if (
+                    valueBranch &&
+                    branchName &&
+                    valueBranch !== "" &&
+                    branchName !== ""
+                  ) {
+                    hanldeSelectAddress(value);
+                    handleGetBranchId(valueBranch, branchName);
+                  } else {
+                    message.error(
+                      "Currently the shop is out of stock at all branches"
+                    );
+                  }
                 }}
               >
                 <button>Continue payment</button>
