@@ -90,6 +90,24 @@ const SelectAddress = ({
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    let temp = [];
+    cart._products?.forEach((item) => {
+      console.log(item);
+      temp = temp.concat(
+        ...item.branches.map((branch) => {
+          if (branch.quantity >= item.quantity) {
+            return branch;
+          }
+        })
+      );
+    });
+    console.log("temp:", temp);
+
+    setValueBranch(temp.find((el) => el !== undefined)?.branchId);
+    setBranchName(temp.find((el) => el !== undefined)?.branchName);
+  }, []);
+
   return (
     <>
       <Modal
@@ -103,12 +121,21 @@ const SelectAddress = ({
       {branchList?.branches?.length !== 0 && (
         <Radio.Group
           onChange={onChangeBranch}
-          value={valueBranch}
+          value={
+            valueBranch !== "" && valueBranch !== undefined
+              ? valueBranch
+              : cart._products?.find(
+                  (el) =>
+                    el.branches?.find((value) => value.quantity >= el.quantity)
+                      ?.branchId
+                )
+          }
           className={classes.branchList}
         >
           {branchList?.branches?.map((item, index) => {
             let temp = [];
             let temp2 = [];
+
             cart._products?.some((el) => {
               el.branches?.forEach((value) => {
                 if (value.quantity < el.quantity) {
@@ -117,8 +144,7 @@ const SelectAddress = ({
                     setValueBranch("");
                     setBranchName("");
                   }
-                }
-                if (value.branchId === item._id) {
+                } else if (value.branchId === item._id) {
                   temp2.push(value.branchId);
                 }
               });
@@ -128,7 +154,7 @@ const SelectAddress = ({
               <Radio
                 value={
                   temp.includes(item?._id) || !temp2.includes(item?._id)
-                    ? null
+                    ? "null"
                     : item?._id
                 }
                 key={index}

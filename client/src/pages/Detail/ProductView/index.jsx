@@ -123,7 +123,7 @@ const ProductView = (props) => {
                 đ
               </p>
             )}
-
+            <p>Warranty: {props.data.product.warranty} (months)</p>
             <Col
               style={
                 width <= 1024
