@@ -6,6 +6,7 @@ const {
 } = require("./verifyToken");
 const Product = require("../models/Product");
 const { Query } = require("mongoose");
+const Storage = require("../models/Storage");
 
 //CREATE
 router.post("/", verifyTokenAndProductStaff, async (req, res) => {
@@ -26,6 +27,7 @@ router.post("/", verifyTokenAndProductStaff, async (req, res) => {
 router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
   try {
     try {
+      const currentBranchId = req.body.currentBranch;
       const updatedProduct = await Product.findByIdAndUpdate(
         req.params.id,
         {
@@ -33,6 +35,21 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
         },
         { new: true }
       );
+      const branchFound = updatedProduct.branches.find(
+        (el) => el.branchId.toString() === currentBranchId
+      );
+      const status =
+        branchFound.quantity > branchFound.oldQuantity ? "Import" : "Export";
+      const newImport1 = {
+        branchId: branchFound.branchId || "NA",
+        productId: updatedProduct._id,
+        newQuantity: branchFound.quantity,
+        oldQuantity: branchFound.oldQuantity,
+        branchName: branchFound.branchName || "NA",
+        productName: updatedProduct.product,
+        status: status,
+      };
+      await Storage(newImport1).save()
       res.status(200).json(updatedProduct);
     } catch (err) {
       res.status(500).json(err);
@@ -42,13 +59,38 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
   }
 });
 
-//DELETE - ONLY ADMIN
+//DELETE IN ALL BRANCH - ONLY ADMIN
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       await Product.findByIdAndDelete(req.params.id);
       res.status(200).json("Product has been deleted...");
       await Wishlist.deleteMany({ product: [{ _id: req.body.productId }] });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } catch (error) {
+    res.status(504).json(error);
+  }
+});
+
+//DELETE IN SPECIFICALLY BRANCH - ONLY ADMIN
+router.put("/delete/branch/", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    try {
+      const productFound = await Product.findById(req.body.id);
+      let newBranches = [];
+      if (productFound.branches.length > 0) {
+        // console.log(req.body.branchId);
+        newBranches = productFound.branches.filter(
+          (el) => el.branchId.toString() !== req.body.branchId
+        );
+      }
+      // console.log(newBranches);
+      await Product.findByIdAndUpdate(req.body.id, {
+        branches: newBranches,
+      });
+      res.status(200).json("Delete success");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -235,7 +277,6 @@ router.get("/limit/:countlimit", async (req, res) => {
 });
 
 //GET PRODUCT BY NAME
-
 
 //GET ALL
 router.get("/getall/all", async (req, res) => {

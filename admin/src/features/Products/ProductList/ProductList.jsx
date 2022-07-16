@@ -1,4 +1,9 @@
-import { UilEdit, UilSetting, UilTimesSquare } from "@iconscout/react-unicons";
+import {
+  UilEdit,
+  UilSetting,
+  UilTimesSquare,
+  UilExclamationTriangle,
+} from "@iconscout/react-unicons";
 import {
   Alert,
   Avatar,
@@ -22,11 +27,15 @@ import { StyledMenu } from "../../../theme/styledMenu";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import DialogUpdateProduct from "../DialogUpdate/DialogUpdateProduct";
-import { doDeleteProduct } from "../ProductAPI";
+import { doDeleteProduct, doDeleteProductByBranch } from "../ProductAPI";
 
 export default function ProductList(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [deleteDialog, setDeleteDialog] = React.useState({
+    delete: false,
+    id: "",
+  });
+  const [deleteDialogByBranch, setDeleteDialogByBranch] = React.useState({
     delete: false,
     id: "",
   });
@@ -37,7 +46,6 @@ export default function ProductList(props) {
   const [productSelectedUpdate, setProductSelectedUpdate] = useState("");
   const [loading, setLoading] = useState(false);
   const open = Boolean(anchorEl);
-
   const hanldeShowUpdateProductModal = (isVisible) => {
     setShowUpdateModal(isVisible);
   };
@@ -45,7 +53,9 @@ export default function ProductList(props) {
   const hanldeShowDeleteDialog = (visible) => {
     setDeleteDialog(visible);
   };
-
+  const hanldeShowDeleteDialogByBranch = (visible) => {
+    setDeleteDialogByBranch(visible);
+  };
   const hanldeDeleteProduct = () => {
     setLoading(true);
     doDeleteProduct(deleteDialog.id)
@@ -54,6 +64,29 @@ export default function ProductList(props) {
         setTimeout(() => {
           props.reLoadTable("delete" + Date.now());
           setDeleteDialog({
+            delete: false,
+            id: "",
+          });
+        }, 500);
+      })
+      .catch(() => {
+        setFailure(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  const hanldeDeleteProductByBranch = () => {
+    setLoading(true);
+    doDeleteProductByBranch({
+      id: deleteDialogByBranch.id,
+      branchId: props.branchSelected._id,
+    })
+      .then(() => {
+        setSuccess(true);
+        setTimeout(() => {
+          props.reLoadTable("delete" + Date.now());
+          setDeleteDialogByBranch({
             delete: false,
             id: "",
           });
@@ -143,10 +176,26 @@ export default function ProductList(props) {
                             setAnchorEl(null);
                           }}
                           disableRipple
+                          sx={{ color: "red" }}
+                        >
+                          <UilExclamationTriangle />
+                          <Typography sx={{ marginLeft: "10px" }}>
+                            Delete permantly
+                          </Typography>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            setDeleteDialogByBranch({
+                              delete: true,
+                              id: productIdSelected,
+                            });
+                            setAnchorEl(null);
+                          }}
+                          disableRipple
                         >
                           <UilTimesSquare />
                           <Typography sx={{ marginLeft: "10px" }}>
-                            Delete
+                            Delete for this branch only
                           </Typography>
                         </MenuItem>
                         <MenuItem
@@ -207,8 +256,15 @@ export default function ProductList(props) {
         show={deleteDialog.delete}
         hanldeShow={hanldeShowDeleteDialog}
         hanldeAgree={hanldeDeleteProduct}
-        title={"Delete product"}
-        content={"Are you sure to delete"}
+        title={"Delete product permantly ?"}
+        content={"This will remove the product out of kibi"}
+      />
+      <ConfirmationDialog
+        show={deleteDialogByBranch.delete}
+        hanldeShow={hanldeShowDeleteDialogByBranch}
+        hanldeAgree={hanldeDeleteProductByBranch}
+        title={"Delete this product on this branch"}
+        content={"Are you sure to delete ?"}
       />
       <Snackbar
         open={success}

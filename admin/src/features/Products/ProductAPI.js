@@ -61,6 +61,18 @@ export const deleteWishList = async (productId) => {
 
 export const doGetAllProduct = async () => {
   const res = await callAPIWithToken.get("/api/product/getall/all");
-  if(res && res.status !== 200) throw Error("Something wrongs with code status");
-  return res.data
-}
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status");
+  return res.data;
+};
+
+export const doDeleteProductByBranch = async (data) => {
+  const res = await callAPIWithToken({
+    url: `/api/product/delete/branch/`,
+    method: "PUT",
+    data:data
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

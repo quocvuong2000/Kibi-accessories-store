@@ -72,12 +72,14 @@ export default function DialogAddExistingProduct(props) {
                 branchId: props.branchSelected._id,
                 branchName: props.branchSelected.address,
                 quantity: newBranchQuantity,
+                oldQuantity: 0,
               });
               const product = {
                 ...values.productId,
                 branches: newBranchesArr,
                 oldQuantity: values.productId.quantity || 0,
                 quantity: parseInt(updateQuantity),
+                currentBranch: props.branchSelected._id,
               };
               doUpdateProduct(values.productId._id, product)
                 .then(() => {
@@ -85,7 +87,6 @@ export default function DialogAddExistingProduct(props) {
 
                   setTimeout(() => {
                     props.reLoadTable("sucess" + Date.now());
-                    props.handleShowDialog(false);
                     props.setShowAddExistingProduct(false);
                   }, 1000);
                 })
