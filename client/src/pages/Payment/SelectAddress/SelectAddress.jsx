@@ -21,8 +21,7 @@ const SelectAddress = ({
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
-  console.log("address:", address);
-  console.log("branchList:", branchList?.branches);
+
   const [valueBranch, setValueBranch] = useState(
     branchList?.branches?.length !== 0
       ? branchList?.branches?.find((el) => el.isDefault === true)?._id
@@ -34,8 +33,6 @@ const SelectAddress = ({
       ? branchList?.branches?.find((el) => el.isDefault === true)?.address
       : ""
   );
-
-  console.log("valueBranch:", valueBranch);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -112,6 +109,12 @@ const SelectAddress = ({
               </Radio>
             );
           })}
+          <Radio value={99} key={99} name={"all"}>
+            <div className={classes.address_branch}>
+              <House size={40} weight="fill" color="#d84727" />
+              <p>All branch</p>
+            </div>
+          </Radio>
         </Radio.Group>
       )}
       <Row className={classes.addressSelectContainer}>

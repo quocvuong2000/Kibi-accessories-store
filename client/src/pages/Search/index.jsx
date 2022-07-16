@@ -17,7 +17,6 @@ const Search = () => {
   const [listBrand, setListBrand] = useState([]);
   const { kw } = useParams();
   useEffect(() => {
-    console.log("kw", kw);
     clearTimeout(timeout.current);
     timeout.current = setTimeout(() => {
       searchProduct(kw)
@@ -49,7 +48,6 @@ const Search = () => {
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
-          console.log("res", res);
           setProduct(res);
           setProductList(res.products);
           setTotalPages(res.totalPages);

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleAddToCart } from "../../../api/Cart";
+import { getProduct } from "../../../api/Product";
 import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
 import imgError from "../../../assets/imgDefault.webp";
 import numberWithComas from "../../../utils/numberWithCommas";
@@ -16,7 +17,7 @@ export const ProductCardGrid = (props) => {
   const dispatch = useDispatch();
   const [exist, setExist] = useState(false);
   const [reload, setReload] = useState(false);
-
+  const [quan, setQuan] = useState(0);
   useEffect(() => {
     user.currentUser &&
       checkExistsWishlist(user.currentUser.username, data._id).then((res) => {
@@ -24,6 +25,12 @@ export const ProductCardGrid = (props) => {
         res === 201 && setExist(true);
       });
   }, [data, reload, user.currentUser]);
+
+  useEffect(() => {
+    getProduct(data._id).then((res) => {
+      setQuan(res.product.quantity);
+    });
+  }, []);
 
   return (
     <div
@@ -95,14 +102,24 @@ export const ProductCardGrid = (props) => {
           <p
             className={`${s.txt_add} ${show ? s.show_txt : s.hide_txt}`}
             onClick={() => {
-              if (user.currentUser) {
-                handleAddToCart(dispatch, user.currentUser.username, data._id);
+              if (quan <= 0) {
+                message.error(
+                  "Hiện tại sản phẩm này không còn hàng tại chi nhánh nào"
+                );
               } else {
-                message.error("Please sign in");
+                if (user.currentUser) {
+                  handleAddToCart(
+                    dispatch,
+                    user.currentUser.username,
+                    data._id
+                  );
+                } else {
+                  message.error("Please sign in");
+                }
               }
             }}
           >
-            + Add to cart
+            {quan <= 0 ? "Out of stock" : "+Add to cart"}
           </p>
         )}
       </div>

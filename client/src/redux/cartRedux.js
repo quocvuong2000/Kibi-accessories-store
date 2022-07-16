@@ -29,6 +29,7 @@ const cartSlice = createSlice({
     },
     deleteCartSuccess: (state, action) => {
       state.isFetching = false;
+      state._products = action.payload.products;
       state.numberCart = action.payload.products.length;
       state.totalPrice = 0;
       state.totalPrice = action.payload.totalPrice;

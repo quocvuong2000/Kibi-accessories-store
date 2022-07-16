@@ -11,6 +11,11 @@ const Comment = new mongoose.Schema(
     productImage: { type: String },
     productName: { type: String },
     countLike: { type: Number },
+    userLiked: [
+      {
+        username: { type: String },
+      },
+    ],
     commentReply: [
       {
         username: { type: String },

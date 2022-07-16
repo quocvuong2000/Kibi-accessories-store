@@ -1,10 +1,11 @@
 import { Col, Image, message, Popover, Row } from "antd";
 import parse from "html-react-parser";
 import { Heart } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { handleAddToCart } from "../../../api/Cart";
+import { getProduct } from "../../../api/Product";
 import { addToWishList } from "../../../api/Wishlist";
 import imgError from "../../../assets/imgDefault.webp";
 import numberWithCommas from "../../../utils/numberWithCommas";
@@ -14,6 +15,12 @@ export const ProductCardList = (props) => {
   const data = props.data;
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [quan, setQuan] = useState(0);
+  useEffect(() => {
+    getProduct(data._id).then((res) => {
+      setQuan(res.product.quantity);
+    });
+  }, []);
 
   const [reload, setReload] = useState(false);
 
@@ -42,10 +49,10 @@ export const ProductCardList = (props) => {
           {parse(`${data.description.content}`)}
         </div>
         <p className={s.box__product__voucher}>
-          {data.sale && data.sale + "% Offs"}
+          {data.sale && data.sale !== 0 && data.sale + "% Offs"}
         </p>
 
-        {data.oldPrice && (
+        {data.oldPrice && data.oldPrice !== 0 && (
           <div className={s.box__product__oldprice}>
             {data.oldPrice}
             <hr className={s.line} />
@@ -76,14 +83,24 @@ export const ProductCardList = (props) => {
           <button
             className={s.btnCart}
             onClick={() => {
-              if (user.currentUser) {
-                handleAddToCart(dispatch, user.currentUser.username, data._id);
+              if (quan <= 0) {
+                message.error(
+                  "Hiện tại sản phẩm này không còn hàng tại chi nhánh nào"
+                );
               } else {
-                message.error("Please sign in");
+                if (user.currentUser) {
+                  handleAddToCart(
+                    dispatch,
+                    user.currentUser.username,
+                    data._id
+                  );
+                } else {
+                  message.error("Please sign in");
+                }
               }
             }}
           >
-            Add to cart
+            {quan <= 0 ? "Out of stock" : "Add to cart"}
           </button>
         </div>
       </Col>

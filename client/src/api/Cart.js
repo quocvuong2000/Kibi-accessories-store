@@ -24,8 +24,13 @@ export const getAllProductCart = async (user) => {
   return res.data;
 };
 
-export const handleAddToCart = async (dispatch, username, productId, quantity) => {
-  addCart(dispatch, username, productId,quantity)
+export const handleAddToCart = async (
+  dispatch,
+  username,
+  productId,
+  quantity
+) => {
+  addCart(dispatch, username, productId, quantity)
     .then((res) => {
       // setWrongCredential(false);
       message.success("Add success");
@@ -40,7 +45,6 @@ export const handleAddToCart = async (dispatch, username, productId, quantity) =
       throw e;
     });
 };
-
 
 export const deleteCart = async (dispatch, username, productId) => {
   deleteProductCart(dispatch, username, productId)

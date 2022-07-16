@@ -186,11 +186,11 @@ const PaymentDetail = (props) => {
       };
       doCheckoutByCard(data)
         .then((res) => {
-          //console.log(res);
           message.success("Payment success");
           props.hanldeLoading(false);
-          //console.log(res);
-          // props.takeOrderDetailForConfirmation(res.newOrder._id);
+          if (idVoucher !== "" && idVoucher) {
+            deletedVoucher(idVoucher).then(() => {});
+          }
 
           setTimeout(() => {
             doDeleteAllCart({ username: data.username });
@@ -233,7 +233,9 @@ const PaymentDetail = (props) => {
         message.success("Payment success");
         props.hanldeLoading(false);
         // props.takeOrderDetailForConfirmation(res._id);
-
+        if (idVoucher !== "" && idVoucher) {
+          deletedVoucher(idVoucher).then(() => {});
+        }
         setTimeout(() => {
           doDeleteAllCart({ username: data.username });
           dispatch(deleteAllCart());
@@ -393,15 +395,6 @@ const PaymentDetail = (props) => {
               </div>
             </div>
             <div className={classes.paymentDetails}>
-              {/* <div className={classes.top}>
-                <div className={classes.title}>Payment Detail</div>
-                <div className={classes.time}>
-                </div>
-              </div>
-              <div className={classes.bottom}>
-                Please make a payment according with the limit time specified,
-                starting from now
-              </div> */}
               <div className={classes.paymentMethod}>
                 <div className={classes.title}>Payment Method</div>
                 <Radio.Group
@@ -500,9 +493,15 @@ const PaymentDetail = (props) => {
               name={props.user.currentUser.name}
               image={avatarPlaceholder}
               description={`Tổng của bạn là ${numberWithCommas(
-                props.cart.totalPrice + props.shippingCost - salePrice
+                props.cart.totalPrice + props.shippingCost - salePrice >= 0
+                  ? props.cart.totalPrice + props.shippingCost - salePrice
+                  : 0
               )} VND`}
-              amount={props.cart.totalPrice + props.shippingCost - salePrice}
+              amount={
+                props.cart.totalPrice + props.shippingCost - salePrice >= 0
+                  ? props.cart.totalPrice + props.shippingCost - salePrice
+                  : 0
+              }
               email={props.user.currentUser.email}
               token={onToken}
               stripeKey={STRIPE_PK_KEY}
@@ -531,7 +530,9 @@ const PaymentDetail = (props) => {
               className={classes.btn}
               onClick={() =>
                 handleMomo(
-                  props.cart.totalPrice + props.shippingCost - salePrice
+                  props.cart.totalPrice + props.shippingCost - salePrice >= 0
+                    ? props.cart.totalPrice + props.shippingCost - salePrice
+                    : 0
                 )
               }
             >

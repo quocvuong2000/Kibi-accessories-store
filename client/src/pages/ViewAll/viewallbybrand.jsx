@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getBrand } from "../../api/Brand";
-import { getAllProduct, getAllProductByBrand } from "../../api/Product";
+import { getAllProductByBrand } from "../../api/Product";
 import ListProduct from "./ListProduct";
 import styles from "./styles.module.scss";
 
@@ -19,6 +19,7 @@ const ViewAllByBrand = () => {
   }, []);
   useEffect(() => {
     setLoading(true);
+    setPage(1);
     getAllProductByBrand(idBrandPr, 1)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
@@ -39,7 +40,6 @@ const ViewAllByBrand = () => {
 
   useEffect(() => {
     getBrand().then((res) => {
-      console.log("res:", res);
       if (res.status === 200) {
         setListBrand(res.data);
       }
@@ -47,11 +47,10 @@ const ViewAllByBrand = () => {
   }, []);
 
   const fetchMore = (page) => {
-    // while (page !== totalPages) {
     getAllProductByBrand(idBrandPr, page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
-        setListBrand(listProduct.push(...res.products));
+
         setListProduct((listProduct) => [...listProduct, ...res.products]);
       })
       .catch(() => {
@@ -60,7 +59,6 @@ const ViewAllByBrand = () => {
       .finally(() => {
         setLoading(false);
       });
-    // }
   };
 
   const handleFilter = (name, idBrand, fromPrice, toPrice, rating) => {
