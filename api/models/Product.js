@@ -6,13 +6,18 @@ const ProductSchema = new mongoose.Schema(
     price: { type: Number },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     brand: { type: mongoose.Schema.Types.ObjectId, ref: "Brand" },
-    branchId: { type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
-    branchName: { type: String },
+    branches: [
+      {
+        branchId: { type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
+        branchName: { type: String },
+        quantity: { type: Number },
+      },
+    ],
     voucher: { type: Number },
     topSales: { type: Boolean },
     totalRating: { type: Number },
     quantity: { type: Number },
-    oldQuantity : {type : Number},
+    oldQuantity: { type: Number },
     inStock: { type: Boolean },
     warranty: { type: Number },
     description: {

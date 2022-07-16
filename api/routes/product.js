@@ -73,7 +73,10 @@ router.get("/", async (req, res) => {
       query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
     }
     if (qBranch) {
-      query = { ...query, ...{ branch: qBranch } };
+      query = {
+        ...query,
+        ...{ branches: { $elemMatch: { branchId: qBranch } } },
+      };
     }
     let products;
     products = await Product.find(query)

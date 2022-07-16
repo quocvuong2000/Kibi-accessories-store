@@ -98,6 +98,7 @@ const Products = () => {
                       branchSelected={branchSelected}
                       hanldeChooseBranches={hanldeChooseBranches}
                       branchList={branchList}
+                      productList={productList}
                     />
                     {productList && (
                       <ProductList

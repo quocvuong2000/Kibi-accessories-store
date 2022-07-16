@@ -230,7 +230,25 @@ export default function DialogUpdateProduct(props) {
               }}
               onSubmit={async (values) => {
                 setLoading(true);
-
+                const newBranchesArr = [];
+                values.branches.forEach((el) => {
+                  if (el.branchId === props.branchSelected._id) {
+                    const newBranchQuantity = values.quantity;
+                    const oldBranchQuantity = el.quantity;
+                    if (newBranchQuantity > oldBranchQuantity) {
+                      values.quantity += newBranchQuantity - oldBranchQuantity;
+                    } else {
+                      values.quantity -= oldBranchQuantity - newBranchQuantity;
+                    }
+                    newBranchesArr.push({
+                      branchId: el.branchId,
+                      branchName: el.branchName,
+                      quantity: newBranchQuantity,
+                    });
+                  } else {
+                    newBranchesArr.push(el);
+                  }
+                });
                 if (urls.length === images.length) {
                   const product = {
                     ...values,

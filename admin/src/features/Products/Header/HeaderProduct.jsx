@@ -10,12 +10,16 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import DialogAddProduct from "../DialogAdd/DialogAddProduct";
+import DialogAddExistingProduct from "../DialogAddExistingProduct/DialogAddExistingProduct";
 
 const HeaderProduct = (props) => {
   const [age, setAge] = useState("");
   const [age1, setAge1] = useState("");
   const [filterBranch, setFilterBranch] = useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const [showDialogExistingProduct, setShowDialogExistingProduct] =
+    useState(false);
+
   const handleShowDialogAdd = (isVisible) => {
     setShowDialog(isVisible);
   };
@@ -109,12 +113,23 @@ const HeaderProduct = (props) => {
           <Grid
             item
             xs={3}
-            alignItems={"flex-end"}
-            justifyContent={"flex-end"}
+            alignItems={"center"}
+            justifyContent={"space-around"}
             display={"flex"}
           >
-            <Button variant="contained" onClick={() => setShowDialog(true)}>
-              Add New Product
+            <Button
+              variant="contained"
+              onClick={() => setShowDialog(true)}
+              sx={{ fontSize: "14px" }}
+            >
+              Add New
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => setShowDialogExistingProduct(true)}
+              sx={{ fontSize: "14px" }}
+            >
+              Add Existing
             </Button>
           </Grid>
         </Grid>
@@ -125,6 +140,13 @@ const HeaderProduct = (props) => {
           handleShowDialog={handleShowDialogAdd}
           reLoadTable={props.reLoadTable}
           branchSelected={props.branchSelected}
+        />
+      )}
+      {showDialogExistingProduct && (
+        <DialogAddExistingProduct
+          showDialog={showDialogExistingProduct}
+          setShowAddExistingProduct={setShowDialogExistingProduct}
+          productList={props.productList}
         />
       )}
     </div>
