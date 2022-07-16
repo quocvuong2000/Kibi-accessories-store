@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   DialogActions,
+  DialogContent,
   Divider,
   FormControl,
   Grid,
@@ -185,6 +186,12 @@ export default function DialogUpdateProduct(props) {
           maxWidth={"lg"}
         >
           <DialogTitle>UPDATE PRODUCT</DialogTitle>
+          <DialogContent sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ fontWeight: "600", marginRight: "5px" }}>
+              Current branch:{" "}
+            </Typography>{" "}
+            {props.branchSelected.address}
+          </DialogContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Stepper
               nonLinear
@@ -215,7 +222,10 @@ export default function DialogUpdateProduct(props) {
                 category: productDetail.category || "",
                 brand: productDetail.brand || "",
                 topSales: productDetail.topSales || false,
-                quantity: productDetail.quantity || 0,
+                quantity:
+                  productDetail.branches.find(
+                    (el) => el.branchId === props.branchSelected?._id
+                  )?.quantity || 0,
                 sale: productDetail.sale || 0,
                 warranty: productDetail.warranty || 0,
 
@@ -231,76 +241,80 @@ export default function DialogUpdateProduct(props) {
               onSubmit={async (values) => {
                 setLoading(true);
                 const newBranchesArr = [];
-                values.branches.forEach((el) => {
+                productDetail.branches.forEach((el) => {
                   if (el.branchId === props.branchSelected._id) {
                     const newBranchQuantity = values.quantity;
                     const oldBranchQuantity = el.quantity;
                     if (newBranchQuantity > oldBranchQuantity) {
-                      values.quantity += newBranchQuantity - oldBranchQuantity;
+                      values.quantity =
+                        productDetail.quantity +
+                        (newBranchQuantity - oldBranchQuantity);
                     } else {
-                      values.quantity -= oldBranchQuantity - newBranchQuantity;
+                      values.quantity =
+                        productDetail.quantity -
+                        (oldBranchQuantity - newBranchQuantity);
                     }
                     newBranchesArr.push({
-                      branchId: el.branchId,
-                      branchName: el.branchName,
-                      quantity: newBranchQuantity,
+                      branchId: props.branchSelected._id,
+                      branchName: props.branchSelected.address,
+                      quantity: parseInt(newBranchQuantity),
                     });
                   } else {
                     newBranchesArr.push(el);
                   }
                 });
-                if (urls.length === images.length) {
-                  const product = {
-                    ...values,
-                    images: [...urls, ...currentUrls],
-                    branchId: props.branchSelected._id,
-                    branchName: props.branchSelected.address,
-                    oldQuantity: productDetail.quantity || 0,
-                    quantity: parseInt(values.quantity),
-                  };
+                if (newBranchesArr.length > 0) {
+                  if (urls.length === images.length) {
+                    const product = {
+                      ...values,
+                      images: [...urls, ...currentUrls],
+                      branches: newBranchesArr,
+                      oldQuantity: productDetail.quantity || 0,
+                      quantity: parseInt(values.quantity),
+                    };
 
-                  product &&
+                    product &&
+                      doUpdateProduct(props.productId, product)
+                        .then(() => {
+                          setSuccess(true);
+
+                          setTimeout(() => {
+                            props.handleShowDialog(false);
+                            props.reLoadTable("sucess" + Date.now());
+                          }, 1000);
+                        })
+                        .catch(() => {
+                          setFailure(true);
+                        })
+                        .finally(() => {
+                          setImages([]);
+                          setUrls([]);
+                          setLoading(false);
+                        });
+                  } else {
+                    const product = {
+                      ...values,
+                      images: currentUrls,
+                      branches: newBranchesArr,
+                      oldQuantity: productDetail.quantity || 0,
+                      quantity: parseInt(values.quantity),
+                    };
                     doUpdateProduct(props.productId, product)
                       .then(() => {
                         setSuccess(true);
 
                         setTimeout(() => {
-                          props.handleShowDialog(false);
                           props.reLoadTable("sucess" + Date.now());
+                          props.handleShowDialog(false);
                         }, 1000);
                       })
                       .catch(() => {
                         setFailure(true);
                       })
                       .finally(() => {
-                        setImages([]);
-                        setUrls([]);
                         setLoading(false);
                       });
-                } else {
-                  const product = {
-                    ...values,
-                    images: currentUrls,
-                    branchId: props.branchSelected._id,
-                    branchName: props.branchSelected.address,
-                    oldQuantity: productDetail.quantity || 0,
-                    quantity: parseInt(values.quantity),
-                  };
-                  doUpdateProduct(props.productId, product)
-                    .then(() => {
-                      setSuccess(true);
-
-                      setTimeout(() => {
-                        props.reLoadTable("sucess" + Date.now());
-                        props.handleShowDialog(false);
-                      }, 1000);
-                    })
-                    .catch(() => {
-                      setFailure(true);
-                    })
-                    .finally(() => {
-                      setLoading(false);
-                    });
+                  }
                 }
               }}
             >

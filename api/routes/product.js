@@ -234,24 +234,8 @@ router.get("/limit/:countlimit", async (req, res) => {
   }
 });
 
-//SEARCH
-router.get("/search", async (req, res) => {
-  // console.log(products);
-  try {
-    try {
-      const qName = req.query.name;
-      console.log(qKw);
-      const products = await Product.find({
-        product: qKw,
-      });
-      res.status(200).json({ products });
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  } catch (error) {
-    res.status(504).json(error);
-  }
-});
+//GET PRODUCT BY NAME
+
 
 //GET ALL
 router.get("/getall/all", async (req, res) => {

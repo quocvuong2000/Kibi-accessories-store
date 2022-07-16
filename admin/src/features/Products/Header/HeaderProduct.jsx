@@ -147,6 +147,8 @@ const HeaderProduct = (props) => {
           showDialog={showDialogExistingProduct}
           setShowAddExistingProduct={setShowDialogExistingProduct}
           productList={props.productList}
+          branchSelected={props.branchSelected}
+          reLoadTable={props.reLoadTable}
         />
       )}
     </div>
