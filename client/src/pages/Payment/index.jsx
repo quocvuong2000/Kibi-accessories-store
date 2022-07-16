@@ -152,6 +152,7 @@ const Payment = () => {
                   setReload={setReload}
                   branchList={branchList}
                   handleGetBranchId={handleGetBranchId}
+                  cart={cart}
                 />
               )}
               {step === 1 && (

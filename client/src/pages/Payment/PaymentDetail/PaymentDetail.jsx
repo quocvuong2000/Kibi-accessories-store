@@ -38,6 +38,12 @@ const STRIPE_PK_KEY =
   "pk_test_51K0LBnFjydqiWgwtTtGT2ONJJuo4TAWczmDWero4QwWVw7p6n93JvDHkkDe70u1XVF5cT0kCsJQC59DJmQdBGPys00B3LSLWLk";
 
 const PaymentDetail = (props) => {
+  if (
+    typeof props.addressSelected?.address === "undefined" ||
+    !props.branchId
+  ) {
+    window.location.href = "/checkout";
+  }
   //-----------------------------------STATE MOMO-----------------------------------
   const search = useLocation().search;
   const query = new URLSearchParams(search);
@@ -87,6 +93,7 @@ const PaymentDetail = (props) => {
   const [token, setToken] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const currentAddressName = props.addressSelected
     ? props.addressSelected.address
     : props.address[0].address;

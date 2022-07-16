@@ -1,5 +1,12 @@
 @use "../../../sass/mixins" as *;
 $colorAll: #333333;
+.one_line_exists {
+  display: flex;
+  align-items: center;
+  margin-top: 10px !important;
+  column-gap: 3px;
+  font-size: 15px;
+}
 .container {
   margin: 0 auto;
   max-width: 100vw;

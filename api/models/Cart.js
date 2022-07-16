@@ -10,11 +10,10 @@ const CartSchema = new mongoose.Schema({
       productImage: { type: Array },
       productPrice: { type: Number },
       quantity: { type: Number },
+      branches: { type: Array },
     },
   ],
   totalPrice: { type: Number },
 });
 
 module.exports = mongoose.model("Cart", CartSchema);
-
-
