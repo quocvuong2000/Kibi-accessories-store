@@ -4,6 +4,7 @@ import {
   Box,
   Checkbox,
   DialogActions,
+  DialogContent,
   FormControl,
   FormControlLabel,
   Grid,
@@ -13,6 +14,7 @@ import {
   MenuItem,
   Snackbar,
   StepLabel,
+  Typography,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -162,6 +164,10 @@ export default function DialogAddProduct(props) {
         maxWidth={"lg"}
       >
         <DialogTitle>ADD NEW PRODUCT</DialogTitle>
+        <DialogContent>
+          <Typography sx={{ fontWeight: "600" }}>Current branch: </Typography>{" "}
+          {props.branchSelected.address}
+        </DialogContent>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Stepper
             nonLinear
@@ -210,14 +216,13 @@ export default function DialogAddProduct(props) {
               const product = {
                 ...values,
                 images: urls,
-                branches : [
+                branches: [
                   {
                     branchId: props.branchSelected._id,
                     branchName: props.branchSelected.address,
-                    quantity : values.quantity
-                  }
-                ]
-
+                    quantity: values.quantity,
+                  },
+                ],
               };
               product &&
                 addNewProduct(product)
