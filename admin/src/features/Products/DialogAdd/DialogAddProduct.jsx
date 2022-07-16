@@ -221,6 +221,7 @@ export default function DialogAddProduct(props) {
                     branchId: props.branchSelected._id,
                     branchName: props.branchSelected.address,
                     quantity: values.quantity,
+                    oldQuantity : 0,
                   },
                 ],
               };

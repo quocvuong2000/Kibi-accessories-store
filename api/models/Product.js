@@ -10,6 +10,7 @@ const ProductSchema = new mongoose.Schema(
       {
         branchId: { type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
         branchName: { type: String },
+        oldQuantity : {type : Number},
         quantity: { type: Number },
       },
     ],

@@ -258,6 +258,7 @@ export default function DialogUpdateProduct(props) {
                       branchId: props.branchSelected._id,
                       branchName: props.branchSelected.address,
                       quantity: parseInt(newBranchQuantity),
+                      oldQuantity: oldBranchQuantity,
                     });
                   } else {
                     newBranchesArr.push(el);
@@ -271,6 +272,7 @@ export default function DialogUpdateProduct(props) {
                       branches: newBranchesArr,
                       oldQuantity: productDetail.quantity || 0,
                       quantity: parseInt(values.quantity),
+                      currentBranch: props.branchSelected._id,
                     };
 
                     product &&
@@ -298,6 +300,7 @@ export default function DialogUpdateProduct(props) {
                       branches: newBranchesArr,
                       oldQuantity: productDetail.quantity || 0,
                       quantity: parseInt(values.quantity),
+                      currentBranch: props.branchSelected._id,
                     };
                     doUpdateProduct(props.productId, product)
                       .then(() => {
