@@ -34,7 +34,6 @@ const ViewAllBlog = () => {
       });
     window.scrollTo(0, 0);
   }, []);
-  console.log("blogList:", blogList);
   return (
     <div className={s.container}>
       <Title title={catBlog.cate?.title} />

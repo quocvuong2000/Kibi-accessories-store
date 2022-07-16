@@ -219,7 +219,7 @@ const PaymentDetail = (props) => {
   };
   const hanldeCheckoutCOD = () => {
     props.hanldeLoading(true);
-    console.log("shippingCost:", shippingCost);
+
     const data = {
       username: props.user.currentUser.username,
       email: props.user.currentUser.email,
@@ -253,7 +253,6 @@ const PaymentDetail = (props) => {
         message.error("payment fail, sthing went worng");
       });
   };
-  //console.log(props);
 
   //---------------------------------------MOMO-----------------------------------------------
   useEffect(() => {
@@ -342,8 +341,6 @@ const PaymentDetail = (props) => {
       }
     });
   };
-
-  console.log(nameVoucher);
 
   //-------------------------------------END MOMO---------------------------------------------
 

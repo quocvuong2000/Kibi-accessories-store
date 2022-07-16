@@ -266,9 +266,8 @@ const Header = () => {
 
   const onSearch = (value) => {
     var regex = /^[a-zA-Z]/;
-    // console.log(value);
+
     if (value) {
-      console.log("value", value);
       navigate(`/search/${value}`);
     } else if (value === "") {
       return;
@@ -404,6 +403,9 @@ const Header = () => {
         <div className={classes.bottom}>
           <div className={classes.navListContainer}>
             <div className={classes.navList}>
+              <Link to={`/viewall`} className={classes.navItem}>
+                Product
+              </Link>
               {category.categories?.map((item, index) => {
                 return (
                   <Link
@@ -438,6 +440,9 @@ const Header = () => {
               className={classes.navItem}
             >
               Home
+            </Link>
+            <Link to={`/viewall`} className={classes.navItem}>
+              Product
             </Link>
             {category.categories?.map((item, index) => {
               return (

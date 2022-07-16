@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import classes from "./styles.module.scss";
-import { Form as FormAnt, Input, Select, message } from "antd";
-import { Field, Form, Formik } from "formik";
-import { registerSchema } from "./validation";
-import { doSignUp } from "./RegisterAPI";
-import { getDistrict, getProvince, getWard } from "../../api/Shipping";
-import { useLocation, useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { Form as FormAnt, Input, message, Select } from "antd";
 import CryptoJS from "crypto-js";
-import { async } from "@firebase/util";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { getDistrict, getProvince, getWard } from "../../api/Shipping";
 import { checkExist } from "../../api/User";
+import { doSignUp } from "./RegisterAPI";
+import classes from "./styles.module.scss";
+import { registerSchema } from "./validation";
 const { Option } = Select;
 const Register = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -73,9 +71,7 @@ const Register = (props) => {
                 message.success("Please check your email and verify");
               }
             },
-            (error) => {
-              //console.log(error.text);
-            }
+            (error) => {}
           )
           .finally(() => {
             props.setShowVerifyPage(true);
@@ -104,7 +100,6 @@ const Register = (props) => {
       query.has("email") &&
       OriginalPassword === email
     ) {
-      //console.log("asdsd");
       var values = {
         name: name,
         email: email,
@@ -124,10 +119,8 @@ const Register = (props) => {
           } else if (res.status === 201) {
             message.error("Email already exists");
           }
-          //console.log("res:", res);
         })
         .catch((res) => {
-          //console.log("res:", res);
           setSuccess(false);
           setFailure(true);
         });
@@ -160,7 +153,7 @@ const Register = (props) => {
         setWardId(res.data.data[0].WardCode);
       }
     });
-  }, [districtId]);
+  }, [districtId, provinceId]);
 
   return (
     <>
@@ -275,7 +268,7 @@ const Register = (props) => {
                 </Select>
 
                 <Select
-                  placeholder="Please choose your province"
+                  placeholder="Please choose your district"
                   onSelect={(value) => {
                     setDistrictId(value);
                   }}
@@ -297,15 +290,18 @@ const Register = (props) => {
                 </Select>
 
                 <Select
-                  placeholder="Please choose your province"
+                  placeholder="Please choose your ward"
                   defaultActiveFirstOption={true}
                   filterOption={false}
-                  value={wardId}
+                  value={`${wardId}`}
                   filterSort={(optionA, optionB) =>
                     optionA.children
                       .toLowerCase()
                       .localeCompare(optionB.children.toLowerCase())
                   }
+                  onSelect={(value) => {
+                    setWardId(value);
+                  }}
                 >
                   {ward?.map((item, index) => {
                     return (

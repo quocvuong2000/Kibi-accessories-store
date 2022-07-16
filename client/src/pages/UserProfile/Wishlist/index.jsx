@@ -19,7 +19,6 @@ const Wistlist = () => {
     if (user.currentUser) {
       getAllWishlist(user.currentUser.username)
         .then((res) => {
-          //console.log(res[0].products);
           setProduct(res[0].products);
         })
         .finally(() => {

@@ -11,8 +11,6 @@ const BoxSwipe = () => {
   const [blogList, setBlogList] = useState([]);
   useEffect(() => {
     getAllBlog(10).then((res) => {
-      console.log("res:", res);
-
       setBlogList(res.blogs);
     });
   }, []);

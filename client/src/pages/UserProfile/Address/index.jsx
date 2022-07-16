@@ -33,7 +33,6 @@ const Address = () => {
       .finally(() => {
         setIsLoading(false);
       });
-    //console.log("a");
   }, [reload]);
 
   const showModal = () => {

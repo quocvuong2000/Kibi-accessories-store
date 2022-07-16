@@ -28,7 +28,7 @@ export const ProductCardGrid = (props) => {
 
   useEffect(() => {
     getProduct(data._id).then((res) => {
-      setQuan(res.product.quantity);
+      setQuan(res.product?.quantity);
     });
   }, []);
 

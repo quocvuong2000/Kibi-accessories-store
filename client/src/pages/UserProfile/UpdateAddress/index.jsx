@@ -55,7 +55,6 @@ const UpdateAddress = (props) => {
             recipientPhone: "",
           }}
           onSubmit={async (values) => {
-            //console.log(values);
             props.handle(
               user.currentUser.username,
               values.recipientName,
@@ -103,7 +102,7 @@ const UpdateAddress = (props) => {
                   </Select>
 
                   <Select
-                    placeholder="Please choose your province"
+                    placeholder="Please choose your district"
                     style={{ width: 240 }}
                     onSelect={(value) => {
                       setDistrictId(value);
@@ -126,7 +125,7 @@ const UpdateAddress = (props) => {
                   </Select>
 
                   <Select
-                    placeholder="Please choose your province"
+                    placeholder="Please choose your ward"
                     style={{ width: 240 }}
                     defaultActiveFirstOption={true}
                     filterOption={false}

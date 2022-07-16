@@ -28,7 +28,7 @@ const Confirmation = (props) => {
     ? props.addressSelected?.city
     : props.address[0]?.city;
   const location = useLocation();
-  //console.log(location.pathname.split("/")[2]);
+
   const [orderDetail, setOrderDetail] = useState();
   const id = location.pathname.split("/")[2];
   const [leadTime, setLeadTime] = useState(0);
@@ -45,7 +45,7 @@ const Confirmation = (props) => {
     if (parseInt(props.addressSelected?.city) !== props.provinceId) {
       var result = new Date(Date.now());
       result.setDate(result.getDate() + 10);
-      console.log("result:", result);
+
       setLeadTime(Date.parse(result));
     } else {
       getLeadTime(
@@ -63,8 +63,6 @@ const Confirmation = (props) => {
     }
   }, [props.from, props.fromWard, serviceId, props.shopId]);
 
-  // console.log("timeToDate(leadTime);:", timeToDate(leadTime));
-
   useEffect(() => {
     if (id && id !== null && id !== undefined) {
       doGetDetailOrder(id)
@@ -81,7 +79,7 @@ const Confirmation = (props) => {
         });
     }
   }, [id]);
-  console.log(orderDetail?.shippingPrice);
+
   return (
     <>
       {orderDetail ? (

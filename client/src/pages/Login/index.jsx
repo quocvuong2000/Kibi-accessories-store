@@ -67,9 +67,7 @@ const Login = () => {
                   message.success("New password sent to your email");
                 }
               },
-              (error) => {
-                console.log(error.text);
-              }
+              (error) => {}
             );
         }
       });
@@ -97,7 +95,6 @@ const Login = () => {
 
   const responseFacebook = (res) => {
     if (res) {
-      console.log(res);
       setWrongCredential(false);
       socialSignIn(res.email, res.name, res.picture.data.url).then((value) => {
         message.success("Login success");
@@ -112,7 +109,6 @@ const Login = () => {
       setWrongCredential(false);
 
       googleInfo(res.access_token).then((info) => {
-        // console.log(info);
         socialSignIn(info.data.email, info.data.name, info.data.picture).then(
           (res) => {
             message.success("Login success");
@@ -174,7 +170,6 @@ const Login = () => {
                       message.success("Login success");
                       dispatch(loginSuccess(res));
                       navigate("/");
-                      console.log(res);
                     })
                     .catch(() => {
                       setWrongCredential(true);

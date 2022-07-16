@@ -53,29 +53,24 @@ const UpdatePhone = (props) => {
       message.success("Please check your sms");
       signInWithPhoneNumber(auth, phoneIn, appVerifier)
         .then((confimationResult) => {
-          console.log("confimationResult:", confimationResult);
           window.confimationResult = confimationResult;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
       setSeconds(30);
-      //console.log(window.confimationResult);
     }
   };
   const verifyOtp = () => {
     if (numotp.length === 6) {
       let confimationResult = window.confimationResult;
-      console.log("confimationResult:", confimationResult);
       confimationResult
         .confirm(numotp)
         .then((rs) => {
-          console.log("rs:", rs);
           setOtp(false);
           if (rs) {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {
                 if (res) {
+                  setPhone(0);
                   message.success("Update success");
                 }
               })
@@ -105,10 +100,6 @@ const UpdatePhone = (props) => {
               phone: "",
             }}
             onSubmit={(values) => {
-              //console.log("values.phone:", values.phone);
-              // setPhone(values.phone);
-              //console.log(phone);
-              console.log("phone:", phone);
               handleSendOtp(phone);
               setOtp(true);
             }}
@@ -135,7 +126,6 @@ const UpdatePhone = (props) => {
                           className={s.input_phone}
                           defaultCountry={"vn"}
                           onChange={(value) => {
-                            console.log("value:", value);
                             setFieldValue("phone", value);
                             setPhone("+" + value);
                           }}
@@ -207,6 +197,7 @@ const UpdatePhone = (props) => {
                     ) : (
                       <span
                         onClick={() => {
+                          console.log("phone:", phone);
                           handleSendOtp(phone);
                           setSeconds(30);
                           setShowTime(true);

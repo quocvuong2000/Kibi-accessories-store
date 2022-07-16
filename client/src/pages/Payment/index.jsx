@@ -43,7 +43,6 @@ const Payment = () => {
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
-        console.log(res[0].addressList);
         setAdrress(res[0].addressList);
       })
       .catch(() => {
@@ -85,7 +84,6 @@ const Payment = () => {
     setLoadingPayment(true);
     getDetailAddress(user.currentUser.username, id)
       .then((res) => {
-        console.log("res:", res);
         setAddressSelected(res);
         navigate("/payment");
       })
@@ -102,7 +100,6 @@ const Payment = () => {
     setBranchName(name);
   };
 
-  //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
   };

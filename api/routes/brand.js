@@ -1,5 +1,9 @@
 const Brand = require("../models/Brand");
 const Product = require("../models/Product");
+const Wishlist = require("../models/Wishlist");
+const Viewed = require("../models/Viewed");
+const Comment = require("../models/Comment");
+const Cart = require("../models/Cart");
 const { verifyTokenAndStaff, verifyTokenAndAdmin } = require("./verifyToken");
 
 const router = require("express").Router();
@@ -56,6 +60,8 @@ router.get("/", async (req, res) => {
 router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
+      const productFound = await Product.find({ brand: req.params.id });
+      console.log(productFound);
       await Product.deleteMany({ brand: req.params.id });
       await Brand.findByIdAndDelete(req.params.id);
       res.status(200).json("Delete brand and all product related success");

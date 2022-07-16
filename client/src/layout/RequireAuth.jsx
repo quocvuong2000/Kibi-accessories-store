@@ -18,7 +18,6 @@ const RequireAuth = ({ children }) => {
     return <Navigate to="/login" state={{ form: location }} replace />;
   }
   const deCodeToken = jwt_decode(Cookies.get("tokenClient"));
-  // console.log(deCodeToken.exp < Date.now() / 1000);
 
   if (deCodeToken.exp < Date.now() / 1000) {
     Cookies.remove("tokenClient");

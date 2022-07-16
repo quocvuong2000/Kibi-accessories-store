@@ -146,9 +146,7 @@ const MyAccount = () => {
                 message.success("Please check your email and verify");
               }
             },
-            (error) => {
-              //console.log(error.text);
-            }
+            (error) => {}
           );
       } else {
         message.error("Email already exists");
@@ -171,7 +169,6 @@ const MyAccount = () => {
 
   const handleChange = (info) => {
     // Get this url from response in real world.
-    // console.log(info.file.originFileObj);
     setAvatar(info.file.originFileObj);
   };
 
@@ -182,7 +179,6 @@ const MyAccount = () => {
     </div>
   );
   const dispatch = useDispatch();
-  //console.log(user);
   return (
     <div className={s.all}>
       <Formik
@@ -208,9 +204,7 @@ const MyAccount = () => {
                   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
               },
-              (error) => {
-                console.log(error);
-              },
+              (error) => {},
               async () => {
                 await getDownloadURL(uploadTask.snapshot.ref).then(
                   (downloadURL) => {

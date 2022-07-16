@@ -70,7 +70,6 @@ const EditAddress = (props) => {
               address: data.address || "",
             }}
             onSubmit={async (values) => {
-              console.log(values);
               props.handle(
                 props.addressId,
                 data._id,

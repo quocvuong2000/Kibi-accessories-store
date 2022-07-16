@@ -93,7 +93,6 @@ const SelectAddress = ({
   useEffect(() => {
     let temp = [];
     cart._products?.forEach((item) => {
-      console.log(item);
       temp = temp.concat(
         ...item.branches.map((branch) => {
           if (branch.quantity >= item.quantity) {
@@ -102,11 +101,9 @@ const SelectAddress = ({
         })
       );
     });
-    console.log("temp:", temp);
-
     setValueBranch(temp.find((el) => el !== undefined)?.branchId);
     setBranchName(temp.find((el) => el !== undefined)?.branchName);
-  }, []);
+  }, [cart._products]);
 
   return (
     <>
@@ -210,8 +207,6 @@ const SelectAddress = ({
               <div
                 className={classes.continue}
                 onClick={() => {
-                  console.log("valueBranch:", valueBranch);
-                  console.log("branchName:", branchName);
                   if (
                     valueBranch &&
                     branchName &&

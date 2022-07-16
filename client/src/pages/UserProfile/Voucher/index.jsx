@@ -15,7 +15,6 @@ const Voucher = () => {
   useEffect(() => {
     getVoucher(user.currentUser?.username)
       .then((res) => {
-        console.log("res:", res);
         setListVoucher(res.data);
       })
       .finally((res) => {

@@ -37,9 +37,7 @@ const ForgotPassword = (props) => {
             message.success("Please check your email and verify");
           }
         },
-        (error) => {
-          //console.log(error.text);
-        }
+        (error) => {}
       );
   };
 

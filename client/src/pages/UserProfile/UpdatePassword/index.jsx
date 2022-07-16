@@ -23,7 +23,6 @@ const UpdatePassword = (props) => {
               values.oldpassword,
               values.password
             ).then((res) => {
-              //console.log(res);
               if (res.status === 200) {
                 const obj = {
                   user: res.data,

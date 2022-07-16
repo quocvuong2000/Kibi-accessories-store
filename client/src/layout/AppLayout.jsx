@@ -20,6 +20,7 @@ import {
   AboutUs,
   Legal,
   VerifyingPage,
+  Term,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";
@@ -98,6 +99,14 @@ const AppLayout = () => {
             element={
               <UnRequireAuth>
                 <ViewAllByBrand />
+              </UnRequireAuth>
+            }
+          />
+          <Route
+            path="/term-page"
+            element={
+              <UnRequireAuth>
+                <Term />
               </UnRequireAuth>
             }
           />

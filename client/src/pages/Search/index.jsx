@@ -22,7 +22,6 @@ const Search = () => {
       searchProduct(kw)
         .then((res) => {
           if (res) {
-            console.log("res", res);
             setProduct(res);
             setProductList(res.products);
             setTotalPages(res.totalPages);

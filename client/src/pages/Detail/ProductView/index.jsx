@@ -44,8 +44,6 @@ const ProductView = (props) => {
     }
   };
 
-  console.log("props.data:", props.data);
-
   return (
     <Col className={`${styles.container}`}>
       <p className={styles.link__to__product}>

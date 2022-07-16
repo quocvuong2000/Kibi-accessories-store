@@ -14,6 +14,7 @@ const ViewAllBlog = React.lazy(() => import("../pages/ViewAllBlog/index"));
 const AboutUs = React.lazy(() => import("../pages/AboutUs/index"));
 const Legal = React.lazy(() => import("../pages/Legal/index"));
 const VerifyingPage = React.lazy(() => import("../pages/VerifyingPage/index"));
+const Term = React.lazy(() => import("../pages/Term/index"));
 const ViewAllProductByBrand = React.lazy(() =>
   import("../pages/ViewAll/viewallbybrand")
 );
@@ -34,4 +35,5 @@ export {
   AboutUs,
   Legal,
   VerifyingPage,
+  Term,
 };

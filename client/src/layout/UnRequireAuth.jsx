@@ -14,8 +14,7 @@ const UnRequireAuth = ({ children }) => {
 
   if (isLoggedIn) {
     const deCodeToken = jwt_decode(Cookies.get("tokenClient"));
-    // console.log(deCodeToken.exp < Date.now() / 1000);
-    // console.log(deCodeToken.exp < Date.now() / 1000);
+
     if (deCodeToken.exp < Date.now() / 1000) {
       Cookies.remove("tokenClient");
       localStorage.removeItem("persist:root");
