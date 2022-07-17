@@ -46,6 +46,26 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
   }
 });
 
+//UPDATE BRANCH
+router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
+  try {
+    try {
+      const branchFound = await Branch.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json(branchFound);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } catch (error) {
+    res.status(504).json(error);
+  }
+});
+
 //GET
 router.get("/", verifyTokenAndAuthorization, async (req, res) => {
   try {

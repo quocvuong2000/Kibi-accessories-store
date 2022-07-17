@@ -92,6 +92,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
           //Image in product
           productImage: productAdded.images[0],
           quantity: quantityAdded,
+          branches: productAdded.branches,
         };
         defaultTotalPrice += productAdded.price;
         cartTemp = cartList;

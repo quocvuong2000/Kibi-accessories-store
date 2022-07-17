@@ -220,12 +220,39 @@ export default function ProductList(props) {
                         sx={{ width: 50, height: 50 }}
                       />
                     </TableCell>
-                    <TableCell>{row._id}</TableCell>
-                    <TableCell align="left">{row.product}</TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      style={{
+                        color: row.quantity === 0 && "red",
+                        textDecoration: row.quantity === 0 && "line-through",
+                      }}
+                    >
+                      {row._id}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: row.quantity === 0 && "red",
+                        textDecoration: row.quantity === 0 && "line-through",
+                      }}
+                    >
+                      {row.product}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: row.quantity === 0 && "red",
+                        textDecoration: row.quantity === 0 && "line-through",
+                      }}
+                    >
                       {numberWithCommas(row.price)} VND
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: row.quantity === 0 && "red",
+                        textDecoration: row.quantity === 0 && "line-through",
+                      }}
+                    >
                       {/* {console.log(row.branches)} */}
                       {row.branches.length > 0
                         ? row.branches.find(
@@ -233,7 +260,13 @@ export default function ProductList(props) {
                           )?.quantity
                         : "N/A"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: row.quantity === 0 && "red",
+                        textDecoration: row.quantity === 0 && "line-through",
+                      }}
+                    >
                       {checkTypeItem(row.sale)}
                     </TableCell>
                   </TableRow>

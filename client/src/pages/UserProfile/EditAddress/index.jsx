@@ -16,46 +16,58 @@ const EditAddress = (props) => {
   const [districtId, setDistrictId] = useState(parseInt(data.district));
   const [wardId, setWardId] = useState(data.ward.toString());
   const [isloading, setIsloading] = useState(true);
+
   useEffect(() => {
+    setIsloading(true);
+    setProvinceId(parseInt(props.address.city));
+    setDistrictId(parseInt(props.address.district));
+    setWardId(props.address.ward.toString());
+    setIsloading(false);
+  }, [props.address, data]);
+
+  useEffect(() => {
+    setIsloading(true);
     getProvince()
       .then((res) => {
         if (res) {
           setProvince(res.data.data);
-          setProvinceId(parseInt(data.city));
+          // setProvinceId(parseInt(data.city));
         }
       })
       .finally(() => {
         setIsloading(false);
       });
-  }, [data]);
+  }, []);
 
   useEffect(() => {
+    setIsloading(true);
     getDistrict(provinceId)
       .then((res) => {
         if (res) {
           setDistrict(res.data.data);
-          setDistrictId(parseInt(data.district));
+          // setDistrictId(parseInt(data.district));
           // setDistrictId(res.data.data[0].DistrictID);
         }
       })
       .finally(() => {
         setIsloading(false);
       });
-  }, [provinceId, data]);
+  }, [provinceId]);
 
   useEffect(() => {
+    setIsloading(true);
     getWard(districtId)
       .then((res) => {
         if (res) {
           setWard(res.data.data);
-          setWardId(data.ward.toString());
+          // setWardId(data.ward.toString());
           // setWardId(res.data.data[0].WardCode);
         }
       })
       .finally(() => {
         setIsloading(false);
       });
-  }, [districtId, data, provinceId]);
+  }, [districtId]);
 
   return (
     <>
@@ -88,22 +100,22 @@ const EditAddress = (props) => {
                       placeholder="Please choose your province"
                       style={{ width: 240 }}
                       onSelect={(value) => {
+                        setIsloading(true);
                         setProvinceId(value);
-                        getDistrict(provinceId)
+                        getDistrict(value)
                           .then((res) => {
                             if (res) {
                               setDistrict(res.data.data);
                               setDistrictId(res.data.data[0].DistrictID);
-                            }
-                          })
-                          .finally(() => {
-                            setIsloading(false);
-                          });
-                        getWard(districtId)
-                          .then((res) => {
-                            if (res) {
-                              setWard(res.data.data);
-                              setWardId(res.data.data[0].WardCode);
+
+                              getWard(res.data.data[0].DistrictID).then(
+                                (res) => {
+                                  if (res) {
+                                    setWard(res.data.data);
+                                    setWardId(res.data.data[0].WardCode);
+                                  }
+                                }
+                              );
                             }
                           })
                           .finally(() => {
@@ -117,18 +129,9 @@ const EditAddress = (props) => {
                           .toLowerCase()
                           .localeCompare(optionB.children.toLowerCase())
                       }
-                      defaultValue={data.city}
                     >
                       {province?.map((item, index) => {
-                        return index === 1 ? (
-                          <Option
-                            value={item.ProvinceID}
-                            key={index}
-                            selected="selected"
-                          >
-                            {item.ProvinceName}
-                          </Option>
-                        ) : (
+                        return (
                           <Option value={item.ProvinceID} key={index}>
                             {item.ProvinceName}
                           </Option>
@@ -140,13 +143,18 @@ const EditAddress = (props) => {
                       placeholder="Please choose your district"
                       style={{ width: 240 }}
                       onSelect={(value) => {
+                        setIsloading(true);
                         setDistrictId(value);
-                        getWard(districtId).then((res) => {
-                          if (res) {
-                            setWard(res.data.data);
-                            setWardId(res.data.data[0].WardCode);
-                          }
-                        });
+                        getWard(value)
+                          .then((res) => {
+                            if (res) {
+                              setWard(res.data.data);
+                              setWardId(res.data.data[0].WardCode);
+                            }
+                          })
+                          .finally(() => {
+                            setIsloading(false);
+                          });
                       }}
                       value={districtId}
                       defaultActiveFirstOption={true}
@@ -155,7 +163,6 @@ const EditAddress = (props) => {
                           .toLowerCase()
                           .localeCompare(optionB.children.toLowerCase())
                       }
-                      defaultValue={data.district}
                     >
                       {district?.map((item, index) => {
                         return (
@@ -180,7 +187,6 @@ const EditAddress = (props) => {
                           .toLowerCase()
                           .localeCompare(optionB.children.toLowerCase())
                       }
-                      defaultValue={data.ward}
                     >
                       {ward?.map((item, index) => {
                         return (

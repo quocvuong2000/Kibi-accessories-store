@@ -14,15 +14,16 @@ import SnackBarCustom from "../../../components/SnackbarCustom/SnackBarCustom";
 import {
   addNewBranch,
   addNewBranchToGhn,
-  getDistrict, getProvince,
-  getWard
+  getDistrict,
+  getProvince,
+  getWard,
 } from "../BranchAPI";
 import { AddBranchSchema } from "./validate";
 export default function DialogAddBranch(props) {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // --------------------- STATE ADDRESS ---------------------
   const [wardList, setWardList] = useState([]);
@@ -50,17 +51,18 @@ export default function DialogAddBranch(props) {
   }, [provinceId]);
 
   useEffect(() => {
-    getWard(districtId).then((res) => {
-      if (res) {
-        setWardList(res.data.data);
-        setWardId(res.data.data[0].WardCode);
-      }
-    });
+    setLoading(true);
+    getWard(districtId)
+      .then((res) => {
+        if (res) {
+          setWardList(res.data.data);
+          setWardId(res.data.data[0].WardCode);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [districtId, provinceId]);
-
-  console.log("provinceId:", provinceId);
-  console.log("districtId:", districtId);
-  console.log("wardId:", wardId);
 
   // --------------------- END STATE ADDRESS ---------------------
 

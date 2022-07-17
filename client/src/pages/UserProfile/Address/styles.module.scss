@@ -1,7 +1,7 @@
 @use "../../../sass/mixins" as *;
 
 .wrapInformation {
-  top: 35% !important;
+  top: 25% !important;
   :global {
     .ant-modal-content {
       width: fit-content;
