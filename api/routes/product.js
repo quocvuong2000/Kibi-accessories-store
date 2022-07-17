@@ -53,7 +53,7 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
         productName: updatedProduct.product,
         status: status,
       };
-      await Storage(newImport1).save()
+      await Storage(newImport1).save();
       res.status(200).json(updatedProduct);
     } catch (err) {
       res.status(500).json(err);
@@ -67,6 +67,19 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
+      const productFound = await Product.findById(req.body.id);
+      productFound.branches.forEach(async (el) => {
+        const newImport = {
+          branchId: el.branchId || "NA",
+          productId: updatedProduct._id,
+          newQuantity: 0,
+          oldQuantity: el.oldQuantity,
+          branchName: el.branchName || "NA",
+          productName: updatedProduct.product,
+          status: "Export",
+        };
+        await Storage(newImport).save();
+      });
       await Product.findByIdAndDelete(req.params.id);
       await Wishlist.deleteMany({ product: [{ _id: req.body.productId }] });
       await Viewed.deleteMany({ product: [{ _id: req.body.productId }] });
@@ -87,6 +100,19 @@ router.put("/delete/branch/", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       const productFound = await Product.findById(req.body.id);
+      const branchFound = productFound.branches.find(
+        (el) => el.branchId.toString() === req.body.branchId
+      );
+      const newImport = {
+        branchId: branchFound.branchId || "NA",
+        productId: productFound._id,
+        newQuantity: 0,
+        oldQuantity: branchFound.oldQuantity,
+        branchName: branchFound.branchName || "NA",
+        productName: productFound.product,
+        status: "Export",
+      };
+      await Storage(newImport).save();
       let newBranches = [];
       if (productFound.branches.length > 0) {
         // console.log(req.body.branchId);
