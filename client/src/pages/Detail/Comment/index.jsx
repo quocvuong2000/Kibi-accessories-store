@@ -20,6 +20,7 @@ const Comment = (props) => {
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
   const [reload2, setReload2] = useState(false);
+  // const [likeList, setLikeList] = useState([]);
   const user = useSelector((state) => state.user);
   const customIcons = {
     1: <FrownOutlined />,
@@ -30,17 +31,24 @@ const Comment = (props) => {
   };
 
   useEffect(() => {
+    getCommentByProduct(props.data.product._id, 1).then((res) => {
+      setTotalPages(res.data.totalPages);
+      setListComment(res.data.comments);
+      setPage(1);
+      // console.log(res.data.comments);
+    });
+  }, [props.data.product._id, reload]);
+  const hanldeNextComment = (page) => {
     getCommentByProduct(props.data.product._id, page).then((res) => {
       setTotalPages(res.data.totalPages);
       setListComment((listComment) => [...listComment, ...res.data.comments]);
     });
-  }, [reload2, page, props.data.product._id, reload]);
-
-  useEffect(() => {
-    getCommentByProduct(props.data.product._id, 1).then((res) => {
-      setListComment(res.data.comments);
-    });
-  }, [reload2, reload, props.data.product._id]);
+  };
+  // useEffect(() => {
+  //   getCommentByProduct(props.data.product._id, 1).then((res) => {
+  //     setListComment(res.data.comments);
+  //   });
+  // }, [reload2, reload, props.data.product._id]);
 
   const handleComment = () => {
     createComment(
@@ -62,15 +70,26 @@ const Comment = (props) => {
   const like = (id, username) => {
     likeComment(id, username).then((res) => {
       if (res.status === 200) {
-        setReload2(!reload2);
+        setReload(!reload);
       }
     });
   };
 
+  // const handleLikeComment = (username) => {
+  //   let temp = [];
+  //   if (likeList.some((el) => el.username === username)) {
+  //     temp = likeList.filter((el) => el.username !== username);
+  //   } else {
+  //     temp = likeList;
+  //     temp.push({ username: username });
+  //   }
+  //   console.log(temp);
+  //   setLikeList(temp);
+  // };
+
   const handleDeleteComment = (id, pId) => {
     deleteComment(id, pId).then((res) => {
       if (res.status === 200) {
-        message.success("Delete Success");
       }
       setReload(!reload);
     });
@@ -116,9 +135,8 @@ const Comment = (props) => {
       )}
 
       {listComment?.map((item, index) => {
-        const a = item.userLiked.some(
-          (value) => value.username === user.currentUser?.username
-        );
+        // const a = likeList.some((value) => value.username === item.username);
+        // console.log(a);
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
@@ -133,35 +151,21 @@ const Comment = (props) => {
               <Rate value={item?.rating} allowHalf disabled />
               <p className={s.comment}>{item?.comment}</p>
               <div className={s.like_delete}>
-                {a === true ? (
-                  <>
-                    <ThumbsUp
-                      style={{ cursor: "pointer" }}
-                      size={20}
-                      weight="bold"
-                      color="#d84727"
-                      onClick={() => {
-                        like(item?._id, user.currentUser?.username);
-                        setReload2(!reload2);
-                      }}
-                    />{" "}
-                    {item.countLike > 0 && `(${item.countLike})`}
-                  </>
-                ) : (
-                  <>
-                    <ThumbsUp
-                      style={{ cursor: "pointer" }}
-                      size={20}
-                      weight="bold"
-                      color="#999"
-                      onClick={() => {
-                        like(item?._id, user.currentUser?.username);
-                        setReload2(!reload2);
-                      }}
-                    />
-                    {item.countLike > 0 && `(${item.countLike})`}
-                  </>
-                )}
+                <>
+                  <ThumbsUp
+                    style={{ cursor: "pointer" }}
+                    size={20}
+                    weight="bold"
+                    color={item.userLiked.length > 0 ? "#d84727" : "#999"}
+                    onClick={() => {
+                      like(item?._id, user.currentUser?.username);
+                      // setLikeList([...likeList, item?.username]);
+                      // handleLikeComment(item.username);
+                    }}
+                  />{" "}
+                  {/* {console.log(a)} */}
+                  {item.userLiked.length > 0 && `(${item.countLike})`}
+                </>
 
                 {item?.username === user.currentUser?.username ? (
                   <p
@@ -186,6 +190,7 @@ const Comment = (props) => {
           className={s.see_more}
           onClick={() => {
             setPage(page + 1);
+            hanldeNextComment(page + 1);
           }}
         >
           See more comments
