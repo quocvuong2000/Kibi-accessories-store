@@ -46,11 +46,12 @@ router.post("/edit/phone", verifyTokenAndAuthorization, async (req, res) => {
 
 router.post("/edit/email", verifyTokenAndAuthorization, async (req, res) => {
   try {
+    console.log("req.body.email:", req.body.email);
     const user = await User.findByIdAndUpdate(req.body.userId, {
       email: req.body.email,
       username: req.body.email,
     });
-    console.log("user:", user);
+
     try {
       res.status(200).json({ user });
     } catch (error) {

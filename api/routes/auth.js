@@ -163,6 +163,7 @@ router.post("/social-account", async (req, res) => {
           __v: newUserInfo.__v,
           dob: newUserInfo.dob,
           gender: newUserInfo.gender,
+          phone: newUserInfo.phone,
           accessToken: accessToken,
         };
         return res.status(200).json({ accessToken, info });
@@ -191,7 +192,8 @@ router.post("/social-account", async (req, res) => {
           updatedAt: userFound.updatedAt,
           __v: userFound.__v,
           dob: userFound.dob,
-          gender: userFound.gender,
+          gender: newUserInfo.gender,
+          phone: userFound.phone,
           accessToken: accessToken,
         };
 

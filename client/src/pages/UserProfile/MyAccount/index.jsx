@@ -30,7 +30,7 @@ import { checkExist, updateEmail } from "../../../api/User";
 import userPlaceholder from "../../../assets/user_avatar.jpg";
 import { app } from "../../../firebase/firebase";
 import { updateProfile } from "../../../redux/apiCalls";
-import { updateSuccess } from "../../../redux/userRedux";
+import { updateEmailRedux, updateSuccess } from "../../../redux/userRedux";
 import UpdateEmail from "../UpdateEmail";
 import UpdatePassword from "../UpdatePassword";
 import UpdatePhone from "../UpdatePhone";
@@ -70,6 +70,7 @@ const MyAccount = () => {
   const email = new URLSearchParams(search).get("email");
 
   useEffect(() => {
+    console.log("prv:", prv);
     if (prv != null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
@@ -87,8 +88,9 @@ const MyAccount = () => {
       query.has("email") &&
       OriginalPassword === email
     ) {
-      updateEmail(user.currentUser._id, email).then((res) => {
+      updateEmail(user.currentUser?._id, email).then((res) => {
         if (res.status === 200) {
+          dispatch(updateEmailRedux(email));
           message.success("Update successful!");
           search.delete("id");
           search.delete("email");

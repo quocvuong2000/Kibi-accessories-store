@@ -28,7 +28,7 @@ const userSlice = createSlice({
       state.currentUser = action.payload;
     },
     updateEmailRedux: (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser["email"] = action.payload;
     },
     updateStart: (state) => {
       state.isFetching = true;

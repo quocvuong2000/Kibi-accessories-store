@@ -45,6 +45,7 @@ const UpdatePhone = (props) => {
   };
 
   const handleSendOtp = (phoneIn) => {
+    console.log("phoneIn:", phoneIn);
     if (phoneIn.length >= 12) {
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
@@ -63,14 +64,13 @@ const UpdatePhone = (props) => {
     if (numotp.length === 6) {
       let confimationResult = window.confimationResult;
       confimationResult
-        .confirm(numotp)
+        ?.confirm(numotp)
         .then((rs) => {
           setOtp(false);
           if (rs) {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {
                 if (res) {
-                  dispatch(updatePhoneRedux(res.user));
                   setPhone(0);
                   message.success("Update success");
                 }
