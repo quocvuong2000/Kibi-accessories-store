@@ -116,27 +116,31 @@ router.patch(
 
 //FORGOTPASSWORD
 
-router.patch("/update/forgotpassword/:email", async (req, res) => {
-  try {
-    const newPassword = req.body.password;
+router.patch(
+  "/update/forgotpassword/:email",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
     try {
-      const savedNew = await User.findOneAndUpdate(
-        { email: req.params.email },
-        {
-          password: CryptoJS.AES.encrypt(
-            newPassword,
-            process.env.VUONG_SEC_PASS
-          ).toString(),
-        },
-        { new: true }
-      );
-      res.status(200).json(savedNew);
+      const newPassword = req.body.password;
+      try {
+        const savedNew = await User.findOneAndUpdate(
+          { email: req.params.email },
+          {
+            password: CryptoJS.AES.encrypt(
+              newPassword,
+              process.env.VUONG_SEC_PASS
+            ).toString(),
+          },
+          { new: true }
+        );
+        res.status(200).json(savedNew);
+      } catch (error) {
+        res.status(500).json(error);
+      }
     } catch (error) {
-      res.status(500).json(error);
+      res.status(504).json(error);
     }
-  } catch (error) {
-    res.status(504).json(error);
   }
-});
+);
 
 module.exports = router;

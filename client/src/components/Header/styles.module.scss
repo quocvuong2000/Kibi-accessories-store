@@ -74,32 +74,38 @@
     }
   }
 }
-:global {
-  @include mobile {
-    .ant-popover-arrow {
-      display: none;
+.changeLanguage_global {
+  background: #f8eee3 !important;
+  :global {
+    @include mobile {
+      .ant-popover-arrow {
+        display: none;
+      }
+    }
+    .ant-popover-inner {
+      background: #f8eee3;
+
+      .ant-menu-root.ant-menu-vertical {
+        background: #f8eee3;
+      }
+      .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+        background: #f8eee3;
+        color: #d84727;
+      }
+      .ant-menu-item:hover {
+        color: #d84727;
+      }
     }
   }
+}
+
+:global {
   .ant-select-dropdown {
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     max-width: 468px !important;
     min-width: unset !important;
     position: fixed;
-  }
-  .ant-popover-inner {
-    background: #f8eee3;
-
-    .ant-menu-root.ant-menu-vertical {
-      background: #f8eee3;
-    }
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background: #f8eee3;
-      color: #d84727;
-    }
-    .ant-menu-item:hover {
-      color: #d84727;
-    }
   }
 }
 .global {

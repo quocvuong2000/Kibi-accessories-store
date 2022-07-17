@@ -78,7 +78,7 @@ router.get("/", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE
-router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       await Branch.findByIdAndDelete(req.params.id);

@@ -2,12 +2,13 @@ const router = require("express").Router();
 const {
   verifyTokenAndAuthorization,
   verifyTokenAndStaff,
+  verifyTokenAndOrderStaff,
 } = require("./verifyToken");
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 
 //CREATE NEW ORDER WITH COD METHOD
-router.post("/create", async (req, res) => {
+router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
   //FIND LIST ITEM IN CART
   try {
     const cartByUser = await Cart.findOne({ username: req.body.username });
@@ -43,7 +44,7 @@ router.post("/create", async (req, res) => {
   }
 });
 //ACCEPT PENDING ORDER
-router.patch("/accept/:id", async (req, res) => {
+router.patch("/accept/:id", verifyTokenAndOrderStaff, async (req, res) => {
   //CHECK IF ORDER ALREADY EXISTS
   try {
     let id = req.params.id;
@@ -68,7 +69,7 @@ router.patch("/accept/:id", async (req, res) => {
   }
 });
 //REJECT PENDING ORDER
-router.patch("/reject/:id", async (req, res) => {
+router.patch("/reject/:id", verifyTokenAndOrderStaff, async (req, res) => {
   //CHECK IF ORDER ALREADY EXISTS
   try {
     let id = req.params.id;
@@ -93,7 +94,7 @@ router.patch("/reject/:id", async (req, res) => {
   }
 });
 //COMPLETED DELIVERY ORDER
-router.patch("/complete/:id", async (req, res) => {
+router.patch("/complete/:id", verifyTokenAndOrderStaff, async (req, res) => {
   //CHECK IF ORDER ALREADY EXISTS
   try {
     let id = req.params.id;
@@ -121,7 +122,7 @@ router.patch("/complete/:id", async (req, res) => {
 //GET ALL
 
 //GET ORDER BY STATUS
-router.get("/status/get", async (req, res) => {
+router.get("/status/get", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const qPage = req.query.page;
     const qStatus = req.query.status;
@@ -172,71 +173,75 @@ router.get("/status/get", async (req, res) => {
 });
 
 //GET ORDER BY STATUS AND USER
-router.get("/customer/status/get", async (req, res) => {
-  try {
-    const qPage = req.query.page;
-    const qStatus = req.query.status;
-    const qUser = req.query.username;
-    let page = parseInt(qPage) || 1;
-    let perPage = 5;
-    let count = 0;
-    let totalPages = 1;
+router.get(
+  "/customer/status/get",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
     try {
-      let orders;
-      if (qPage) {
-        if (qStatus === "PENDING") {
-          orders = await Order.find({ status: "PENDING", username: qUser })
-            .sort({ createdAt: -1 })
-            .skip(perPage * page - perPage)
-            .limit(perPage);
-          count = await Order.find({
-            status: "PENDING",
-            username: qUser,
-          }).count();
+      const qPage = req.query.page;
+      const qStatus = req.query.status;
+      const qUser = req.query.username;
+      let page = parseInt(qPage) || 1;
+      let perPage = 5;
+      let count = 0;
+      let totalPages = 1;
+      try {
+        let orders;
+        if (qPage) {
+          if (qStatus === "PENDING") {
+            orders = await Order.find({ status: "PENDING", username: qUser })
+              .sort({ createdAt: -1 })
+              .skip(perPage * page - perPage)
+              .limit(perPage);
+            count = await Order.find({
+              status: "PENDING",
+              username: qUser,
+            }).count();
+          }
+          if (qStatus === "DELIVERY") {
+            orders = await Order.find({ status: "DELIVERY", username: qUser })
+              .sort({ createdAt: -1 })
+              .skip(perPage * page - perPage)
+              .limit(perPage);
+            count = await Order.find({
+              status: "DELIVERY",
+              username: qUser,
+            }).count();
+          }
+          if (qStatus === "COMPLETED") {
+            orders = await Order.find({ status: "COMPLETED", username: qUser })
+              .sort({ createdAt: -1 })
+              .skip(perPage * page - perPage)
+              .limit(perPage);
+            count = await Order.find({
+              status: "COMPLETED",
+              username: qUser,
+            }).count();
+          }
         }
-        if (qStatus === "DELIVERY") {
-          orders = await Order.find({ status: "DELIVERY", username: qUser })
-            .sort({ createdAt: -1 })
-            .skip(perPage * page - perPage)
-            .limit(perPage);
-          count = await Order.find({
-            status: "DELIVERY",
-            username: qUser,
-          }).count();
+        let nextPage = parseInt(page) + 1;
+        if (count !== 0) totalPages = Math.ceil(count / perPage);
+        if (page === totalPages) {
+          nextPage = null;
         }
-        if (qStatus === "COMPLETED") {
-          orders = await Order.find({ status: "COMPLETED", username: qUser })
-            .sort({ createdAt: -1 })
-            .skip(perPage * page - perPage)
-            .limit(perPage);
-          count = await Order.find({
-            status: "COMPLETED",
-            username: qUser,
-          }).count();
-        }
+        res.status(200).json({
+          orders,
+          currentPage: parseInt(page),
+          totalPages: totalPages,
+          nextPage,
+          totalItems: count,
+        });
+      } catch (error) {
+        res.status(500).json(error);
       }
-      let nextPage = parseInt(page) + 1;
-      if (count !== 0) totalPages = Math.ceil(count / perPage);
-      if (page === totalPages) {
-        nextPage = null;
-      }
-      res.status(200).json({
-        orders,
-        currentPage: parseInt(page),
-        totalPages: totalPages,
-        nextPage,
-        totalItems: count,
-      });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(504).json(error);
     }
-  } catch (error) {
-    res.status(504).json(error);
   }
-});
+);
 
 //GET ORDER BY ID - CREATED BY USER
-router.get("/detail/get/:id", async (req, res) => {
+router.get("/detail/get/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     try {
       const orderFound = await Order.findById(req.params.id);
@@ -249,44 +254,57 @@ router.get("/detail/get/:id", async (req, res) => {
   }
 });
 //GET ORDER BY USERNAME
-router.get("/customer/get/:username", async (req, res) => {
-  try {
-    const qPage = req.query.page;
-    let page = qPage || 1;
-    let perPage = 5;
-    let count = 0;
+router.get(
+  "/customer/get/:username",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
     try {
-      const orderFound = await Order.find({
-        username: req.params.username,
-      })
-        .skip(perPage * page - perPage)
-        .limit(perPage);
+      const qPage = req.query.page;
+      let page = qPage || 1;
+      let perPage = 5;
+      let count = 0;
+      try {
+        const orderFound = await Order.find({
+          username: req.params.username,
+        })
+          .skip(perPage * page - perPage)
+          .limit(perPage);
 
-      count = await Order.find({
-        username: req.params.username,
-      }).count();
-      res.status(200).json({
-        orderFound,
-        currentPage: page,
-        totalPages: Math.ceil(count / perPage),
-        totalItems: count,
-      });
+        count = await Order.find({
+          username: req.params.username,
+        }).count();
+        res.status(200).json({
+          orderFound,
+          currentPage: page,
+          totalPages: Math.ceil(count / perPage),
+          totalItems: count,
+        });
+      } catch (error) {
+        res.status(500).json(error);
+      }
     } catch (error) {
-      res.status(500).json(error);
+      res.status(504).json(error);
     }
-  } catch (error) {
-    res.status(504).json(error);
   }
-});
+);
 
 //UPDATE STATUS -> CANCELLED
 router.post("/cancel", verifyTokenAndAuthorization, async (req, res) => {
   try {
+    let id = req.body.id;
+    const orderFound = Order.findById(id);
+    !orderFound && res.status(404).json("Order not found");
     try {
-      await Order.findByIdAndRemove(req.body.id);
-      res.status(200).json("Delete success");
-    } catch (error) {
-      res.status(500).json(error);
+      await Order.findByIdAndUpdate(
+        id,
+        {
+          $set: { status: "CANCELLED" },
+        },
+        { new: true }
+      );
+      res.status(200).json("Update status success");
+    } catch (err) {
+      res.status(500).json(err);
     }
   } catch (error) {
     res.status(504).json(error);

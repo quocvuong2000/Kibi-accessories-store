@@ -282,7 +282,7 @@ router.post("/delete/all", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET CART BY USERNAME
-router.get("/:username", async (req, res) => {
+router.get("/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
     try {
       const rs = await Cart.findOne({ username: req.params.username });

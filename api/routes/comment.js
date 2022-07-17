@@ -110,7 +110,7 @@ router.get("/get", async (req, res) => {
 });
 
 //GET COMMENT BY USERNAME
-router.get("/user/:username", async (req, res) => {
+router.get("/user/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
     try {
       const qPage = req.query.page;
@@ -213,7 +213,7 @@ router.get("/liked", async (req, res) => {
 });
 
 //LIKE COMMENT
-router.post("/likecomment", async (req, res) => {
+router.post("/likecomment", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const commentFound = await Comment.findById(req.query.id);
     try {

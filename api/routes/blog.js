@@ -1,5 +1,5 @@
 const Blog = require("../models/Blog");
-const { verifyTokenAndStaff } = require("./verifyToken");
+const { verifyTokenAndStaff, verifyTokenAndAdmin } = require("./verifyToken");
 
 const router = require("express").Router();
 
@@ -170,7 +170,7 @@ router.get("/get/:id", async (req, res) => {
 });
 
 //APPROVE BLOG
-router.patch("/updatestatus/:id", async (req, res) => {
+router.patch("/updatestatus/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       await Blog.findByIdAndUpdate(
@@ -184,9 +184,8 @@ router.patch("/updatestatus/:id", async (req, res) => {
     } catch (error) {
       res.status(500).json(error);
     }
-  } catch (error) {
-    res.status(504).json(error);
-  }
+  } catch (error) {}
+  res.status(504).json(error);
 });
 
 module.exports = router;

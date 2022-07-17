@@ -196,6 +196,7 @@ const Header = () => {
           className={classes.sign_out}
           arrow={false}
           trigger="click"
+          overlayClassName={classes.changeLanguage_global}
         >
           <div className={classes.icon}>
             <Globe size={24} className={classes.icon_box} />

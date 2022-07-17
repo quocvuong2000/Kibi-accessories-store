@@ -1,11 +1,15 @@
 const CategoryBlog = require("../models/CategoryBlog");
 const Category = require("../models/Category");
-const { verifyTokenAndStaff } = require("./verifyToken");
+const {
+  verifyTokenAndStaff,
+  verifyTokenAndBlogStaff,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-router.post("/", verifyTokenAndStaff, async (req, res) => {
+router.post("/", verifyTokenAndBlogStaff, async (req, res) => {
   try {
     const newCategory = new CategoryBlog(req.body);
 
@@ -21,7 +25,7 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 });
 
 //DELETE - ONLY ADMIN AND STAFF
-router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       await Category.deleteMany({ categoryblog: req.params.id });
@@ -36,7 +40,7 @@ router.delete("/:id", verifyTokenAndStaff, async (req, res) => {
 });
 
 //UPDATE - ONLY ADMIN AND STAFF
-router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
+router.patch("/:id", verifyTokenAndBlogStaff, async (req, res) => {
   try {
     try {
       await CategoryBlog.findByIdAndUpdate(req.params.id, {

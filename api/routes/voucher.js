@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Voucher = require("../models/Voucher");
-const { verifyToken } = require("./verifyToken");
+const { verifyToken, verifyTokenAndAuthorization } = require("./verifyToken");
 
-router.get("/:username", verifyToken, async (req, res) => {
+router.get("/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const voucher = await Voucher.find({ username: req.params.username });
     try {
@@ -15,7 +15,7 @@ router.get("/:username", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     try {
       await Voucher.findByIdAndDelete(req.params.id);

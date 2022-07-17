@@ -273,8 +273,10 @@ router.get("/brand/:idBrand", async (req, res) => {
       if (qRating) {
         query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
       }
+      if (req.params.idBrand) {
+        query = { ...query, ...{ brand: req.params.idBrand } };
+      }
 
-      query = { ...query, ...{ brand: req.params.idBrand } };
       let products;
       if (qPage) {
         products = await Product.find(query)

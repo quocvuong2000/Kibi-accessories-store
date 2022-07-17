@@ -9,12 +9,13 @@ const {
   verifyTokenAndAuthorization,
   verifyTokenAndStaff,
   verifyTokenAndAdmin,
+  verifyTokenAndProductStaff,
 } = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-router.post("/", verifyTokenAndStaff, async (req, res) => {
+router.post("/", verifyTokenAndProductStaff, async (req, res) => {
   try {
     const newCategory = new Category(req.body);
 
@@ -40,7 +41,7 @@ router.post("/", verifyTokenAndStaff, async (req, res) => {
 // });
 
 //UPDATE - ONLY ADMIN AND STAFF
-router.patch("/:id", verifyTokenAndStaff, async (req, res) => {
+router.patch("/:id", verifyTokenAndProductStaff, async (req, res) => {
   try {
     try {
       await Category.findByIdAndUpdate(req.params.id, {

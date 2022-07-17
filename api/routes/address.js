@@ -76,7 +76,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE ADDRESS
-router.put("/delete/", async (req, res) => {
+router.put("/delete/", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const addressFound = await Address.findById(req.body.addressId);
 
@@ -142,7 +142,7 @@ router.put("/update/", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET ADDRESS LIST BY USERNAME
-router.get("/get/:username", async (req, res) => {
+router.get("/get/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const addressByUser = await Address.find({ username: req.params.username });
     if (!addressByUser) {
@@ -160,26 +160,30 @@ router.get("/get/:username", async (req, res) => {
 });
 
 //GET ADDRESS LIST BY USERNAME AND ID
-router.get("/get/:username/detail/:id", async (req, res) => {
-  try {
-    const addressByUser = await Address.findOne({
-      username: req.params.username,
-    });
-    if (!addressByUser) {
-      res.status(404).json("Not found address");
-    } else {
-      const address = addressByUser.addressList.find(
-        (el) => el.id === req.params.id
-      );
-      // console.log(address);
-      try {
-        res.status(200).json(address);
-      } catch (err) {
-        res.status(500).json(err);
+router.get(
+  "/get/:username/detail/:id",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      const addressByUser = await Address.findOne({
+        username: req.params.username,
+      });
+      if (!addressByUser) {
+        res.status(404).json("Not found address");
+      } else {
+        const address = addressByUser.addressList.find(
+          (el) => el.id === req.params.id
+        );
+        // console.log(address);
+        try {
+          res.status(200).json(address);
+        } catch (err) {
+          res.status(500).json(err);
+        }
       }
+    } catch (error) {
+      res.status(504).json(error);
     }
-  } catch (error) {
-    res.status(504).json(error);
   }
-});
+);
 module.exports = router;

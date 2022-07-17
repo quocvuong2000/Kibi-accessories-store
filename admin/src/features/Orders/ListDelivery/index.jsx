@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { getByStatus } from "../OrderAPI";
 import OrderListItem from "../OrderListItem";
 import AppLoader from "../../../components/AppLoader";
+import { UilCheckCircle, UilTimesCircle } from "@iconscout/react-unicons";
 const ListDelivery = () => {
   const [ListDelivery, setListDelivery] = useState([]);
   const [page, setPage] = useState(1);
@@ -56,6 +57,8 @@ const ListDelivery = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="left">Voucher</TableCell>
+                <TableCell align="center">Confirm</TableCell>
+                <TableCell align="center">Cancel</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
@@ -72,6 +75,28 @@ const ListDelivery = () => {
                       <OrderListItem
                         orderItem={item}
                         setIsLoading={setIsLoading}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <UilCheckCircle
+                        color="#00FF22"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          handleAcceptOrder(item._id);
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <UilTimesCircle
+                        color="#FF3300"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          item.paid === false &&
+                            setDeleteDialog({
+                              delete: true,
+                              id: item._id,
+                            });
+                        }}
                       />
                     </TableCell>
                   </TableRow>

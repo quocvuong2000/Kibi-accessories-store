@@ -4,15 +4,18 @@ const Wishlist = require("../models/Wishlist");
 const Viewed = require("../models/Viewed");
 const Comment = require("../models/Comment");
 const Cart = require("../models/Cart");
-const { verifyTokenAndStaff, verifyTokenAndAdmin } = require("./verifyToken");
+const {
+  verifyTokenAndStaff,
+  verifyTokenAndAdmin,
+  verifyTokenAndProductStaff,
+} = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-router.post("/", verifyTokenAndStaff, async (req, res) => {
+router.post("/", verifyTokenAndProductStaff, async (req, res) => {
   try {
     const newBrand = new Brand(req.body);
-
     try {
       const savedBrand = await newBrand.save();
       res.status(200).json(savedBrand);
@@ -97,7 +100,7 @@ router.get("/limit/:count", async (req, res) => {
 });
 
 //UPDATE
-router.put("/update/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
   try {
     try {
       const updatedBrand = await Brand.findByIdAndUpdate(

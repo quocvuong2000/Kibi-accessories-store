@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { verifyToken } = require("./verifyToken");
+const { verifyToken, verifyTokenAndAuthorization } = require("./verifyToken");
 
 router.get("/:token", async (req, res) => {
   try {
@@ -28,7 +28,7 @@ router.post("/:token", async (req, res) => {
   }
 });
 
-router.post("/edit/phone", verifyToken, async (req, res) => {
+router.post("/edit/phone", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.body.userId, {
       phone: req.body.phone,
@@ -44,7 +44,7 @@ router.post("/edit/phone", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/edit/email", async (req, res) => {
+router.post("/edit/email", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.body.userId, {
       email: req.body.email,
@@ -61,7 +61,7 @@ router.post("/edit/email", async (req, res) => {
   }
 });
 
-router.post("/edit/password", async (req, res) => {
+router.post("/edit/password", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.body.userId, {
       password: req.body.password,
