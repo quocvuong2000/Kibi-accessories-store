@@ -46,9 +46,10 @@ const SelectAddress = ({
     setValue(e.target.value);
   };
 
-  const onChangeBranch = (e) => {
-    setValueBranch(e.target.value);
-    setBranchName(e.target.name);
+  const onChangeBranch = (id, address) => {
+    console.table(id, address);
+    setValueBranch(id);
+    setBranchName(address);
   };
 
   const handleCreateAddress = (
@@ -114,7 +115,7 @@ const SelectAddress = ({
       </Modal>
       {branchList?.branches?.length !== 0 && (
         <Radio.Group
-          onChange={onChangeBranch}
+          // onChange={onChangeBranch}
           value={
             valueBranch !== "" && valueBranch !== undefined
               ? valueBranch
@@ -157,8 +158,10 @@ const SelectAddress = ({
                     ? true
                     : false
                 }
-                name={item?.address}
+                onClick={(e) => onChangeBranch(item._id, item.address)}
+                // name={item.address}
               >
+                {/* {console.log(item.address)} */}
                 <div className={classes.address_branch}>
                   <House size={40} weight="fill" color="#d84727" />
                   <p>
@@ -204,6 +207,7 @@ const SelectAddress = ({
               <div
                 className={classes.continue}
                 onClick={() => {
+                  // console.log(valueBranch, branchName, valueBranch, branchName);
                   if (
                     valueBranch &&
                     branchName &&
