@@ -107,7 +107,7 @@ export const Footer = () => {
   };
 
   let navigate = useNavigate();
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const getTrans = (title) => {
     return <FormattedMessage id={`footer.${title}`} />;
   };

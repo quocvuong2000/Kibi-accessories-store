@@ -1,6 +1,6 @@
 import { useClickOutside } from "@mantine/hooks";
 import { Button, Checkbox, Dropdown, Menu, Radio, Rate } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { motion } from "framer-motion";
 import { DotsNine, Funnel, ListDashes } from "phosphor-react";
 import React, { useState } from "react";
@@ -15,7 +15,7 @@ import classes from "./styles.module.scss";
 const ListProduct = (props) => {
   const [glActive, setGlActive] = useState(true);
 
-  const [value, setValue] = useState("");
+  const value = "";
   const [range, setRange] = useState([1000000, 10000000]);
   const [idBrand, setIdBrand] = useState([]);
   const [visibleDropdown2, setVisibleDropdown2] = useState(false);
@@ -27,10 +27,6 @@ const ListProduct = (props) => {
   const handleList = () => {
     setGlActive(true);
   };
-
-  function handleChange(checkedValues) {
-    setValue(checkedValues.target.value);
-  }
 
   function handleChangeRating(e) {
     setRating(e.target.value);
@@ -127,9 +123,6 @@ const ListProduct = (props) => {
       </Menu.Item>
     </Menu>
   );
-  const handleVisibleChange = (flag) => {
-    setVisibleDropdown2(flag);
-  };
 
   return (
     <>

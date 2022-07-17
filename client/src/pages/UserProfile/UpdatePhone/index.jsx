@@ -1,17 +1,15 @@
-import { Button, Form as FormAnt, Input, message } from "antd";
+import { Button, Form as FormAnt, message } from "antd";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { Field, Form, Formik } from "formik";
-import { Phone } from "phosphor-react";
 import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { useSelector } from "react-redux";
 import { updatePhone } from "../../../api/User";
 import { auth } from "../../../firebase/firebase";
 import s from "./styles.module.scss";
 import { otpSchema, phoneSchema } from "./validation";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import startsWith from "lodash.startswith";
 const UpdatePhone = (props) => {
   const [otp, setOtp] = useState(false);
   const [numotp, setNumOtp] = useState(0);
@@ -32,7 +30,7 @@ const UpdatePhone = (props) => {
   const handleChangeOtp = (otp) => {
     setNumOtp(otp);
   };
-  const countryCode = "+84";
+
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
@@ -109,9 +107,7 @@ const UpdatePhone = (props) => {
                 <Form className={s.form_phone}>
                   <FormAnt.Item
                     validateStatus={
-                      Boolean(touched?.phone && errors?.phone)
-                        ? "error"
-                        : "success"
+                      touched?.phone && errors?.phone ? "error" : "success"
                     }
                     help={
                       Boolean(touched?.phone && errors?.phone) && errors?.phone
@@ -163,7 +159,7 @@ const UpdatePhone = (props) => {
                 <Form className={s.form_phone}>
                   <FormAnt.Item
                     validateStatus={
-                      Boolean(touched?.otp && errors?.otp) ? "error" : "success"
+                      touched?.otp && errors?.otp ? "error" : "success"
                     }
                     help={Boolean(touched?.otp && errors?.otp) && errors?.otp}
                   >

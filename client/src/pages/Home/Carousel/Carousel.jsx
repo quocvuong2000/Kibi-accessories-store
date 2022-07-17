@@ -4,15 +4,12 @@ import {
   Timer,
   Watch,
 } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import watch from "../../../assets/home/image 6.png";
+import { useState } from "react";
+import watch5 from "../../../assets/home/image 10.png";
 import watch2 from "../../../assets/home/image 7.png";
 import watch3 from "../../../assets/home/image 8.png";
 import watch4 from "../../../assets/home/image 9.png";
-import watch5 from "../../../assets/home/image 10.png";
 import WaveAnimation from "../../../components/WaveAnimation";
-import { getThreeProduct } from "../HomeApi";
 import classes from "./styles.module.scss";
 const carouselData = [
   {
@@ -42,29 +39,6 @@ const carouselData = [
 ];
 
 const Carousel = () => {
-  const [productList, setProductList] = useState([]);
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-
-  useEffect(() => {
-    getThreeProduct().then((res) => {
-      setProductList(res.products);
-    });
-  }, []);
-
-  const getImage = (index) => {
-    switch (index) {
-      case 0:
-        return watch;
-      case 1:
-        return watch2;
-      case 2:
-        return watch;
-      default:
-        break;
-    }
-  };
-
   const [active, setActive] = useState(0);
   return (
     <div className={classes.backgroundContainer}>

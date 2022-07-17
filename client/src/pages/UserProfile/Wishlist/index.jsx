@@ -25,7 +25,7 @@ const Wistlist = () => {
           setIsLoading(false);
         });
     }
-  }, [reload, user.currentUser.username]);
+  }, [reload, user.currentUser]);
 
   const handleDelete = (username, id) => {
     deleteWishList(username, id).then((res) => {

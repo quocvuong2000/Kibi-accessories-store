@@ -20,7 +20,7 @@ export const ProductCardList = (props) => {
     getProduct(data._id).then((res) => {
       setQuan(res.product.quantity);
     });
-  }, []);
+  }, [data._id]);
 
   const [reload, setReload] = useState(false);
 

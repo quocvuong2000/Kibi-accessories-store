@@ -59,9 +59,7 @@ const UpdatePassword = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.password && errors?.password)
-                      ? "error"
-                      : "success"
+                    touched?.password && errors?.password ? "error" : "success"
                   }
                   help={
                     Boolean(touched?.password && errors?.password) &&
@@ -81,7 +79,7 @@ const UpdatePassword = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.confirmpassword && errors?.confirmpassword)
+                    touched?.confirmpassword && errors?.confirmpassword
                       ? "error"
                       : "success"
                   }

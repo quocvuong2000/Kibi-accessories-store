@@ -194,9 +194,7 @@ const EditAddress = (props) => {
                   <FormAnt.Item
                     initialValue={data.address}
                     validateStatus={
-                      Boolean(touched?.address && errors?.address)
-                        ? "error"
-                        : "success"
+                      touched?.address && errors?.address ? "error" : "success"
                     }
                     help={
                       Boolean(touched?.address && errors?.address) &&

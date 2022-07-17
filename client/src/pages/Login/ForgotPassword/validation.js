@@ -5,6 +5,6 @@ export const emailSchema = () => {
     email: yup
       .string()
       .required("Please enter your email")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email not valid"),
+      .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email not valid"),
   });
 };

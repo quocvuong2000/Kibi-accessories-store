@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
 const token =
   typeof Cookies.get("tokenClient") !== "undefined"
     ? Cookies.get("tokenClient")

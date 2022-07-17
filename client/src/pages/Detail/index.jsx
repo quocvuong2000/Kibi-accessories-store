@@ -1,16 +1,15 @@
+import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
-import ProductView from "./ProductView";
-import AllInfo from "./AllInfo";
-import styles from "./styles.module.scss";
-import { RelateProduct } from "./RelateProduct";
-import { Brand } from "../../components/Brand";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/Product";
-import AppLoader from "../../components/AppLoader";
-import Comment from "./Comment";
 import { addViewed } from "../../api/Viewed";
-import { useSelector } from "react-redux";
-import { Empty } from "antd";
+import AppLoader from "../../components/AppLoader";
+import AllInfo from "./AllInfo";
+import Comment from "./Comment";
+import ProductView from "./ProductView";
+import { RelateProduct } from "./RelateProduct";
+import styles from "./styles.module.scss";
 
 const Detail = () => {
   const { id } = useParams();

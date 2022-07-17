@@ -11,7 +11,7 @@ import classes from "./styles.module.scss";
 import { registerSchema } from "./validation";
 const { Option } = Select;
 const Register = (props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const search = useLocation().search;
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
@@ -83,7 +83,7 @@ const Register = (props) => {
   };
 
   useEffect(() => {
-    if (prv != null && prv != undefined) {
+    if (prv !== null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
@@ -91,7 +91,7 @@ const Register = (props) => {
       );
       var OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     } else {
-      var OriginalPassword = "";
+      OriginalPassword = "";
     }
 
     if (
@@ -127,7 +127,20 @@ const Register = (props) => {
     }
 
     setSearchParams("");
-  }, []);
+  }, [
+    address,
+    cityid,
+    districtid,
+    email,
+    id?.length,
+    name,
+    password,
+    phone,
+    prv,
+    query,
+    setSearchParams,
+    wardid,
+  ]);
 
   useEffect(() => {
     getProvince().then((res) => {
@@ -185,7 +198,7 @@ const Register = (props) => {
 
               <FormAnt.Item
                 validateStatus={
-                  Boolean(touched?.email && errors?.email) ? "error" : "success"
+                  touched?.email && errors?.email ? "error" : "success"
                 }
                 help={Boolean(touched?.email && errors?.email) && errors?.email}
               >
@@ -201,9 +214,7 @@ const Register = (props) => {
               </FormAnt.Item>
               <FormAnt.Item
                 validateStatus={
-                  Boolean(touched?.password && errors?.password)
-                    ? "error"
-                    : "success"
+                  touched?.password && errors?.password ? "error" : "success"
                 }
                 help={
                   Boolean(touched?.password && errors?.password) &&
@@ -222,7 +233,7 @@ const Register = (props) => {
               </FormAnt.Item>
               <FormAnt.Item
                 validateStatus={
-                  Boolean(touched?.name && errors?.name) ? "error" : "success"
+                  touched?.name && errors?.name ? "error" : "success"
                 }
                 help={Boolean(touched?.name && errors?.name) && errors?.name}
               >
@@ -314,9 +325,7 @@ const Register = (props) => {
               </FormAnt.Item>
               <FormAnt.Item
                 validateStatus={
-                  Boolean(touched?.address && errors?.address)
-                    ? "error"
-                    : "success"
+                  touched?.address && errors?.address ? "error" : "success"
                 }
                 help={
                   Boolean(touched?.address && errors?.address) &&
@@ -335,7 +344,7 @@ const Register = (props) => {
               </FormAnt.Item>
               <FormAnt.Item
                 validateStatus={
-                  Boolean(touched?.phone && errors?.phone) ? "error" : "success"
+                  touched?.phone && errors?.phone ? "error" : "success"
                 }
                 help={Boolean(touched?.phone && errors?.phone) && errors?.phone}
               >

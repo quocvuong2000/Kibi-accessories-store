@@ -1,26 +1,23 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense/index";
-import { CompleteProfile } from "../pages/CompleteProfile";
 import ViewAll from "../pages/ViewAll";
 import ViewAllByBrand from "../pages/ViewAll/viewallbybrand";
 import {
-  Detail,
-  Home,
-  Login,
-  Payment,
-  Page404,
-  UserProfile,
-  Search,
-  Blog,
-  DetailBlog,
-  ViewAllBlog,
-  Client,
-  Page500,
   AboutUs,
+  Blog,
+  Detail,
+  DetailBlog,
+  Home,
   Legal,
-  VerifyingPage,
+  Login,
+  Page404,
+  Page500,
+  Payment,
+  Search,
   Term,
+  UserProfile,
+  ViewAllBlog,
 } from "../routes/index";
 import RequireAuth from "./RequireAuth";
 import UnRequireAuth from "./UnRequireAuth";

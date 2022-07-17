@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import DetailAuthorOther from "../Blog/DetailAuthor/detailauthor";
-import s from "./styles.module.scss";
-import imgmain from "../../assets/imgmainblog.jpg";
-import { Link } from "react-router-dom";
-import SmallBlog from "../Blog/SmallBlog";
-import Title from "../Blog/Title";
-import { useEffect } from "react";
+import parse from "html-react-parser";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailBlog } from "../../api/Blog";
-import parse from "html-react-parser";
 import { useWindowSize } from "../../customHook/useWindowSize";
+import DetailAuthorOther from "../Blog/DetailAuthor/detailauthor";
+import SmallBlog from "../Blog/SmallBlog";
+import Title from "../Blog/Title";
+import s from "./styles.module.scss";
 const DetailBlog = () => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
   useEffect(() => {

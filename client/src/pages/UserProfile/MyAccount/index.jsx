@@ -26,7 +26,6 @@ import { EnvelopeSimple, Key, Phone } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { object } from "yup";
 import { checkExist, updateEmail } from "../../../api/User";
 import userPlaceholder from "../../../assets/user_avatar.jpg";
 import { app } from "../../../firebase/firebase";
@@ -56,22 +55,23 @@ const token = Cookies.get("tokenClient");
 const dateFormat = "YYYY/MM/DD";
 const MyAccount = () => {
   const { Option } = Select;
-  const [loading, setLoading] = useState(false);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [update, setUpdate] = useState(0);
   const [avatar, setAvatar] = useState();
   const user = useSelector((state) => state.user);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [randomChar, setRandomChar] = useState("");
+  const [, setSearchParams] = useSearchParams();
+
   const search = useLocation().search;
-  const query = new URLSearchParams(search);
-  const id = new URLSearchParams(search).get("id");
-  const email = new URLSearchParams(search).get("email");
+
   const prv = new URLSearchParams(search).get("prv");
   const showpassword = new URLSearchParams(search).get("showpass");
   const [verify, setVerify] = useState(false);
   useEffect(() => {
-    if (prv != null && prv != undefined) {
+    let query = new URLSearchParams(search);
+    let id = new URLSearchParams(search).get("id");
+    let email = new URLSearchParams(search).get("email");
+    if (prv != null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
@@ -79,7 +79,7 @@ const MyAccount = () => {
       );
       var OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     } else {
-      var OriginalPassword = "";
+      OriginalPassword = "";
     }
 
     if (
@@ -100,7 +100,7 @@ const MyAccount = () => {
       setVerify(false);
       setSearchParams("");
     }
-  }, []);
+  }, [prv, search, setSearchParams, user.currentUser._id]);
 
   useEffect(() => {
     if (showpassword === "true") {
@@ -108,7 +108,7 @@ const MyAccount = () => {
       showModal();
     }
     setSearchParams("");
-  }, []);
+  }, [setSearchParams, showpassword]);
 
   const handleUpdateEmail = (email) => {
     checkExist(email).then((res) => {
@@ -123,7 +123,6 @@ const MyAccount = () => {
           );
         }
 
-        setRandomChar(result);
         var enc = CryptoJS.AES.encrypt(
           email,
           `${process.env.REACT_APP_PRIVATE_KEY}`
@@ -199,11 +198,7 @@ const MyAccount = () => {
 
             uploadTask.on(
               "state_changed",
-              (snapshot) => {
-                const progress = Math.round(
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-              },
+              (snapshot) => {},
               (error) => {},
               async () => {
                 await getDownloadURL(uploadTask.snapshot.ref).then(
@@ -305,7 +300,7 @@ const MyAccount = () => {
                         <Col span={24} xl={16} lg={12} sm={12}>
                           <FormAnt.Item
                             validateStatus={
-                              Boolean(touched?.name && errors?.name)
+                              touched?.name && errors?.name
                                 ? "error"
                                 : "success"
                             }
@@ -322,7 +317,7 @@ const MyAccount = () => {
                           </FormAnt.Item>
                           <FormAnt.Item
                             validateStatus={
-                              Boolean(touched?.username && errors?.username)
+                              touched?.username && errors?.username
                                 ? "error"
                                 : "success"
                             }
@@ -346,9 +341,7 @@ const MyAccount = () => {
                       <div className={s.dob_gender}>
                         <FormAnt.Item
                           validateStatus={
-                            Boolean(touched?.dob && errors?.dob)
-                              ? "error"
-                              : "success"
+                            touched?.dob && errors?.dob ? "error" : "success"
                           }
                           help={
                             Boolean(touched?.dob && errors?.dob) && errors?.dob
@@ -418,7 +411,8 @@ const MyAccount = () => {
                         <p className={s.text_info}>Phone and Email</p>
                         <div className={s.phone}>
                           <div className={s.title}>
-                            <Phone size={24} /> Phone{" "}
+                            <Phone size={24} /> Phone (+
+                            {user.currentUser?.phone})
                           </div>
                           <div
                             className={s.button_update}
@@ -433,7 +427,8 @@ const MyAccount = () => {
                         </div>
                         <div className={s.email}>
                           <div className={s.title}>
-                            <EnvelopeSimple size={24} /> Email
+                            <EnvelopeSimple size={24} /> Email (
+                            {user.currentUser?.email})
                           </div>
                           <div
                             className={s.button_update}

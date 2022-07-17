@@ -150,7 +150,7 @@ const UpdateAddress = (props) => {
                 </div>
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.recipientName && errors?.recipientName)
+                    touched?.recipientName && errors?.recipientName
                       ? "error"
                       : "success"
                   }
@@ -180,7 +180,7 @@ const UpdateAddress = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.recipientPhone && errors?.recipientPhone)
+                    touched?.recipientPhone && errors?.recipientPhone
                       ? "error"
                       : "success"
                   }
@@ -210,9 +210,7 @@ const UpdateAddress = (props) => {
                 </FormAnt.Item>
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.address && errors?.address)
-                      ? "error"
-                      : "success"
+                    touched?.address && errors?.address ? "error" : "success"
                   }
                   help={
                     Boolean(touched?.address && errors?.address) &&

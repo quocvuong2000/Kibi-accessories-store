@@ -24,11 +24,13 @@ const Login = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [active, setActive] = React.useState(false);
   const [wrongCredentials, setWrongCredential] = React.useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [verify, setVerify] = React.useState(false);
   const [showVerifyPage, setShowVerifyPage] = React.useState(false);
   const search = useLocation().search;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const query = new URLSearchParams(search);
+
   const email = new URLSearchParams(search).get("email");
   const prv = new URLSearchParams(search).get("prv");
   const ps = new URLSearchParams(search).get("ps");
@@ -36,7 +38,7 @@ const Login = () => {
     document.title = "KIBI | Login ";
   }, []);
   useEffect(() => {
-    if (prv != null && prv != undefined) {
+    if (prv !== null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
@@ -44,7 +46,7 @@ const Login = () => {
       );
       var OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     } else {
-      var OriginalPassword = "";
+      OriginalPassword = "";
     }
 
     if (query.has("email") && OriginalPassword === email && query.has("ps")) {
@@ -73,17 +75,9 @@ const Login = () => {
       });
     }
     setSearchParams("");
-  }, []);
-
-  const handleChangeShowVerifyPage = (value) => {
-    setShowVerifyPage(value);
-  };
+  }, [email, prv, ps, query, setSearchParams]);
 
   const dispatch = useDispatch();
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -212,9 +206,7 @@ const Login = () => {
                       )}
                       <FormAnt.Item
                         validateStatus={
-                          Boolean(touched?.email && errors?.email)
-                            ? "error"
-                            : "success"
+                          touched?.email && errors?.email ? "error" : "success"
                         }
                         help={
                           Boolean(touched?.email && errors?.email) &&
@@ -233,7 +225,7 @@ const Login = () => {
                       </FormAnt.Item>
                       <FormAnt.Item
                         validateStatus={
-                          Boolean(touched?.password && errors?.password)
+                          touched?.password && errors?.password
                             ? "error"
                             : "success"
                         }

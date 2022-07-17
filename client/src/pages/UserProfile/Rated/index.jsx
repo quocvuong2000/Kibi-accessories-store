@@ -3,19 +3,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCommentByUser } from "../../../api/Comment";
-import { getProduct } from "../../../api/Product";
-import s from "./styles.module.scss";
+import placeholder from "../../../assets/imgDefault.webp";
 import AppLoader from "../../../components/AppLoader";
 import EmptyPage from "../../../components/Empty";
-import placeholder from "../../../assets/imgDefault.webp";
+import s from "./styles.module.scss";
 
 const Rated = () => {
   const [listComment, setListComment] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
   const [page, setPage] = useState(1);
-  const [reload, setReload] = useState(false);
+
   const user = useSelector((state) => state.user);
-  const [image, setImage] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const Rated = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [page]);
+  }, [page, user.currentUser.username]);
 
   useEffect(() => {
     getCommentByUser(user.currentUser.username, 1)
@@ -37,7 +36,7 @@ const Rated = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [user.currentUser.username]);
 
   return (
     <>

@@ -61,7 +61,15 @@ router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
       const productFound = await Product.find({ brand: req.params.id });
-      console.log(productFound);
+
+      productFound.forEach((el) => {
+        Wishlist.deleteMany({
+          product: [{ _id: el._id }],
+        });
+        Viewed.deleteMany({ product: [{ _id: el._id }] });
+        Comment.deleteMany({ productId: el._id });
+        Cart.deleteMany({ product: [{ _id: el._id }] });
+      });
       await Product.deleteMany({ brand: req.params.id });
       await Brand.findByIdAndDelete(req.params.id);
       res.status(200).json("Delete brand and all product related success");

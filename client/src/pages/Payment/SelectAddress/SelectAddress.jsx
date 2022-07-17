@@ -1,7 +1,6 @@
 import { Col, message, Modal, Radio, Row, Space } from "antd";
 import { House } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { createAddress } from "../../../api/Address";
@@ -42,8 +41,6 @@ const SelectAddress = ({
   );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     setValue(e.target.value);

@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
-import classes from "./styles.module.scss";
-import PropsType from "prop-types";
-import img from "../../../assets/confirmation/undraw_completing_6bhr 1.png";
-import { Clock, Truck } from "phosphor-react";
-import numberWithCommas from "../../../utils/numberWithCommas";
-import { useState } from "react";
-import { checkTypeItem } from "../../../utils/checkTypeItem";
-import { Link, useLocation } from "react-router-dom";
-import { doGetDetailOrder } from "../ConfirmationAPI";
 import { Empty, message } from "antd";
-import AppLoader from "../../../components/AppLoader";
-import { getInfoService, getLeadTime } from "../../../api/Shipping";
-import timeToDate from "../../../utils/timeToDate";
-import { deletedVoucher } from "../../../api/Voucher";
 import moment from "moment";
+import { Clock, Truck } from "phosphor-react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { getInfoService, getLeadTime } from "../../../api/Shipping";
+import { deletedVoucher } from "../../../api/Voucher";
+import img from "../../../assets/confirmation/undraw_completing_6bhr 1.png";
+import { checkTypeItem } from "../../../utils/checkTypeItem";
+import numberWithCommas from "../../../utils/numberWithCommas";
+import { doGetDetailOrder } from "../ConfirmationAPI";
+import classes from "./styles.module.scss";
 
 const Confirmation = (props) => {
   const [serviceId, setServiceId] = useState(0);
@@ -24,9 +20,6 @@ const Confirmation = (props) => {
   const currentDistrict = props.addressSelected
     ? props.addressSelected.district
     : props.address[0].district;
-  const currentCity = props.addressSelected
-    ? props.addressSelected?.city
-    : props.address[0]?.city;
   const location = useLocation();
 
   const [orderDetail, setOrderDetail] = useState();

@@ -16,7 +16,7 @@ export const registerSchema = () => {
       .string()
       .required("Please enter your phone")
       .matches(
-        /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+        /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
         "Phone not valid"
       ),
   });

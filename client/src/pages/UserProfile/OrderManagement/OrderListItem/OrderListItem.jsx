@@ -27,7 +27,7 @@ const OrderListItem = ({ orderItem, setReload, reload }) => {
   };
 
   const [visible, setVisible] = useState(false);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   const showPopconfirm = () => {
     setVisible(true);

@@ -10,7 +10,7 @@ import { useWindowSize } from "../customHook/useWindowSize";
 import { Brand } from "../components/Brand";
 
 const RequireAuth = ({ children }) => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const location = useLocation();
   const isLoggedIn = Boolean(Cookies.get("tokenClient"));
 

@@ -11,6 +11,7 @@ import { getCategoryBlogById } from "../../../api/CategoryBlog";
 import { getBlogByCate } from "../../../api/Blog";
 
 const Sponsored = () => {
+  // eslint-disable-next-line no-unused-vars
   const [blogList, setBlogList] = useState([]);
   const [catBlog, setCatBlog] = useState({});
   useEffect(() => {

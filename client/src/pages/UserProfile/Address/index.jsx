@@ -1,10 +1,9 @@
-import { Checkbox, message, Modal } from "antd";
+import { message, Modal } from "antd";
 import { Plus, Trash } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   createAddress,
-  defaultAddress,
   deleteAddress,
   getAddress,
   updateAddress,
@@ -33,7 +32,7 @@ const Address = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [reload]);
+  }, [reload, user.currentUser.username]);
 
   const showModal = () => {
     setIsModalVisible(true);

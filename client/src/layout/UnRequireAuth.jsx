@@ -9,7 +9,7 @@ import { useWindowSize } from "../customHook/useWindowSize";
 import { Brand } from "../components/Brand";
 
 const UnRequireAuth = ({ children }) => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const isLoggedIn = Boolean(Cookies.get("tokenClient"));
 
   if (isLoggedIn) {

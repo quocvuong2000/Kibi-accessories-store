@@ -30,7 +30,7 @@ export const ProductCardGrid = (props) => {
     getProduct(data._id).then((res) => {
       setQuan(res.product?.quantity);
     });
-  }, []);
+  }, [data._id]);
 
   return (
     <div
@@ -54,9 +54,9 @@ export const ProductCardGrid = (props) => {
             src={data.images && data.images[0] ? data.images[0] : imgError}
             alt=""
             loading="lazy"
-            onError={(e) => (
-              (e.target.onerror = null), (e.target.src = imgError)
-            )}
+            onError={(e) =>
+              (e.target.onerror = null)((e.target.src = imgError))
+            }
           />
         </div>
       </Link>

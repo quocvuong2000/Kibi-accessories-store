@@ -1,4 +1,3 @@
-import { message } from "antd";
 import { callAPIWithToken } from "../services/jwt-axios";
 
 export const getViewed = async (username) => {

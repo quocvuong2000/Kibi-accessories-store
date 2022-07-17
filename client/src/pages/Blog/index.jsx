@@ -11,7 +11,7 @@ import Title from "./Title";
 import Trending from "./Trending";
 import { useWindowSize } from "../../customHook/useWindowSize";
 const Blog = () => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   useEffect(() => {
     document.title = "KIBI | Blog";
     window.scrollTo(0, 0);

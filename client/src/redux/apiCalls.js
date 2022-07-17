@@ -1,10 +1,10 @@
+/* eslint-disable no-useless-catch */
 import { callAPIWithToken, jwtAxios } from "../services/jwt-axios";
 import {
   addStart,
   decreaseStart,
   deleteStart,
   increaseStart,
-  overrideStart,
 } from "./cartRedux";
 import { loginStart, updateStart } from "./userRedux";
 

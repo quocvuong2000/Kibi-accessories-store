@@ -20,7 +20,7 @@ const Voucher = () => {
       .finally((res) => {
         setIsLoading(false);
       });
-  }, []);
+  }, [user.currentUser?.username]);
   return (
     <>
       {isLoading === true && <AppLoader />}

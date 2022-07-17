@@ -15,7 +15,7 @@ const ProductView = (props) => {
   const [srcMain, setSrcMain] = useState(props.data.product.images[0]);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 

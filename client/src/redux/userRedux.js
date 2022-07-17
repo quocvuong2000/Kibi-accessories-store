@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import { setAuthToken } from "../services/jwt-axios";
 
 const userSlice = createSlice({

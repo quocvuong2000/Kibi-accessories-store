@@ -1,18 +1,15 @@
 import { message } from "antd";
-import { useState } from "react";
 import {
   addCart,
   decreaseQty,
   deleteProductCart,
   increaseQty,
-  overrideCart,
 } from "../redux/apiCalls";
 import {
   addCartSuccess,
   decreaseCartSuccess,
   deleteCartSuccess,
   increaseCartSuccess,
-  overrideCartSuccess,
 } from "../redux/cartRedux";
 import { callAPIWithToken } from "../services/jwt-axios";
 

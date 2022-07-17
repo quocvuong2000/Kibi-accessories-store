@@ -21,7 +21,7 @@ const Viewed = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [reload]);
+  }, [reload, user.currentUser.username]);
 
   const handleClear = () => {
     clearViewed(user.currentUser.username).then((res) => {

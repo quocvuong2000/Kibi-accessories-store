@@ -1,5 +1,9 @@
 const Category = require("../models/Category");
 const Product = require("../models/Product");
+const Wishlist = require("../models/Wishlist");
+const Viewed = require("../models/Viewed");
+const Comment = require("../models/Comment");
+const Cart = require("../models/Cart");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -87,6 +91,15 @@ router.get("/", async (req, res) => {
 router.delete("/delete/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
+      const productFound = await Product.find({ category: req.params.id });
+      productFound.forEach((el) => {
+        Wishlist.deleteMany({
+          product: [{ _id: el._id }],
+        });
+        Viewed.deleteMany({ product: [{ _id: el._id }] });
+        Comment.deleteMany({ productId: el._id });
+        Cart.deleteMany({ product: [{ _id: el._id }] });
+      });
       await Product.deleteMany({ category: req.params.id });
       await Category.findByIdAndDelete(req.params.id);
       res.status(200).json("Delete category and all product related success");
