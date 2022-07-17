@@ -34,7 +34,7 @@ const ListExport = (props) => {
                 <TableCell align="left">Created At</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody style={{ color: "white" }}>
+            <TableBody style={{ color: "white", position: "relative" }}>
               {props.exportList?.branches?.map((item, index) => {
                 return (
                   <TableRow
@@ -44,20 +44,64 @@ const ListExport = (props) => {
                     }}
                     key={index}
                   >
-                    <TableCell align="left">{item._id || "N/A"}</TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
+                      {item._id || "N/A"}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
                       {item.branchName || "N/A"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
                       {item.productName || "N/A"}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
                       {checkTypeItem(item.oldQuantity)}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
                       {checkTypeItem(item.newQuantity)}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{
+                        color: item.newQuantity === 0 && "red",
+                        textDecoration:
+                          item.newQuantity === 0 && "line-through",
+                      }}
+                    >
                       {moment(item.createdAt).format("DD/MM/YYYY") || "N/A"}
                     </TableCell>
                   </TableRow>

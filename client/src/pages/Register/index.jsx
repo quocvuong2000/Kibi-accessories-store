@@ -127,20 +127,7 @@ const Register = (props) => {
     }
 
     setSearchParams("");
-  }, [
-    address,
-    cityid,
-    districtid,
-    email,
-    id?.length,
-    name,
-    password,
-    phone,
-    prv,
-    query,
-    setSearchParams,
-    wardid,
-  ]);
+  }, []);
 
   useEffect(() => {
     getProvince().then((res) => {

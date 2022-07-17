@@ -59,7 +59,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "starts": "cross-env GENERATE_SOURCEMAP=false react-scripts start",
+    "starts": "cross-env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -67,13 +67,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 12,
-      "sourceType": "module"
-    }
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [

@@ -30,7 +30,7 @@ export const ProductCardGrid = (props) => {
     getProduct(data._id).then((res) => {
       setQuan(res.product?.quantity);
     });
-  }, [data._id]);
+  }, []);
 
   return (
     <div

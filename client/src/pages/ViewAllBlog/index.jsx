@@ -11,7 +11,7 @@ import { message } from "antd";
 const ViewAllBlog = () => {
   const { id } = useParams();
   const [blogList, setBlogList] = useState([]);
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [catBlog, setCatBlog] = useState({});
   useEffect(() => {
     getCategoryBlogById(id)
@@ -22,7 +22,7 @@ const ViewAllBlog = () => {
         message.error("Loading list blog fail");
       });
     window.scrollTo(0, 0);
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     getBlogByCate(id, "", page)
@@ -33,7 +33,8 @@ const ViewAllBlog = () => {
         message.error("Loading list blog fail");
       });
     window.scrollTo(0, 0);
-  }, [id, page]);
+  }, []);
+
   return (
     <div className={s.container}>
       <Title title={catBlog.cate?.title} />
