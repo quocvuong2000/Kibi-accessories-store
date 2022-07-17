@@ -38,7 +38,7 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    if (token && localStorage.getItem("persist:root")) {
       window.location.href = "/";
     }
   }, []);

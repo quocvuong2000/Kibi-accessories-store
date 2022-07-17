@@ -60,17 +60,16 @@ const MyAccount = () => {
   const [update, setUpdate] = useState(0);
   const [avatar, setAvatar] = useState();
   const user = useSelector((state) => state.user);
-  const [, setSearchParams] = useSearchParams();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = useLocation().search;
-
   const prv = new URLSearchParams(search).get("prv");
   const showpassword = new URLSearchParams(search).get("showpass");
   const [verify, setVerify] = useState(false);
+  const query = new URLSearchParams(search);
+  const id = new URLSearchParams(search).get("id");
+  const email = new URLSearchParams(search).get("email");
+
   useEffect(() => {
-    let query = new URLSearchParams(search);
-    let id = new URLSearchParams(search).get("id");
-    let email = new URLSearchParams(search).get("email");
     if (prv != null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
@@ -79,7 +78,7 @@ const MyAccount = () => {
       );
       var OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     } else {
-      OriginalPassword = "";
+      var OriginalPassword = "";
     }
 
     if (
@@ -100,7 +99,7 @@ const MyAccount = () => {
       setVerify(false);
       setSearchParams("");
     }
-  }, [prv, search, setSearchParams, user.currentUser._id]);
+  }, []);
 
   useEffect(() => {
     if (showpassword === "true") {
@@ -108,7 +107,7 @@ const MyAccount = () => {
       showModal();
     }
     setSearchParams("");
-  }, [setSearchParams, showpassword]);
+  }, []);
 
   const handleUpdateEmail = (email) => {
     checkExist(email).then((res) => {
@@ -170,6 +169,8 @@ const MyAccount = () => {
     // Get this url from response in real world.
     setAvatar(info.file.originFileObj);
   };
+
+  console.log(user.currentUser);
 
   const uploadButton = (
     <div className={s.btnUpload}>

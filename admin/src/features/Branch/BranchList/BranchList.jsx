@@ -103,14 +103,6 @@ export default function BranchList(props) {
   };
   return (
     <>
-      {showUpdateModal && (
-        <DialogUpdateBranch
-          showDialog={showUpdateModal}
-          handleShowDialog={handleShowUpdateBranchModal}
-          reLoadTable={props.reLoadTable}
-          branchSelectedUpdate={branchSelectedUpdate}
-        />
-      )}
       <div>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
@@ -212,6 +204,14 @@ export default function BranchList(props) {
           onPageChange={handleChangePage}
         />
       </div>
+      {showUpdateModal && (
+        <DialogUpdateBranch
+          showDialog={showUpdateModal}
+          handleShowDialog={handleShowUpdateBranchModal}
+          reLoadTable={props.reLoadTable}
+          branchSelectedUpdate={branchSelectedUpdate}
+        />
+      )}
       {deleteDialog.delete && (
         <ConfirmationDialog
           show={deleteDialog.delete}

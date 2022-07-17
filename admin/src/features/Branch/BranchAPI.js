@@ -75,6 +75,26 @@ export const addNewBranch = async (
   return res.data;
 };
 
+export const updateBranch = async (
+  districtId,
+  wardId,
+  cityId,
+  address,
+  shopId,
+  id
+) => {
+  const res = await callAPIWithToken.patch(`/api/branch/${id}`, {
+    districtId: districtId,
+    wardId: wardId,
+    cityId: cityId,
+    address: address,
+    shopId: shopId,
+  });
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};
+
 export const addNewBranchToGhn = async (districtId, wardId, address) => {
   var data = {
     district_id: districtId,

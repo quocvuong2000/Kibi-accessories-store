@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
-import { getByStatus } from "../OrderAPI";
+import { completeOrder, getByStatus, rejectOrder } from "../OrderAPI";
 import OrderListItem from "../OrderListItem";
 import AppLoader from "../../../components/AppLoader";
 import { UilCheckCircle, UilTimesCircle } from "@iconscout/react-unicons";
@@ -20,6 +20,10 @@ const ListDelivery = () => {
   const [mess, setMess] = useState("");
   const [typemess, setTypeMess] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteDialog, setDeleteDialog] = useState({
+    delete: false,
+    id: "",
+  });
   useEffect(() => {
     getByStatus("DELIVERY", page)
       .then((res) => {
@@ -42,6 +46,35 @@ const ListDelivery = () => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage + 1);
     setIsLoading(true);
+  };
+
+  const handleAcceptOrder = (id) => {
+    completeOrder(id).then((res) => {
+      if (res.status === 200) {
+        setOpen(true);
+      }
+      setTimeout(() => {
+        setTypeMess("success");
+        setMess("Complete Success");
+        setReload(!reload);
+      }, 500);
+    });
+  };
+  const handleRejectOrder = () => {
+    rejectOrder(deleteDialog.id).then((res) => {
+      if (res.status === 200) {
+        setOpen(true);
+        setDeleteDialog({
+          delete: false,
+          id: "",
+        });
+      }
+      setTimeout(() => {
+        setTypeMess("success");
+        setMess("Reject Success");
+        setReload(!reload);
+      }, 500);
+    });
   };
 
   return (

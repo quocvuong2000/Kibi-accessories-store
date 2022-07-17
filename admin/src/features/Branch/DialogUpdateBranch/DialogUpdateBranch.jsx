@@ -18,6 +18,7 @@ import {
   getDistrict,
   getProvince,
   getWard,
+  updateBranch,
 } from "../BranchAPI";
 import { AddBranchSchema } from "../DialogAddBranch/validate";
 
@@ -32,18 +33,26 @@ export default function DialogUpdateBranch(props) {
   const [districtList, setDistrictList] = useState([]);
   const [provinceList, setProvinceList] = useState([]);
   const [provinceId, setProvinceId] = useState(
-    props.branchSelectedUpdate.cityId
+    parseInt(props.branchSelectedUpdate.cityId)
   );
   const [districtId, setDistrictId] = useState(
-    props.branchSelectedUpdate.districtId
+    parseInt(props.branchSelectedUpdate.districtId)
   );
   const [wardId, setWardId] = useState(`${props.branchSelectedUpdate.wardId}`);
+
+  useEffect(() => {
+    setLoading(true);
+    setProvinceId(parseInt(props.branchSelectedUpdate.cityId));
+    setDistrictId(parseInt(props.branchSelectedUpdate.districtId));
+    setWardId(props.branchSelectedUpdate.wardId.toString());
+    setLoading(false);
+  }, [props.branchSelectedUpdate]);
 
   useEffect(() => {
     getProvince().then((res) => {
       if (res) {
         setProvinceList(res.data.data);
-        setProvinceId(parseInt(props.branchSelectedUpdate.cityId));
+        // setProvinceId(parseInt(props.branchSelectedUpdate.cityId));
       }
     });
   }, []);
@@ -52,7 +61,7 @@ export default function DialogUpdateBranch(props) {
     getDistrict(provinceId).then((res) => {
       if (res) {
         setDistrictList(res.data.data);
-        // setDistrictId(res.data.data[0].DistrictID);
+        // setDistrictId(parseInt(props.branchSelectedUpdate.districtId));
       }
     });
   }, [provinceId]);
@@ -61,10 +70,10 @@ export default function DialogUpdateBranch(props) {
     getWard(districtId).then((res) => {
       if (res) {
         setWardList(res.data.data);
-        // setWardId(res.data.data[0].WardCode);
+        // setWardId(props.branchSelectedUpdate.wardId);
       }
     });
-  }, [districtId, provinceId]);
+  }, [districtId]);
 
   // --------------------- END STATE ADDRESS ---------------------
 
@@ -91,12 +100,13 @@ export default function DialogUpdateBranch(props) {
             addNewBranchToGhn(districtId, wardId, values.address)
               .then((res) => {
                 if (res.code === 200) {
-                  addNewBranch(
+                  updateBranch(
                     districtId,
                     wardId,
                     provinceId,
                     values.address,
-                    res.data.shop_id
+                    res.data.shop_id,
+                    props.branchSelectedUpdate._id
                   )
                     .then((res) => {
                       setLoading(false);
@@ -107,11 +117,13 @@ export default function DialogUpdateBranch(props) {
                       }, 500);
                     })
                     .catch(() => {
+                      console.log("adasd");
                       setFailure(true);
                     });
                 }
               })
               .catch(() => {
+                console.log("bfsbfb");
                 setFailure(true);
               });
           }}
@@ -154,27 +166,36 @@ export default function DialogUpdateBranch(props) {
                       label={"province"}
                       name="province"
                       onChange={(event) => {
+                        setLoading(true);
                         setProvinceId(event.target.value);
-                        getDistrict(provinceId)
+                        getDistrict(event.target.value)
                           .then((res) => {
                             if (res) {
                               setDistrictList(res.data.data);
                               setDistrictId(res.data.data[0].DistrictID);
+                              getWard(res.data.data[0].DistrictID).then(
+                                (res) => {
+                                  if (res) {
+                                    setWardList(res.data.data);
+                                    setWardId(res.data.data[0].WardCode);
+                                  }
+                                }
+                              );
                             }
                           })
                           .finally(() => {
                             setLoading(false);
                           });
-                        getWard(districtId)
-                          .then((res) => {
-                            if (res) {
-                              setWardList(res.data.data);
-                              setWardId(res.data.data[0].WardCode);
-                            }
-                          })
-                          .finally(() => {
-                            setLoading(false);
-                          });
+                        // getWard(event.target.value)
+                        //   .then((res) => {
+                        //     if (res) {
+                        //       setWardList(res.data.data);
+                        //       setWardId(res.data.data[0].WardCode);
+                        //     }
+                        //   })
+                        //   .finally(() => {
+                        //     setLoading(false);
+                        //   });
                       }}
                       value={provinceId}
                     >
@@ -215,7 +236,7 @@ export default function DialogUpdateBranch(props) {
                       name="district"
                       onChange={(event) => {
                         setDistrictId(event.target.value);
-                        getWard(districtId)
+                        getWard(event.target.value)
                           .then((res) => {
                             if (res) {
                               setWardList(res.data.data);
@@ -299,7 +320,7 @@ export default function DialogUpdateBranch(props) {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Add</Button>
+                <Button type="submit">Update</Button>
               </DialogActions>
             </Form>
           )}
@@ -308,13 +329,13 @@ export default function DialogUpdateBranch(props) {
       <SnackBarCustom
         open={success}
         setStateWhenClose={setSuccess}
-        label={"Create Blog Success"}
+        label={"Update Blog Success"}
         status={"success"}
       />
       <SnackBarCustom
         open={failure}
         setStateWhenClose={setFailure}
-        label={"Create Blog Failure, Please try again"}
+        label={"Update Blog Failure, Please try again"}
         status={"error"}
       />
     </>

@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePhone } from "../../../api/User";
 import { auth } from "../../../firebase/firebase";
+import { updatePhoneRedux } from "../../../redux/userRedux";
 import s from "./styles.module.scss";
 import { otpSchema, phoneSchema } from "./validation";
 const UpdatePhone = (props) => {
@@ -18,6 +19,7 @@ const UpdatePhone = (props) => {
   const [showTime, setShowTime] = useState(true);
   const [start, setStart] = useState(false);
   const [seconds, setSeconds] = useState(30);
+  const dispatch = useDispatch();
   useEffect(() => {
     start === true &&
       seconds > 0 &&
@@ -68,9 +70,13 @@ const UpdatePhone = (props) => {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {
                 if (res) {
+                  dispatch(updatePhoneRedux(res.user));
                   setPhone(0);
                   message.success("Update success");
                 }
+              })
+              .catch((error) => {
+                console.log("error:", error);
               })
               .finally((res) => {});
           } else {

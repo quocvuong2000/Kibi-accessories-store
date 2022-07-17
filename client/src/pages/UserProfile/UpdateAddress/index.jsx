@@ -28,19 +28,17 @@ const UpdateAddress = (props) => {
     getDistrict(provinceId).then((res) => {
       if (res) {
         setDistrict(res.data.data);
-        setDistrictId(res.data.data[0].DistrictID);
       }
     });
-  }, [provinceId]);
+  }, []);
 
   useEffect(() => {
     getWard(districtId).then((res) => {
       if (res) {
         setWard(res.data.data);
-        setWardId(res.data.data[0].WardCode);
       }
     });
-  }, [districtId, provinceId]);
+  }, []);
 
   return (
     <div className={s.container}>
@@ -75,6 +73,20 @@ const UpdateAddress = (props) => {
                     style={{ width: 240 }}
                     onSelect={(value) => {
                       setProvinceId(value);
+                      getDistrict(value)
+                        .then((res) => {
+                          if (res) {
+                            setDistrict(res.data.data);
+                            setDistrictId(res.data.data[0].DistrictID);
+                            getWard(res.data.data[0].DistrictID).then((res) => {
+                              if (res) {
+                                setWard(res.data.data);
+                                setWardId(res.data.data[0].WardCode);
+                              }
+                            });
+                          }
+                        })
+                        .finally(() => {});
                     }}
                     value={provinceId}
                     defaultActiveFirstOption={true}
@@ -106,6 +118,12 @@ const UpdateAddress = (props) => {
                     style={{ width: 240 }}
                     onSelect={(value) => {
                       setDistrictId(value);
+                      getWard(value).then((res) => {
+                        if (res) {
+                          setWard(res.data.data);
+                          setWardId(res.data.data[0].WardCode);
+                        }
+                      });
                     }}
                     value={districtId}
                     defaultActiveFirstOption={true}

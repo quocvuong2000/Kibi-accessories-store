@@ -66,16 +66,6 @@ const Header = () => {
     navigate2("/login");
   };
 
-  //-----------CHECK TOKEN NULL REMOVE LOCAL
-  useEffect(() => {
-    if (!token || token === "") {
-      localStorage.removeItem("persist:root");
-      if (localStorage.getItem("persist:root")) {
-        window.location.reload();
-      }
-    }
-  }, []);
-
   //-----------GET ALL SHOW PREVIEW SEARCH
   useEffect(() => {
     getAllProductNoPage().then((res) => {
