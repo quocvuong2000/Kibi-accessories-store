@@ -34,6 +34,7 @@ const Comment = (props) => {
     getCommentByProduct(props.data.product._id, 1).then((res) => {
       setTotalPages(res.data.totalPages);
       setListComment(res.data.comments);
+      setPage(1);
       // console.log(res.data.comments);
     });
   }, [props.data.product._id, reload]);
