@@ -73,7 +73,7 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
           branchId: el.branchId || "NA",
           productId: productFound._id,
           newQuantity: 0,
-          oldQuantity: el.oldQuantity,
+          oldQuantity: el.quantity,
           branchName: el.branchName || "NA",
           productName: productFound.product,
           status: "Export",
@@ -81,16 +81,16 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
         await Storage(newImport).save();
       });
 
-      await Wishlist.deleteMany({
+      await Wishlist.findOneAndUpdate({
         products: { $elemMatch: { _id: req.params.id } },
-      });
-      await Viewed.deleteMany({
+      },{products : []});
+      await Viewed.findOneAndUpdate({
         products: { $elemMatch: { _id: req.params.id } },
-      });
-      await Comment.deleteMany({ productId: req.params.id });
-      await Cart.deleteMany({
+      },{products : []});
+      await Comment.findOneAndUpdate({ productId: req.params.id },{products : []});
+      await Cart.findOneAndUpdate({
         products: { $elemMatch: { _id: req.params.id } },
-      });
+      },{products : []});
       await Product.findByIdAndDelete(req.params.id);
 
       res.status(200).json("Product has been deleted...");
