@@ -10,15 +10,16 @@ import { getNumber } from "../../redux/cartRedux";
 import numberWithCommas from "../../utils/numberWithCommas";
 import AppLoader from "../AppLoader";
 import classes from "./styles2.module.scss";
+import Cookies from "js-cookie";
 export const Cart = (props) => {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
-
+  const token = Cookies.get("tokenClient");
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    if (user.currentUser !== null && user.currentUser !== undefined) {
+    if (user.currentUser !== null && user.currentUser !== undefined && token) {
       getAllProductCart(user.currentUser.username)
         .then((res) => {
           if (res) {

@@ -67,24 +67,30 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     try {
-      const productFound = await Product.findById(req.body.id);
+      const productFound = await Product.findById(req.params.id);
+
       productFound.branches.forEach(async (el) => {
         const newImport = {
           branchId: el.branchId || "NA",
-          productId: updatedProduct._id,
+          productId: productFound._id,
           newQuantity: 0,
           oldQuantity: el.oldQuantity,
           branchName: el.branchName || "NA",
-          productName: updatedProduct.product,
+          productName: productFound.product,
           status: "Export",
         };
         await Storage(newImport).save();
       });
+
+      const test = await Wishlist.deleteMany({
+        products: { _id: productFound._id },
+      });
+      console.log("test:", test);
+      await Viewed.deleteMany({ products: { _id: productFound._id } });
+      await Comment.deleteMany({ productId: productFound._id });
+      await Cart.deleteMany({ products: { _id: productFound._id } });
+
       await Product.findByIdAndDelete(req.params.id);
-      await Wishlist.deleteMany({ product: [{ _id: req.body.productId }] });
-      await Viewed.deleteMany({ product: [{ _id: req.body.productId }] });
-      await Comment.deleteMany({ productId: req.body.productId });
-      await Cart.deleteMany({ product: [{ _id: req.body.productId }] });
 
       res.status(200).json("Product has been deleted...");
     } catch (err) {

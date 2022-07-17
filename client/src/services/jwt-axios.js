@@ -46,10 +46,11 @@ callAPIWithToken.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response && err.response.status === 401) {
-      Cookies.remove("tokenClient");
-      window.location.href = "/login";
-    }
+    // if (err.response && err.response.status === 401) {
+    //   localStorage.removeItem("persist:root");
+    //   Cookies.remove("tokenClient");
+    //   window.location.href = "/login";
+    // }
 
     if (err.response && err.response.status === 403) {
       localStorage.removeItem("persist:root");

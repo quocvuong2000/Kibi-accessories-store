@@ -27,14 +27,17 @@ export const Footer = () => {
 
   const getInTouch = [
     {
+      link: "tel:+84348098023",
       title: "Phone",
       desc: "034-8098023",
     },
     {
+      link: "tel:+84909090909",
       title: "Service Center",
       desc: "090-9090909",
     },
     {
+      link: "tel:+84987654321",
       title: "Customer Service",
       desc: "098-7654321",
     },
@@ -163,9 +166,12 @@ export const Footer = () => {
                       <p className={styles.footer__getintouch__phone__title}>
                         {getTrans(item.title)}
                       </p>
-                      <p className={styles.footer__getintouch__phone__desc}>
+                      <a
+                        href={`${item.link}`}
+                        className={styles.footer__getintouch__phone__desc}
+                      >
                         {item.desc}
-                      </p>
+                      </a>
                     </div>
                   );
                 })}
