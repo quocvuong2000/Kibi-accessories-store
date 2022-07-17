@@ -1,7 +1,7 @@
 import { Col, message, Rate, Row } from "antd";
 import { motion } from "framer-motion";
 import { BookmarkSimple, ShoppingCartSimple, Timer } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddToCart } from "../../../api/Cart";
 import imgError from "../../../assets/imgDefault.webp";
@@ -15,7 +15,7 @@ const ProductView = (props) => {
   const [srcMain, setSrcMain] = useState(props.data.product.images[0]);
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState(1);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -43,8 +43,6 @@ const ProductView = (props) => {
       setQty(qty + 1);
     }
   };
-
-  console.log("props.data:", props.data);
 
   return (
     <Col className={`${styles.container}`}>
@@ -123,7 +121,7 @@ const ProductView = (props) => {
                 đ
               </p>
             )}
-
+            <p>Warranty: {props.data.product.warranty} (months)</p>
             <Col
               style={
                 width <= 1024
@@ -150,7 +148,7 @@ const ProductView = (props) => {
             >
               {props.data.product?.branches?.map((item, index) => {
                 return (
-                  <>
+                  <Fragment key={index}>
                     {item.quantity > 0 ? (
                       <p className={styles.one_line_exists}>
                         <BookmarkSimple
@@ -164,7 +162,7 @@ const ProductView = (props) => {
                     ) : (
                       ""
                     )}
-                  </>
+                  </Fragment>
                 );
               })}
             </Col>

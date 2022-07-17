@@ -28,7 +28,7 @@ export const ProductCardGrid = (props) => {
 
   useEffect(() => {
     getProduct(data._id).then((res) => {
-      setQuan(res.product.quantity);
+      setQuan(res.product?.quantity);
     });
   }, []);
 
@@ -54,9 +54,9 @@ export const ProductCardGrid = (props) => {
             src={data.images && data.images[0] ? data.images[0] : imgError}
             alt=""
             loading="lazy"
-            onError={(e) => (
-              (e.target.onerror = null), (e.target.src = imgError)
-            )}
+            onError={(e) =>
+              (e.target.onerror = null)((e.target.src = imgError))
+            }
           />
         </div>
       </Link>

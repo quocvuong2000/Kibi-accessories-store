@@ -22,7 +22,7 @@ const ViewAll = () => {
   useEffect(() => {
     setLoading(true);
     setPage(1);
-    getAllProduct(idCate, 1)
+    getAllProduct(idCate || "", 1)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
@@ -68,7 +68,6 @@ const ViewAll = () => {
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {
-          console.log("res", res);
           setProduct(res);
           setListProduct(res.products);
           setTotalPages(res.totalPages);

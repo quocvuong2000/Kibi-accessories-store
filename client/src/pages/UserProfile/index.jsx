@@ -9,7 +9,7 @@ import {
   User,
 } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
 
 import Address from "./Address";
@@ -23,9 +23,9 @@ import Wistlist from "./Wishlist";
 const UserProfile = () => {
   const { TabPane } = Tabs;
   const { active } = useParams();
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const [isActive, setIsActive] = useState(active);
-  const location = useLocation();
+
   useEffect(() => {
     setIsActive(active);
     window.scrollTo(0, 0);

@@ -1,7 +1,6 @@
 import { Col, message, Modal, Radio, Row, Space } from "antd";
 import { House } from "phosphor-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { createAddress } from "../../../api/Address";
@@ -42,8 +41,6 @@ const SelectAddress = ({
   );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     setValue(e.target.value);
@@ -90,6 +87,21 @@ const SelectAddress = ({
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    let temp = [];
+    cart._products?.forEach((item) => {
+      temp = temp.concat(
+        ...item.branches.map((branch) => {
+          if (branch.quantity >= item.quantity) {
+            return branch;
+          }
+        })
+      );
+    });
+    setValueBranch(temp.find((el) => el !== undefined)?.branchId);
+    setBranchName(temp.find((el) => el !== undefined)?.branchName);
+  }, [cart._products]);
+
   return (
     <>
       <Modal
@@ -103,12 +115,21 @@ const SelectAddress = ({
       {branchList?.branches?.length !== 0 && (
         <Radio.Group
           onChange={onChangeBranch}
-          value={valueBranch}
+          value={
+            valueBranch !== "" && valueBranch !== undefined
+              ? valueBranch
+              : cart._products?.find(
+                  (el) =>
+                    el.branches?.find((value) => value.quantity >= el.quantity)
+                      ?.branchId
+                )
+          }
           className={classes.branchList}
         >
           {branchList?.branches?.map((item, index) => {
             let temp = [];
             let temp2 = [];
+
             cart._products?.some((el) => {
               el.branches?.forEach((value) => {
                 if (value.quantity < el.quantity) {
@@ -117,8 +138,7 @@ const SelectAddress = ({
                     setValueBranch("");
                     setBranchName("");
                   }
-                }
-                if (value.branchId === item._id) {
+                } else if (value.branchId === item._id) {
                   temp2.push(value.branchId);
                 }
               });
@@ -128,7 +148,7 @@ const SelectAddress = ({
               <Radio
                 value={
                   temp.includes(item?._id) || !temp2.includes(item?._id)
-                    ? null
+                    ? "null"
                     : item?._id
                 }
                 key={index}
@@ -184,8 +204,6 @@ const SelectAddress = ({
               <div
                 className={classes.continue}
                 onClick={() => {
-                  console.log("valueBranch:", valueBranch);
-                  console.log("branchName:", branchName);
                   if (
                     valueBranch &&
                     branchName &&

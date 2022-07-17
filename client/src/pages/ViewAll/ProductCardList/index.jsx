@@ -49,7 +49,7 @@ export const ProductCardList = (props) => {
           {parse(`${data.description.content}`)}
         </div>
         <p className={s.box__product__voucher}>
-          {data.sale && data.sale !== 0 && data.sale + "% Offs"}
+          {data.sale !== 0 && data.sale + "% Offs"}
         </p>
 
         {data.oldPrice && data.oldPrice !== 0 && (

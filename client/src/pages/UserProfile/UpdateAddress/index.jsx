@@ -55,7 +55,6 @@ const UpdateAddress = (props) => {
             recipientPhone: "",
           }}
           onSubmit={async (values) => {
-            //console.log(values);
             props.handle(
               user.currentUser.username,
               values.recipientName,
@@ -103,7 +102,7 @@ const UpdateAddress = (props) => {
                   </Select>
 
                   <Select
-                    placeholder="Please choose your province"
+                    placeholder="Please choose your district"
                     style={{ width: 240 }}
                     onSelect={(value) => {
                       setDistrictId(value);
@@ -126,7 +125,7 @@ const UpdateAddress = (props) => {
                   </Select>
 
                   <Select
-                    placeholder="Please choose your province"
+                    placeholder="Please choose your ward"
                     style={{ width: 240 }}
                     defaultActiveFirstOption={true}
                     filterOption={false}
@@ -151,7 +150,7 @@ const UpdateAddress = (props) => {
                 </div>
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.recipientName && errors?.recipientName)
+                    touched?.recipientName && errors?.recipientName
                       ? "error"
                       : "success"
                   }
@@ -181,7 +180,7 @@ const UpdateAddress = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.recipientPhone && errors?.recipientPhone)
+                    touched?.recipientPhone && errors?.recipientPhone
                       ? "error"
                       : "success"
                   }
@@ -211,9 +210,7 @@ const UpdateAddress = (props) => {
                 </FormAnt.Item>
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.address && errors?.address)
-                      ? "error"
-                      : "success"
+                    touched?.address && errors?.address ? "error" : "success"
                   }
                   help={
                     Boolean(touched?.address && errors?.address) &&

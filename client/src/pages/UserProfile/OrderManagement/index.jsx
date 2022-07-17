@@ -1,5 +1,5 @@
 import { Empty, message, Steps } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { CreditCard, FastForward, HandGrabbing, Truck } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -30,7 +30,6 @@ const OrderManagement = () => {
     setCurrent(value);
     setCurrentStatus(STATUS[value]);
   };
-  //console.log(currentStatus);
   useEffect(() => {
     setPage(1);
     doGetListOrderByCustomer(1, currentStatus, user.currentUser.username)
@@ -49,7 +48,7 @@ const OrderManagement = () => {
         setLoading(false);
       });
   }, [user.currentUser.username, currentStatus, reload]);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const fetchNext = () => {
     setPage(page + 1);
     doGetListOrderByCustomer(page + 1, currentStatus, user.currentUser.username)

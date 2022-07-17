@@ -1,7 +1,7 @@
 import { Form as FormAnt, Input, message, Modal } from "antd";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../redux/apiCalls";
 import styles from "./styles.module.scss";
@@ -18,9 +18,10 @@ import emailjs from "@emailjs/browser";
 import CryptoJS from "crypto-js";
 import "boxicons";
 import VerifyingPage from "../VerifyingPage";
-
+import Cookies from "js-cookie";
 const Login = () => {
   const navigate = useNavigate();
+  const token = Cookies.get("tokenClient");
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [active, setActive] = React.useState(false);
   const [wrongCredentials, setWrongCredential] = React.useState(false);
@@ -35,6 +36,13 @@ const Login = () => {
   useEffect(() => {
     document.title = "KIBI | Login ";
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   useEffect(() => {
     if (prv != null && prv != undefined) {
       var tempprv = prv.replaceAll(" ", "+");
@@ -46,7 +54,6 @@ const Login = () => {
     } else {
       var OriginalPassword = "";
     }
-
     if (query.has("email") && OriginalPassword === email && query.has("ps")) {
       updateForgotPassword(email, ps).then((res) => {
         if (res.status === 200) {
@@ -76,32 +83,25 @@ const Login = () => {
     }
     setSearchParams("");
   }, []);
-
   const handleChangeShowVerifyPage = (value) => {
     setShowVerifyPage(value);
   };
-
   const dispatch = useDispatch();
-
   const showModal = () => {
     setIsModalVisible(true);
   };
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
   const responseFacebook = (res) => {
     if (res) {
       console.log(res);
       setWrongCredential(false);
       socialSignIn(res.email, res.name, res.picture.data.url).then((value) => {
         message.success("Login success");
-
         dispatch(loginSuccess(value.data.info));
         navigate("/");
       });
@@ -110,7 +110,6 @@ const Login = () => {
   const handleLoginGoogle = useGoogleLogin({
     onSuccess: (res) => {
       setWrongCredential(false);
-
       googleInfo(res.access_token).then((info) => {
         // console.log(info);
         socialSignIn(info.data.email, info.data.name, info.data.picture).then(
@@ -124,15 +123,12 @@ const Login = () => {
     },
     onError: (res) => console.log(res),
   });
-
   const handleClickSU = () => {
     setActive(true);
   };
-
   const handleClickSI = () => {
     setActive(false);
   };
-
   return (
     <>
       {showVerifyPage === true ? (
@@ -200,7 +196,6 @@ const Login = () => {
                             </Link>
                           )}
                         />
-
                         <Link to="#" className={styles.social}>
                           <box-icon
                             name="google"
@@ -217,9 +212,7 @@ const Login = () => {
                       )}
                       <FormAnt.Item
                         validateStatus={
-                          Boolean(touched?.email && errors?.email)
-                            ? "error"
-                            : "success"
+                          touched?.email && errors?.email ? "error" : "success"
                         }
                         help={
                           Boolean(touched?.email && errors?.email) &&
@@ -238,7 +231,7 @@ const Login = () => {
                       </FormAnt.Item>
                       <FormAnt.Item
                         validateStatus={
-                          Boolean(touched?.password && errors?.password)
+                          touched?.password && errors?.password
                             ? "error"
                             : "success"
                         }
@@ -257,7 +250,6 @@ const Login = () => {
                           )}
                         </Field>
                       </FormAnt.Item>
-
                       <Link
                         to="#"
                         onClick={() => {
@@ -308,5 +300,4 @@ const Login = () => {
     </>
   );
 };
-
 export default Login;

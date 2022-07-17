@@ -1,4 +1,3 @@
-import { jwtAxios } from "../services/jwt-axios";
 import axios from "axios";
 const token = "58995546-f558-11ec-8636-7617f3863de9";
 export const getProvince = async () => {

@@ -54,7 +54,7 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [allProduct, setAllProduct] = useState([]);
   const [allProductTemp, setAllProductTemp] = useState([]);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   const changeLanguage = (language) => {
     dispatch(updateLanguage(language));
@@ -87,9 +87,7 @@ const Header = () => {
   const handleMenuClick = (e) => {
     setVisibleDropdown(false);
   };
-  const handleVisibleChange = (flag) => {
-    setVisible(flag);
-  };
+
   const content = (
     <Menu defaultChecked={2}>
       <Menu.Item
@@ -265,10 +263,10 @@ const Header = () => {
   }, [cart]);
 
   const onSearch = (value) => {
+    // eslint-disable-next-line no-unused-vars
     var regex = /^[a-zA-Z]/;
-    // console.log(value);
+
     if (value) {
-      console.log("value", value);
       navigate(`/search/${value}`);
     } else if (value === "") {
       return;
@@ -404,6 +402,9 @@ const Header = () => {
         <div className={classes.bottom}>
           <div className={classes.navListContainer}>
             <div className={classes.navList}>
+              <Link to={`/viewall`} className={classes.navItem}>
+                Product
+              </Link>
               {category.categories?.map((item, index) => {
                 return (
                   <Link
@@ -438,6 +439,9 @@ const Header = () => {
               className={classes.navItem}
             >
               Home
+            </Link>
+            <Link to={`/viewall`} className={classes.navItem}>
+              Product
             </Link>
             {category.categories?.map((item, index) => {
               return (

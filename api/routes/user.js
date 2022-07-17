@@ -48,6 +48,7 @@ router.post("/edit/email", async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.body.userId, {
       email: req.body.email,
+      username: req.body.email,
     });
     console.log("user:", user);
     try {

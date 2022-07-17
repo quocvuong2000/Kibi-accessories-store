@@ -23,7 +23,6 @@ const UpdatePassword = (props) => {
               values.oldpassword,
               values.password
             ).then((res) => {
-              //console.log(res);
               if (res.status === 200) {
                 const obj = {
                   user: res.data,
@@ -60,9 +59,7 @@ const UpdatePassword = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.password && errors?.password)
-                      ? "error"
-                      : "success"
+                    touched?.password && errors?.password ? "error" : "success"
                   }
                   help={
                     Boolean(touched?.password && errors?.password) &&
@@ -82,7 +79,7 @@ const UpdatePassword = (props) => {
 
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.confirmpassword && errors?.confirmpassword)
+                    touched?.confirmpassword && errors?.confirmpassword
                       ? "error"
                       : "success"
                   }

@@ -3,14 +3,13 @@ import { CalendarCheck, CreditCard, ListChecks } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getInfoService, getShippingCost } from "../../api/Shipping";
+import AppLoader from "../../components/AppLoader";
+import { getAllBranch } from "./BranchAPI";
 import Confirmation from "./Confirmation/Confirmation";
 import { getAddress, getDetailAddress } from "./PaymentAPI";
 import PaymentDetail from "./PaymentDetail/PaymentDetail";
-import classes from "./styles.module.scss";
-import AppLoader from "../../components/AppLoader";
 import SelectAddress from "./SelectAddress/SelectAddress";
-import { getAllBranch } from "./BranchAPI";
+import classes from "./styles.module.scss";
 
 const Payment = () => {
   const location = useLocation();
@@ -43,7 +42,6 @@ const Payment = () => {
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
-        console.log(res[0].addressList);
         setAdrress(res[0].addressList);
       })
       .catch(() => {
@@ -85,7 +83,6 @@ const Payment = () => {
     setLoadingPayment(true);
     getDetailAddress(user.currentUser.username, id)
       .then((res) => {
-        console.log("res:", res);
         setAddressSelected(res);
         navigate("/payment");
       })
@@ -102,7 +99,6 @@ const Payment = () => {
     setBranchName(name);
   };
 
-  //console.log("shippingCost:", shippingCost);
   const hanldeLoading = (isLoading) => {
     setLoadingPayment(isLoading);
   };

@@ -1,19 +1,4 @@
-import { message, Radio, Modal } from "antd";
-import PropsType from "prop-types";
-import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import numberWithCommas from "../../../utils/numberWithCommas";
-import classes from "./styles.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { getInfoService, getShippingCost } from "../../../api/Shipping";
-import StripeCheckout from "react-stripe-checkout";
-import avatarPlaceholder from "../../../assets/user_avatar.jpg";
-import { checkTypeItem } from "../../../utils/checkTypeItem";
+import { message, Modal, Radio } from "antd";
 import {
   ArrowFatLinesRight,
   CreditCard,
@@ -21,6 +6,19 @@ import {
   Truck,
   Wallet,
 } from "phosphor-react";
+import PropsType from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout";
+import { getInfoService, getShippingCost } from "../../../api/Shipping";
+import { deletedVoucher, getVoucher } from "../../../api/Voucher";
+import avatarPlaceholder from "../../../assets/user_avatar.jpg";
+import { deleteAllCart } from "../../../redux/cartRedux";
+import { checkTypeItem } from "../../../utils/checkTypeItem";
+import numberWithCommas from "../../../utils/numberWithCommas";
+import { getBranchById } from "../BranchAPI";
+import ListVoucher from "../ListVoucher";
 import {
   doCheckoutByCard,
   doCheckoutByCod,
@@ -29,10 +27,7 @@ import {
   goLinkMomoPayment,
   updateOrder,
 } from "../PaymentAPI";
-import { deleteAllCart } from "../../../redux/cartRedux";
-import { deletedVoucher, getVoucher } from "../../../api/Voucher";
-import ListVoucher from "../ListVoucher";
-import { getBranchById } from "../BranchAPI";
+import classes from "./styles.module.scss";
 
 const STRIPE_PK_KEY =
   "pk_test_51K0LBnFjydqiWgwtTtGT2ONJJuo4TAWczmDWero4QwWVw7p6n93JvDHkkDe70u1XVF5cT0kCsJQC59DJmQdBGPys00B3LSLWLk";
@@ -85,10 +80,10 @@ const PaymentDetail = (props) => {
     getVoucher(props.user.currentUser.username).then((res) => {
       setListVoucher(res.data);
     });
-  }, []);
+  }, [props.user.currentUser.username]);
 
   //-------------------------------------END STATE VOUCHER---------------------------------------------
-  const [searchParams, setSearchParams] = useSearchParams();
+
   const [methodPayment, setMethodPayment] = useState(1);
   const [token, setToken] = useState();
   const navigate = useNavigate();
@@ -110,9 +105,6 @@ const PaymentDetail = (props) => {
   const currentDistrict = props.addressSelected
     ? props.addressSelected.district
     : props.address[0].district;
-  const currentCity = props.addressSelected
-    ? props.addressSelected?.city
-    : props.address[0]?.city;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
   const [from, setFrom] = useState(1450);
@@ -129,7 +121,7 @@ const PaymentDetail = (props) => {
       props.handleTakeFromWard(res.branches.wardId);
       props.handleTakeProvinceId(res.branches.cityId);
     });
-  }, [props.branchId]);
+  }, [props, props.branchId]);
 
   useEffect(() => {
     getInfoService(from, currentDistrict, shopId).then((res) => {
@@ -137,7 +129,7 @@ const PaymentDetail = (props) => {
         setServiceId(res.data.data[0].service_id);
       }
     });
-  }, [from]);
+  }, [currentDistrict, from, shopId]);
 
   useEffect(() => {
     if (parseInt(props.addressSelected?.city) !== provinceId) {
@@ -170,6 +162,9 @@ const PaymentDetail = (props) => {
     currentWard,
     currentDistrict,
     props.addressSelected,
+    props,
+    provinceId,
+    shopId,
   ]);
 
   useEffect(() => {
@@ -209,7 +204,7 @@ const PaymentDetail = (props) => {
           message.error("payment fail, sthing went worng");
         });
     }
-  }, [token]);
+  }, [dispatch, idVoucher, navigate, props, salePrice, shippingCost, token]);
 
   const onChange = (e) => {
     setMethodPayment(e.target.value);
@@ -219,7 +214,7 @@ const PaymentDetail = (props) => {
   };
   const hanldeCheckoutCOD = () => {
     props.hanldeLoading(true);
-    console.log("shippingCost:", shippingCost);
+
     const data = {
       username: props.user.currentUser.username,
       email: props.user.currentUser.email,
@@ -253,7 +248,6 @@ const PaymentDetail = (props) => {
         message.error("payment fail, sthing went worng");
       });
   };
-  //console.log(props);
 
   //---------------------------------------MOMO-----------------------------------------------
   useEffect(() => {
@@ -342,8 +336,6 @@ const PaymentDetail = (props) => {
       }
     });
   };
-
-  console.log(nameVoucher);
 
   //-------------------------------------END MOMO---------------------------------------------
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import logo from "../../assets/footer/logo_footer.png";
 import {
@@ -10,7 +10,10 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
 import { FormattedMessage } from "react-intl";
+import Term from "../../pages/Term";
+import { Modal } from "antd";
 export const Footer = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const left = [
     {
       title: "Address",
@@ -43,7 +46,7 @@ export const Footer = () => {
       name: "Warranty & Complaints",
     },
     {
-      link: "",
+      link: "/myaccount/6",
       name: "Order & Shipping",
     },
     {
@@ -91,153 +94,177 @@ export const Footer = () => {
     },
   ];
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   let navigate = useNavigate();
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const getTrans = (title) => {
     return <FormattedMessage id={`footer.${title}`} />;
   };
   return (
-    <div className={styles.container}>
-      <div className={styles.footer}>
-        <div className={styles.footer__address}>
-          <div className={`${styles.footer__address__logo} ${styles.top__all}`}>
-            <img src={logo} alt="matoa" />
+    <div className={styles.all}>
+      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Term />
+      </Modal>
+      <div className={styles.container}>
+        <div className={styles.footer}>
+          <div className={styles.footer__address}>
+            <div
+              className={`${styles.footer__address__logo} ${styles.top__all}`}
+            >
+              <img src={logo} alt="matoa" />
+            </div>
+            {left.map((item, id) => {
+              return (
+                <React.Fragment key={id}>
+                  <p className={styles.footer__address__title}>
+                    {getTrans(item.title)}
+                  </p>
+                  <p
+                    className={styles.footer__address__desc}
+                    style={
+                      id === 0 ? { maxWidth: "255px" } : { maxWidth: "139px" }
+                    }
+                  >
+                    {item.desc}
+                  </p>
+                </React.Fragment>
+              );
+            })}
           </div>
-          {left.map((item, id) => {
-            return (
-              <React.Fragment key={id}>
-                <p className={styles.footer__address__title}>
-                  {getTrans(item.title)}
-                </p>
-                <p
-                  className={styles.footer__address__desc}
-                  style={
-                    id === 0 ? { maxWidth: "255px" } : { maxWidth: "139px" }
-                  }
-                >
-                  {item.desc}
-                </p>
-              </React.Fragment>
-            );
-          })}
-        </div>
 
-        <div className={styles.footer__getintouch}>
+          <div className={styles.footer__getintouch}>
+            {width > 1024 ? (
+              <>
+                <div className={styles.top__all}>
+                  <p className={styles.footer__getintouch__title}>
+                    <FormattedMessage id="footer.getintouch" />
+                  </p>
+                  <hr className={styles.line} />
+                </div>
+                {getInTouch.map((item, id) => {
+                  return (
+                    <div
+                      className={`${styles.footer__getintouch__phone} ${
+                        id === 0 ? styles.mt27 : ""
+                      }`}
+                      key={id}
+                    >
+                      <p className={styles.footer__getintouch__phone__title}>
+                        {getTrans(item.title)}
+                      </p>
+                      <p className={styles.footer__getintouch__phone__desc}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              ""
+            )}
+
+            <div className={styles.footer__getintouch__icon}>
+              <div
+                className={styles.facebook}
+                onClick={() => {
+                  navigate(
+                    "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
+                  );
+                }}
+              >
+                <FacebookLogo size={24} weight="bold" color="#d84727" />
+              </div>
+              <div
+                className={styles.instagram}
+                onClick={() => {
+                  navigate(
+                    "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
+                  );
+                }}
+              >
+                <InstagramLogo
+                  size={24}
+                  weight="bold"
+                  clip={"circle"}
+                  color="#d84727"
+                />
+              </div>
+
+              <div className={styles.twitter}>
+                <TwitterLogo size={24} weight="bold" color="#d84727" />
+              </div>
+
+              <div className={styles.youtube}>
+                <YoutubeLogo size={24} weight="bold" color="#d84727" />
+              </div>
+            </div>
+          </div>
+
           {width > 1024 ? (
             <>
-              <div className={styles.top__all}>
-                <p className={styles.footer__getintouch__title}>
-                  <FormattedMessage id="footer.getintouch" />
-                </p>
-                <hr className={styles.line} />
+              <div className={styles.footer__useful}>
+                <div className={styles.top__all}>
+                  <p className={styles.footer__useful__title}>
+                    <FormattedMessage id="footer.usefullink" />
+                  </p>
+                  <hr className={styles.line} />
+                </div>
+                <div className={styles.footer__useful__link}>
+                  {useful.map((item, id) => {
+                    return (
+                      <Link
+                        to={item.link}
+                        className={styles.footer__useful__link__item}
+                        key={id}
+                        onClick={() => {
+                          if (id === 5) {
+                            showModal();
+                          }
+                        }}
+                      >
+                        {getTrans(item.name)}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
-              {getInTouch.map((item, id) => {
-                return (
-                  <div
-                    className={`${styles.footer__getintouch__phone} ${
-                      id === 0 ? styles.mt27 : ""
-                    }`}
-                    key={id}
-                  >
-                    <p className={styles.footer__getintouch__phone__title}>
-                      {getTrans(item.title)}
-                    </p>
-                    <p className={styles.footer__getintouch__phone__desc}>
-                      {item.desc}
-                    </p>
-                  </div>
-                );
-              })}
+              <div className={styles.footer__campaign}>
+                <div className={styles.top__all}>
+                  <p className={styles.footer__campaign__title}>
+                    <FormattedMessage id="footer.campaign" />
+                  </p>
+                  <hr className={styles.line} />
+                </div>
+                <div className={styles.footer__campaign__link}>
+                  {campaign.map((item, id) => {
+                    return (
+                      <Link
+                        to={"#"}
+                        className={styles.footer__campaign__link__item}
+                        key={id}
+                      >
+                        {getTrans(item.name)}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </>
           ) : (
             ""
           )}
-
-          <div className={styles.footer__getintouch__icon}>
-            <div
-              className={styles.facebook}
-              onClick={() => {
-                navigate(
-                  "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
-                );
-              }}
-            >
-              <FacebookLogo size={24} weight="bold" color="#d84727" />
-            </div>
-            <div
-              className={styles.instagram}
-              onClick={() => {
-                navigate(
-                  "https://www.facebook.com/Kibi-Accessories-107587432015584/?ref=pages_you_manage"
-                );
-              }}
-            >
-              <InstagramLogo
-                size={24}
-                weight="bold"
-                clip={"circle"}
-                color="#d84727"
-              />
-            </div>
-
-            <div className={styles.twitter}>
-              <TwitterLogo size={24} weight="bold" color="#d84727" />
-            </div>
-
-            <div className={styles.youtube}>
-              <YoutubeLogo size={24} weight="bold" color="#d84727" />
-            </div>
-          </div>
         </div>
-
-        {width > 1024 ? (
-          <>
-            <div className={styles.footer__useful}>
-              <div className={styles.top__all}>
-                <p className={styles.footer__useful__title}>
-                  <FormattedMessage id="footer.usefullink" />
-                </p>
-                <hr className={styles.line} />
-              </div>
-              <div className={styles.footer__useful__link}>
-                {useful.map((item, id) => {
-                  return (
-                    <Link
-                      to={item.link}
-                      className={styles.footer__useful__link__item}
-                      key={id}
-                    >
-                      {getTrans(item.name)}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-            <div className={styles.footer__campaign}>
-              <div className={styles.top__all}>
-                <p className={styles.footer__campaign__title}>
-                  <FormattedMessage id="footer.campaign" />
-                </p>
-                <hr className={styles.line} />
-              </div>
-              <div className={styles.footer__campaign__link}>
-                {campaign.map((item, id) => {
-                  return (
-                    <Link
-                      to={"#"}
-                      className={styles.footer__campaign__link__item}
-                      key={id}
-                    >
-                      {getTrans(item.name)}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
       </div>
     </div>
   );

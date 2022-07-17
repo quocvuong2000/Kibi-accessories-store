@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { IntlProvider } from "react-intl";
 import { useSelector } from "react-redux";
 
-import "@formatjs/intl-pluralrules/polyfill";
 import "@formatjs/intl-pluralrules/locale-data/en";
+import "@formatjs/intl-pluralrules/polyfill";
 
-import "@formatjs/intl-relativetimeformat/polyfill";
 import "@formatjs/intl-relativetimeformat/locale-data/en";
+import "@formatjs/intl-relativetimeformat/polyfill";
 
 import { LanguageUtils } from "../utils";
 

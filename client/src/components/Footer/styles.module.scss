@@ -1,6 +1,11 @@
 @use "../../sass/mixins" as *;
 
 .container {
+  :global {
+    .ant-modal-content {
+      padding: 20px;
+    }
+  }
   max-width: 100%;
   @include flex();
   background: #d84727;

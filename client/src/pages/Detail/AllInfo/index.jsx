@@ -1,9 +1,8 @@
-import React from "react";
 import { Empty, Tabs } from "antd";
 import "antd/dist/antd.min.css";
-import styles from "./styles.module.scss";
-import img from "../../../assets/detail/size.png";
 import parse from "html-react-parser";
+import React from "react";
+import styles from "./styles.module.scss";
 const { TabPane } = Tabs;
 
 const AllInfo = (props) => {

@@ -2,10 +2,6 @@ import { Slider } from "antd";
 import numberWithCommas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
 const RangePrice = (props) => {
-  const rangeSelector = (event, newValue) => {
-    props.setValue(newValue);
-    console.log(newValue);
-  };
   return (
     <div
       style={{

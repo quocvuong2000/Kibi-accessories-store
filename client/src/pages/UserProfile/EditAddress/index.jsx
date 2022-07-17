@@ -70,7 +70,6 @@ const EditAddress = (props) => {
               address: data.address || "",
             }}
             onSubmit={async (values) => {
-              console.log(values);
               props.handle(
                 props.addressId,
                 data._id,
@@ -195,9 +194,7 @@ const EditAddress = (props) => {
                   <FormAnt.Item
                     initialValue={data.address}
                     validateStatus={
-                      Boolean(touched?.address && errors?.address)
-                        ? "error"
-                        : "success"
+                      touched?.address && errors?.address ? "error" : "success"
                     }
                     help={
                       Boolean(touched?.address && errors?.address) &&

@@ -37,9 +37,7 @@ const ForgotPassword = (props) => {
             message.success("Please check your email and verify");
           }
         },
-        (error) => {
-          //console.log(error.text);
-        }
+        (error) => {}
       );
   };
 
@@ -62,9 +60,7 @@ const ForgotPassword = (props) => {
               <Form className={s.box_forgot}>
                 <FormAnt.Item
                   validateStatus={
-                    Boolean(touched?.email && errors?.email)
-                      ? "error"
-                      : "success"
+                    touched?.email && errors?.email ? "error" : "success"
                   }
                   help={
                     Boolean(touched?.email && errors?.email) && errors?.email

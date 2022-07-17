@@ -37,19 +37,20 @@
     "Rakai": "Rakai"
   },
   "common": {
-    "searchplaceholder": "Search products, accessory, etc...",
-    "comingsoon": "Coming soon",
-    "watchmore": "Watch more",
-    "addtocart": "Add to cart",
-    "comments": "Comments",
-    "seemorecomments": "See more comments",
-    "relateproduct": "Related Products",
-    "yourprofile": "Your Profile",
-    "wishlist": "Wish List",
-    "changepassword": "Change Password",
-    "yourvoucher": "Your Voucher",
-    "changelanguage": "Change Language",
-    "signout": "Sign Out",
-    "login": "Log in"
+    "searchplaceholder": "Tìm kiếm sản phẩm, đồ trang sức,...",
+    "comingsoon": "Sắp có",
+    "watchmore": "Xem thêm",
+    "addtocart": "Thêm vào giỏ hàng",
+    "comments": "Bình luận",
+    "seemorecomments": "Xem thêm bình luận",
+    "relateproduct": "Sản Phẩm Liên Quan",
+    "yourprofile": "Hồ Sơ",
+    "wishlist": "Danh Sách Yêu Thích",
+    "changepassword": "Thay đổi mật khẩu",
+    "yourvoucher": "Mã Giảm Giá",
+    "changelanguage": "Ngôn Ngữ",
+    "signout": "Đăng Xuất",
+    "login": "Đăng Nhập",
+    "Discover Now": "Khám phá ngay"
   }
 }

@@ -1,7 +1,6 @@
 import { Button, Form as FormAnt, Input } from "antd";
 import { Field, Form, Formik } from "formik";
 import { Envelope } from "phosphor-react";
-import { useState } from "react";
 import Verify from "../../../components/Verify";
 import s from "./styles.module.scss";
 import { emailSchema } from "./validation";
@@ -25,9 +24,7 @@ const UpdateEmail = (props) => {
                 <Form className={s.form_email}>
                   <FormAnt.Item
                     validateStatus={
-                      Boolean(touched?.email && errors?.email)
-                        ? "error"
-                        : "success"
+                      touched?.email && errors?.email ? "error" : "success"
                     }
                     help={
                       Boolean(touched?.email && errors?.email) && errors?.email

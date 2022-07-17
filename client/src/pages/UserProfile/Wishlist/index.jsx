@@ -19,14 +19,13 @@ const Wistlist = () => {
     if (user.currentUser) {
       getAllWishlist(user.currentUser.username)
         .then((res) => {
-          //console.log(res[0].products);
           setProduct(res[0].products);
         })
         .finally(() => {
           setIsLoading(false);
         });
     }
-  }, [reload, user.currentUser.username]);
+  }, [reload, user.currentUser]);
 
   const handleDelete = (username, id) => {
     deleteWishList(username, id).then((res) => {

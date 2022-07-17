@@ -1,18 +1,17 @@
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { message, Rate } from "antd";
+import { ThumbsUp } from "phosphor-react";
 import { useEffect, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { useSelector } from "react-redux";
 import {
-  checkLike,
   createComment,
   deleteComment,
   getCommentByProduct,
   likeComment,
 } from "../../../api/Comment";
-import s from "./styles.module.scss";
 import avatarPlaceholder from "../../../assets/user_avatar.jpg";
-import { ThumbsUp } from "phosphor-react";
+import s from "./styles.module.scss";
 const Comment = (props) => {
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");

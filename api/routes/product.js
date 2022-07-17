@@ -5,6 +5,10 @@ const {
   verifyTokenAndAdmin,
 } = require("./verifyToken");
 const Product = require("../models/Product");
+const Wishlist = require("../models/Wishlist");
+const Viewed = require("../models/Viewed");
+const Comment = require("../models/Comment");
+const Cart = require("../models/Cart");
 const { Query } = require("mongoose");
 const Storage = require("../models/Storage");
 
@@ -77,8 +81,12 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
         await Storage(newImport).save();
       });
       await Product.findByIdAndDelete(req.params.id);
-      res.status(200).json("Product has been deleted...");
       await Wishlist.deleteMany({ product: [{ _id: req.body.productId }] });
+      await Viewed.deleteMany({ product: [{ _id: req.body.productId }] });
+      await Comment.deleteMany({ productId: req.body.productId });
+      await Cart.deleteMany({ product: [{ _id: req.body.productId }] });
+
+      res.status(200).json("Product has been deleted...");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -210,7 +218,9 @@ router.get("/:idCate", async (req, res) => {
         query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
       }
 
-      query = { ...query, ...{ category: req.params.idCate } };
+      if (req.params.idCate) {
+        query = { ...query, ...{ category: req.params.idCate } };
+      }
       let products;
       if (qPage) {
         products = await Product.find(query)

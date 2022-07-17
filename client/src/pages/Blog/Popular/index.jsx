@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import s from "./styles.module.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/effect-cards";
-import { EffectCards } from "swiper";
-import Title from "../Title";
-import SmallBlog from "../SmallBlog";
-import { Pagination } from "swiper";
-import { getCategoryBlogById } from "../../../api/CategoryBlog";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { getBlogByCate } from "../../../api/Blog";
+import { getCategoryBlogById } from "../../../api/CategoryBlog";
+import SmallBlog from "../SmallBlog";
+import Title from "../Title";
+import s from "./styles.module.scss";
 const Popular = () => {
+  // eslint-disable-next-line no-unused-vars
   const [blogList, setBlogList] = useState([]);
   const [catBlog, setCatBlog] = useState({});
   useEffect(() => {
@@ -24,7 +24,7 @@ const Popular = () => {
         setBlogList(res);
       });
     }
-  }, []);
+  }, [catBlog.cate?._id]);
 
   return (
     <div className={s.container}>

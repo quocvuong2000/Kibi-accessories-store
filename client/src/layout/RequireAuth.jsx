@@ -10,7 +10,7 @@ import { useWindowSize } from "../customHook/useWindowSize";
 import { Brand } from "../components/Brand";
 
 const RequireAuth = ({ children }) => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
   const location = useLocation();
   const isLoggedIn = Boolean(Cookies.get("tokenClient"));
 
@@ -18,7 +18,6 @@ const RequireAuth = ({ children }) => {
     return <Navigate to="/login" state={{ form: location }} replace />;
   }
   const deCodeToken = jwt_decode(Cookies.get("tokenClient"));
-  // console.log(deCodeToken.exp < Date.now() / 1000);
 
   if (deCodeToken.exp < Date.now() / 1000) {
     Cookies.remove("tokenClient");
