@@ -23,7 +23,7 @@ import { Field, Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import moment from "moment";
 import { EnvelopeSimple, Key, Phone } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { checkExist, updateEmail } from "../../../api/User";
@@ -31,7 +31,7 @@ import userPlaceholder from "../../../assets/user_avatar.jpg";
 import AppLoader from "../../../components/AppLoader";
 import { app } from "../../../firebase/firebase";
 import { updateProfile } from "../../../redux/apiCalls";
-import { updateSuccess } from "../../../redux/userRedux";
+import { updateEmailRedux, updateSuccess } from "../../../redux/userRedux";
 import UpdateEmail from "../UpdateEmail";
 import UpdatePassword from "../UpdatePassword";
 import UpdatePhone from "../UpdatePhone";
@@ -72,7 +72,7 @@ const MyAccount = () => {
   const email = new URLSearchParams(search).get("email");
 
   useEffect(() => {
-    if (prv != null && prv !== undefined) {
+    if (prv !== null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
@@ -89,8 +89,9 @@ const MyAccount = () => {
       query.has("email") &&
       OriginalPassword === email
     ) {
-      updateEmail(user.currentUser._id, email).then((res) => {
+      updateEmail(user.currentUser?._id, email).then((res) => {
         if (res.status === 200) {
+          dispatch(updateEmailRedux(email));
           message.success("Update successful!");
           search.delete("id");
           search.delete("email");
@@ -109,7 +110,7 @@ const MyAccount = () => {
       showModal();
     }
     setSearchParams("");
-  }, []);
+  }, [showpassword]);
 
   const handleUpdateEmail = (email) => {
     checkExist(email).then((res) => {
@@ -135,7 +136,7 @@ const MyAccount = () => {
             {
               to_name: email,
               from_name: "kibiaccessories@kibi.vn",
-              link: `https://localhost:3000/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
+              link: `https://kibiaccessories.herokuapp.com/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
             },
             "v3GcHX1OV7AjPKEdx"
           )
@@ -152,7 +153,6 @@ const MyAccount = () => {
         message.error("Email already exists");
       }
     });
-    setTimeout(() => setVerify(false), 6000);
   };
 
   const showModal = () => {
@@ -171,8 +171,6 @@ const MyAccount = () => {
     // Get this url from response in real world.
     setAvatar(info.file.originFileObj);
   };
-
-  console.log(user.currentUser);
 
   const uploadButton = (
     <div className={s.btnUpload}>

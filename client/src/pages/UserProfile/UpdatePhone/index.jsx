@@ -11,6 +11,8 @@ import { auth } from "../../../firebase/firebase";
 import { updatePhoneRedux } from "../../../redux/userRedux";
 import s from "./styles.module.scss";
 import { otpSchema, phoneSchema } from "./validation";
+import { ArrowLeft } from "phosphor-react";
+
 const UpdatePhone = (props) => {
   const [otp, setOtp] = useState(false);
   const [numotp, setNumOtp] = useState(0);
@@ -45,6 +47,7 @@ const UpdatePhone = (props) => {
   };
 
   const handleSendOtp = (phoneIn) => {
+    console.log("phoneIn:", phoneIn);
     if (phoneIn.length >= 12) {
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
@@ -63,15 +66,15 @@ const UpdatePhone = (props) => {
     if (numotp.length === 6) {
       let confimationResult = window.confimationResult;
       confimationResult
-        .confirm(numotp)
+        ?.confirm(numotp)
         .then((rs) => {
           setOtp(false);
           if (rs) {
             updatePhone(user.currentUser._id, phone)
               .then((res) => {
+                dispatch(updatePhoneRedux(phone));
                 if (res) {
-                  dispatch(updatePhoneRedux(res.user));
-                  setPhone(0);
+                  window.location.reload();
                   message.success("Update success");
                 }
               })
@@ -162,55 +165,65 @@ const UpdatePhone = (props) => {
           >
             {({ errors, touched }) => {
               return (
-                <Form className={s.form_phone}>
-                  <FormAnt.Item
-                    validateStatus={
-                      touched?.otp && errors?.otp ? "error" : "success"
-                    }
-                    help={Boolean(touched?.otp && errors?.otp) && errors?.otp}
-                  >
-                    <Field name="otp">
-                      {({ field }) => (
-                        <OtpInput
-                          {...field}
-                          value={numotp}
-                          onChange={handleChangeOtp}
-                          numInputs={6}
-                          className={s.input_otp}
-                        />
-                      )}
-                    </Field>
-                  </FormAnt.Item>
-                  <FormAnt.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className={s.update_phone}
-                      onClick={verifyOtp}
+                <>
+                  <p>
+                    <ArrowLeft
+                      size={16}
+                      weight="thin"
+                      cursor={"pointer"}
+                      onClick={() => setOtp(false)}
+                    />
+                  </p>
+                  <Form className={s.form_phone}>
+                    <FormAnt.Item
+                      validateStatus={
+                        touched?.otp && errors?.otp ? "error" : "success"
+                      }
+                      help={Boolean(touched?.otp && errors?.otp) && errors?.otp}
                     >
-                      Submit
-                    </Button>
-                  </FormAnt.Item>
-
-                  <small className={s.small_text}>
-                    Cannot receive your code ?{" "}
-                    {showTime === true ? (
-                      <span>{seconds}s</span>
-                    ) : (
-                      <span
-                        onClick={() => {
-                          console.log("phone:", phone);
-                          handleSendOtp(phone);
-                          setSeconds(30);
-                          setShowTime(true);
-                        }}
-                        className={s.send_again}
+                      <Field name="otp">
+                        {({ field }) => (
+                          <OtpInput
+                            {...field}
+                            value={numotp}
+                            onChange={handleChangeOtp}
+                            numInputs={6}
+                            className={s.input_otp}
+                          />
+                        )}
+                      </Field>
+                    </FormAnt.Item>
+                    <FormAnt.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className={s.update_phone}
+                        onClick={verifyOtp}
                       >
-                        Send again
-                      </span>
-                    )}
-                  </small>
-                </Form>
+                        Submit
+                      </Button>
+                    </FormAnt.Item>
+
+                    <small className={s.small_text}>
+                      Cannot receive your code ?{" "}
+                      {showTime === true ? (
+                        <span>{seconds}s</span>
+                      ) : (
+                        <span
+                          onClick={() => {
+                            console.log("phone:", phone);
+                            handleSendOtp(phone);
+                            setSeconds(30);
+                            setShowTime(true);
+                          }}
+                          className={s.send_again}
+                        >
+                          Send again
+                        </span>
+                      )}
+                    </small>
+                  </Form>
+                </>
               );
             }}
           </Formik>

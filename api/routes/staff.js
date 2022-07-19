@@ -61,7 +61,7 @@ router.post("/register", verifyTokenAndAdmin, async (req, res) => {
       role: req.body.role,
       avatar: req.body.avatar,
     });
-    const userFound = await User.findOne({ email: req.body.email });
+    const userFound = await User.findOne({ username: req.body.email });
     if (userFound !== null && userFound !== undefined) {
       try {
         return res.status(201).json("Email already exist");

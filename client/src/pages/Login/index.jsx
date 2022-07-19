@@ -44,7 +44,7 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (prv != null && prv != undefined) {
+    if (prv !== null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,

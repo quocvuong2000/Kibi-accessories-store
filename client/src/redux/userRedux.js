@@ -25,10 +25,13 @@ const userSlice = createSlice({
       }
     },
     updatePhoneRedux: (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser["phone"] = action.payload;
     },
     updateEmailRedux: (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser["email"] = action.payload;
+    },
+    updateAvatarRedux: (state, action) => {
+      state.currentUser["avatar"] = action.payload;
     },
     updateStart: (state) => {
       state.isFetching = true;

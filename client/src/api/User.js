@@ -73,3 +73,11 @@ export const checkExist = async (email) => {
   }
   return res;
 };
+
+export const checkExistForgot = async (email) => {
+  const res = await jwtAxios.get(`/api/auth/existforgot/${email}`);
+  if (res && res.status !== 200 && res.status !== 201 && res.status !== 202) {
+    throw Error("Something wrongs with code status" + res.status);
+  }
+  return res;
+};

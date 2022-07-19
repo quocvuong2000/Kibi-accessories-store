@@ -1,6 +1,7 @@
 import { Col, message, Modal, Radio, Row, Space } from "antd";
 import { House } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { createAddress } from "../../../api/Address";
@@ -21,6 +22,13 @@ const SelectAddress = ({
   const [value, setValue] = useState(
     address.length !== 0 ? address.find((el) => el.isDefault === true)?._id : {}
   );
+
+  useEffect(() => {
+    if (cart.numberCart <= 0) {
+      message.error("Hãy thêm vào giỏ hàng món hàng");
+      window.location.href = "/";
+    }
+  }, []);
 
   useEffect(() => {
     if (address.length !== 0) {

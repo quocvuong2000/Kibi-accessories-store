@@ -46,20 +46,20 @@ callAPIWithToken.interceptors.response.use(
     return res;
   },
   (err) => {
-    // if (err.response && err.response.status === 401) {
-    //   localStorage.removeItem("persist:root");
-    //   Cookies.remove("tokenClient");
-    //   window.location.href = "/login";
-    // }
+    if (err.response && err.response.status === 401) {
+      localStorage.removeItem("persist:root");
+      Cookies.remove("tokenClient");
+      window.location.href = "/login";
+    }
 
     if (err.response && err.response.status === 403) {
       localStorage.removeItem("persist:root");
       Cookies.remove("tokenClient");
     }
 
-    if (err.response && err.response.status === 500) {
-      window.location.href = "/500";
-    }
+    // if (err.response && err.response.status === 500) {
+    //   window.location.href = "/500";
+    // }
 
     if (err.response && err.response.status === 504) {
       window.location.href = "https://www.google.com/";

@@ -17,6 +17,7 @@ import avatarPlaceholder from "../../../assets/user_avatar.jpg";
 import { deleteAllCart } from "../../../redux/cartRedux";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
 import numberWithCommas from "../../../utils/numberWithCommas";
+import sendEmail from "../../../utils/sendEmail";
 import { getBranchById } from "../BranchAPI";
 import ListVoucher from "../ListVoucher";
 import {
@@ -233,6 +234,7 @@ const PaymentDetail = (props) => {
     doCheckoutByCod(data)
       .then((res) => {
         message.success("Payment success");
+
         props.hanldeLoading(false);
         // props.takeOrderDetailForConfirmation(res._id);
         if (idVoucher !== "" && idVoucher) {
