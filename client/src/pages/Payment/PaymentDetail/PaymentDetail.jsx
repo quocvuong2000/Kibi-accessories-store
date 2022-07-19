@@ -204,7 +204,7 @@ const PaymentDetail = (props) => {
           message.error("payment fail, sthing went worng");
         });
     }
-  }, [dispatch, idVoucher, navigate, props, salePrice, shippingCost, token]);
+  }, [token]);
 
   const onChange = (e) => {
     setMethodPayment(e.target.value);

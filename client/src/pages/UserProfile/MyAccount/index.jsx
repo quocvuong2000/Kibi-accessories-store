@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { checkExist, updateEmail } from "../../../api/User";
 import userPlaceholder from "../../../assets/user_avatar.jpg";
+import AppLoader from "../../../components/AppLoader";
 import { app } from "../../../firebase/firebase";
 import { updateProfile } from "../../../redux/apiCalls";
 import { updateSuccess } from "../../../redux/userRedux";
@@ -59,6 +60,7 @@ const MyAccount = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [update, setUpdate] = useState(0);
   const [avatar, setAvatar] = useState();
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const search = useLocation().search;
@@ -180,315 +182,322 @@ const MyAccount = () => {
   );
   const dispatch = useDispatch();
   return (
-    <div className={s.all}>
-      <Formik
-        // validationSchema={loginSchema}
-        initialValues={{
-          name: user.currentUser ? user.currentUser?.name : "",
-          username: user.currentUser ? user.currentUser?.username : "",
-          dob: user.currentUser ? user.currentUser?.dob : "",
-          gender: user.currentUser ? user.currentUser?.gender : "",
-        }}
-        onSubmit={async (values) => {
-          // {imageUrl ? : }
-          if (avatar) {
-            const fileName = new Date().getTime() + avatar.name;
-            const storage = getStorage(app);
-            const storageRef = ref(storage, fileName);
-            const uploadTask = uploadBytesResumable(storageRef, avatar);
-
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {},
-              (error) => {},
-              async () => {
-                await getDownloadURL(uploadTask.snapshot.ref).then(
-                  (downloadURL) => {
-                    updateProfile(
-                      dispatch,
-                      user.currentUser?._id,
-                      values.name,
-                      values.dob,
-                      values.gender,
-                      downloadURL
-                    ).then((res) => {
-                      if (res) {
-                        const obj = {
-                          user: res,
-                          accessToken: token,
-                        };
-                        message.success("Update success");
-                        dispatch(updateSuccess(obj));
-                      }
+    <>
+      {loading && <AppLoader />}
+      <div className={s.all}>
+        <Formik
+          // validationSchema={loginSchema}
+          initialValues={{
+            name: user.currentUser ? user.currentUser?.name : "",
+            username: user.currentUser ? user.currentUser?.username : "",
+            dob: user.currentUser ? user.currentUser?.dob : "",
+            gender: user.currentUser ? user.currentUser?.gender : "",
+          }}
+          onSubmit={async (values) => {
+            // {imageUrl ? : }
+            setLoading(true);
+            if (avatar) {
+              const fileName = new Date().getTime() + avatar.name;
+              const storage = getStorage(app);
+              const storageRef = ref(storage, fileName);
+              const uploadTask = uploadBytesResumable(storageRef, avatar);
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {},
+                (error) => {},
+                async () => {
+                  await getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
+                      updateProfile(
+                        dispatch,
+                        user.currentUser?._id,
+                        values.name,
+                        values.dob,
+                        values.gender,
+                        downloadURL
+                      ).then((res) => {
+                        if (res) {
+                          const obj = {
+                            user: res,
+                            accessToken: token,
+                          };
+                          message.success("Update success");
+                          dispatch(updateSuccess(obj));
+                        }
+                      });
+                    })
+                    .finally(() => {
+                      setLoading(false);
                     });
+                }
+              );
+            } else {
+              updateProfile(
+                dispatch,
+                user.currentUser?._id,
+                values.name,
+                values.dob,
+                values.gender
+              )
+                .then((res) => {
+                  if (res) {
+                    const obj = {
+                      user: res,
+                      accessToken: token,
+                    };
+                    message.success("Update success");
+                    dispatch(updateSuccess(obj));
                   }
-                );
-              }
-            );
-          } else {
-            updateProfile(
-              dispatch,
-              user.currentUser?._id,
-              values.name,
-              values.dob,
-              values.gender
-            ).then((res) => {
-              if (res) {
-                const obj = {
-                  user: res,
-                  accessToken: token,
-                };
-                message.success("Update success");
-                dispatch(updateSuccess(obj));
-              }
-            });
-          }
-        }}
-      >
-        {({ errors, touched, setFieldValue }) => {
-          return (
-            <Form className={s.input_name}>
-              <Row className={s.container}>
-                <Col className={s.box} span={24}>
-                  <div className={s.title}>
-                    <h3 className={s.tde}>
-                      <span>Account Information</span>
-                    </h3>
-                  </div>
-                  <Row className={s.form_info}>
-                    <Col span={24} xl={12} lg={24} sm={24}>
-                      <p className={s.text_info}>Personal Information</p>
-                      <Row className={s.avatar_name}>
-                        <Col
-                          span={24}
-                          lg={12}
-                          xl={8}
-                          sm={12}
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          {avatar ? (
-                            <div>
-                              <img
-                                src={URL.createObjectURL(avatar)}
-                                alt="avatar"
-                              />
-                            </div>
-                          ) : (
-                            <div>
-                              <img
-                                src={
-                                  user.currentUser?.avatar || userPlaceholder
-                                }
-                                alt=""
-                              />
-                            </div>
-                          )}
-                          <Upload
-                            name="avatar"
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
+            }
+          }}
+        >
+          {({ errors, touched, setFieldValue }) => {
+            return (
+              <Form className={s.input_name}>
+                <Row className={s.container}>
+                  <Col className={s.box} span={24}>
+                    <div className={s.title}>
+                      <h3 className={s.tde}>
+                        <span>Account Information</span>
+                      </h3>
+                    </div>
+                    <Row className={s.form_info}>
+                      <Col span={24} xl={12} lg={24} sm={24}>
+                        <p className={s.text_info}>Personal Information</p>
+                        <Row className={s.avatar_name}>
+                          <Col
+                            span={24}
+                            lg={12}
+                            xl={8}
+                            sm={12}
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
                           >
-                            {uploadButton}
-                          </Upload>
-                        </Col>
-                        <Col span={24} xl={16} lg={12} sm={12}>
+                            {avatar ? (
+                              <div>
+                                <img
+                                  src={URL.createObjectURL(avatar)}
+                                  alt="avatar"
+                                />
+                              </div>
+                            ) : (
+                              <div>
+                                <img
+                                  src={
+                                    user.currentUser?.avatar || userPlaceholder
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                            )}
+                            <Upload
+                              name="avatar"
+                              listType="picture-card"
+                              className="avatar-uploader"
+                              showUploadList={false}
+                              beforeUpload={beforeUpload}
+                              onChange={handleChange}
+                            >
+                              {uploadButton}
+                            </Upload>
+                          </Col>
+                          <Col span={24} xl={16} lg={12} sm={12}>
+                            <FormAnt.Item
+                              validateStatus={
+                                touched?.name && errors?.name
+                                  ? "error"
+                                  : "success"
+                              }
+                              help={
+                                Boolean(touched?.name && errors?.name) &&
+                                errors?.name
+                              }
+                            >
+                              <Field name="name">
+                                {({ field }) => (
+                                  <Input {...field} placeholder="Name" />
+                                )}
+                              </Field>
+                            </FormAnt.Item>
+                            <FormAnt.Item
+                              validateStatus={
+                                touched?.username && errors?.username
+                                  ? "error"
+                                  : "success"
+                              }
+                              help={
+                                Boolean(
+                                  touched?.username && errors?.username
+                                ) && errors?.username
+                              }
+                            >
+                              <Field name="username">
+                                {({ field }) => (
+                                  <Input
+                                    {...field}
+                                    disabled
+                                    placeholder="Username"
+                                  />
+                                )}
+                              </Field>
+                            </FormAnt.Item>
+                          </Col>
+                        </Row>
+                        <div className={s.dob_gender}>
                           <FormAnt.Item
                             validateStatus={
-                              touched?.name && errors?.name
-                                ? "error"
-                                : "success"
+                              touched?.dob && errors?.dob ? "error" : "success"
                             }
                             help={
-                              Boolean(touched?.name && errors?.name) &&
-                              errors?.name
+                              Boolean(touched?.dob && errors?.dob) &&
+                              errors?.dob
                             }
+                            initialValue={moment(
+                              user.currentUser?.dob,
+                              dateFormat
+                            )}
                           >
-                            <Field name="name">
+                            <Field name="dob">
                               {({ field }) => (
-                                <Input {...field} placeholder="Name" />
-                              )}
-                            </Field>
-                          </FormAnt.Item>
-                          <FormAnt.Item
-                            validateStatus={
-                              touched?.username && errors?.username
-                                ? "error"
-                                : "success"
-                            }
-                            help={
-                              Boolean(touched?.username && errors?.username) &&
-                              errors?.username
-                            }
-                          >
-                            <Field name="username">
-                              {({ field }) => (
-                                <Input
-                                  {...field}
-                                  disabled
-                                  placeholder="Username"
+                                <DatePicker
+                                  format={dateFormat}
+                                  onChange={(value, dateString) =>
+                                    setFieldValue("dob", dateString)
+                                  }
+                                  defaultValue={
+                                    user.currentUser?.dob &&
+                                    moment(user.currentUser?.dob, dateFormat)
+                                  }
                                 />
                               )}
                             </Field>
                           </FormAnt.Item>
-                        </Col>
-                      </Row>
-                      <div className={s.dob_gender}>
-                        <FormAnt.Item
-                          validateStatus={
-                            touched?.dob && errors?.dob ? "error" : "success"
-                          }
-                          help={
-                            Boolean(touched?.dob && errors?.dob) && errors?.dob
-                          }
-                          initialValue={moment(
-                            user.currentUser?.dob,
-                            dateFormat
-                          )}
-                        >
-                          <Field name="dob">
+                          <Field name="gender">
                             {({ field }) => (
-                              <DatePicker
-                                format={dateFormat}
-                                onChange={(value, dateString) =>
-                                  setFieldValue("dob", dateString)
+                              <Select
+                                placeholder="select your gender"
+                                defaultValue={user.currentUser?.gender}
+                                onChange={(value) =>
+                                  setFieldValue("gender", value)
                                 }
-                                defaultValue={
-                                  user.currentUser?.dob &&
-                                  moment(user.currentUser?.dob, dateFormat)
-                                }
-                              />
+                              >
+                                <Option value="male">Male</Option>
+                                <Option value="female">Female</Option>
+                                <Option value="other">Other</Option>
+                              </Select>
                             )}
                           </Field>
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            className={s.button_saveinfo_tablet}
+                          >
+                            Submit
+                          </Button>
+                        </div>
+                        <FormAnt.Item
+                          labelCol={{
+                            span: 7,
+                          }}
+                          label=" "
+                        >
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            className={s.button_saveinfo}
+                          >
+                            Submit
+                          </Button>
                         </FormAnt.Item>
-
-                        <Field name="gender">
-                          {({ field }) => (
-                            <Select
-                              placeholder="select your gender"
-                              defaultValue={user.currentUser?.gender}
-                              onChange={(value) =>
-                                setFieldValue("gender", value)
-                              }
+                      </Col>
+                      <Col span={24} lg={12} sm={24}>
+                        <div className={s.full_content_right}>
+                          <p className={s.text_info}>Phone and Email</p>
+                          <div className={s.phone}>
+                            <div className={s.title}>
+                              <Phone size={24} /> Phone (+
+                              {user.currentUser?.phone})
+                            </div>
+                            <div
+                              className={s.button_update}
+                              onClick={() => {
+                                setUpdate(0);
+                                showModal();
+                              }}
                             >
-                              <Option value="male">Male</Option>
-                              <Option value="female">Female</Option>
-                              <Option value="other">Other</Option>
-                            </Select>
-                          )}
-                        </Field>
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          className={s.button_saveinfo_tablet}
-                        >
-                          Submit
-                        </Button>
-                      </div>
-                      <FormAnt.Item
-                        labelCol={{
-                          span: 7,
-                        }}
-                        label=" "
-                      >
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          className={s.button_saveinfo}
-                        >
-                          Submit
-                        </Button>
-                      </FormAnt.Item>
-                    </Col>
-
-                    <Col span={24} lg={12} sm={24}>
-                      <div className={s.full_content_right}>
-                        <p className={s.text_info}>Phone and Email</p>
-                        <div className={s.phone}>
-                          <div className={s.title}>
-                            <Phone size={24} /> Phone (+
-                            {user.currentUser?.phone})
+                              <span></span>
+                              <div className={s.btn_update}>Update</div>
+                            </div>
                           </div>
-                          <div
-                            className={s.button_update}
-                            onClick={() => {
-                              setUpdate(0);
-                              showModal();
-                            }}
+                          <div className={s.email}>
+                            <div className={s.title}>
+                              <EnvelopeSimple size={24} /> Email (
+                              {user.currentUser?.email})
+                            </div>
+                            <div
+                              className={s.button_update}
+                              onClick={() => {
+                                setUpdate(1);
+                                showModal();
+                              }}
+                            >
+                              <div className={s.btn_update}>Update</div>
+                            </div>
+                          </div>
+                          <p
+                            className={s.text_info}
+                            style={{ marginTop: "40px" }}
                           >
-                            <span></span>
-                            <div className={s.btn_update}>Update</div>
+                            Security
+                          </p>
+                          <div className={s.password}>
+                            <div className={s.title}>
+                              <Key size={24} /> Password
+                            </div>
+                            <div
+                              className={s.button_update}
+                              onClick={() => {
+                                setUpdate(2);
+                                showModal();
+                              }}
+                            >
+                              <div className={s.btn_update}>Update</div>
+                            </div>
                           </div>
                         </div>
-                        <div className={s.email}>
-                          <div className={s.title}>
-                            <EnvelopeSimple size={24} /> Email (
-                            {user.currentUser?.email})
-                          </div>
-                          <div
-                            className={s.button_update}
-                            onClick={() => {
-                              setUpdate(1);
-                              showModal();
-                            }}
-                          >
-                            <div className={s.btn_update}>Update</div>
-                          </div>
-                        </div>
-
-                        <p
-                          className={s.text_info}
-                          style={{ marginTop: "40px" }}
-                        >
-                          Security
-                        </p>
-
-                        <div className={s.password}>
-                          <div className={s.title}>
-                            <Key size={24} /> Password
-                          </div>
-                          <div
-                            className={s.button_update}
-                            onClick={() => {
-                              setUpdate(2);
-                              showModal();
-                            }}
-                          >
-                            <div className={s.btn_update}>Update</div>
-                          </div>
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Form>
-          );
-        }}
-      </Formik>
-      <Modal
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className={s.wrapInformation}
-      >
-        {update === 0 && <UpdatePhone />}
-        {update === 1 && (
-          <UpdateEmail
-            update={handleUpdateEmail}
-            verify={verify}
-            setVerify={setVerify}
-          />
-        )}
-        {update === 2 && <UpdatePassword user={user} dispatch={dispatch} />}
-      </Modal>
-    </div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Form>
+            );
+          }}
+        </Formik>
+        <Modal
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          className={s.wrapInformation}
+        >
+          {update === 0 && <UpdatePhone />}
+          {update === 1 && (
+            <UpdateEmail
+              update={handleUpdateEmail}
+              verify={verify}
+              setVerify={setVerify}
+            />
+          )}
+          {update === 2 && <UpdatePassword user={user} dispatch={dispatch} />}
+        </Modal>
+      </div>
+    </>
   );
 };
 

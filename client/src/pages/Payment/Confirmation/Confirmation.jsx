@@ -103,7 +103,7 @@ const Confirmation = (props) => {
             <div className={classes.contentItem}>
               <div className={classes.display}>Order ID: </div>
               <div className={classes.price}>
-                {numberWithCommas(orderDetail._id)}
+                {checkTypeItem(orderDetail._id)}
               </div>
             </div>
             <div className={classes.contentItem}>
