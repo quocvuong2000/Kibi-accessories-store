@@ -2,18 +2,20 @@ import { Empty, message } from "antd";
 import moment from "moment";
 import { Clock, Truck } from "phosphor-react";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getInfoService, getLeadTime } from "../../../api/Shipping";
 import { deletedVoucher } from "../../../api/Voucher";
 import img from "../../../assets/confirmation/undraw_completing_6bhr 1.png";
+import AppLoader from "../../../components/AppLoader";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
 import numberWithCommas from "../../../utils/numberWithCommas";
+import sendEmail from "../../../utils/sendEmail";
 import { doGetDetailOrder } from "../ConfirmationAPI";
 import classes from "./styles.module.scss";
-
 const Confirmation = (props) => {
   const [serviceId, setServiceId] = useState(0);
-
+  const user = useSelector((state) => state.user);
   const currentWard = props.addressSelected
     ? props.addressSelected.ward
     : props.address[0].ward;
@@ -25,16 +27,20 @@ const Confirmation = (props) => {
   const [orderDetail, setOrderDetail] = useState();
   const id = location.pathname.split("/")[2];
   const [leadTime, setLeadTime] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getInfoService(props.from, currentDistrict).then((res) => {
-      if (res) {
-        setServiceId(res.data.data[0].service_id);
-      }
-    });
+    getInfoService(props.from, currentDistrict)
+      .then((res) => {
+        if (res) {
+          setServiceId(res.data.data[0].service_id);
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, [props.from]);
 
   useEffect(() => {
+    setIsLoading(true);
     if (parseInt(props.addressSelected?.city) !== props.provinceId) {
       var result = new Date(Date.now());
       result.setDate(result.getDate() + 10);
@@ -48,15 +54,18 @@ const Confirmation = (props) => {
         currentWard,
         serviceId,
         props.shopId
-      ).then((res) => {
-        if (res) {
-          setLeadTime(res.data?.data?.leadtime);
-        }
-      });
+      )
+        .then((res) => {
+          if (res) {
+            setLeadTime(res.data?.data?.leadtime);
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   }, [props.from, props.fromWard, serviceId, props.shopId]);
 
   useEffect(() => {
+    setIsLoading(true);
     if (id && id !== null && id !== undefined) {
       doGetDetailOrder(id)
         .then((res) => {
@@ -66,15 +75,31 @@ const Confirmation = (props) => {
             localStorage.removeItem("idVauchoemxiuanhnhe");
           }
           setOrderDetail(res);
+          sendEmail(
+            user.currentUser.username,
+            "Đang chờ xác nhận",
+            res._id,
+            res.product,
+            numberWithCommas(
+              parseInt(orderDetail.totalPrice) -
+                parseInt(orderDetail.shippingPrice)
+            ),
+            numberWithCommas(orderDetail.shippingPrice),
+            numberWithCommas(orderDetail.totalPrice),
+            orderDetail.recipientName,
+            orderDetail.recipientPhone
+          );
         })
         .catch(() => {
           message.error("Loading order detail fail");
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, [id]);
 
   return (
     <>
+      {isLoading === true && <AppLoader />}
       {orderDetail ? (
         <div className={classes.confirmationDetail}>
           <div className={classes.left}>

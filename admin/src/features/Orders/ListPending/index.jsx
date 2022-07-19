@@ -13,6 +13,8 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import AppLoader from "../../../components/AppLoader";
+import sendEmail from "../../../utils/sendEmail";
+import numberWithCommas from "../../../utils/numberWithCommas";
 const ListPending = () => {
   const [ListPending, setListPending] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,6 +26,7 @@ const ListPending = () => {
   const [deleteDialog, setDeleteDialog] = useState({
     delete: false,
     id: "",
+    item: {},
   });
   useEffect(() => {
     getByStatus("PENDING", page)
@@ -46,10 +49,23 @@ const ListPending = () => {
     }
     setOpen(false);
   };
-  const handleAcceptOrder = (id) => {
-    acceptOrder(id).then((res) => {
+  const handleAcceptOrder = (item) => {
+    acceptOrder(item._id).then((res) => {
       if (res.status === 200) {
         setOpen(true);
+        sendEmail(
+          item.username,
+          "Đang được vận chuyển",
+          item._id,
+          item.products,
+          numberWithCommas(
+            parseInt(item.totalPrice) - parseInt(item.shippingPrice)
+          ),
+          numberWithCommas(item.shippingPrice),
+          numberWithCommas(item.totalPrice),
+          item.recipientName,
+          item.recipientPhone
+        );
       }
       setTimeout(() => {
         setTypeMess("success");
@@ -62,13 +78,28 @@ const ListPending = () => {
     rejectOrder(deleteDialog.id).then((res) => {
       if (res.status === 200) {
         setOpen(true);
+        sendEmail(
+          deleteDialog.item.username,
+          "Đã bị từ chối",
+          deleteDialog.item._id,
+          deleteDialog.item.products,
+          numberWithCommas(
+            parseInt(deleteDialog.item.totalPrice) -
+              parseInt(deleteDialog.item.shippingPrice)
+          ),
+          numberWithCommas(deleteDialog.item.shippingPrice),
+          numberWithCommas(deleteDialog.item.totalPrice),
+          deleteDialog.item.recipientName,
+          deleteDialog.item.recipientPhone
+        );
         setDeleteDialog({
           delete: false,
           id: "",
+          item: {},
         });
       }
       setTimeout(() => {
-        setTypeMess("success");
+        setTypeMess("error");
         setMess("Reject Success");
         setReload(!reload);
       }, 500);
@@ -118,7 +149,7 @@ const ListPending = () => {
                         color="#00FF22"
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          handleAcceptOrder(item._id);
+                          handleAcceptOrder(item);
                         }}
                       />
                     </TableCell>
@@ -131,6 +162,7 @@ const ListPending = () => {
                             setDeleteDialog({
                               delete: true,
                               id: item._id,
+                              item: item,
                             });
                         }}
                       />

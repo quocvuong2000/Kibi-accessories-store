@@ -23,7 +23,7 @@ import { Field, Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import moment from "moment";
 import { EnvelopeSimple, Key, Phone } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { checkExist, updateEmail } from "../../../api/User";
@@ -70,8 +70,7 @@ const MyAccount = () => {
   const email = new URLSearchParams(search).get("email");
 
   useEffect(() => {
-    console.log("prv:", prv);
-    if (prv != null && prv !== undefined) {
+    if (prv !== null && prv !== undefined) {
       var tempprv = prv.replaceAll(" ", "+");
       var hashedPassword = CryptoJS.AES.decrypt(
         tempprv,
@@ -109,7 +108,7 @@ const MyAccount = () => {
       showModal();
     }
     setSearchParams("");
-  }, []);
+  }, [showpassword]);
 
   const handleUpdateEmail = (email) => {
     checkExist(email).then((res) => {
@@ -135,7 +134,7 @@ const MyAccount = () => {
             {
               to_name: email,
               from_name: "kibiaccessories@kibi.vn",
-              link: `https://localhost:3000/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
+              link: `https://kibiaccessories.herokuapp.com/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
             },
             "v3GcHX1OV7AjPKEdx"
           )
@@ -152,7 +151,6 @@ const MyAccount = () => {
         message.error("Email already exists");
       }
     });
-    setTimeout(() => setVerify(false), 6000);
   };
 
   const showModal = () => {
@@ -171,8 +169,6 @@ const MyAccount = () => {
     // Get this url from response in real world.
     setAvatar(info.file.originFileObj);
   };
-
-  console.log(user.currentUser);
 
   const uploadButton = (
     <div className={s.btnUpload}>
@@ -378,6 +374,9 @@ const MyAccount = () => {
                               onChange={(value) =>
                                 setFieldValue("gender", value)
                               }
+                              getPopupContainer={(trigger) =>
+                                trigger.parentElement
+                              }
                             >
                               <Option value="male">Male</Option>
                               <Option value="female">Female</Option>
@@ -414,8 +413,9 @@ const MyAccount = () => {
                         <p className={s.text_info}>Phone and Email</p>
                         <div className={s.phone}>
                           <div className={s.title}>
-                            <Phone size={24} /> Phone (+
-                            {user.currentUser?.phone})
+                            <Phone size={24} /> Phone
+                            {user.currentUser?.phone !== "0" &&
+                              ` (${user.currentUser?.phone})`}
                           </div>
                           <div
                             className={s.button_update}
@@ -436,8 +436,17 @@ const MyAccount = () => {
                           <div
                             className={s.button_update}
                             onClick={() => {
-                              setUpdate(1);
-                              showModal();
+                              if (user.currentUser.isSocial !== true) {
+                                setUpdate(1);
+                                showModal();
+                              }
+                            }}
+                            style={{
+                              color:
+                                user.currentUser.isSocial === true && "#999",
+                              cursor:
+                                user.currentUser.isSocial === true &&
+                                "not-allowed",
                             }}
                           >
                             <div className={s.btn_update}>Update</div>
@@ -458,8 +467,17 @@ const MyAccount = () => {
                           <div
                             className={s.button_update}
                             onClick={() => {
-                              setUpdate(2);
-                              showModal();
+                              if (user.currentUser.isSocial !== true) {
+                                setUpdate(2);
+                                showModal();
+                              }
+                            }}
+                            style={{
+                              color:
+                                user.currentUser.isSocial === true && "#999",
+                              cursor:
+                                user.currentUser.isSocial === true &&
+                                "not-allowed",
                             }}
                           >
                             <div className={s.btn_update}>Update</div>
@@ -488,7 +506,13 @@ const MyAccount = () => {
             setVerify={setVerify}
           />
         )}
-        {update === 2 && <UpdatePassword user={user} dispatch={dispatch} />}
+        {update === 2 && (
+          <UpdatePassword
+            user={user}
+            setIsModalVisible={setIsModalVisible}
+            dispatch={dispatch}
+          />
+        )}
       </Modal>
     </div>
   );

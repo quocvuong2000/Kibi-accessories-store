@@ -33,6 +33,7 @@ router.post("/payment", async (req, res) => {
       },
       async (stripeErr, stripeRes) => {
         if (stripeErr) {
+          console.log(stripeErr);
           res.status(500).json(stripeErr);
         } else {
           await newOrder.save();

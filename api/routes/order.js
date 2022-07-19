@@ -247,6 +247,7 @@ router.get("/detail/get/:id", verifyTokenAndAuthorization, async (req, res) => {
       const orderFound = await Order.findById(req.params.id);
       res.status(200).json(orderFound);
     } catch (error) {
+      console.log(error);
       res.status(500).json(error);
     }
   } catch (error) {

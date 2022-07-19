@@ -99,15 +99,15 @@
   }
 }
 
-:global {
-  .ant-select-dropdown {
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    max-width: 468px !important;
-    min-width: unset !important;
-    position: fixed;
-  }
-}
+// :global {
+//   .ant-select-dropdown {
+//     border-bottom-left-radius: 30px;
+//     border-bottom-right-radius: 30px;
+//     max-width: 468px !important;
+//     min-width: unset !important;
+//     position: fixed;
+//   }
+// }
 .global {
   position: absolute;
   right: -200px;

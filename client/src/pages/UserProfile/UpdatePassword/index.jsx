@@ -27,8 +27,9 @@ const UpdatePassword = (props) => {
                 const obj = {
                   user: res.data,
                 };
-                message.success("Update success");
                 dispatch(updateSuccess(obj));
+                message.success("Update success");
+                props.setIsModalVisible(false);
               } else if (res.status === 202) {
                 message.error("Wrong old password");
               }

@@ -16,7 +16,7 @@ const Comment = (props) => {
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [listComment, setListComment] = useState([]);
-  const [totalPages, setTotalPages] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
   const [reload2, setReload2] = useState(false);
@@ -137,6 +137,9 @@ const Comment = (props) => {
       {listComment?.map((item, index) => {
         // const a = likeList.some((value) => value.username === item.username);
         // console.log(a);
+        var a = item.userLiked.some(
+          (value) => value.username === user.currentUser.username
+        );
         return (
           <div className={s.box_rs_comment} key={index}>
             <div className={s.avatar}>
@@ -156,7 +159,7 @@ const Comment = (props) => {
                     style={{ cursor: "pointer" }}
                     size={20}
                     weight="bold"
-                    color={item.userLiked.length > 0 ? "#d84727" : "#999"}
+                    color={a === true ? "#d84727" : "#999"}
                     onClick={() => {
                       like(item?._id, user.currentUser?.username);
                       // setLikeList([...likeList, item?.username]);

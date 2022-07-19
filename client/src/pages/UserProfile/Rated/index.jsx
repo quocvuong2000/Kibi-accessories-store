@@ -10,23 +10,23 @@ import s from "./styles.module.scss";
 
 const Rated = () => {
   const [listComment, setListComment] = useState([]);
-  const [totalPages, setTotalPages] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
 
   const user = useSelector((state) => state.user);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getCommentByUser(user.currentUser.username, page)
-      .then((res) => {
-        setTotalPages(res.data.totalPages);
-        setListComment((listComment) => [...listComment, ...res.data.comments]);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [page, user.currentUser.username]);
+  // useEffect(() => {
+  //   getCommentByUser(user.currentUser.username, page)
+  //     .then((res) => {
+  //       setTotalPages(res.data.totalPages);
+  //       setListComment((listComment) => [...listComment, ...res.data.comments]);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, [page, user.currentUser.username]);
 
   useEffect(() => {
     getCommentByUser(user.currentUser.username, 1)
@@ -38,6 +38,12 @@ const Rated = () => {
       });
   }, [user.currentUser.username]);
 
+  const hanldeNextComment = (page) => {
+    getCommentByUser(user.currentUser.username, page).then((res) => {
+      setTotalPages(res.data.totalPages);
+      setListComment((listComment) => [...listComment, ...res.data.comments]);
+    });
+  };
   return (
     <>
       {isLoading === true && <AppLoader />}
@@ -72,6 +78,7 @@ const Rated = () => {
               className={s.see_more}
               onClick={() => {
                 setPage(page + 1);
+                hanldeNextComment(page + 1);
               }}
             >
               See more comments

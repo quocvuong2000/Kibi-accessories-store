@@ -98,14 +98,14 @@ const Header = () => {
   );
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key={1}>
-        <div
-          onClick={() => {
-            setVisibleDropdown(false);
-            navigate2(`/myaccount/1`);
-          }}
-          className={classes.box_profile}
-        >
+      <Menu.Item
+        key={1}
+        onClick={() => {
+          setVisibleDropdown(false);
+          navigate2(`/myaccount/1`);
+        }}
+      >
+        <div className={classes.box_profile}>
           <div className={classes.avatar_menu}>
             <img
               src={
@@ -123,56 +123,56 @@ const Header = () => {
           </p>
         </div>
       </Menu.Item>
-      <Menu.Item key={2}>
-        <div
-          onClick={() => {
-            setVisibleDropdown(false);
-            navigate2(`/myaccount/1`);
-          }}
-          className={classes.link_to_profile}
-        >
+      <Menu.Item
+        key={2}
+        onClick={() => {
+          setVisibleDropdown(false);
+          navigate2(`/myaccount/1`);
+        }}
+      >
+        <div className={classes.link_to_profile}>
           <div className={classes.icon}>
             <UserCircle size={24} className={classes.icon_box} />
           </div>
           <FormattedMessage id="common.yourprofile" />
         </div>
       </Menu.Item>
-      <Menu.Item key={3}>
-        <div
-          onClick={() => {
-            setVisibleDropdown(false);
-            navigate2(`/myaccount/4`);
-          }}
-          className={classes.wish_list}
-        >
+      <Menu.Item
+        key={3}
+        onClick={() => {
+          setVisibleDropdown(false);
+          navigate2(`/myaccount/4`);
+        }}
+      >
+        <div className={classes.wish_list}>
           <div className={classes.icon}>
             <Heart size={24} className={classes.icon_box} />
           </div>
           <FormattedMessage id="common.wishlist" />
         </div>
       </Menu.Item>
-      <Menu.Item key={4}>
-        <div
-          onClick={() => {
-            setVisibleDropdown(false);
-            navigate2(`/myaccount/1?showpass=true`);
-          }}
-          className={classes.wish_list}
-        >
+      <Menu.Item
+        key={4}
+        onClick={() => {
+          setVisibleDropdown(false);
+          navigate2(`/myaccount/1?showpass=true`);
+        }}
+      >
+        <div className={classes.wish_list}>
           <div className={classes.icon}>
             <LockKey size={24} className={classes.icon_box} />
           </div>
           <FormattedMessage id="common.changepassword" />
         </div>
       </Menu.Item>
-      <Menu.Item key={5}>
-        <div
-          onClick={() => {
-            setVisibleDropdown(false);
-            navigate2(`/myaccount/7`);
-          }}
-          className={classes.wish_list}
-        >
+      <Menu.Item
+        key={5}
+        onClick={() => {
+          setVisibleDropdown(false);
+          navigate2(`/myaccount/7`);
+        }}
+      >
+        <div className={classes.wish_list}>
           <div className={classes.icon}>
             <Ticket size={24} className={classes.icon_box} />
           </div>
@@ -194,8 +194,8 @@ const Header = () => {
           <FormattedMessage id="common.changelanguage" />
         </Popover>
       </Menu.Item>
-      <Menu.Item key={7}>
-        <div className={classes.sign_out} onClick={handleSignOut}>
+      <Menu.Item key={7} onClick={handleSignOut}>
+        <div className={classes.sign_out}>
           <div className={classes.icon}>
             <SignOut size={24} className={classes.icon_box} />
           </div>
@@ -208,7 +208,7 @@ const Header = () => {
   const openNotificationWithIcon = (type) => {
     notification[type]({
       message: "Error",
-      description: "Can't fill in special character",
+      description: "Can't fill in special character or empty",
     });
   };
 
@@ -255,12 +255,10 @@ const Header = () => {
 
   const onSearch = (value) => {
     // eslint-disable-next-line no-unused-vars
-    var regex = /^[a-zA-Z]/;
+    var regex = /^[a-zA-Z0-9]*$/g;
 
-    if (value) {
+    if (value && regex.test(value) && value !== "") {
       navigate(`/search/${value}`);
-    } else if (value === "") {
-      return;
     } else {
       openNotificationWithIcon("warning");
     }
@@ -340,7 +338,7 @@ const Header = () => {
             </AutoComplete>
           </Space>
 
-          <div className={classes.authentication}>
+          <div className={classes.authentication} id="area">
             {/* {!user.accessToken ? ( */}
             {user.currentUser ? (
               <Dropdown
@@ -350,6 +348,7 @@ const Header = () => {
                 trigger={["click"]}
                 // visible={visibleDropdown}
                 overlayClassName={classes.menu_header}
+                getPopupContainer={() => document.getElementById("area")}
               >
                 <div
                   className={classes.login}

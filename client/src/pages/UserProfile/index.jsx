@@ -30,6 +30,11 @@ const UserProfile = () => {
     setIsActive(active);
     window.scrollTo(0, 0);
   }, [active]);
+
+  const onChange = (key) => {
+    setIsActive(key);
+  };
+
   return (
     <div className={s.container}>
       <p className={s.url}>
@@ -38,6 +43,8 @@ const UserProfile = () => {
       <Tabs
         tabPosition={width > 1024 ? "left" : "top"}
         defaultActiveKey={isActive.toString()}
+        activeKey={isActive.toString()}
+        onChange={onChange}
       >
         <TabPane
           tab={
