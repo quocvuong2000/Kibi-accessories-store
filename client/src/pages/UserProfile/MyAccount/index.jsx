@@ -420,7 +420,7 @@ const MyAccount = () => {
                           <p className={s.text_info}>Phone and Email</p>
                           <div className={s.phone}>
                             <div className={s.title}>
-                              <Phone size={24} /> Phone (+
+                              <Phone size={24} /> Phone (
                               {user.currentUser?.phone})
                             </div>
                             <div

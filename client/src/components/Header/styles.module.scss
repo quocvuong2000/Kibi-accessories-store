@@ -82,6 +82,9 @@
         display: none;
       }
     }
+    .ant-popover-arrow {
+      display: none;
+    }
     .ant-popover-inner {
       background: #f8eee3;
 
@@ -119,6 +122,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 120px;
+  position: relative;
 
   .headerContainer {
     width: 1110px;
@@ -132,6 +136,19 @@
     z-index: 999;
     position: fixed;
     background: #f7f6f4;
+    .change_language_unauth {
+      position: absolute;
+      right: -100px;
+      top: 30px;
+      z-index: 999999999999;
+      display: flex;
+      flex-direction: row;
+      color: #000;
+      p {
+        cursor: pointer;
+      }
+    }
+
     @include tablet {
       max-width: 100vw;
     }

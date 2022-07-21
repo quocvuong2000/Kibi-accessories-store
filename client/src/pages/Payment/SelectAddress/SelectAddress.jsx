@@ -55,7 +55,7 @@ const SelectAddress = ({
   };
 
   const onChangeBranch = (id, address) => {
-    console.table(id, address);
+    // console.table(id, address);
     setValueBranch(id);
     setBranchName(address);
   };
@@ -140,7 +140,7 @@ const SelectAddress = ({
             let temp2 = [];
 
             cart._products?.some((el) => {
-              console.log(el);
+              // console.log(el);
               el.branches?.forEach((value) => {
                 if (value.quantity < el.quantity) {
                   temp.push(value.branchId);
@@ -149,11 +149,11 @@ const SelectAddress = ({
                     setBranchName("");
                   }
                 }
-                console.table(
-                  "value.branchId, item._id:",
-                  value.branchId,
-                  item._id
-                );
+                // console.table(
+                //   "value.branchId, item._id:",
+                //   value.branchId,
+                //   item._id
+                // );
                 if (value.branchId === item._id) {
                   temp2.push(value.branchId);
                 }

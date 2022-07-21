@@ -8,7 +8,7 @@ import {
 } from "phosphor-react";
 import PropsType from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 import { getInfoService, getShippingCost } from "../../../api/Shipping";
@@ -34,13 +34,8 @@ const STRIPE_PK_KEY =
   "pk_test_51K0LBnFjydqiWgwtTtGT2ONJJuo4TAWczmDWero4QwWVw7p6n93JvDHkkDe70u1XVF5cT0kCsJQC59DJmQdBGPys00B3LSLWLk";
 
 const PaymentDetail = (props) => {
-  if (
-    typeof props.addressSelected?.address === "undefined" ||
-    !props.branchId
-  ) {
-    window.location.href = "/checkout";
-  }
   //-----------------------------------STATE MOMO-----------------------------------
+  const cart = useSelector((state) => state.cart);
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const amount = new URLSearchParams(search).get("amount");
@@ -56,7 +51,15 @@ const PaymentDetail = (props) => {
   const resultCode = new URLSearchParams(search).get("resultCode");
   const transId = new URLSearchParams(search).get("transId");
   const signature = new URLSearchParams(search).get("signature");
+
   // -----------------------------------END STATE MOMO-----------------------------------
+
+  if (
+    typeof props.addressSelected?.address === "undefined" ||
+    !props.branchId
+  ) {
+    window.location.href = "/checkout";
+  }
 
   //-------------------------------------START STATE VOUCHER---------------------------------------------
 
@@ -139,7 +142,7 @@ const PaymentDetail = (props) => {
     } else {
       getShippingCost(
         serviceId,
-        props.cart.totalPrice,
+        parseInt(props.cart.totalPrice),
         null,
         currentWard,
         currentDistrict,
@@ -194,7 +197,7 @@ const PaymentDetail = (props) => {
           if (idVoucher !== "" && idVoucher) {
             deletedVoucher(idVoucher).then(() => {});
           }
-
+          props.setSendEmail(true);
           setTimeout(() => {
             doDeleteAllCart({ username: data.username });
             dispatch(deleteAllCart());
@@ -240,6 +243,7 @@ const PaymentDetail = (props) => {
         if (idVoucher !== "" && idVoucher) {
           deletedVoucher(idVoucher).then(() => {});
         }
+        props.setSendEmail(true);
         setTimeout(() => {
           doDeleteAllCart({ username: data.username });
           dispatch(deleteAllCart());
@@ -268,30 +272,35 @@ const PaymentDetail = (props) => {
       query.has("resultCode") &&
       query.has("transId")
     ) {
-      doGetSignature(
-        amount,
-        extraData,
-        messageRs,
-        orderId,
-        orderInfo,
-        orderType,
-        partnerCode,
-        payType,
-        requestId,
-        responseTime,
-        resultCode,
-        transId
-      )
-        .then((res) => {
+      if (resultCode === "0") {
+        doGetSignature(
+          amount,
+          extraData,
+          messageRs,
+          orderId,
+          orderInfo,
+          orderType,
+          partnerCode,
+          payType,
+          requestId,
+          responseTime,
+          resultCode,
+          transId
+        ).then((res) => {
           if (res.statusCode === 200) {
             if (res.data === signature) {
               const shipping = localStorage.getItem("shippingCost");
+              const branchId = localStorage.getItem("branchId");
+              const branchName = localStorage.getItem("branchName");
               localStorage.removeItem("shippingCost");
+              localStorage.removeItem("branchId");
+              localStorage.removeItem("branchName");
+              const totalPrice = cart.totalPrice.toString().replace(".", "");
               const datasecond = {
-                amount: props.cart.numberCart,
+                amount: cart.numberCart,
                 totalPrice:
-                  props.cart.totalPrice + shippingCost - salePrice > 0
-                    ? props.cart.totalPrice + shippingCost - salePrice
+                  cart.totalPrice + parseInt(shipping) - salePrice > 0
+                    ? parseInt(totalPrice) + parseInt(shipping) - salePrice
                     : 0,
                 username: props.user.currentUser.username,
                 email: props.user.currentUser.email,
@@ -299,30 +308,28 @@ const PaymentDetail = (props) => {
                 recipientName: props.address[0].recipientName,
                 recipientPhone: props.address[0].recipientPhone,
                 shippingPrice: shipping,
-                branchId: props.branchId,
-                branchName: props.branchName,
+                branchId: branchId,
+                branchName: branchName,
               };
-              updateOrder(datasecond)
-                .then((res) => {
-                  if (res.statusCode === 200) {
-                    message.success("Payment success");
-                    props.hanldeLoading(false);
-                    setTimeout(() => {
-                      doDeleteAllCart({ username: datasecond.username });
-                      dispatch(deleteAllCart());
-                      navigate(`/confirmation/${res.data.newOrder._id}`);
-                    }, 1000);
-                  }
-                })
-                .finally(() => {
+              updateOrder(datasecond).then((res) => {
+                if (res.statusCode === 200) {
+                  message.success("Payment success");
                   props.hanldeLoading(false);
-                });
+                  props.setSendEmail(true);
+                  doDeleteAllCart({ username: datasecond.username });
+                  dispatch(deleteAllCart());
+                  navigate(`/confirmation/${res.data.newOrder._id}`);
+                }
+              });
             }
           }
-        })
-        .finally(() => {
-          props.hanldeLoading(false);
         });
+      } else {
+        message.error(messageRs);
+        localStorage.removeItem("shippingCost");
+        localStorage.removeItem("branchId");
+        localStorage.removeItem("branchName");
+      }
     }
     props.hanldeLoading(false);
   }, []);
@@ -330,6 +337,8 @@ const PaymentDetail = (props) => {
   const handleMomo = (amount) => {
     localStorage.setItem("idVauchoemxiuanhnhe", idVoucher);
     localStorage.setItem("shippingCost", shippingCost);
+    localStorage.setItem("branchId", props.branchId);
+    localStorage.setItem("branchName", props.branchName);
 
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
@@ -495,12 +504,20 @@ const PaymentDetail = (props) => {
               image={avatarPlaceholder}
               description={`Tổng của bạn là ${numberWithCommas(
                 props.cart.totalPrice + props.shippingCost - salePrice >= 0
-                  ? props.cart.totalPrice + props.shippingCost - salePrice
+                  ? parseInt(
+                      props.cart.totalPrice.toString().replace(".", "")
+                    ) +
+                      props.shippingCost -
+                      salePrice
                   : 0
               )} VND`}
               amount={
                 props.cart.totalPrice + props.shippingCost - salePrice >= 0
-                  ? props.cart.totalPrice + props.shippingCost - salePrice
+                  ? parseInt(
+                      props.cart.totalPrice.toString().replace(".", "")
+                    ) +
+                    props.shippingCost -
+                    salePrice
                   : 0
               }
               email={props.user.currentUser.email}
@@ -532,7 +549,11 @@ const PaymentDetail = (props) => {
               onClick={() =>
                 handleMomo(
                   props.cart.totalPrice + props.shippingCost - salePrice >= 0
-                    ? props.cart.totalPrice + props.shippingCost - salePrice
+                    ? parseInt(
+                        props.cart.totalPrice.toString().replace(".", "")
+                      ) +
+                        props.shippingCost -
+                        salePrice
                     : 0
                 )
               }

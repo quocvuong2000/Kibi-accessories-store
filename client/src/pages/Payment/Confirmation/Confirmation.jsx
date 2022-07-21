@@ -30,7 +30,7 @@ const Confirmation = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getInfoService(props.from, currentDistrict)
+    getInfoService(props.from, currentDistrict, props.shopId)
       .then((res) => {
         if (res) {
           setServiceId(res.data.data[0].service_id);
@@ -46,6 +46,7 @@ const Confirmation = (props) => {
       result.setDate(result.getDate() + 10);
 
       setLeadTime(Date.parse(result));
+      setIsLoading(false);
     } else {
       getLeadTime(
         props.from,
@@ -75,25 +76,30 @@ const Confirmation = (props) => {
             localStorage.removeItem("idVauchoemxiuanhnhe");
           }
           setOrderDetail(res);
-          sendEmail(
-            user.currentUser.username,
-            "Đang chờ xác nhận",
-            res._id,
-            res.product,
-            numberWithCommas(
-              parseInt(orderDetail.totalPrice) -
-                parseInt(orderDetail.shippingPrice)
-            ),
-            numberWithCommas(orderDetail.shippingPrice),
-            numberWithCommas(orderDetail.totalPrice),
-            orderDetail.recipientName,
-            orderDetail.recipientPhone
-          );
+          if (props.sendEmail === true) {
+            sendEmail(
+              user.currentUser.username,
+              "Đang chờ xác nhận",
+              res._id,
+              res.product,
+              numberWithCommas(
+                parseInt(orderDetail.totalPrice) -
+                  parseInt(orderDetail.shippingPrice)
+              ),
+              numberWithCommas(orderDetail.shippingPrice),
+              numberWithCommas(orderDetail.totalPrice),
+              orderDetail.recipientName,
+              orderDetail.recipientPhone
+            );
+          }
+          props.setSendEmail(false);
         })
-        .catch(() => {
-          message.error("Loading order detail fail");
+        .catch((error) => {
+          console.log(error);
         })
         .finally(() => setIsLoading(false));
+
+      setIsLoading(false);
     }
   }, [id]);
 

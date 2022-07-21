@@ -276,13 +276,13 @@ export default function DialogAddBranch(props) {
       <SnackBarCustom
         open={success}
         setStateWhenClose={setSuccess}
-        label={"Create Blog Success"}
+        label={"Create Branch Success"}
         status={"success"}
       />
       <SnackBarCustom
         open={failure}
         setStateWhenClose={setFailure}
-        label={"Create Blog Failure, Please try again"}
+        label={"Create Branch Failure, Please try again"}
         status={"error"}
       />
     </>

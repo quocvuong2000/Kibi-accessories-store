@@ -7,7 +7,7 @@ import {
   TwitterLogo,
   YoutubeLogo,
 } from "phosphor-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
 import { FormattedMessage } from "react-intl";
 import Term from "../../pages/Term";
@@ -16,10 +16,12 @@ export const Footer = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const left = [
     {
+      link: "https://www.google.com/maps/place/180+Cao+L%C3%B4%CC%83/@10.7382597,106.6788008,20z/data=!4m5!3m4!1s0x31752fad03bf2257:0xafb1cc30716fdfab!8m2!3d10.7382316!4d106.6788115?hl=vi-VN",
       title: "Address",
       desc: "180 Cao Lỗ, Phường 4, Quận 8, Thành phố Hồ Chí Minh",
     },
     {
+      link: "#",
       title: "Office Hour",
       desc: "Monday - Saturday 09.00 AM - 18.00 PM",
     },
@@ -133,14 +135,17 @@ export const Footer = () => {
                   <p className={styles.footer__address__title}>
                     {getTrans(item.title)}
                   </p>
-                  <p
+                  <a
                     className={styles.footer__address__desc}
                     style={
                       id === 0 ? { maxWidth: "255px" } : { maxWidth: "139px" }
                     }
+                    href={`${item.link}`}
+                    target="_blank"
+                    rel="nofollow"
                   >
                     {item.desc}
-                  </p>
+                  </a>
                 </React.Fragment>
               );
             })}

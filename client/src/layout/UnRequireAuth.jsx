@@ -26,7 +26,7 @@ const UnRequireAuth = ({ children }) => {
   return (
     <div id="scrollableDiv">
       <Header />
-      {width > 1280 && <DotRing />}
+      {/* {width > 1280 && <DotRing />} */}
       <div>{children}</div>
       {width > 1280 && <Brand />}
       <Footer />

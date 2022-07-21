@@ -31,6 +31,8 @@ const Payment = () => {
   const [provinceId, setProvinceId] = useState(202);
   const navigate = useNavigate();
   const currentStateUrl = location.pathname.split("/")[1];
+  const [sendEmail, setSendEmail] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     setStep(
@@ -166,6 +168,7 @@ const Payment = () => {
                   handleTakeFromWard={handleTakeFromWard}
                   handleTakeProvinceId={handleTakeProvinceId}
                   branchName={branchName}
+                  setSendEmail={setSendEmail}
                 />
               )}
               {step === 2 && (
@@ -179,6 +182,8 @@ const Payment = () => {
                   fromWard={fromWard}
                   provinceId={provinceId}
                   branchName={branchName}
+                  setSendEmail={setSendEmail}
+                  sendEmail={sendEmail}
                 />
               )}
             </div>

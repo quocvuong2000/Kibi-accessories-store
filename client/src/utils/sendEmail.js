@@ -32,7 +32,7 @@ const sendEmail = (
       (res) => {
         console.log(res);
         if (res.status === 200) {
-          message.success("Send email successful");
+          // message.success("Send email successful");
         }
       },
       (error) => {

@@ -179,7 +179,7 @@ const Header = () => {
           <FormattedMessage id="common.yourvoucher" />
         </div>
       </Menu.Item>
-      <Menu.Item key={6} disabled style={{ cursor: "pointer", color: "#000" }}>
+      {/* <Menu.Item key={6} disabled style={{ cursor: "pointer", color: "#000" }}>
         <Popover
           placement={width >= 768 ? "left" : "right"}
           content={content}
@@ -193,7 +193,7 @@ const Header = () => {
           </div>
           <FormattedMessage id="common.changelanguage" />
         </Popover>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key={7} onClick={handleSignOut}>
         <div className={classes.sign_out}>
           <div className={classes.icon}>
@@ -273,6 +273,10 @@ const Header = () => {
         setIsLoading={setIsLoading}
       />
       <div className={classes.headerContainer} ref={headerRef}>
+        <div className={classes.change_language_unauth}>
+          <p onClick={() => changeLanguage(LANGUAGES.VI)}>VI / </p>
+          <p onClick={() => changeLanguage(LANGUAGES.EN)}> EN</p>
+        </div>
         <div className={classes.top}>
           <div className={classes.menu}>
             <Button
