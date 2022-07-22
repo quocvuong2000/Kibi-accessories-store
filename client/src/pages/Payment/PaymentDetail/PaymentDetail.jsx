@@ -54,12 +54,13 @@ const PaymentDetail = (props) => {
 
   // -----------------------------------END STATE MOMO-----------------------------------
 
-  if (
-    typeof props.addressSelected?.address === "undefined" ||
-    !props.branchId
-  ) {
-    window.location.href = "/checkout";
-  }
+  // if (
+  //   (typeof props.addressSelected?.address === "undefined" ||
+  //     !props.branchId) &&
+  //   localStorage.getItem("isMomoPayment") === null
+  // ) {
+  //   window.location.href = "/checkout";
+  // }
 
   //-------------------------------------START STATE VOUCHER---------------------------------------------
 
@@ -95,20 +96,20 @@ const PaymentDetail = (props) => {
 
   const currentAddressName = props.addressSelected
     ? props.addressSelected.address
-    : props.address[0].address;
+    : props.address[0]?.address;
   const currentRecipientName = props.addressSelected
     ? props.addressSelected.recipientName
-    : props.address[0].recipientName;
+    : props.address[0]?.recipientName;
   const currentRecipientPhone = props.addressSelected
     ? props.addressSelected.recipientPhone
-    : props.address[0].recipientPhone;
+    : props.address[0]?.recipientPhone;
 
   const currentWard = props.addressSelected
     ? props.addressSelected.ward
-    : props.address[0].ward;
+    : props.address[0]?.ward;
   const currentDistrict = props.addressSelected
     ? props.addressSelected.district
-    : props.address[0].district;
+    : props.address[0]?.district;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
   const [from, setFrom] = useState(1450);
@@ -152,12 +153,14 @@ const PaymentDetail = (props) => {
         15,
         15,
         shopId
-      ).then((res) => {
-        if (res) {
-          setShippingCost(res.data.data.total);
-          props.setShippingCost(res.data.data.total);
-        }
-      });
+      )
+        .then((res) => {
+          if (res) {
+            setShippingCost(res.data.data.total);
+            props.setShippingCost(res.data.data.total);
+          }
+        })
+        .finally(() => props.hanldeLoading(false));
     }
   }, [
     from,
@@ -178,8 +181,10 @@ const PaymentDetail = (props) => {
         tokenId: token.id,
         amount: props.cart.numberCart,
         totalPrice:
-          props.cart.totalPrice + shippingCost - salePrice > 0
-            ? props.cart.totalPrice + shippingCost - salePrice
+          props.cart.totalPrice + parseInt(shippingCost) - salePrice > 0
+            ? parseInt(props.cart.totalPrice) +
+              parseInt(shippingCost) -
+              salePrice
             : 0,
         username: props.user.currentUser.username,
         email: props.user.currentUser.email,
@@ -318,6 +323,7 @@ const PaymentDetail = (props) => {
                   props.setSendEmail(true);
                   doDeleteAllCart({ username: datasecond.username });
                   dispatch(deleteAllCart());
+                  localStorage.removeItem("isMomoPayment");
                   navigate(`/confirmation/${res.data.newOrder._id}`);
                 }
               });
@@ -339,6 +345,7 @@ const PaymentDetail = (props) => {
     localStorage.setItem("shippingCost", shippingCost);
     localStorage.setItem("branchId", props.branchId);
     localStorage.setItem("branchName", props.branchName);
+    localStorage.setItem("isMomoPayment", true);
 
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
@@ -360,6 +367,7 @@ const PaymentDetail = (props) => {
           setIdVoucher={setIdVoucher}
           setSalePrice={setSalePrice}
           setNameVoucher={setNameVoucher}
+          totalPrice={props.cart.totalPrice + shippingCost - salePrice}
         />
       </Modal>
       <div className={classes.paymentDetail}>
@@ -459,7 +467,11 @@ const PaymentDetail = (props) => {
                 <div className={classes.contentItem}>
                   <div className={classes.display}>Phone</div>
                   <div className={classes.customerPhone}>
-                    {checkTypeItem(props.user.currentUser.phone)}
+                    {checkTypeItem(
+                      props.user.currentUser.phone !== "0"
+                        ? props.user.currentUser.phone
+                        : "N/A"
+                    )}
                   </div>
                 </div>
                 <div className={classes.contentItem}>

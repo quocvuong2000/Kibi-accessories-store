@@ -89,7 +89,7 @@ const ListDelivery = () => {
           >
             <TableHead>
               <TableRow>
-                <TableCell align="left">Voucher</TableCell>
+                <TableCell align="left">Order</TableCell>
                 <TableCell align="center">Confirm</TableCell>
                 <TableCell align="center">Cancel</TableCell>
               </TableRow>
@@ -142,7 +142,7 @@ const ListDelivery = () => {
           component="div"
           rowsPerPageOptions={[]}
           count={ListDelivery.totalItems || 1}
-          rowsPerPage={10}
+          rowsPerPage={5}
           page={(ListDelivery.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />

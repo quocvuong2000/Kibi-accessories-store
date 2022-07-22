@@ -71,7 +71,12 @@ const Confirmation = (props) => {
       doGetDetailOrder(id)
         .then((res) => {
           var idVoucher = localStorage.getItem("idVauchoemxiuanhnhe");
-          if (idVoucher !== "" && idVoucher) {
+          if (
+            idVoucher !== "" &&
+            idVoucher &&
+            idVoucher !== 0 &&
+            idVoucher !== "0"
+          ) {
             deletedVoucher(idVoucher).then(() => {});
             localStorage.removeItem("idVauchoemxiuanhnhe");
           }

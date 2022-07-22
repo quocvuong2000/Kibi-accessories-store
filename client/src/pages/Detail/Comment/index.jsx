@@ -124,12 +124,7 @@ const Comment = (props) => {
               }}
             />
 
-            <Rate
-              onChange={setRating}
-              defaultValue={rating}
-              allowHalf
-              character={({ index }) => customIcons[index + 1]}
-            />
+            <Rate onChange={setRating} defaultValue={rating} allowHalf />
           </div>
         </div>
       )}

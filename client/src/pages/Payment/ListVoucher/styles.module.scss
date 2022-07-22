@@ -14,7 +14,7 @@
     }
     .box_voucher {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       border-radius: 7px;
       position: relative;
       transform: scale(0.6);
@@ -51,10 +51,14 @@
         padding: 0;
         margin: 0;
       }
+      .error_voucher {
+        font-size: 20px;
+        color: red;
+      }
       .sale2 {
         position: absolute;
-        bottom: 100px;
-        right: 90px;
+        bottom: 125px;
+        right: 85px;
         font-family: "Dancing Script";
         font-style: normal;
         font-weight: 400;

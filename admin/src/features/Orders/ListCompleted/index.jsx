@@ -55,7 +55,7 @@ const ListCompleted = () => {
           >
             <TableHead>
               <TableRow>
-                <TableCell align="left">Voucher</TableCell>
+                <TableCell align="left">Order</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
@@ -84,7 +84,7 @@ const ListCompleted = () => {
           component="div"
           rowsPerPageOptions={[]}
           count={ListCompleted.totalItems || 1}
-          rowsPerPage={10}
+          rowsPerPage={5}
           page={(ListCompleted.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />

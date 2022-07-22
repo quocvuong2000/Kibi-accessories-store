@@ -47,7 +47,6 @@ const UpdatePhone = (props) => {
   };
 
   const handleSendOtp = (phoneIn) => {
-    console.log("phoneIn:", phoneIn);
     if (phoneIn.length >= 12) {
       generateRecaptcha();
       let appVerifier = window.recaptchaVerifier;
@@ -211,7 +210,6 @@ const UpdatePhone = (props) => {
                       ) : (
                         <span
                           onClick={() => {
-                            console.log("phone:", phone);
                             handleSendOtp(phone);
                             setSeconds(30);
                             setShowTime(true);

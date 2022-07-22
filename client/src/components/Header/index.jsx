@@ -69,8 +69,8 @@ const Header = () => {
   //-----------GET ALL SHOW PREVIEW SEARCH
   useEffect(() => {
     getAllProductNoPage().then((res) => {
-      setAllProduct(res.products);
-      setAllProductTemp(res.products);
+      setAllProduct(res?.products);
+      setAllProductTemp(res?.products);
     });
   }, []);
 
@@ -205,6 +205,8 @@ const Header = () => {
     </Menu>
   );
 
+  useEffect(() => {}, []);
+
   const openNotificationWithIcon = (type) => {
     notification[type]({
       message: "Error",
@@ -221,7 +223,7 @@ const Header = () => {
   const [visible, setVisible] = useState(false);
   const [visibleDropdown, setVisibleDropdown] = useState(false);
 
-  const options = allProductTemp.map((item) => ({
+  const options = allProductTemp?.map((item) => ({
     value: item.product,
     label: (
       <div style={{ display: "flex", textAlign: "center" }}>
@@ -274,8 +276,19 @@ const Header = () => {
       />
       <div className={classes.headerContainer} ref={headerRef}>
         <div className={classes.change_language_unauth}>
-          <p onClick={() => changeLanguage(LANGUAGES.VI)}>VI / </p>
-          <p onClick={() => changeLanguage(LANGUAGES.EN)}> EN</p>
+          <p
+            onClick={() => changeLanguage(LANGUAGES.VI)}
+            style={{ color: `${user.language === "vi" ? "#d84727" : "#000"}` }}
+          >
+            VI /{" "}
+          </p>
+          <p
+            onClick={() => changeLanguage(LANGUAGES.EN)}
+            style={{ color: `${user.language === "en" ? "#d84727" : "#000"}` }}
+          >
+            {" "}
+            &nbsp;EN
+          </p>
         </div>
         <div className={classes.top}>
           <div className={classes.menu}>
@@ -371,7 +384,10 @@ const Header = () => {
                 onClick={() => navigate2("/login")}
               >
                 <User size={32} color="#000" weight="thin" />
-                <div className={classes.loginText}>
+                <div
+                  className={classes.loginText}
+                  style={{ maxWidth: "40px", whiteSpace: "nowrap" }}
+                >
                   <FormattedMessage id="common.login" />
                 </div>
               </div>

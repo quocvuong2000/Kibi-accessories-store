@@ -55,7 +55,7 @@ const ListCancelled = () => {
           >
             <TableHead>
               <TableRow>
-                <TableCell align="left">Voucher</TableCell>
+                <TableCell align="left">Order</TableCell>
               </TableRow>
             </TableHead>
             <TableBody style={{ color: "white" }}>
@@ -84,7 +84,7 @@ const ListCancelled = () => {
           component="div"
           rowsPerPageOptions={[]}
           count={ListCancelled.totalItems || 1}
-          rowsPerPage={10}
+          rowsPerPage={5}
           page={(ListCancelled.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />

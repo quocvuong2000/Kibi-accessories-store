@@ -43,40 +43,38 @@ async function monitorStorageExport(client, timeInMs) {
     }
 
     if (next.operationType === "update") {
-
       if (next.updateDescription.updatedFields.status === "CANCELLED") {
         console.log("update, cancelled");
         const orderFound = await Order.findById(next.documentKey._id);
-      orderFound.products.forEach(async (el) => {
-        const productDetail = await Product.findById(el.productId);
-        const branchFound = productDetail.branches.find(
-          (el) => el.branchId.toString() === orderFound.branchId
-        );
+        orderFound.products.forEach(async (el) => {
+          const productDetail = await Product.findById(el.productId);
+          const branchFound = productDetail.branches.find(
+            (el) => el.branchId.toString() === orderFound.branchId
+          );
 
-        const newBranchesArr = [];
-        productDetail.branches.forEach((proEl) => {
-          if (proEl.branchId.toString() === orderFound.branchId) {
-            newBranchesArr.push({
-              branchId: branchFound.branchId,
-              branchName: branchFound.branchName,
-              quantity: branchFound.quantity + parseInt(el.quantity),
-              oldQuantity: branchFound.quantity,
+          const newBranchesArr = [];
+          productDetail.branches.forEach((proEl) => {
+            if (proEl.branchId.toString() === orderFound.branchId) {
+              newBranchesArr.push({
+                branchId: branchFound.branchId,
+                branchName: branchFound.branchName,
+                quantity: branchFound.quantity + parseInt(el.quantity),
+                oldQuantity: branchFound.quantity,
+              });
+            } else {
+              newBranchesArr.push(proEl);
+            }
+          });
+          try {
+            await Product.findByIdAndUpdate(el.productId, {
+              branches: newBranchesArr,
+              oldQuantity: productDetail.quantity,
+              quantity: productDetail.quantity + el.quantity,
             });
-          } else {
-            newBranchesArr.push(proEl);
+          } catch (error) {
+            console.log(error);
           }
         });
-        try {
-          await Product.findByIdAndUpdate(el.productId, {
-            branches: newBranchesArr,
-            oldQuantity: productDetail.quantity,
-            quantity: productDetail.quantity + el.quantity,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      });
-
       }
       if (next.updateDescription.updatedFields.status === "COMPLETED") {
         console.log("update, complete");
@@ -87,12 +85,13 @@ async function monitorStorageExport(client, timeInMs) {
           const branchFound = productDetail.branches.find(
             (el) => el.branchId.toString() === orderFound.branchId
           );
+          console.log(branchFound);
           const newImport = {
-            branchId: branchFound.branchId || "NA",
+            branchId: branchFound?.branchId || "NA",
             productId: productDetail._id,
-            newQuantity: branchFound.quantity,
-            oldQuantity: branchFound.oldQuantity,
-            branchName: branchFound.branchName || "NA",
+            newQuantity: branchFound?.quantity,
+            oldQuantity: branchFound?.oldQuantity,
+            branchName: branchFound?.branchName || "NA",
             productName: productDetail.product,
             status: "Export",
           };

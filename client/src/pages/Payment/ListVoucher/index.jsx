@@ -1,8 +1,9 @@
-import { Empty, Radio } from "antd";
+import { Empty, message, Radio } from "antd";
 import ConvertDate from "../../../utils/convertDate";
 import nFormatter from "../../../utils/convertToK";
 import s from "./styles.module.scss";
 import voucher from "../../../assets/voucher.png";
+import numberWithCommas from "../../../utils/numberWithCommas";
 const ListVoucher = (props) => {
   const onChange = (id, salePrice, nameVoucher) => {
     props.setIdVoucher(id);
@@ -15,11 +16,19 @@ const ListVoucher = (props) => {
         <div className={s.box_list_voucher}>
           <Radio.Group
             onChange={(e) => {
-              onChange(
-                e.target.value,
-                e.target.salePrice,
-                e.target.nameVoucher
-              );
+              if (parseFloat(props.totalPrice) >= parseFloat(e.target.total)) {
+                onChange(
+                  e.target.value,
+                  e.target.salePrice,
+                  e.target.nameVoucher
+                );
+              } else {
+                message.error(
+                  `Voucher chỉ áp dụng cho đơn hàng lớn hơn ${numberWithCommas(
+                    e.target.total
+                  )} VND`
+                );
+              }
             }}
           >
             {props.listVoucher?.voucher?.map((item, index) => {
@@ -28,7 +37,9 @@ const ListVoucher = (props) => {
                   value={item._id}
                   salePrice={item.salePrice}
                   nameVoucher={item.voucherName}
+                  total={item.totalPrice || 0}
                   key={index}
+                  disabled={props.totalPrice < item.totalPrice}
                 >
                   <div className={s.box_voucher}>
                     <div className={s.voucher}>
@@ -39,6 +50,13 @@ const ListVoucher = (props) => {
                     </p>
                     <p className={s.expire}>{ConvertDate(item.expireDay)}</p>
                     <p className={s.sale2}>{nFormatter(item.salePrice, 0)}</p>
+                    {parseFloat(props.totalPrice) <
+                      parseFloat(item.totalPrice) && (
+                      <p className={s.error_voucher}>
+                        Voucher chỉ áp dụng cho đơn hàng lớn hơn &nbsp;
+                        {numberWithCommas(item.totalPrice)} VND
+                      </p>
+                    )}
                   </div>
                 </Radio>
               );

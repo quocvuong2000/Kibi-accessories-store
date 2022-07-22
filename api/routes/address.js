@@ -151,6 +151,7 @@ router.get("/get/:username", verifyTokenAndAuthorization, async (req, res) => {
       try {
         res.status(200).json(addressByUser);
       } catch (err) {
+        console.log("err:", err);
         res.status(500).json(err);
       }
     }

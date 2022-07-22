@@ -44,7 +44,9 @@ const Payment = () => {
   useEffect(() => {
     getAddress(user.currentUser.username)
       .then((res) => {
-        setAdrress(res[0].addressList);
+        if (res[0].addressList) {
+          setAdrress(res[0].addressList);
+        }
       })
       .catch(() => {
         message.error("Loading address fail, you must create one to continue");

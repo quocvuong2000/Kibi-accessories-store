@@ -26,6 +26,7 @@ async function monitorOrders(client, timeInMs) {
           salePrice: 50000,
           duration: 5,
           expireDay: expireDay,
+          totalPrice: 200000,
         };
         try {
           const savedVoucer = new Voucher(newVoucher);

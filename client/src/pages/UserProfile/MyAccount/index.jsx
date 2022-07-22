@@ -420,8 +420,9 @@ const MyAccount = () => {
                           <p className={s.text_info}>Phone and Email</p>
                           <div className={s.phone}>
                             <div className={s.title}>
-                              <Phone size={24} /> Phone (
-                              {user.currentUser?.phone})
+                              <Phone size={24} /> Phone
+                              {user.currentUser?.phone !==
+                                `(${user.currentUser?.phone})`}
                             </div>
                             <div
                               className={s.button_update}
@@ -442,8 +443,17 @@ const MyAccount = () => {
                             <div
                               className={s.button_update}
                               onClick={() => {
-                                setUpdate(1);
-                                showModal();
+                                if (user.currentUser.isSocial !== true) {
+                                  setUpdate(1);
+                                  showModal();
+                                }
+                              }}
+                              style={{
+                                color:
+                                  user.currentUser?.isSocial === true && "#999",
+                                cursor:
+                                  user.currentUser?.isSocial === true &&
+                                  "not-allowed",
                               }}
                             >
                               <div className={s.btn_update}>Update</div>
@@ -462,8 +472,17 @@ const MyAccount = () => {
                             <div
                               className={s.button_update}
                               onClick={() => {
-                                setUpdate(2);
-                                showModal();
+                                if (user.currentUser.isSocial !== true) {
+                                  setUpdate(2);
+                                  showModal();
+                                }
+                              }}
+                              style={{
+                                color:
+                                  user.currentUser?.isSocial === true && "#999",
+                                cursor:
+                                  user.currentUser?.isSocial === true &&
+                                  "not-allowed",
                               }}
                             >
                               <div className={s.btn_update}>Update</div>

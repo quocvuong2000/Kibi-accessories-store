@@ -123,7 +123,7 @@ const ListPending = () => {
           >
             <TableHead>
               <TableRow>
-                <TableCell align="left">Voucher</TableCell>
+                <TableCell align="left">Order</TableCell>
                 <TableCell align="center">Confirm</TableCell>
                 <TableCell align="center">Cancel</TableCell>
               </TableRow>
@@ -177,7 +177,7 @@ const ListPending = () => {
           component="div"
           rowsPerPageOptions={[]}
           count={ListPending.totalItems || 1}
-          rowsPerPage={10}
+          rowsPerPage={5}
           page={(ListPending.currentPage || 1) - 1}
           onPageChange={handleChangePage}
         />

@@ -133,7 +133,11 @@ const ProductView = (props) => {
                   : ""
               }
             >
-              <Rate allowHalf disabled value={props.data.product.avgRating} />
+              <Rate
+                allowHalf
+                disabled
+                value={parseFloat(props.data.product.avgRating)}
+              />
             </Col>
             <Col
               style={
