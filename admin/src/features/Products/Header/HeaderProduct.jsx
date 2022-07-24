@@ -146,7 +146,7 @@ const HeaderProduct = (props) => {
         <DialogAddExistingProduct
           showDialog={showDialogExistingProduct}
           setShowAddExistingProduct={setShowDialogExistingProduct}
-          productList={props.productList}
+          currentProductList={props.productList.length > 0 ? props.productList : []}
           branchSelected={props.branchSelected}
           reLoadTable={props.reLoadTable}
         />

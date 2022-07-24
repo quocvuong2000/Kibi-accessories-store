@@ -4,21 +4,13 @@ import {
   Box,
   Button,
   DialogActions,
-  DialogContent,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Snackbar,
-  TextField,
-  Typography,
+  DialogContent, Snackbar, Typography
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Form, Formik } from "formik";
 import * as React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppTextField from "../../../@crema/core/AppFormComponents/AppTextField";
 import AppLoader from "../../../components/AppLoader";
 import { doGetAllProduct, doUpdateProduct } from "../ProductAPI";
