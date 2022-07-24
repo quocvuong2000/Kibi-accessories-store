@@ -11,9 +11,27 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useWindowSize } from "../../customHook/useWindowSize";
 import { FormattedMessage } from "react-intl";
 import Term from "../../pages/Term";
-import { Modal } from "antd";
+import { message, Modal } from "antd";
+import { subscribeUser } from "../../api/Subscribe";
 export const Footer = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const subscribe = () => {
+    var regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    if (regex.test(email)) {
+      subscribeUser(email).then((res) => {
+        if (res.status === 201) {
+          message.error("Email already subscribe");
+        } else {
+          message.success("Subscribed");
+        }
+      });
+    } else {
+      message.warning("Invalid email");
+    }
+  };
+
   const left = [
     {
       link: "https://www.google.com/maps/place/180+Cao+L%C3%B4%CC%83/@10.7382597,106.6788008,20z/data=!4m5!3m4!1s0x31752fad03bf2257:0xafb1cc30716fdfab!8m2!3d10.7382316!4d106.6788115?hl=vi-VN",
@@ -276,6 +294,23 @@ export const Footer = () => {
             ""
           )}
         </div>
+      </div>
+      <div className={styles.subcribe}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            subscribe();
+          }}
+          className={styles.form_subscribe}
+        >
+          <input
+            className={styles.input_subscribe}
+            type="text"
+            placeholder="Please type your email to subscribe here..."
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button>Submit</button>
+        </form>
       </div>
     </div>
   );
