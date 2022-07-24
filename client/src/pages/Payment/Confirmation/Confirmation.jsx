@@ -1,9 +1,9 @@
-import { Empty, message } from "antd";
+import { Empty } from "antd";
 import moment from "moment";
 import { Clock, Truck } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { getInfoService, getLeadTime } from "../../../api/Shipping";
 import { deletedVoucher } from "../../../api/Voucher";
 import img from "../../../assets/confirmation/undraw_completing_6bhr 1.png";
@@ -18,17 +18,19 @@ const Confirmation = (props) => {
   const user = useSelector((state) => state.user);
   const currentWard = props.addressSelected
     ? props.addressSelected.ward
-    : props.address[0].ward;
+    : props.address[0]?.ward;
   const currentDistrict = props.addressSelected
     ? props.addressSelected.district
-    : props.address[0].district;
+    : props.address[0]?.district;
   const location = useLocation();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const [orderDetail, setOrderDetail] = useState();
   const id = location.pathname.split("/")[2];
-  const [leadTime, setLeadTime] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const search = useLocation().search;
+  const send = new URLSearchParams(search).get("sendemail");
+  console.log(send);
   useEffect(() => {
     getInfoService(props.from, currentDistrict, props.shopId)
       .then((res) => {
@@ -37,33 +39,7 @@ const Confirmation = (props) => {
         }
       })
       .finally(() => setIsLoading(false));
-  }, [props.from]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (parseInt(props.addressSelected?.city) !== props.provinceId) {
-      var result = new Date(Date.now());
-      result.setDate(result.getDate() + 10);
-
-      setLeadTime(Date.parse(result));
-      setIsLoading(false);
-    } else {
-      getLeadTime(
-        props.from,
-        props.fromWard,
-        currentDistrict,
-        currentWard,
-        serviceId,
-        props.shopId
-      )
-        .then((res) => {
-          if (res) {
-            setLeadTime(res.data?.data?.leadtime);
-          }
-        })
-        .finally(() => setIsLoading(false));
-    }
-  }, [props.from, props.fromWard, serviceId, props.shopId]);
+  }, [props.from, props.shopId, currentDistrict]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -81,7 +57,7 @@ const Confirmation = (props) => {
             localStorage.removeItem("idVauchoemxiuanhnhe");
           }
           setOrderDetail(res);
-          if (props.sendEmail === true) {
+          if (send && send === "true") {
             sendEmail(
               user.currentUser.username,
               "Đang chờ xác nhận",
@@ -97,7 +73,7 @@ const Confirmation = (props) => {
               orderDetail.recipientPhone
             );
           }
-          props.setSendEmail(false);
+          setSearchParams("");
         })
         .catch((error) => {
           console.log(error);
@@ -106,7 +82,7 @@ const Confirmation = (props) => {
 
       setIsLoading(false);
     }
-  }, [id]);
+  }, [id, send]);
 
   return (
     <>
@@ -129,7 +105,7 @@ const Confirmation = (props) => {
             <div className={classes.delivery}>
               <div className={classes.deliveryItem}>
                 <Clock weight="light" />
-                {moment(leadTime).format("dddd DD, MMM, YYYY")}
+                {moment(orderDetail.leadTime).format("dddd DD, MMM, YYYY")}
               </div>
               <div className={classes.deliveryItem}>
                 <Truck weight="light" />

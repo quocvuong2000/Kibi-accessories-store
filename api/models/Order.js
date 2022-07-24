@@ -25,6 +25,7 @@ const OrderSchema = new mongoose.Schema(
     paid: { type: Boolean },
     branchId: { type: String },
     branchName: { type: String },
+    leadTime: { type: Number },
   },
   { timestamps: true }
 );

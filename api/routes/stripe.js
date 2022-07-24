@@ -22,6 +22,7 @@ router.post("/payment", async (req, res) => {
       recipientName: req.body.recipientName,
       recipientPhone: req.body.recipientPhone,
       shippingPrice: req.body.shippingPrice,
+      leadTime: req.body.leadTime,
       status: "PENDING",
       paid: true,
     });
