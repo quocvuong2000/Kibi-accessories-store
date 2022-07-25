@@ -10,28 +10,42 @@ import s from "./styles.module.scss";
 import Title from "./Title";
 import Trending from "./Trending";
 import { useWindowSize } from "../../customHook/useWindowSize";
+import { getAllBlog } from "../../api/Blog";
+import { useState } from "react";
 const Blog = () => {
   const [width] = useWindowSize();
+  const [blog, setBlog] = useState([]);
   useEffect(() => {
     document.title = "KIBI | Blog";
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    getAllBlog(1).then((res) => {
+      console.log("res", res);
+      setBlog(res.blogs);
+    });
+  }, []);
+
   return (
     <div className={s.blog}>
       <div className={s.blog_img_main}>
         <img src={blogmain} alt="" />
-        <div className={s.blog_general}>
-          <div className={s.title}>
-            <Title title="General" />
-          </div>
-          <h2 className={s.desc}>
-            <Link to="#" className={s.linkToBlog}>
-              Ematelier Introduces Elements Watch Collection Of Unique
-              Grand-Feu, Mirror-Polished Enamel Dials
-            </Link>
-          </h2>
-          <DetailAuthor />
-        </div>
+        {blog?.map((item, index) => {
+          return (
+            <div className={s.blog_general} key={index}>
+              <div className={s.title}>
+                <Title title="General" />
+              </div>
+              <h2 className={s.desc}>
+                <Link to={`/detailblog/${item?._id}`} className={s.linkToBlog}>
+                  {item.title}
+                </Link>
+              </h2>
+              <DetailAuthor item={item} />
+            </div>
+          );
+        })}
       </div>
       <BoxSwipe />
       <LatestArticle />

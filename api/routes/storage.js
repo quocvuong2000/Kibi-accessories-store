@@ -15,13 +15,15 @@ router.get("/", verifyTokenAndStaff, async (req, res) => {
       if (qStatus === "import") {
         branches = await Storage.find({ status: "Import" })
           .skip(perPage * page - perPage)
-          .limit(perPage);
+          .limit(perPage)
+          .sort({ createdAt: -1 });
         count = await Storage.find({ status: "Import" }).count();
       }
       if (qStatus === "export") {
         branches = await Storage.find({ status: "Export" })
           .skip(perPage * page - perPage)
-          .limit(perPage);
+          .limit(perPage)
+          .sort({ createdAt: -1 });
         count = await Storage.find({ status: "Export" }).count();
       }
       res.status(200).json({

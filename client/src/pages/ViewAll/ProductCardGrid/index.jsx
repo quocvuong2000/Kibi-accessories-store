@@ -9,6 +9,7 @@ import { addToWishList, checkExistsWishlist } from "../../../api/Wishlist";
 import imgError from "../../../assets/imgDefault.webp";
 import numberWithComas from "../../../utils/numberWithCommas";
 import s from "./styles.module.scss";
+import { FormattedMessage } from "react-intl";
 
 export const ProductCardGrid = (props) => {
   const data = props.data;
@@ -119,7 +120,13 @@ export const ProductCardGrid = (props) => {
               }
             }}
           >
-            {quan <= 0 ? "Out of stock" : "+Add to cart"}
+            <span>
+              {quan <= 0 ? (
+                "Out of stock"
+              ) : (
+                <span>+{<FormattedMessage id="common.addtocart" />}</span>
+              )}
+            </span>
           </p>
         )}
       </div>

@@ -57,20 +57,20 @@ const Confirmation = (props) => {
             localStorage.removeItem("idVauchoemxiuanhnhe");
           }
           setOrderDetail(res);
-          if (send && send === "true") {
+
+          if (send && (send === "true" || send === true)) {
             sendEmail(
               user.currentUser.username,
-              "Đang chờ xác nhận",
+              res.status,
               res._id,
               res.product,
               numberWithCommas(
-                parseInt(orderDetail.totalPrice) -
-                  parseInt(orderDetail.shippingPrice)
+                parseInt(res.totalPrice) - parseInt(res.shippingPrice)
               ),
-              numberWithCommas(orderDetail.shippingPrice),
-              numberWithCommas(orderDetail.totalPrice),
-              orderDetail.recipientName,
-              orderDetail.recipientPhone
+              numberWithCommas(res.shippingPrice),
+              numberWithCommas(res.totalPrice),
+              res.recipientName,
+              res.recipientPhone
             );
           }
           setSearchParams("");

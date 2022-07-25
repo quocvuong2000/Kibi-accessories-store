@@ -102,7 +102,7 @@ const ListExport = (props) => {
                           item.newQuantity === 0 && "line-through",
                       }}
                     >
-                      {moment(item.createdAt).format("DD/MM/YYYY") || "N/A"}
+                      {moment(item.createdAt).format("DD/MM/YYYY hh:mm A") || "N/A"}
                     </TableCell>
                   </TableRow>
                 );

@@ -4,7 +4,7 @@ import "antd/dist/antd.min.css";
 import { motion } from "framer-motion";
 import { DotsNine, Funnel, ListDashes } from "phosphor-react";
 import React, { useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from "react-infinite-scroller";
 import EmptyPage from "../../../components/Empty";
 import DotLoading from "../../../components/Verify/DotLoading";
 import { ProductCardGrid } from "../ProductCardGrid";
@@ -178,15 +178,16 @@ const ListProduct = (props) => {
             <DotLoading />
           </div>
         ) : props.listProduct?.length > 0 ? (
-          <div>
+          <div style={{ overflow: "hidden" }}>
             <InfiniteScroll
               containerHeight={200}
               dataLength={props.listProduct?.length}
-              next={() => {
+              loadMore={() => {
                 props.fetchMore(props.page + 1);
                 props.setPage(props.page + 1);
               }}
               hasMore={props.page !== props.totalPages ? true : false}
+              useWindow={true}
               loader={
                 <div
                   style={{
@@ -198,12 +199,12 @@ const ListProduct = (props) => {
                   <DotLoading />
                 </div>
               }
-              scrollableTarget="scrollableDiv"
-              endMessage={
-                <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
+              // scrollableTarget="scrollableDiv"
+              // endMessage={
+              //   <p style={{ textAlign: "center" }}>
+              //     <b>Yay! You have seen it all</b>
+              //   </p>
+              // }
             >
               <div
                 className={`${classes.listItem} ${glActive ? classes.row : ""}`}

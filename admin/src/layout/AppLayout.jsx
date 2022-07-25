@@ -21,6 +21,7 @@ import {
   Vouchers,
   Error404,
   CategoryBlog,
+  Subscriber,
 } from "../routes";
 import RequireAuth from "../routes/RequireAuth";
 
@@ -51,6 +52,7 @@ const AppLayout = () => {
           <Route path="approveblog" element={<ApproveBlog />} />
           <Route path="branch" element={<Branch />} />
           <Route path="storage" element={<Storage />} />
+          <Route path="subscriber" element={<Subscriber />} />
         </Route>
         <Route
           path="/"

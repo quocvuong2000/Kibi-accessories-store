@@ -3,6 +3,7 @@ import { message, Rate } from "antd";
 import { ThumbsUp } from "phosphor-react";
 import { useEffect, useState } from "react";
 import InputEmoji from "react-input-emoji";
+import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import {
   createComment,
@@ -96,7 +97,9 @@ const Comment = (props) => {
   };
   return (
     <div className={s.container}>
-      <p className={s.title}>Comments</p>
+      <p className={s.title}>
+        <FormattedMessage id="title.comments" />
+      </p>
       <hr className={s.line} />
       {user.currentUser && (
         <div className={s.box_comment}>

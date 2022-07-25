@@ -70,16 +70,16 @@ svg {
     }
     .img_preview {
       @include flex();
-      margin-top: 30px;
+      margin-top: 50px;
       max-height: 110px;
       cursor: pointer;
       column-gap: 20px;
 
       img {
         max-width: 50px;
-        max-height: 55px;
+        max-height: 60px;
         min-width: 50px;
-        min-height: 55px;
+        min-height: 60px;
       }
       @include tablet {
         margin-top: 30px;

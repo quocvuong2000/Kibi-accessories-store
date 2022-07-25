@@ -355,7 +355,6 @@ const PaymentDetail = (props) => {
                 if (res.statusCode === 200) {
                   message.success("Payment success");
                   props.hanldeLoading(false);
-                  props.setSendEmail(true);
                   doDeleteAllCart({ username: datasecond.username });
                   dispatch(deleteAllCart());
                   localStorage.removeItem("isMomoPayment");

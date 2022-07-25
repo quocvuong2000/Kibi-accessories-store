@@ -58,7 +58,8 @@ const ListImport = (props) => {
                       {checkTypeItem(item.newQuantity)}
                     </TableCell>
                     <TableCell align="left">
-                      {moment(item.createdAt).format("DD/MM/YYYY") || "N/A"}
+                      {moment(item.createdAt).format("DD/MM/YYYY hh:mm A") ||
+                        "N/A"}
                     </TableCell>
                   </TableRow>
                 );

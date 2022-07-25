@@ -49,7 +49,7 @@ const ViewAll = () => {
   }, []);
 
   const fetchMore = (page) => {
-    getAllProduct(idCate, page)
+    getAllProduct(idCate || "", page)
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         setListProduct((listProduct) => [...listProduct, ...res.products]);
@@ -64,7 +64,15 @@ const ViewAll = () => {
 
   const handleFilter = (name, idBrand, fromPrice, toPrice, rating) => {
     setLoading(true);
-    getAllProduct(idCate, 1, name, idBrand, fromPrice, toPrice, rating)
+    getAllProduct(
+      idCate || "",
+      page || "",
+      name || "",
+      idBrand || "",
+      fromPrice || "",
+      toPrice || "",
+      rating || ""
+    )
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";
         if (res) {

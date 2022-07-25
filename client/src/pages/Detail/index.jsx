@@ -1,5 +1,6 @@
 import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../api/Product";
@@ -16,6 +17,7 @@ const Detail = () => {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
+
   useEffect(() => {
     document.title = "KIBI | Detail";
     window.scrollTo(0, 0);

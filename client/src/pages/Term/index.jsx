@@ -434,11 +434,11 @@ const Term = () => {
               <strong>we</strong>”, “<strong>us</strong>”, or “
               <strong>our</strong>”), concerning your access to and use of the{" "}
               <a
-                href="https://kibiaccessories.herokuapp.com"
+                href="https://localhost:3000"
                 target="_blank"
                 data-custom-class="link"
               >
-                https://kibiaccessories.herokuapp.com
+                https://localhost:3000
               </a>{" "}
               website as well as any other media form, media channel, mobile
               website or mobile application related, linked, or otherwise

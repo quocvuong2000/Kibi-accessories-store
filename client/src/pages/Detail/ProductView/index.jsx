@@ -9,6 +9,7 @@ import numberWithCommas from "../../../utils/numberWithCommas";
 import styles from "./styles.module.scss";
 import { useWindowSize } from "../../../customHook/useWindowSize";
 import { Link } from "react-router-dom";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const ProductView = (props) => {
   const [src, setSrc] = useState(props.data.product.images[0]);
@@ -43,7 +44,7 @@ const ProductView = (props) => {
       setQty(qty + 1);
     }
   };
-
+  const intl = useIntl();
   return (
     <Col className={`${styles.container}`}>
       <p className={styles.link__to__product}>
@@ -121,7 +122,18 @@ const ProductView = (props) => {
                 đ
               </p>
             )}
-            <p>Warranty: {props.data.product.warranty} (months)</p>
+            <p>
+              {intl.formatMessage({
+                id: "detail.warranty",
+                defaultMessage: "Warranty",
+              })}
+              : {props.data.product.warranty} (
+              {intl.formatMessage({
+                id: "detail.months",
+                defaultMessage: "months",
+              })}
+              )
+            </p>
             <Col
               style={
                 width <= 1024
@@ -160,7 +172,11 @@ const ProductView = (props) => {
                           weight="thin"
                           color="#d84727"
                         />{" "}
-                        {item.quantity} products left at the branch{" "}
+                        {item.quantity}{" "}
+                        {intl.formatMessage({
+                          id: "detail.productleft",
+                          defaultMessage: "products left at the branch",
+                        })}{" "}
                         {item.branchName}
                       </p>
                     ) : (
@@ -201,14 +217,16 @@ const ProductView = (props) => {
                     }
                   }}
                 >
-                  <ShoppingCartSimple size={20} /> Add to cart
+                  <ShoppingCartSimple size={20} />{" "}
+                  <FormattedMessage id="common.addtocart" />
                 </button>
               ) : (
                 <button
                   className={styles.add_to_cart}
                   style={{ cursor: "auto" }}
                 >
-                  <Timer size={20} /> Out of stock
+                  <Timer size={20} />{" "}
+                  <FormattedMessage id="common.outofstock" />
                 </button>
               )}
 
@@ -216,7 +234,7 @@ const ProductView = (props) => {
                 to={`/viewall/${props.data.product.category}`}
                 className={styles.buy_now}
               >
-                Watch more
+                <FormattedMessage id="common.watchmore" />
               </Link>
             </Row>
           </Col>

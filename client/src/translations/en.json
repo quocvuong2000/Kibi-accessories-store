@@ -1,10 +1,18 @@
 {
+  "header": {
+    "Home": "Home",
+    "Product": "Product",
+    "Watches": "Watches",
+    "Eyewear": "Eyewear",
+    "Accessories": "Accessories",
+    "Blog": "Blog"
+  },
   "home": {
     "welcome": "WELCOME TO KIBI",
     "monthly": "Monthly Deals",
     "recentnews": "Recent News",
     "wheretotravel": "Where To Travel",
-    "matoawheretotravel": "Matoa Where To Travel? Ho Chi Minh City",
+    "matoawheretotravel": "Kibi Where To Travel? Ho Chi Minh City",
     "discover": "Discover",
     "testimonials": "Testimonials",
     "desctesti": "Loving my new KAILI watch from @matoa_id, the first ever Vietnamese watch local brand that uses wood as their main material. Like any other Matoa products, KAILI is inspired by Vietnamese heritage.",
@@ -36,7 +44,22 @@
     "Singo": "Singo",
     "Rakai": "Rakai"
   },
+  "detail": {
+    "detail": "Detail",
+    "warranty": "Warranty",
+    "customengrave": "Custom Engrave",
+    "howtoadjust": "How to Adjust",
+    "howtocare": "How to Care",
+    "gallery": "Gallery",
+    "months": "months",
+    "productleft": "products left at the branch"
+  },
+  "title": {
+    "comments": "Comments"
+  },
   "common": {
+    "addtowishlist": "Add to wishlist",
+    "outofstock": "Out of stock",
     "searchplaceholder": "Search products, accessory, etc...",
     "comingsoon": "Coming soon",
     "watchmore": "Watch more",
@@ -52,5 +75,37 @@
     "signout": "Sign Out",
     "login": "Log in",
     "Discover Now": "Discover Now"
+  },
+  "profiletitle": {
+    "info": "Information",
+    "address": "Address",
+    "viewed": "Viewed Products",
+    "wishlist": "Your Wishlist",
+    "rated": "Rated",
+    "order": "Order Management",
+    "voucher": "Voucher"
+  },
+  "inprofile": {
+    "edit": "Edit",
+    "defaultaddress": "Defalt address",
+    "submit": "Submit",
+    "accountinfo": "ACCOUNT INFORMATION",
+    "personalinfo": "Personal Information",
+    "phoneandemail": "Phone and Email",
+    "phone": "Phone",
+    "email": "Email",
+    "security": "Security",
+    "password": "Password",
+    "update": "Update",
+    "address": "ADDRESS",
+    "addaddress": "Add address",
+    "viewed": "VIEWED",
+    "clear": "Clear",
+    "wishlist": "WISHLIST",
+    "rated": "RATED",
+    "inprogress": "In Progress",
+    "deli": "Delivery",
+    "received": "Received",
+    "voucher": "VOUCHER"
   }
 }

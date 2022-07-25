@@ -55,7 +55,7 @@ const ListPending = () => {
         setOpen(true);
         sendEmail(
           item.username,
-          "Đang được vận chuyển",
+          "DELIVERING",
           item._id,
           item.products,
           numberWithCommas(
@@ -80,7 +80,7 @@ const ListPending = () => {
         setOpen(true);
         sendEmail(
           deleteDialog.item.username,
-          "Đã bị từ chối",
+          "REJECTED",
           deleteDialog.item._id,
           deleteDialog.item.products,
           numberWithCommas(

@@ -65,12 +65,12 @@ const ViewAllByBrand = () => {
     setLoading(true);
     getAllProductByBrand(
       idBrandPr,
-      1,
-      name,
-      idBrand,
-      fromPrice,
-      toPrice,
-      rating
+      page || "",
+      name || "",
+      idBrand || "",
+      fromPrice || "",
+      toPrice || "",
+      rating || ""
     )
       .then((res) => {
         document.getElementsByTagName("body").overflow = "hidden";

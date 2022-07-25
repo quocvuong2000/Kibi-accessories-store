@@ -11,6 +11,7 @@ import {
   UilCommentAlt,
   UilBloggerAlt,
   UilCloudCheck,
+  UilEnvelopeEdit,
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
@@ -92,6 +93,11 @@ export const SidebarData = [
     icon: UilChart,
     heading: "Other",
     link: "/dashboard",
+  },
+  {
+    icon: UilEnvelopeEdit,
+    heading: "Subscriber",
+    link: "/dashboard/subscriber",
   },
 ];
 

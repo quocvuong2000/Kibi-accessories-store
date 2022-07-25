@@ -10,10 +10,11 @@ import Customers from "../features/Customers";
 import Vouchers from "../features/Vouchers";
 import Blogs from "../features/Blogs";
 import CategoryBlog from "../features/CategoryBlog";
+import Subscriber from "../features/Subscriber";
 
 const Dashboard = React.lazy(() => import("../features/Dashboard"));
 const Error404 = React.lazy(() => import("../features/ErrorPages/Error404"));
-const Error403 = React.lazy(() => import ("../features/ErrorPages/Error403"));
+const Error403 = React.lazy(() => import("../features/ErrorPages/Error403"));
 const Login = React.lazy(() => import("../features/Login"));
 
 //LOGIN PAGE
@@ -32,4 +33,5 @@ export {
   Orders,
   Vouchers,
   Error404,
+  Subscriber,
 };

@@ -9,7 +9,7 @@ export const registerSchema = () => {
       .required("Please enter password")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-        "Minimum eight characters 1 char 1 number"
+        "Minimum eight, include 1 char 1 num"
       ),
     address: yup.string().required("Please enter address"),
     phone: yup

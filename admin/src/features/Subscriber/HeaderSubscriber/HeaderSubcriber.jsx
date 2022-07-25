@@ -9,15 +9,14 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import DialogAddBlog from "../DialogAdd/DialogAddBlog";
+import DialogSendEmail from "../DialogSendEmail/DialogSendEmail";
 
-const HeaderBlog = (props) => {
+const HeaderSubscriber = (props) => {
   const [age, setAge] = React.useState("");
   const [age1, setAge1] = React.useState("");
   const [showDialog, setShowDialog] = useState(false);
-  const [cateBlogList, setCateBlogList] = React.useState([]);
-  const [page, setPage] = React.useState(1);
-  const handleShowDialogAdd = (isVisible) => {
+
+  const handleShowDialogSend = (isVisible) => {
     setShowDialog(isVisible);
   };
   const handleChange = (event) => {
@@ -82,15 +81,15 @@ const HeaderBlog = (props) => {
             display={"flex"}
           >
             <Button variant="contained" onClick={() => setShowDialog(true)}>
-              Add New Blog
+              Send email
             </Button>
           </Grid>
         </Grid>
       </Box>
       {showDialog && (
-        <DialogAddBlog
+        <DialogSendEmail
           showDialog={showDialog}
-          handleShowDialog={handleShowDialogAdd}
+          handleShowDialog={handleShowDialogSend}
           reLoadTable={props.reLoadTable}
         />
       )}
@@ -98,4 +97,4 @@ const HeaderBlog = (props) => {
   );
 };
 
-export default HeaderBlog;
+export default HeaderSubscriber;

@@ -39,6 +39,8 @@ import { LANGUAGES } from "../../utils/constant";
 import { updateLanguage } from "../../redux/userRedux";
 import { FormattedMessage } from "react-intl";
 import { useWindowSize } from "../../customHook/useWindowSize";
+import OneSignal from "react-onesignal";
+import { useIntl } from "react-intl";
 const { Search } = Input;
 
 const token =
@@ -56,6 +58,12 @@ const Header = () => {
   const [allProductTemp, setAllProductTemp] = useState([]);
   const [width] = useWindowSize();
 
+  useEffect(() => {
+    OneSignal.init({
+      appId: "4c393bce-fb44-43de-9101-44465cc708d3",
+    });
+  }, []);
+
   const changeLanguage = (language) => {
     dispatch(updateLanguage(language));
   };
@@ -65,7 +73,7 @@ const Header = () => {
     localStorage.removeItem("persist:root");
     navigate2("/login");
   };
-
+  const intl = useIntl();
   //-----------GET ALL SHOW PREVIEW SEARCH
   useEffect(() => {
     getAllProductNoPage().then((res) => {
@@ -257,7 +265,7 @@ const Header = () => {
 
   const onSearch = (value) => {
     // eslint-disable-next-line no-unused-vars
-    var regex = /^[a-zA-Z0-9]*$/g;
+    var regex = /^[a-zA-Z0-9_ ]*$/g;
 
     if (value && regex.test(value) && value !== "") {
       navigate(`/search/${value}`);
@@ -350,14 +358,31 @@ const Header = () => {
               <Search
                 onSearch={onSearch}
                 className={classes.search}
-                placeholder="Search products, accessory, etc..."
+                placeholder={intl.formatMessage({
+                  id: "common.searchplaceholder",
+                  defaultMessage: "Search products, accessory, etc...",
+                })}
               ></Search>
             </AutoComplete>
           </Space>
 
           <div className={classes.authentication} id="area">
             {/* {!user.accessToken ? ( */}
-            {user.currentUser ? (
+            {!user.currentUser ? (
+              <div
+                to={"/login"}
+                className={classes.login}
+                onClick={() => navigate2("/login")}
+              >
+                <User size={32} color="#000" weight="thin" />
+                <div
+                  className={classes.loginText}
+                  style={{ maxWidth: "40px", whiteSpace: "nowrap" }}
+                >
+                  <FormattedMessage id="common.login" />
+                </div>
+              </div>
+            ) : (
               <Dropdown
                 overlay={menu}
                 placement="bottomLeft"
@@ -377,20 +402,6 @@ const Header = () => {
                   </div>
                 </div>
               </Dropdown>
-            ) : (
-              <div
-                to={"/login"}
-                className={classes.login}
-                onClick={() => navigate2("/login")}
-              >
-                <User size={32} color="#000" weight="thin" />
-                <div
-                  className={classes.loginText}
-                  style={{ maxWidth: "40px", whiteSpace: "nowrap" }}
-                >
-                  <FormattedMessage id="common.login" />
-                </div>
-              </div>
             )}
 
             <div
@@ -413,7 +424,7 @@ const Header = () => {
           <div className={classes.navListContainer}>
             <div className={classes.navList}>
               <Link to={`/viewall`} className={classes.navItem}>
-                Product
+                <FormattedMessage id="header.Product" />
               </Link>
               {category.categories?.map((item, index) => {
                 return (
@@ -422,12 +433,12 @@ const Header = () => {
                     key={index}
                     className={classes.navItem}
                   >
-                    {item.category}
+                    <FormattedMessage id={`header.${item.category}`} />
                   </Link>
                 );
               })}
               <Link to={`/blog`} className={classes.navItem}>
-                Blog
+                <FormattedMessage id="header.Blog" />
               </Link>
             </div>
           </div>
@@ -448,10 +459,10 @@ const Header = () => {
               to={`/`}
               className={classes.navItem}
             >
-              Home
+              <FormattedMessage id="header.Home" />
             </Link>
             <Link to={`/viewall`} className={classes.navItem}>
-              Product
+              <FormattedMessage id="header.Product" />
             </Link>
             {category.categories?.map((item, index) => {
               return (
@@ -461,12 +472,12 @@ const Header = () => {
                   key={index}
                   className={classes.navItem}
                 >
-                  {item.category}
+                  <FormattedMessage id={`header.${item.category}`} />
                 </Link>
               );
             })}
             <Link to={`/blog`} className={classes.navItem}>
-              Blog
+              <FormattedMessage id="header.Blog" />
             </Link>
           </div>
         </div>

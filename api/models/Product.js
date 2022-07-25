@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema(
       {
         branchId: { type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
         branchName: { type: String },
-        oldQuantity : {type : Number},
+        oldQuantity: { type: Number },
         quantity: { type: Number },
       },
     ],
@@ -32,7 +32,7 @@ const ProductSchema = new mongoose.Schema(
     newStatus: { type: Boolean },
     sale: { type: Number },
     tag: { type: Array },
-    avgRating: { type: String, default: 0 },
+    avgRating: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

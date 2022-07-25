@@ -11,7 +11,7 @@ const LatestArticle = () => {
   const [catBlog, setCatBlog] = useState({});
 
   useEffect(() => {
-    getCategoryBlogById("62ca8b3a6fa219ccec1fc50e").then((res) => {
+    getCategoryBlogById("62da228d46be379e9f816c1e").then((res) => {
       setCatBlog(res);
     });
   }, []);
@@ -19,6 +19,7 @@ const LatestArticle = () => {
   useEffect(() => {
     if (catBlog.cate?._id) {
       getBlogByCate(catBlog.cate?._id, 5).then((res) => {
+        console.log("res:", res);
         setBlogList(res);
       });
     }
@@ -41,15 +42,6 @@ const LatestArticle = () => {
           }
         })}
       </div>
-      {/* <div className={s.list_blog}>
-        <NormalBlog />
-        <NormalBlog />
-      </div> */}
-      {/* <div className={s.list_small_blog}>
-        <SmallBlog />
-        <SmallBlog />
-        <SmallBlog />
-      </div> */}
     </div>
   );
 };

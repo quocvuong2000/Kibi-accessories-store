@@ -1,10 +1,18 @@
 {
+  "header": {
+    "Home": "Trang chủ",
+    "Product": "Sản phẩm",
+    "Watches": "Đồng hồ",
+    "Eyewear": "Mắt kính",
+    "Accessories": "Trang sức",
+    "Blog": "Tin tức"
+  },
   "home": {
     "welcome": "CHÀO MỪNG ĐẾN VỚI KIBI",
     "monthly": "Giao dịch hàng tháng",
     "recentnews": "Tin Tức Gần Đây",
     "wheretotravel": "Nên Đi Đâu",
-    "matoawheretotravel": "Matoa Nên Đi Đâu? Thành phố Hồ Chí Minh",
+    "matoawheretotravel": "Kibi Nên Đi Đâu? Thành phố Hồ Chí Minh",
     "discover": "Khám phá",
     "testimonials": "Phản hồi",
     "desctesti": "Yêu chiếc đồng hồ KAILI mới của tôi từ @kibi, thương hiệu đồng hồ Việt Nam đầu tiên sử dụng gỗ làm vật liệu chính. Giống như bất kỳ sản phẩm nào khác của Kibi, KAILI lấy cảm hứng từ di sản Việt Nam.",
@@ -36,9 +44,24 @@
     "Singo": "Singo",
     "Rakai": "Rakai"
   },
+  "detail": {
+    "detail": "Chi tiết",
+    "warranty": "Bảo hành",
+    "customengrave": "Tùy chỉnh",
+    "howtoadjust": "Điều chỉnh",
+    "howtocare": "Chăm sóc",
+    "gallery": "Trưng bày",
+    "months": "Tháng",
+    "productleft": "sản phẩm còn hàng tại chi nhánh"
+  },
+  "title": {
+    "comments": "Bình luận"
+  },
   "common": {
+    "addtowishlist": "Thêm vào danh sách yêu thích",
+    "outofstock": "Hết hàng",
     "searchplaceholder": "Tìm kiếm sản phẩm, đồ trang sức,...",
-    "comingsoon": "Sắp có",
+    "comingsoon": "Sắp ra mắt",
     "watchmore": "Xem thêm",
     "addtocart": "Thêm vào giỏ hàng",
     "comments": "Bình luận",
@@ -52,5 +75,37 @@
     "signout": "Đăng Xuất",
     "login": "Đăng nhập",
     "Discover Now": "Khám phá ngay"
+  },
+  "profiletitle": {
+    "info": "Thông tin cá nhân",
+    "address": "Địa chỉ",
+    "viewed": "Sản phẩm đã xem",
+    "wishlist": "Danh sách yêu thích",
+    "rated": "Bình luận",
+    "order": "Quản lý đơn hàng",
+    "voucher": "Mã giảm giá"
+  },
+  "inprofile": {
+    "edit": "Sửa",
+    "defaultaddress": "Địa chỉ mặc định",
+    "submit": "Cập nhật",
+    "accountinfo": "THÔNG TIN CÁ NHÂN",
+    "personalinfo": "Thông tin người dùng",
+    "phoneandemail": "SĐT và Email",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "security": "Bảo mật",
+    "password": "Mật khẩu",
+    "update": "Cập nhật",
+    "address": "ĐỊA CHỈ",
+    "addaddress": "Thêm địa chỉ",
+    "viewed": "SẢN PHẨM ĐÃ XEM",
+    "clear": "Làm mới",
+    "wishlist": "DANH SÁCH YÊU THÍCH",
+    "rated": "BÌNH LUẬN",
+    "inprogress": "Chờ xác nhận",
+    "deli": "Đang vận chuyển",
+    "received": "Đã nhận",
+    "voucher": "MÃ GIẢM GIÁ"
   }
 }

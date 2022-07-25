@@ -57,7 +57,7 @@ const Register = (props) => {
             {
               to_name: email,
               from_name: "kibiaccessories@gmail.com",
-              link: `https://kibiaccessories.herokuapp.com/login?id=${result}&email=${email}&prv=${enc}&name=${
+              link: `https://localhost:3000/login?id=${result}&email=${email}&prv=${enc}&name=${
                 name.includes(" ") ? name.replaceAll(" ", "+") : name
               }&cityid=${provinceId}&wardid=${wardId}&districtid=${districtId}&address=${
                 address.includes(" ") ? address.replaceAll(" ", "+") : address
