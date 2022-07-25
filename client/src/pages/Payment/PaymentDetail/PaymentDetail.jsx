@@ -330,10 +330,16 @@ const PaymentDetail = (props) => {
               const branchId = localStorage.getItem("branchId");
               const branchName = localStorage.getItem("branchName");
               const leadtime = localStorage.getItem("leadtime");
+              const addressLocal = localStorage.getItem("address");
+              const recipientName = localStorage.getItem("recipientName");
+              const recipientPhone = localStorage.getItem("recipientPhone");
               localStorage.removeItem("shippingCost");
               localStorage.removeItem("branchId");
               localStorage.removeItem("branchName");
               localStorage.removeItem("leadtime");
+              localStorage.removeItem("address");
+              localStorage.removeItem("recipientName");
+              localStorage.removeItem("recipientPhone");
               const totalPrice = cart.totalPrice.toString().replace(".", "");
               const datasecond = {
                 amount: cart.numberCart,
@@ -343,13 +349,13 @@ const PaymentDetail = (props) => {
                     : 0,
                 username: props.user.currentUser.username,
                 email: props.user.currentUser.email,
-                address: props.address[0].address,
-                recipientName: props.address[0].recipientName,
-                recipientPhone: props.address[0].recipientPhone,
+                address: addressLocal,
+                recipientName: recipientName,
+                recipientPhone: recipientPhone,
                 shippingPrice: shipping,
                 branchId: branchId,
                 branchName: branchName,
-                leadTime: leadtime,
+                leadTime: parseFloat(leadtime),
               };
               updateOrder(datasecond).then((res) => {
                 if (res.statusCode === 200) {
@@ -383,6 +389,9 @@ const PaymentDetail = (props) => {
     localStorage.setItem("branchName", props.branchName);
     localStorage.setItem("isMomoPayment", true);
     localStorage.setItem("leadtime", leadTime);
+    localStorage.setItem("address", props.address[0].address);
+    localStorage.setItem("recipientName", props.address[0].recipientName);
+    localStorage.setItem("recipientPhone", props.address[0].recipientPhone);
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
         var win = window.open(res.data.payUrl);

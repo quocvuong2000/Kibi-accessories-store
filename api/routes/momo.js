@@ -76,6 +76,7 @@ router.post("/updateorder", async (req, res) => {
           jsonFormat.dataSuccess("Handle payment successfully", { newOrder })
         );
     } catch (e) {
+      console.log("errrrrrrorrrrrrrrrr", e);
       return res
         .status(400)
         .json(
