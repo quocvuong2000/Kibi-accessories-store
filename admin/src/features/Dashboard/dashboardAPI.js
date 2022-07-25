@@ -6,3 +6,10 @@ export const doGetChartData = async () => {
     throw Error("Something wrongs with code status" + res.status);
   return res.data;
 };
+
+export const getRecentOrders = async () => {
+  const res = await callAPIWithToken.get("/api/order/dashboard");
+  if (res && res.status !== 200)
+    throw Error("Something wrongs with code status" + res.status);
+  return res.data;
+};

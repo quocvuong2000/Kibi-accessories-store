@@ -18,7 +18,7 @@ const sendEmail = (
         to_name: email,
         status: status,
         id: id,
-        product: product,
+        product: `https://localhost:3000/confirmation/${id}`,
         price: price,
         shippingcost: shippingcost,
         totalprice: totalprice,

@@ -343,4 +343,18 @@ router.get("/chart", async (req, res) => {
   }
 });
 
+//GET DASHBOARD
+router.get("/dashboard", async (req, res) => {
+  try {
+    try {
+      const order = await Order.find().sort({ createdAt: -1 }).limit(4);
+      return res.status(200).json(order);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } catch (error) {
+    return res.status(504).json(error);
+  }
+});
+
 module.exports = router;
