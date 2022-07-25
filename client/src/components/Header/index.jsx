@@ -39,6 +39,7 @@ import { LANGUAGES } from "../../utils/constant";
 import { updateLanguage } from "../../redux/userRedux";
 import { FormattedMessage } from "react-intl";
 import { useWindowSize } from "../../customHook/useWindowSize";
+import OneSignal from "react-onesignal";
 const { Search } = Input;
 
 const token =
@@ -55,6 +56,12 @@ const Header = () => {
   const [allProduct, setAllProduct] = useState([]);
   const [allProductTemp, setAllProductTemp] = useState([]);
   const [width] = useWindowSize();
+
+  useEffect(() => {
+    OneSignal.init({
+      appId: "4c393bce-fb44-43de-9101-44465cc708d3",
+    });
+  }, []);
 
   const changeLanguage = (language) => {
     dispatch(updateLanguage(language));
@@ -257,7 +264,7 @@ const Header = () => {
 
   const onSearch = (value) => {
     // eslint-disable-next-line no-unused-vars
-    var regex = /^[a-zA-Z0-9]*$/g;
+    var regex = /^[a-zA-Z0-9_ ]*$/g;
 
     if (value && regex.test(value) && value !== "") {
       navigate(`/search/${value}`);
@@ -357,7 +364,21 @@ const Header = () => {
 
           <div className={classes.authentication} id="area">
             {/* {!user.accessToken ? ( */}
-            {user.currentUser ? (
+            {!user.currentUser ? (
+              <div
+                to={"/login"}
+                className={classes.login}
+                onClick={() => navigate2("/login")}
+              >
+                <User size={32} color="#000" weight="thin" />
+                <div
+                  className={classes.loginText}
+                  style={{ maxWidth: "40px", whiteSpace: "nowrap" }}
+                >
+                  <FormattedMessage id="common.login" />
+                </div>
+              </div>
+            ) : (
               <Dropdown
                 overlay={menu}
                 placement="bottomLeft"
@@ -377,20 +398,6 @@ const Header = () => {
                   </div>
                 </div>
               </Dropdown>
-            ) : (
-              <div
-                to={"/login"}
-                className={classes.login}
-                onClick={() => navigate2("/login")}
-              >
-                <User size={32} color="#000" weight="thin" />
-                <div
-                  className={classes.loginText}
-                  style={{ maxWidth: "40px", whiteSpace: "nowrap" }}
-                >
-                  <FormattedMessage id="common.login" />
-                </div>
-              </div>
             )}
 
             <div

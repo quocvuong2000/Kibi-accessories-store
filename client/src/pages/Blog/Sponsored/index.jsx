@@ -15,7 +15,7 @@ const Sponsored = () => {
   const [blogList, setBlogList] = useState([]);
   const [catBlog, setCatBlog] = useState({});
   useEffect(() => {
-    getCategoryBlogById("62ca8b456fa219ccec1fc512").then((res) => {
+    getCategoryBlogById("62da22af46be379e9f816c22").then((res) => {
       setCatBlog(res);
     });
   }, []);
@@ -26,7 +26,7 @@ const Sponsored = () => {
         setBlogList(res);
       });
     }
-  }, []);
+  }, [catBlog.cate?._id]);
 
   return (
     <div className={s.container}>
@@ -61,33 +61,13 @@ const Sponsored = () => {
           },
         }}
       >
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NormalBlog />
-        </SwiperSlide>
+        {blogList.blogs?.map((item, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <NormalBlog item={item} />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

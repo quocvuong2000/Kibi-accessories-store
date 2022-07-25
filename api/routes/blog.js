@@ -184,8 +184,9 @@ router.patch("/updatestatus/:id", verifyTokenAndAdmin, async (req, res) => {
     } catch (error) {
       res.status(500).json(error);
     }
-  } catch (error) {}
-  res.status(504).json(error);
+  } catch (error) {
+    res.status(504).json(error);
+  }
 });
 
 module.exports = router;

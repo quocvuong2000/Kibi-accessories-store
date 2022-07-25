@@ -10,6 +10,7 @@ import watch2 from "../../../assets/home/image 7.png";
 import watch3 from "../../../assets/home/image 8.png";
 import watch4 from "../../../assets/home/image 9.png";
 import WaveAnimation from "../../../components/WaveAnimation";
+import { FormattedMessage } from "react-intl";
 import classes from "./styles.module.scss";
 const carouselData = [
   {
@@ -62,11 +63,11 @@ const Carousel = () => {
                   <div className={classes.btn}>
                     <button className={classes.addToCart}>
                       <Timer size={20} weight="light" />
-                      Coming soon
+                      <FormattedMessage id="common.comingsoon" />
                     </button>
                     <button className={classes.watchMore}>
                       <Watch size={20} weight="light" />
-                      Watch more
+                      <FormattedMessage id="common.watchmore" />
                     </button>
                   </div>
                   <div className={classes.sliderBtn}>

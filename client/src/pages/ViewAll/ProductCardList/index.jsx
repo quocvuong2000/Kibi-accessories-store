@@ -28,7 +28,7 @@ export const ProductCardList = (props) => {
     <Row align="start" className={s.box__product} gutter={[0, 0]}>
       <Col span={10} lg={5} sm={7} className={s.box__product__image}>
         <Image
-          src={data.images[0] ? data.images[0] : imgError}
+          src={data.images[1] ? data.images[1] : imgError}
           alt=""
           loading="lazy"
         />

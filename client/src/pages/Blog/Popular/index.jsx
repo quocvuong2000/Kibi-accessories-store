@@ -13,7 +13,7 @@ const Popular = () => {
   const [blogList, setBlogList] = useState([]);
   const [catBlog, setCatBlog] = useState({});
   useEffect(() => {
-    getCategoryBlogById("62ca8b506fa219ccec1fc516").then((res) => {
+    getCategoryBlogById("62da22cd46be379e9f816c26").then((res) => {
       setCatBlog(res);
     });
   }, []);
@@ -57,18 +57,13 @@ const Popular = () => {
         modules={[Pagination]}
         className={s.swiper_popular}
       >
-        <SwiperSlide>
-          <SmallBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SmallBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SmallBlog />
-        </SwiperSlide>
-        <SwiperSlide>
-          <SmallBlog />
-        </SwiperSlide>
+        {blogList.blogs?.map((item, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <SmallBlog item={item} />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

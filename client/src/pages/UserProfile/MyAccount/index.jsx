@@ -136,7 +136,7 @@ const MyAccount = () => {
             {
               to_name: email,
               from_name: "kibiaccessories@kibi.vn",
-              link: `https://kibiaccessories.herokuapp.com/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
+              link: `https://localhost:3000/myaccount/1/?id=${result}&email=${email}&prv=${enc}`,
             },
             "v3GcHX1OV7AjPKEdx"
           )
