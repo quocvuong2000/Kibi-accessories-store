@@ -26,40 +26,11 @@ async function monitorStorageImport(client, timeInMs) {
       status: "Import",
     };
     try {
-      const savedStorage = new Storage(newImport);
-      await savedStorage.save();
+      await new Storage(newImport).save();
       // console.log("insert", savedStorage);
     } catch (error) {
       console.log(error);
     }
-    // if (next.operationType === "update") {
-    //   console.log("update", next.updateDescription.updatedFields.branches);
-    //   const oldQuantity1 = await Product.findById(next.documentKey._id);
-    //   if (oldQuantity1 && oldQuantity1.quantity > 0) {
-    //     const newBranchQuantity = next.updateDescription.updatedFields.quantity;
-
-    //     const status =
-    //       newQuantity1 > oldQuantity1.oldQuantity ? "Import" : "Export";
-    //     const newImport1 = {
-    //       branchId: oldQuantity1.branchId || "NA",
-    //       productId: next.documentKey._id,
-    //       newQuantity: newQuantity1,
-    //       oldQuantity: oldQuantity1.oldQuantity,
-    //       branchName: oldQuantity1.branchName || "NA",
-    //       productName: oldQuantity1.product,
-    //       status: status,
-    //     };
-    //     //newQuantity1 > oldQuantity1.quantity ? "Import" :
-    //     console.log(newImport1);
-    //     try {
-    //       const savedStorage = await Storage(newImport1).save();
-    //       // console.log("update", savedStorage);
-    //       // await savedStorage.save();
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
-    // }
   });
 
   // await closeChangeStream(timeInMs, changeStream);

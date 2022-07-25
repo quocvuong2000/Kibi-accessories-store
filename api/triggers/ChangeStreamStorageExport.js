@@ -10,9 +10,14 @@ async function monitorStorageExport(client, timeInMs) {
     // console.log(next);
     if (next.operationType === "insert") {
       console.log("insert,pending");
+      //FIND ORDER
       const orderFound = await Order.findById(next.documentKey._id);
+
+      //FIND ALL PRODUCT IN ORDER
       orderFound.products.forEach(async (el) => {
         const productDetail = await Product.findById(el.productId);
+
+        //FIND BRANCH IN PRODUCT MATCH WITH ORDER BRANCH
         const branchFound = productDetail.branches.find(
           (el) => el.branchId.toString() === orderFound.branchId
         );

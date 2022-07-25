@@ -39,21 +39,26 @@ router.put("/update/:id", verifyTokenAndProductStaff, async (req, res) => {
         },
         { new: true }
       );
+
       const branchFound = updatedProduct.branches.find(
         (el) => el.branchId.toString() === currentBranchId
       );
-      const status =
-        branchFound.quantity > branchFound.oldQuantity ? "Import" : "Export";
-      const newImport1 = {
-        branchId: branchFound.branchId || "NA",
-        productId: updatedProduct._id,
-        newQuantity: branchFound.quantity,
-        oldQuantity: branchFound.oldQuantity,
-        branchName: branchFound.branchName || "NA",
-        productName: updatedProduct.product,
-        status: status,
-      };
-      await Storage(newImport1).save();
+
+      if (req.body.quantity !== branchFound.oldQuantity) {
+        const status =
+          branchFound.quantity > branchFound.oldQuantity ? "Import" : "Export";
+        const newImport1 = {
+          branchId: branchFound.branchId || "NA",
+          productId: updatedProduct._id,
+          newQuantity: branchFound.quantity,
+          oldQuantity: branchFound.oldQuantity,
+          branchName: branchFound.branchName || "NA",
+          productName: updatedProduct.product,
+          status: status,
+        };
+        await new Storage(newImport1).save();
+      }
+
       res.status(200).json(updatedProduct);
     } catch (err) {
       res.status(500).json(err);
@@ -81,16 +86,28 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
         await Storage(newImport).save();
       });
 
-      await Wishlist.findOneAndUpdate({
-        products: { $elemMatch: { _id: req.params.id } },
-      },{products : []});
-      await Viewed.findOneAndUpdate({
-        products: { $elemMatch: { _id: req.params.id } },
-      },{products : []});
-      await Comment.findOneAndUpdate({ productId: req.params.id },{products : []});
-      await Cart.findOneAndUpdate({
-        products: { $elemMatch: { _id: req.params.id } },
-      },{products : []});
+      await Wishlist.findOneAndUpdate(
+        {
+          products: { $elemMatch: { _id: req.params.id } },
+        },
+        { products: [] }
+      );
+      await Viewed.findOneAndUpdate(
+        {
+          products: { $elemMatch: { _id: req.params.id } },
+        },
+        { products: [] }
+      );
+      await Comment.findOneAndUpdate(
+        { productId: req.params.id },
+        { products: [] }
+      );
+      await Cart.findOneAndUpdate(
+        {
+          products: { $elemMatch: { _id: req.params.id } },
+        },
+        { products: [] }
+      );
       await Product.findByIdAndDelete(req.params.id);
 
       res.status(200).json("Product has been deleted...");
@@ -114,7 +131,7 @@ router.put("/delete/branch/", verifyTokenAndAdmin, async (req, res) => {
         branchId: branchFound.branchId || "NA",
         productId: productFound._id,
         newQuantity: 0,
-        oldQuantity: branchFound.oldQuantity,
+        oldQuantity: branchFound.quantity,
         branchName: branchFound.branchName || "NA",
         productName: productFound.product,
         status: "Export",

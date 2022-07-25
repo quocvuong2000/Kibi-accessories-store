@@ -11,13 +11,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
-import { getInfoService, getShippingCost } from "../../../api/Shipping";
+import {
+  getInfoService,
+  getLeadTime,
+  getShippingCost,
+} from "../../../api/Shipping";
 import { deletedVoucher, getVoucher } from "../../../api/Voucher";
 import avatarPlaceholder from "../../../assets/user_avatar.jpg";
 import { deleteAllCart } from "../../../redux/cartRedux";
 import { checkTypeItem } from "../../../utils/checkTypeItem";
 import numberWithCommas from "../../../utils/numberWithCommas";
-import sendEmail from "../../../utils/sendEmail";
 import { getBranchById } from "../BranchAPI";
 import ListVoucher from "../ListVoucher";
 import {
@@ -61,6 +64,7 @@ const PaymentDetail = (props) => {
   // ) {
   //   window.location.href = "/checkout";
   // }
+  //--------------------------STATE GHN--------------------------
 
   //-------------------------------------START STATE VOUCHER---------------------------------------------
 
@@ -103,7 +107,6 @@ const PaymentDetail = (props) => {
   const currentRecipientPhone = props.addressSelected
     ? props.addressSelected.recipientPhone
     : props.address[0]?.recipientPhone;
-
   const currentWard = props.addressSelected
     ? props.addressSelected.ward
     : props.address[0]?.ward;
@@ -112,15 +115,19 @@ const PaymentDetail = (props) => {
     : props.address[0]?.district;
   const [serviceId, setServiceId] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
+  const [fromWard, setFromWard] = useState(1450);
   const [from, setFrom] = useState(1450);
   const [shopId, setShopId] = useState(3064791);
   const [provinceId, setProvinceId] = useState(202);
+
+  const [leadTime, setLeadTime] = useState(0);
 
   useEffect(() => {
     getBranchById(props.branchId).then((res) => {
       setFrom(res.branches.districtId);
       setShopId(res.branches.shopId);
       setProvinceId(res.branches.cityId);
+      setFromWard(res.branches.wardId);
       props.handleTakeShopId(res.branches.shopId);
       props.handleTakeFrom(res.branches.districtId);
       props.handleTakeFromWard(res.branches.wardId);
@@ -141,26 +148,28 @@ const PaymentDetail = (props) => {
       setShippingCost(35000);
       props.setShippingCost(35000);
     } else {
-      getShippingCost(
-        serviceId,
-        parseInt(props.cart.totalPrice),
-        null,
-        currentWard,
-        currentDistrict,
-        from,
-        1000,
-        15,
-        15,
-        15,
-        shopId
-      )
-        .then((res) => {
-          if (res) {
-            setShippingCost(res.data.data.total);
-            props.setShippingCost(res.data.data.total);
-          }
-        })
-        .finally(() => props.hanldeLoading(false));
+      if (serviceId !== 0) {
+        getShippingCost(
+          serviceId,
+          parseInt(props.cart.totalPrice),
+          null,
+          currentWard,
+          currentDistrict,
+          from,
+          1000,
+          15,
+          15,
+          15,
+          shopId
+        )
+          .then((res) => {
+            if (res) {
+              setShippingCost(res.data.data.total);
+              props.setShippingCost(res.data.data.total);
+            }
+          })
+          .finally(() => props.hanldeLoading(false));
+      }
     }
   }, [
     from,
@@ -173,6 +182,27 @@ const PaymentDetail = (props) => {
     provinceId,
     shopId,
   ]);
+
+  useEffect(() => {
+    if (parseInt(props.addressSelected?.city) !== props.provinceId) {
+      var result = new Date(Date.now());
+      result.setDate(result.getDate() + 10);
+      setLeadTime(Date.parse(result));
+    } else {
+      if (serviceId !== null && serviceId !== 0) {
+        getLeadTime(
+          from,
+          fromWard,
+          currentDistrict,
+          currentWard,
+          serviceId,
+          shopId
+        ).then((res) => {
+          setLeadTime(res.data?.data.leadtime);
+        });
+      }
+    }
+  }, [from, fromWard, currentDistrict, currentWard, serviceId, shopId]);
 
   useEffect(() => {
     if (token) {
@@ -194,6 +224,7 @@ const PaymentDetail = (props) => {
         shippingPrice: shippingCost,
         branchId: props.branchId,
         branchName: props.branchName,
+        leadTime: leadTime,
       };
       doCheckoutByCard(data)
         .then((res) => {
@@ -206,7 +237,7 @@ const PaymentDetail = (props) => {
           setTimeout(() => {
             doDeleteAllCart({ username: data.username });
             dispatch(deleteAllCart());
-            navigate(`/confirmation/${res.newOrder._id}`);
+            navigate(`/confirmation/${res.newOrder._id}?sendemail=true`);
           }, 1000);
         })
         .catch(() => {
@@ -238,6 +269,7 @@ const PaymentDetail = (props) => {
         props.cart.totalPrice + shippingCost - salePrice > 0
           ? props.cart.totalPrice + shippingCost - salePrice
           : 0,
+      leadTime: leadTime,
     };
     doCheckoutByCod(data)
       .then((res) => {
@@ -252,7 +284,7 @@ const PaymentDetail = (props) => {
         setTimeout(() => {
           doDeleteAllCart({ username: data.username });
           dispatch(deleteAllCart());
-          navigate(`/confirmation/${res._id}`);
+          navigate(`/confirmation/${res._id}?sendemail=true`);
         }, 1000);
       })
       .catch(() => {
@@ -297,9 +329,11 @@ const PaymentDetail = (props) => {
               const shipping = localStorage.getItem("shippingCost");
               const branchId = localStorage.getItem("branchId");
               const branchName = localStorage.getItem("branchName");
+              const leadtime = localStorage.getItem("leadtime");
               localStorage.removeItem("shippingCost");
               localStorage.removeItem("branchId");
               localStorage.removeItem("branchName");
+              localStorage.removeItem("leadtime");
               const totalPrice = cart.totalPrice.toString().replace(".", "");
               const datasecond = {
                 amount: cart.numberCart,
@@ -315,6 +349,7 @@ const PaymentDetail = (props) => {
                 shippingPrice: shipping,
                 branchId: branchId,
                 branchName: branchName,
+                leadTime: leadtime,
               };
               updateOrder(datasecond).then((res) => {
                 if (res.statusCode === 200) {
@@ -324,7 +359,9 @@ const PaymentDetail = (props) => {
                   doDeleteAllCart({ username: datasecond.username });
                   dispatch(deleteAllCart());
                   localStorage.removeItem("isMomoPayment");
-                  navigate(`/confirmation/${res.data.newOrder._id}`);
+                  navigate(
+                    `/confirmation/${res.data.newOrder._id}?sendemail=true`
+                  );
                 }
               });
             }
@@ -346,7 +383,7 @@ const PaymentDetail = (props) => {
     localStorage.setItem("branchId", props.branchId);
     localStorage.setItem("branchName", props.branchName);
     localStorage.setItem("isMomoPayment", true);
-
+    localStorage.setItem("leadtime", leadTime);
     goLinkMomoPayment(amount).then((res) => {
       if (res.statusCode === 200) {
         var win = window.open(res.data.payUrl);

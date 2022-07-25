@@ -26,6 +26,7 @@ const voucherRoute = require("./routes/voucher");
 const blogRoute = require("./routes/blog");
 const branchRoute = require("./routes/branch");
 const storageRoute = require("./routes/storage");
+const subscribeRoute = require("./routes/subscriber");
 
 const monitorOrders = require("./triggers/ChangeStreamOrder");
 const monitorStorageExport = require("./triggers/ChangeStreamStorageExport");
@@ -64,6 +65,7 @@ app.use("/api/categoryblog", categoryBlogRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/branch", branchRoute);
 app.use("/api/storage", storageRoute);
+app.use("/api/subscribe", subscribeRoute);
 //TRIGGER
 
 const port = process.env.PORT || 5000;
