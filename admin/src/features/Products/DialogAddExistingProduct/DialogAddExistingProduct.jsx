@@ -4,7 +4,9 @@ import {
   Box,
   Button,
   DialogActions,
-  DialogContent, Snackbar, Typography
+  DialogContent,
+  Snackbar,
+  Typography,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -97,6 +99,12 @@ export default function DialogAddExistingProduct(props) {
                 style={{ minHeight: "250px" }}
               >
                 <Box sx={{ mb: { xs: 3, xl: 3 } }}>
+                  {/* {console.log(
+                    "props.currentProductList :>> ",
+                    allProduct.filter(
+                      (el) => !props.currentProductList.includes(el._id)
+                    )
+                  )} */}
                   <Autocomplete
                     id="combo-box-demo"
                     autoHighlight

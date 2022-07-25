@@ -36,7 +36,7 @@ const Login = () => {
             scale: [0.5, 1, 1],
             rotate: [180, 0, 0],
             borderRadius: ["50%", "20%", "5%"],
-            height: ["150px", "150px", "500px"],
+            height: ["150px", "150px", "470px"],
             width: ["150px", "150px", "600px"],
           }}
           transition={{
