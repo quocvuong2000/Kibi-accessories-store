@@ -429,7 +429,8 @@ const MyAccount = () => {
                             <div className={s.title}>
                               <Phone size={24} />{" "}
                               <FormattedMessage id="inprofile.phone" />
-                              {user.currentUser?.phone !==
+                              {(user.currentUser?.phone !== 0 ||
+                                user.currentUser?.phone !== "0") &&
                                 `(${user.currentUser?.phone})`}
                             </div>
                             <div
