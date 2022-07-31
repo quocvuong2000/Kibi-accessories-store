@@ -57,9 +57,9 @@ callAPIWithToken.interceptors.response.use(
       Cookies.remove("tokenClient");
     }
 
-    if (err.response && err.response.status === 500) {
-      window.location.href = "/500";
-    }
+    // if (err.response && err.response.status === 500) {
+    //   window.location.href = "/500";
+    // }
 
     if (err.response && err.response.status === 504) {
       window.location.href = "https://www.google.com/";

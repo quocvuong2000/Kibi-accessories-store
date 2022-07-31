@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppSuspense from "../components/AppSuspense";
 import ApproveBlog from "../features/ApproveBlog";
+import ApproveComments from "../features/ApproveComments";
 import Branch from "../features/Branch";
 
 import Comments from "../features/Comment";
@@ -53,6 +54,7 @@ const AppLayout = () => {
           <Route path="branch" element={<Branch />} />
           <Route path="storage" element={<Storage />} />
           <Route path="subscriber" element={<Subscriber />} />
+          <Route path="approvecomments" element={<ApproveComments />} />
         </Route>
         <Route
           path="/"

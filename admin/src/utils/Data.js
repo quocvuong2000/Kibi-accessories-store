@@ -12,6 +12,7 @@ import {
   UilBloggerAlt,
   UilCloudCheck,
   UilEnvelopeEdit,
+  UilCommentAltDots,
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
@@ -78,6 +79,11 @@ export const SidebarData = [
     icon: UilCommentAlt,
     heading: "Comment",
     link: "/dashboard/comments",
+  },
+  {
+    icon: UilCommentAltDots,
+    heading: "Approve Comments",
+    link: "/dashboard/approvecomments",
   },
   {
     icon: UilEstate,

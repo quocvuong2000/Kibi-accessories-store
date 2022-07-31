@@ -2,7 +2,10 @@ const Comment = require("../models/Comment");
 const Product = require("../models/Product");
 const User = require("../models/User");
 const router = require("express").Router();
-const { verifyTokenAndAuthorization } = require("./verifyToken");
+const {
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 //CREATE COMMENT
 router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
@@ -16,6 +19,7 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
         name: req.body.name,
         avatar: req.body.avatar,
         productImage: req.body.productImage,
+        status: "PENDING",
       });
 
       const comment = await Comment.find({
@@ -109,6 +113,41 @@ router.get("/get", async (req, res) => {
   }
 });
 
+//GET ALL COMMENTS BY STATUS
+router.get("/getbystatus", async (req, res) => {
+  try {
+    try {
+      const qPage = req.query.page;
+
+      let perPage = 5; // số lượng comment xuất hiện trên 1 page
+      let page = qPage || 1;
+      let count = 0;
+      let comments;
+      if (qPage) {
+        comments = await Comment.find({ status: req.query.status })
+          .sort({ createdAt: 1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+      } else {
+        comments = await Comment.find({ status: req.query.status });
+      }
+      count = await Comment.find({ status: req.query.status }).count();
+
+      res.status(200).json({
+        comments, // comments trên một page
+        currentPage: parseInt(page), // page hiện tại
+        totalPages: Math.ceil(count / perPage), // tổng số các page: ;
+        totalItems: count,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } catch (error) {
+    res.status(504).json(error);
+  }
+});
+
 //GET COMMENT BY USERNAME
 router.get("/user/:username", verifyTokenAndAuthorization, async (req, res) => {
   try {
@@ -122,16 +161,21 @@ router.get("/user/:username", verifyTokenAndAuthorization, async (req, res) => {
       if (qPage) {
         comments = await Comment.find({
           username: req.params.username,
+          status: "APPROVAL",
         })
           .sort({ createdAt: 1 })
           .skip(perPage * page - perPage)
           .limit(perPage)
           .sort({ createdAt: -1 });
       } else {
-        comments = await Comment.find();
+        comments = await Comment.find({
+          username: req.params.username,
+          status: "APPROVAL",
+        });
       }
       count = await Comment.find({
         username: req.params.username,
+        status: "APPROVAL",
       }).count();
       // console.log(count);
 
@@ -163,17 +207,22 @@ router.get("/product/:productId", async (req, res) => {
       if (qPage) {
         comments = await Comment.find({
           productId: req.params.productId,
+          status: "APPROVAL",
         })
           .sort({ createdAt: -1 })
           .skip(perPage * page - perPage)
           .limit(perPage)
           .sort({ createdAt: -1 });
       } else {
-        comments = await Comment.find();
+        comments = await Comment.find({
+          productId: req.params.productId,
+          status: "APPROVAL",
+        });
       }
       // console.log(count);
       count = await Comment.find({
         productId: req.params.productId,
+        status: "APPROVAL",
       }).count();
       const user = await Comment.find({
         user: req.body.userid,
@@ -187,6 +236,7 @@ router.get("/product/:productId", async (req, res) => {
         totalItems: count,
       });
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   } catch (error) {
@@ -248,6 +298,26 @@ router.post("/likecomment", verifyTokenAndAuthorization, async (req, res) => {
         { new: true }
       );
       res.status(200).json(a);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } catch (error) {
+    res.status(504).json(error);
+  }
+});
+
+//APPROVE BLOG
+router.patch("/updatestatus/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    try {
+      await Comment.findByIdAndUpdate(
+        req.params.id,
+        {
+          status: req.body.status,
+        },
+        { new: true }
+      );
+      res.status(200).json("Update successful");
     } catch (error) {
       res.status(500).json(error);
     }

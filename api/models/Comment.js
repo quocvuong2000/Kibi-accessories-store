@@ -24,6 +24,7 @@ const Comment = new mongoose.Schema(
         replyContent: { type: String },
       },
     ],
+    status: { type: String },
   },
   { timestamps: true }
 );

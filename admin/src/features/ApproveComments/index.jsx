@@ -4,17 +4,16 @@ import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import AppLoader from "../../components/AppLoader";
-import { getListComment } from "./CommentAPI";
-
-import s from "./styles.module.scss";
+import { getListCommentByStatus } from "./CommentAPI";
 import CommentItem from "./CommentItem";
-const Comments = () => {
+import s from "./styles.module.scss";
+const ApproveComments = () => {
   const [loading, setLoading] = useState(false);
   const [listComment, setListComment] = useState([]);
   const [reload, setReload] = useState(false);
   const [page, setPage] = useState(1);
   useEffect(() => {
-    getListComment(page, "APPROVAL").then((res) => {
+    getListCommentByStatus(page, "PENDING").then((res) => {
       console.log(res);
       if (res.status === 200) {
         setListComment(res.data);
@@ -26,7 +25,7 @@ const Comments = () => {
     <>
       {loading && <AppLoader />}
       <div className={s.container}>
-        <h1>Comments management</h1>
+        <h1>Approve comments management</h1>
         <motion.div
           animate={{
             scale: [0.5, 1],
@@ -62,4 +61,4 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+export default ApproveComments;
