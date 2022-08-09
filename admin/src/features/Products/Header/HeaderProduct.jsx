@@ -146,7 +146,13 @@ const HeaderProduct = (props) => {
         <DialogAddExistingProduct
           showDialog={showDialogExistingProduct}
           setShowAddExistingProduct={setShowDialogExistingProduct}
-          currentProductList={props.productList.length > 0 ? props.productList : []}
+          currentProductList={
+            props.productList.products.length > 0
+              ? props.productList.products.reduce((res, el) => {
+                return res.concat(el._id);
+              }, [])
+              : []
+          }
           branchSelected={props.branchSelected}
           reLoadTable={props.reLoadTable}
         />

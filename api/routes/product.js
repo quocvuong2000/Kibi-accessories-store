@@ -168,6 +168,8 @@ router.get("/", async (req, res) => {
       const qFromPrice = req.query.fromPrice;
       const qToPrice = req.query.toPrice;
       const qRating = req.query.rating;
+      const qBranch = req.query.branch;
+
       let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
       let page = qPage || 1;
       let count = 0;
@@ -187,7 +189,12 @@ router.get("/", async (req, res) => {
       if (qRating) {
         query = { ...query, ...{ avgRating: { $gte: parseInt(qRating) } } };
       }
-
+      if (qBranch) {
+        query = {
+          ...query,
+          ...{ branches: { $elemMatch: { branchId: qBranch } } },
+        };
+      }
       let products;
       if (qPage) {
         products = await Product.find(query)

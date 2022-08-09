@@ -12,34 +12,33 @@ async function monitorStorageExport(client, timeInMs) {
       console.log("insert,pending");
       //FIND ORDER
       const orderFound = await Order.findById(next.documentKey._id);
-
       //FIND ALL PRODUCT IN ORDER
       orderFound.products.forEach(async (el) => {
         const productDetail = await Product.findById(el.productId);
-
         //FIND BRANCH IN PRODUCT MATCH WITH ORDER BRANCH
-        const branchFound = productDetail.branches.find(
-          (el) => el.branchId.toString() === orderFound.branchId
-        );
-
         const newBranchesArr = [];
         productDetail.branches.forEach((proEl) => {
           if (proEl.branchId.toString() === orderFound.branchId) {
             newBranchesArr.push({
-              branchId: branchFound.branchId,
-              branchName: branchFound.branchName,
-              quantity: branchFound.quantity - parseInt(el.quantity),
-              oldQuantity: branchFound.quantity,
+              branchId: proEl.branchId,
+              branchName: proEl.branchName,
+              quantity: proEl.quantity - parseInt(el.quantity),
+              oldQuantity: proEl.quantity,
             });
           } else {
             newBranchesArr.push(proEl);
           }
         });
+        const totalQuantity = newBranchesArr.reduce(
+          (res, elQuan) => (res += elQuan.quantity),
+          0
+        );
+        // console.log("totalQuantity :>> ", totalQuantity);
         try {
           await Product.findByIdAndUpdate(el.productId, {
             branches: newBranchesArr,
             oldQuantity: productDetail.quantity,
-            quantity: productDetail.quantity - el.quantity,
+            quantity: totalQuantity,
           });
         } catch (error) {
           console.log(error);
@@ -53,28 +52,30 @@ async function monitorStorageExport(client, timeInMs) {
         const orderFound = await Order.findById(next.documentKey._id);
         orderFound.products.forEach(async (el) => {
           const productDetail = await Product.findById(el.productId);
-          const branchFound = productDetail.branches.find(
-            (el) => el.branchId.toString() === orderFound.branchId
-          );
+
 
           const newBranchesArr = [];
           productDetail.branches.forEach((proEl) => {
             if (proEl.branchId.toString() === orderFound.branchId) {
               newBranchesArr.push({
-                branchId: branchFound.branchId,
-                branchName: branchFound.branchName,
-                quantity: branchFound.quantity + parseInt(el.quantity),
-                oldQuantity: branchFound.quantity,
+                branchId: proEl.branchId,
+                branchName: proEl.branchName,
+                quantity: proEl.quantity - parseInt(el.quantity),
+                oldQuantity: proEl.quantity,
               });
             } else {
               newBranchesArr.push(proEl);
             }
           });
+          const totalQuantity = newBranchesArr.reduce(
+            (res, el) => (res += el.quantity),
+            0
+          );
           try {
             await Product.findByIdAndUpdate(el.productId, {
               branches: newBranchesArr,
               oldQuantity: productDetail.quantity,
-              quantity: productDetail.quantity + el.quantity,
+              quantity: totalQuantity,
             });
           } catch (error) {
             console.log(error);
@@ -90,7 +91,6 @@ async function monitorStorageExport(client, timeInMs) {
           const branchFound = productDetail.branches.find(
             (el) => el.branchId.toString() === orderFound.branchId
           );
-          console.log(branchFound);
           const newImport = {
             branchId: branchFound?.branchId || "NA",
             productId: productDetail._id,
