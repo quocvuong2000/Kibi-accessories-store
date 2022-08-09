@@ -206,7 +206,8 @@ router.get("/", async (req, res) => {
 
       products = await Product.find(query)
         .skip(perPage * page - perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .sort({ createdAt: -1 });
 
       count = await Product.find(query).count();
       res.status(200).json({

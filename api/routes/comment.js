@@ -49,19 +49,20 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
       const comment = await Comment.find({
         productId: req.body.productId,
       });
+      if (comment.length > 0) {
+        let total = 0;
+        comment.forEach((e) => {
+          total += e.rating;
+        });
 
-      let total = 0;
-      comment.forEach((e) => {
-        total += e.rating;
-      });
-
-      await Product.findByIdAndUpdate(
-        req.body.productId,
-        {
-          avgRating: (total / comment.length).toFixed(1),
-        },
-        { new: true }
-      );
+        await Product.findByIdAndUpdate(
+          req.body.productId,
+          {
+            avgRating: (total / comment.length).toFixed(1),
+          },
+          { new: true }
+        );
+      }
 
       // const addCart = await pInfo.save();
       res.status(200).json("Delete success");

@@ -136,25 +136,29 @@ router.get("/status/get", verifyTokenAndAuthorization, async (req, res) => {
         if (qStatus === "PENDING") {
           orders = await Order.find({ status: "PENDING" })
             .skip(perPage * page - perPage)
-            .limit(perPage);
+            .limit(perPage)
+            .sort({ createdAt: -1 });
           count = await Order.find({ status: "PENDING" }).count();
         }
         if (qStatus === "DELIVERY") {
           orders = await Order.find({ status: "DELIVERY" })
             .skip(perPage * page - perPage)
-            .limit(perPage);
+            .limit(perPage)
+            .sort({ createdAt: -1 });
           count = await Order.find({ status: "DELIVERY" }).count();
         }
         if (qStatus === "COMPLETED") {
           orders = await Order.find({ status: "COMPLETED" })
             .skip(perPage * page - perPage)
-            .limit(perPage);
+            .limit(perPage)
+            .sort({ createdAt: -1 });
           count = await Order.find({ status: "COMPLETED" }).count();
         }
         if (qStatus === "CANCELLED") {
           orders = await Order.find({ status: "CANCELLED" })
             .skip(perPage * page - perPage)
-            .limit(perPage);
+            .limit(perPage)
+            .sort({ createdAt: -1 });
           count = await Order.find({ status: "CANCELLED" }).count();
         }
       }
