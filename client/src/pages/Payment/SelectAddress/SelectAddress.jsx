@@ -186,7 +186,9 @@ const SelectAddress = ({
             valueBranch &&
             branchName &&
             valueBranch !== "" &&
-            branchName !== ""
+            branchName !== "" &&
+            valueBranch !== "other" &&
+            branchName !== "other"
           ) && (
             <Radio
               disabled={

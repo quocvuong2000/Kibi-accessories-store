@@ -257,7 +257,7 @@ router.get("/:idCate", async (req, res) => {
       } else {
         products = await Product.find(query);
       }
-      console.log("products", products);
+      // console.log("products", products);
       count = await Product.find(query).count();
       res.status(200).json({
         products, // sản phẩm trên một page

@@ -48,6 +48,7 @@ const Comment = (props) => {
     "lol",
     "đụ má",
     "đụ mẹ",
+    "chó",
     "đụ",
     "đm",
     "dm",

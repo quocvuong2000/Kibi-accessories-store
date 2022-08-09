@@ -22,20 +22,8 @@ router.post("/create", verifyTokenAndAuthorization, async (req, res) => {
         status: "PENDING",
       });
 
-      const comment = await Comment.find({
-        productId: req.body.productId,
-      });
-
-      let total = req.body.rating;
-      comment.forEach((e) => {
-        total += e.rating;
-      });
-
-      const product = await Product.findByIdAndUpdate(req.body.productId, {
-        avgRating: (total / (comment.length + 1)).toFixed(1),
-      });
       const savedData = await newCommentSaved.save();
-      await product.save();
+
       res.status(200).json(savedData);
     } catch (error) {
       res.status(500).json(err);
@@ -58,11 +46,14 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
       comment.forEach((e) => {
         total += e.rating;
       });
-
+      console.log(comment.length);
       await Product.findByIdAndUpdate(
         req.body.productId,
         {
-          avgRating: (total / comment.length).toFixed(1),
+          avgRating:
+            comment.length !== 0
+              ? parseFloat((total / comment.length).toFixed(1))
+              : parseFloat((total / 1).toFixed(1)),
         },
         { new: true }
       );
@@ -70,7 +61,7 @@ router.post("/delete", verifyTokenAndAuthorization, async (req, res) => {
       // const addCart = await pInfo.save();
       res.status(200).json("Delete success");
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       res.status(500).json(error);
     }
   } catch (error) {
@@ -317,8 +308,27 @@ router.patch("/updatestatus/:id", verifyTokenAndAdmin, async (req, res) => {
         },
         { new: true }
       );
+      const detailcomment = await Comment.findById(req.params.id);
+
+      const comment = await Comment.find({
+        productId: detailcomment.productId,
+      });
+
+      let total = detailcomment.rating;
+      comment.forEach((e) => {
+        total += e.rating;
+      });
+      const product = await Product.findByIdAndUpdate(detailcomment.productId, {
+        avgRating:
+          comment.length !== 0
+            ? parseFloat((total / comment.length).toFixed(1))
+            : parseFloat((total / 1).toFixed(1)),
+      });
+      await product.save();
+
       res.status(200).json("Update successful");
     } catch (error) {
+      console.log(error);
       res.status(500).json(error);
     }
   } catch (error) {
