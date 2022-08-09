@@ -15,12 +15,52 @@ import avatarPlaceholder from "../../../assets/user_avatar.jpg";
 import s from "./styles.module.scss";
 const Comment = (props) => {
   const [rating, setRating] = useState(5);
-  const [content, setContent] = useState("");
+
   const [listComment, setListComment] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
   const [reload2, setReload2] = useState(false);
+  const listDenied = [
+    "phú",
+    "hàng giả",
+    "hàng fake",
+    "fake",
+    "super fake",
+    "nhái",
+    "hàng lậu",
+    "lậu",
+    "hàng cấm",
+    "đâm",
+    "chém",
+    "giết",
+    "đánh",
+    "khủng bố",
+    "phản động",
+    "chiến tranh",
+    "bom",
+    "mìn",
+    "súng",
+    "đạn",
+    "thiểu năng",
+    "ngu",
+    "cút",
+    "lol",
+    "đụ má",
+    "đụ mẹ",
+    "chó",
+    "đụ",
+    "đm",
+    "dm",
+    "cc",
+    "cl",
+    "vcl",
+    "óc chó",
+    "ngu",
+    "fuck",
+    "fack",
+    "bitch",
+  ];
   // const [likeList, setLikeList] = useState([]);
   const user = useSelector((state) => state.user);
   const customIcons = {
@@ -51,21 +91,30 @@ const Comment = (props) => {
   //   });
   // }, [reload2, reload, props.data.product._id]);
 
-  const handleComment = () => {
-    createComment(
-      user.currentUser.username,
-      props.data.product._id,
-      content,
-      rating,
-      user.currentUser.name,
-      user.currentUser.avatar,
-      props.data.product.images[0]
-    ).then((res) => {
-      if (res) {
-        message.success("Comment successs");
+  const handleComment = (e) => {
+    var next = true;
+    listDenied.forEach((el) => {
+      if (e.includes(el)) {
+        message.error("Không được chửi bậy");
+        next = false;
       }
-      setReload(!reload);
     });
+    if (next === true) {
+      createComment(
+        user.currentUser.username,
+        props.data.product._id,
+        e,
+        rating,
+        user.currentUser.name,
+        user.currentUser.avatar,
+        props.data.product.images[0]
+      ).then((res) => {
+        if (res) {
+          message.success("Comment successs");
+        }
+        setReload(!reload);
+      });
+    }
   };
 
   const like = (id, username) => {
@@ -116,15 +165,11 @@ const Comment = (props) => {
           </div>
           <div className={s.frame_comment}>
             <InputEmoji
-              onEnter={() => {
-                handleComment();
-                setContent("");
+              onEnter={(e) => {
+                handleComment(e);
               }}
               cleanOnEnter
               placeholder="Type a comment..."
-              onChange={(e) => {
-                setContent(e);
-              }}
             />
 
             <Rate onChange={setRating} defaultValue={rating} allowHalf />

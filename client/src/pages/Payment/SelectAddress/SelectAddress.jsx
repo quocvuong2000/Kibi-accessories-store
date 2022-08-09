@@ -49,6 +49,7 @@ const SelectAddress = ({
   );
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isOne, setIsOne] = useState(false);
 
   const onChange = (e) => {
     setValue(e.target.value);
@@ -149,11 +150,7 @@ const SelectAddress = ({
                     setBranchName("");
                   }
                 }
-                // console.table(
-                //   "value.branchId, item._id:",
-                //   value.branchId,
-                //   item._id
-                // );
+
                 if (value.branchId === item._id) {
                   temp2.push(value.branchId);
                 }
@@ -174,9 +171,7 @@ const SelectAddress = ({
                     : false
                 }
                 onClick={(e) => onChangeBranch(item._id, item.address)}
-                // name={item.address}
               >
-                {/* {console.log(item.address)} */}
                 <div className={classes.address_branch}>
                   <House size={40} weight="fill" color="#d84727" />
                   <p>
@@ -187,6 +182,28 @@ const SelectAddress = ({
               </Radio>
             );
           })}
+          {!(
+            valueBranch &&
+            branchName &&
+            valueBranch !== "" &&
+            branchName !== "" &&
+            valueBranch !== "other" &&
+            branchName !== "other"
+          ) && (
+            <Radio
+              disabled={
+                cart._products?.some((el) => el.stock < el.quantity) === true &&
+                true
+              }
+              value="other"
+              onClick={(e) => onChangeBranch("other", "other")}
+            >
+              <div className={classes.address_branch}>
+                <House size={40} weight="fill" color="#d84727" />
+                <p>Other</p>
+              </div>
+            </Radio>
+          )}
         </Radio.Group>
       )}
       <Row className={classes.addressSelectContainer}>

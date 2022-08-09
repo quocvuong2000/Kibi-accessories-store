@@ -33,6 +33,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
               productImage: productAdded.images[0],
               quantity: quantityAdded,
               branches: productAdded.branches,
+              stock: productAdded.quantity,
             },
           ],
           totalPrice: quantityAdded * productAdded.price,
@@ -59,6 +60,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             productImage: productFound.productImage[0],
             quantity: quantityFound,
             branches: productFound.branches,
+            stock: productFound.quantity,
           };
           defaultTotalPrice -=
             productFound.quantity * productFound.productPrice;
@@ -72,6 +74,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
             productImage: productFound.productImage[0],
             quantity: quantityFound + 1,
             branches: productFound.branches,
+            stock: productFound.quantity,
           };
           defaultTotalPrice -= quantityFound * productFound.productPrice;
           defaultTotalPrice += (quantityFound + 1) * productFound.productPrice;
@@ -93,6 +96,7 @@ router.post("/add", verifyTokenAndAuthorization, async (req, res) => {
           productImage: productAdded.images[0],
           quantity: quantityAdded,
           branches: productAdded.branches,
+          stock: productAdded.quantity,
         };
         defaultTotalPrice += productAdded.price;
         cartTemp = cartList;
@@ -141,6 +145,7 @@ router.post("/item/decrease", verifyTokenAndAuthorization, async (req, res) => {
         productPrice: productFound.productPrice,
         productImage: productFound.productImage[0],
         branches: productFound.branches,
+        stock: productFound.stock,
         quantity:
           productFound.quantity - 1 === 0 ? 1 : productFound.quantity - 1,
       };
@@ -197,6 +202,7 @@ router.post("/item/increase", verifyTokenAndAuthorization, async (req, res) => {
         productImage: productFound.productImage[0],
         quantity: productFound.quantity + 1,
         branches: productFound.branches,
+        stock: productFound.stock,
       };
       defaultTotalPrice -= productFound.quantity * productFound.productPrice;
       defaultTotalPrice +=

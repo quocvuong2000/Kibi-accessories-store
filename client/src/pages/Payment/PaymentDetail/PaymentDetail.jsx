@@ -123,16 +123,18 @@ const PaymentDetail = (props) => {
   const [leadTime, setLeadTime] = useState(0);
 
   useEffect(() => {
-    getBranchById(props.branchId).then((res) => {
-      setFrom(res.branches.districtId);
-      setShopId(res.branches.shopId);
-      setProvinceId(res.branches.cityId);
-      setFromWard(res.branches.wardId);
-      props.handleTakeShopId(res.branches.shopId);
-      props.handleTakeFrom(res.branches.districtId);
-      props.handleTakeFromWard(res.branches.wardId);
-      props.handleTakeProvinceId(res.branches.cityId);
-    });
+    if (props.branchId !== "other") {
+      getBranchById(props.branchId).then((res) => {
+        setFrom(res.branches.districtId);
+        setShopId(res.branches.shopId);
+        setProvinceId(res.branches.cityId);
+        setFromWard(res.branches.wardId);
+        props.handleTakeShopId(res.branches.shopId);
+        props.handleTakeFrom(res.branches.districtId);
+        props.handleTakeFromWard(res.branches.wardId);
+        props.handleTakeProvinceId(res.branches.cityId);
+      });
+    }
   }, [props, props.branchId]);
 
   useEffect(() => {
